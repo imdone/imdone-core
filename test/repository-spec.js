@@ -6,13 +6,11 @@ var should = require('should'),
     fs     = require('fs');
 
 describe("Repository", function() {
-  it("Should init successfully", function() {
-    var repo = new Repository(process.cwd());
-    repo.on("file.update", function(file) {
-      console.log(file.toJSON());
-      console.log(file.tasks);
+  it("Should init successfully", function(done) {
+    var repo = new Repository(process.cwd() + "/test/files");
+    repo.init(function(err, files) {
+      (files.length).should.be.exactly(2);
+      done();
     });
-    repo.init();
-    //repo.init();
   });
 });

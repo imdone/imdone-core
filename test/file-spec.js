@@ -22,7 +22,7 @@ describe('File', function() {
       return SomeFile.super_.prototype.extractTasks.apply(this);
     };
 
-    var someFile = new SomeFile('test/sample.js', fs.readFileSync('test/sample.js', 'utf8'));
+    var someFile = new SomeFile('test/files/sample.js', fs.readFileSync('test/files/sample.js', 'utf8'));
 
     expect(someFile instanceof File).to.be(true);
     expect(someFile instanceof SomeFile).to.be(true);
@@ -33,8 +33,8 @@ describe('File', function() {
   });
 
   it("Should find markdown tasks in a markdown file", function() {
-    var content = fs.readFileSync('test/sample.md', 'utf8');
-    var file = new File('test/sample.md', content);
+    var content = fs.readFileSync('test/files/sample.md', 'utf8');
+    var file = new File('test/files/sample.md', content);
     
     file.on("task", function(task) {
       // TODO: Use [Sinon.JS - Documentation](http://sinonjs.org/) for event tests
@@ -44,8 +44,8 @@ describe('File', function() {
   });
 
   it("Should find all tasks in a code file", function() {
-    var content = fs.readFileSync('test/sample.js', 'utf8');
-    var file = new File('test/sample.js', content);
+    var content = fs.readFileSync('test/files/sample.js', 'utf8');
+    var file = new File('test/files/sample.js', content);
     
     file.on("task", function(task) {
       // TODO: Use [Sinon.JS - Documentation](http://sinonjs.org/) for event tests
