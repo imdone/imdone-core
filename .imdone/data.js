@@ -1,7 +1,8 @@
 {
   "lists": [
     "DOING",
-    "TODO"
+    "TODO",
+    "DONE"
   ],
   "hidden": []
 }
