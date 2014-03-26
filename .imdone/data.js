@@ -2,7 +2,8 @@
   "lists": [
     "DOING",
     "TODO",
-    "DONE"
+    "DONE",
+    "FIXME"
   ],
   "hidden": []
 }

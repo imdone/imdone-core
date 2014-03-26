@@ -28,30 +28,31 @@ describe('File', function() {
     expect(someFile instanceof SomeFile).to.be(true);
     expect(someFile.getType()).to.be("SomeFile");
 
-    (someFile.extractTasks().tasks.length).should.be.exactly(5);
+    (someFile.extractTasks().tasks.length).should.be.exactly(4);
     expect(ok).to.be(true);
   });
 
-  it("Should find markdown tasks in a markdown file", function() {
-    var content = fs.readFileSync('test/files/sample.md', 'utf8');
-    var file = new File('test/files/sample.md', content);
-    
-    file.on("task", function(task) {
-      // TODO: Use [Sinon.JS - Documentation](http://sinonjs.org/) for event tests
-      console.log("Task:", task);
+  describe("extractTasks", function() {
+    it("Should find markdown tasks in a markdown file", function() {
+      var content = fs.readFileSync('test/files/sample.md', 'utf8');
+      var file = new File('test/files/sample.md', content);
+      
+      var expectation = sinon.mock();
+      file.on("task", expectation);
+      expectation.exactly(4);
+      (file.extractTasks().tasks.length).should.be.exactly(4);
     });
-    (file.extractTasks().tasks.length).should.be.exactly(4);
-  });
 
-  it("Should find all tasks in a code file", function() {
-    var content = fs.readFileSync('test/files/sample.js', 'utf8');
-    var file = new File('test/files/sample.js', content);
-    
-    file.on("task", function(task) {
-      // TODO: Use [Sinon.JS - Documentation](http://sinonjs.org/) for event tests
-      console.log("Task:", task);
+    it("Should find all tasks in a code file", function() {
+      var content = fs.readFileSync('test/files/sample.js', 'utf8');
+      var file = new File('test/files/sample.js', content);
+      
+      var expectation = sinon.mock();
+      file.on("task", expectation);
+      expectation.exactly(4);
+      (file.extractTasks().tasks.length).should.be.exactly(4);
     });
-    (file.extractTasks().tasks.length).should.be.exactly(5);
+
   });
 
 });

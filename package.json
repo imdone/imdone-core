@@ -25,7 +25,9 @@
     "lodash": "~2.4.1",
     "marked": "~0.3.2",
     "isbinaryfile": "~2.0.1",
-    "wrench": "~1.5.8"
+    "wrench": "~1.5.8",
+    "async": "~0.2.10",
+    "chokidar": "~0.8.2"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
