@@ -38,9 +38,10 @@ describe('File', function() {
       var file = new File('test/files/sample.md', content);
       
       var expectation = sinon.mock();
-      file.on("task", expectation);
+      file.on("task.found", expectation);
       expectation.exactly(4);
       (file.extractTasks().tasks.length).should.be.exactly(4);
+      expectation.verify();      
     });
 
     it("Should find all tasks in a code file", function() {
@@ -48,9 +49,10 @@ describe('File', function() {
       var file = new File('test/files/sample.js', content);
       
       var expectation = sinon.mock();
-      file.on("task", expectation);
+      file.on("task.found", expectation);
       expectation.exactly(4);
       (file.extractTasks().tasks.length).should.be.exactly(4);
+      expectation.verify();      
     });
 
   });
