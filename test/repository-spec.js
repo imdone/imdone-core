@@ -8,7 +8,17 @@ var should = require('should'),
     wrench = require('wrench'),
     async  = require('async');
 
+
+/* 
+
+var Repository = require('./repository');
+var repo = new Repository('/home/jesse/projects/imdone-core/test/files');
+repo.init();
+
+*/
+
 var repo = new Repository(process.cwd() + "/test/files");
+var configDir = repo.getPath() + "/.imdone";
 
 describe("Repository", function() {
   it("Should init successfully", function(done) {
@@ -145,14 +155,15 @@ describe("Repository", function() {
   });
 
   describe("saveConfig", function() {
-    var configDir = repo.getPath() + "/.imdone";
     it("Should save the config file", function() {
       repo.saveConfig();
       expect(fs.existsSync(configDir)).to.be(true);
       wrench.rmdirSyncRecursive(configDir, true);
       expect(fs.existsSync(configDir)).to.be(false);
     });
+  });
 
+  describe("loadConfig", function() {
     it("Should load the config file", function() {
       repo.config.foo = "bar";
       repo.saveConfig();
@@ -163,5 +174,4 @@ describe("Repository", function() {
       expect(fs.existsSync(configDir)).to.be(false);
     });
   });
-
 });

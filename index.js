@@ -1,1 +1,1 @@
-module.exports = require('lib/imdone-core');
+module.exports = require('./lib');
