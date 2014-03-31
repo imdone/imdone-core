@@ -1,7 +1,7 @@
 {
   "lists": [
-    "DOING",
     "TODO",
+    "DOING",
     "DONE",
     "FIXME"
   ],

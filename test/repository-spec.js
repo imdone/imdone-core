@@ -31,7 +31,7 @@ describe("Repository", function() {
   it("Should write and delete a file successfully", function(done) {
     repo.init(function(err, files) {
       (files.length).should.be.exactly(2);
-      var file = new File("test.md","[Add some content](#DONE:0)");
+      var file = new File(repo.getId(), "test.md","[Add some content](#DONE:0)");
       repo.writeFile(file, function(err, file) {
         (file.tasks.length).should.be.exactly(1);
         repo.deleteFile(file.path, function(err, file) {
@@ -52,7 +52,7 @@ describe("Repository", function() {
 
     it("Should return true if readme.md file exists", function(done) {
       repo.init(function(err, files) {
-        var file = new File("reADmE.md","[Add some content](#DONE:0)");
+        var file = new File(repo.getId(), "reADmE.md","[Add some content](#DONE:0)");
         repo.writeFile(file, function(err, file) {
           expect(repo.hasDefaultFile()).to.be(true);
 
@@ -65,7 +65,7 @@ describe("Repository", function() {
 
     it("Should return true if home.md file exists", function(done) {
       repo.init(function(err, files) {
-        var file = new File("hOmE.Md","[Add some content](#DONE:0)");
+        var file = new File(repo.getId(), "hOmE.Md","[Add some content](#DONE:0)");
         repo.writeFile(file, function(err, file) {
           expect(repo.hasDefaultFile()).to.be(true);
 
@@ -88,7 +88,7 @@ describe("Repository", function() {
 
     it("should return readme.md if it exist", function(done) {
       repo.init(function(err, files) {
-        var file = new File("reADmE.md","[Add some content](#DONE:0)");
+        var file = new File(repo.getId(), "reADmE.md","[Add some content](#DONE:0)");
         repo.writeFile(file, function(err, file) {
           expect(repo.getDefaultFile()).to.be(file);
 
@@ -101,7 +101,7 @@ describe("Repository", function() {
 
     it("Should return home.md if it exists", function(done) {
       repo.init(function(err, files) {
-        var file = new File("hOmE.Md","[Add some content](#DONE:0)");
+        var file = new File(repo.getId(), "hOmE.Md","[Add some content](#DONE:0)");
         repo.writeFile(file, function(err, file) {
           expect(repo.getDefaultFile()).to.be(file);
 
@@ -114,8 +114,8 @@ describe("Repository", function() {
 
     it("Should return readme.md if both home.md and readme.md exist", function(done) {
       repo.init(function(err, files) {
-        var home = new File("hOmE.Md","[Add some content](#DONE:0)");
-        var readme = new File("reADmE.Md","[Add some content](#DONE:0)");
+        var home = new File(repo.getId(), "hOmE.Md","[Add some content](#DONE:0)");
+        var readme = new File(repo.getId(), "reADmE.Md","[Add some content](#DONE:0)");
         async.parallel([
           function(cb){
             repo.writeFile(home, function(err, file) {
