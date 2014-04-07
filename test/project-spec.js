@@ -6,10 +6,29 @@ var should     = require('should'),
     wrench     = require('wrench'),
     async      = require('async');
 
-var repo1 = new Repository(process.cwd() + "/test/repos/repo1");
-var repo2 = new Repository(process.cwd() + "/test/repos/repo2");
 
 describe("Project", function() {
+  var tmpDir      = process.cwd() + "/tmp",
+      tmpReposDir = tmpDir + "/repos",
+      repoSrc  = process.cwd() + "/test/repos",
+      repo1Dir = tmpReposDir + "/repo1",
+      repo2Dir = tmpReposDir + "/repo2",
+      repo1,
+      repo2;
+  
+  beforeEach(function() {
+    wrench.mkdirSyncRecursive(tmpDir);
+    wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
+    repo1 = new Repository(repo1Dir);
+    repo2 = new Repository(repo2Dir);
+  });
+
+  afterEach(function() {
+    wrench.rmdirSyncRecursive(tmpDir, true);
+    repo1.destroy();
+    repo2.destroy();
+  });
+
   describe("getTasks", function() {
     it("should return an array of lists with sorted tasks", function(done) {
       var project = new Project("Jesse", "My Project", [repo1, repo2]);
@@ -45,7 +64,7 @@ describe("Project", function() {
       var project = new Project("Jesse", "My Project", [repo1,repo2]);
       project.init(function(err, result) {
         var lists = project.getLists(repo1.getId());
-        (lists.length).should.be.exactly(2);
+        (lists.length).should.be.exactly(3);
         done();
       });
     });
@@ -59,4 +78,74 @@ describe("Project", function() {
       });
     });
   });
+
+  describe("moveList", function() {
+    it("should move a list by name in all repos and in project", function(done) {
+      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      project.init(function(err, result) {
+        console.log("***Lists before move***:", project.getLists());
+        project.moveList("TODO", 0, function() {
+          var lists = project.getLists();
+          console.log("***Lists after move***:", lists);
+          (_.findIndex(lists, {name:"TODO"})).should.be.exactly(0);
+          done();
+        });
+      });
+    });
+  });
+
+  describe("renameList", function() {
+    it("Should modify the name of a list for all repos in the project", function(done) {
+      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      project.init(function(err, result) {
+        var tasksExpected = project.getTasksInList("TODO").length; 
+        project.renameList("TODO", "TODOS", function() {
+          (project.getTasksInList("TODO").length).should.be.exactly(0);
+          (project.getTasksInList("TODOS").length).should.be.exactly(tasksExpected);
+          done();
+        });
+      });
+    });
+  });
+
+  describe("moveTasks", function() {
+    it("Should move a task to the requested location in the requested list", function(done) {
+      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      project.init(function(err, result) {
+        var todo = project.getTasksInList("TODO");
+        var taskToMove = todo[1];
+        project.moveTasks([taskToMove], "DOING", 1, function() {
+          (taskToMove.equals(project.getTasksInList("DOING")[1])).should.be.true;
+          done();
+        });
+      });
+    });
+    it("Should move a task to the requested location in the same list", function(done) {
+      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      project.init(function(err, result) {
+        var todo = project.getTasksInList("TODO");
+        var taskToMove = todo[1];
+        project.moveTasks([taskToMove], "TODO", 2, function() {
+          (taskToMove.equals(project.getTasksInList("TODO")[2])).should.be.true;
+          done();
+        });
+      });
+    });  
+
+    it("Should move multiple tasks to the requested location in the requested list", function(done) {
+      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      project.init(function(err, result) {
+        var todo = project.getTasksInList("TODO");
+        var tasksToMove = [todo[0], todo[2]];
+        console.log(tasksToMove);
+        project.moveTasks(tasksToMove, "DOING", 1, function() {
+          (project.getTasksInList("TODO").length).should.be.exactly(todo.length-2);
+          (tasksToMove[0].equals(project.getTasksInList("DOING")[1])).should.be.true;
+          (tasksToMove[1].equals(project.getTasksInList("DOING")[2])).should.be.true;
+          done();
+        });
+      });
+    });  
+  });
+
 });

@@ -164,14 +164,16 @@ describe("Repository", function() {
   });
 
   describe("loadConfig", function() {
-    it("Should load the config file", function() {
+    it("Should load the config file", function(done) {
       repo.config.foo = "bar";
-      repo.saveConfig();
-      expect(fs.existsSync(configDir)).to.be(true);
-      repo.loadConfig();
-      expect(repo.config.foo).to.be("bar");
-      wrench.rmdirSyncRecursive(configDir, true);
-      expect(fs.existsSync(configDir)).to.be(false);
+      repo.saveConfig(function(err) {
+        expect(fs.existsSync(configDir)).to.be(true);
+        repo.loadConfig();
+        expect(repo.config.foo).to.be("bar");
+        wrench.rmdirSyncRecursive(configDir, true);
+        expect(fs.existsSync(configDir)).to.be(false);
+        done();
+      });
     });
   });
 });
