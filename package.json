@@ -27,7 +27,8 @@
     "isbinaryfile": "~2.0.1",
     "wrench": "~1.5.8",
     "async": "~0.2.10",
-    "chokidar": "~0.8.2"
+    "chokidar": "~0.8.2",
+    "debug": "~0.8.0"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
