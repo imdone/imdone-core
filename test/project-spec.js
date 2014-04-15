@@ -4,29 +4,30 @@ var should     = require('should'),
     Repository = require('../lib/repository'),
     Project    = require('../lib/project'),
     wrench     = require('wrench'),
+    path       = require('path'),
     async      = require('async');
 
 
 describe("Project", function() {
-  var tmpDir      = process.cwd() + "/tmp",
-      tmpReposDir = tmpDir + "/repos",
-      repoSrc  = process.cwd() + "/test/repos",
-      repo1Dir = tmpReposDir + "/repo1",
-      repo2Dir = tmpReposDir + "/repo2",
+  var tmpDir      = path.join(process.cwd(), "tmp"),
+      tmpReposDir = path.join(tmpDir, "repos"),
+      repoSrc  = path.join(process.cwd(), "test", "repos"),
+      repo1Dir = path.join(tmpReposDir, "repo1"),
+      repo2Dir = path.join(tmpReposDir, "repo2"),
       repo1,
       repo2;
   
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
-    repo1 = new Repository(repo1Dir);
-    repo2 = new Repository(repo2Dir);
+    repo1 = new Repository(repo1Dir, {watcher:false});
+    repo2 = new Repository(repo2Dir, {watcher:false});
   });
 
   afterEach(function() {
-    wrench.rmdirSyncRecursive(tmpDir, true);
     repo1.destroy();
     repo2.destroy();
+    wrench.rmdirSyncRecursive(tmpDir, true);
   });
 
   describe("getTasks", function() {
@@ -83,10 +84,8 @@ describe("Project", function() {
     it("should move a list by name in all repos and in project", function(done) {
       var project = new Project("Jesse", "My Project", [repo1, repo2]);
       project.init(function(err, result) {
-        console.log("***Lists before move***:", project.getLists());
         project.moveList("TODO", 0, function() {
           var lists = project.getLists();
-          console.log("***Lists after move***:", lists);
           (_.findIndex(lists, {name:"TODO"})).should.be.exactly(0);
           done();
         });
@@ -137,7 +136,6 @@ describe("Project", function() {
       project.init(function(err, result) {
         var todo = project.getTasksInList("TODO");
         var tasksToMove = [todo[0], todo[2]];
-        console.log(tasksToMove);
         project.moveTasks(tasksToMove, "DOING", 1, function() {
           (project.getTasksInList("TODO").length).should.be.exactly(todo.length-2);
           (tasksToMove[0].equals(project.getTasksInList("DOING")[1])).should.be.true;

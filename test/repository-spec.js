@@ -4,6 +4,7 @@ var should = require('should'),
     Repository = require('../lib/repository'),
     File       = require('../lib/file'),
     util   = require('util'),
+    path   = require('path'),
     fs     = require('fs'),
     wrench = require('wrench'),
     async  = require('async');
@@ -17,8 +18,8 @@ repo.init();
 
 */
 
-var repo = new Repository(process.cwd() + "/test/files");
-var configDir = repo.getPath() + "/.imdone";
+var repo = new Repository(path.join(process.cwd(),"test","files"), {watcher:false});
+var configDir = path.join(repo.getPath(), ".imdone");
 
 describe("Repository", function() {
   it("Should init successfully", function(done) {
