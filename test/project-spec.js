@@ -114,7 +114,8 @@ describe("Project", function() {
         var todo = project.getTasksInList("TODO");
         var taskToMove = todo[1];
         project.moveTasks([taskToMove], "DOING", 1, function() {
-          (taskToMove.equals(project.getTasksInList("DOING")[1])).should.be.true;
+          var doing = project.getTasksInList("DOING");
+          (taskToMove.equals(doing[1])).should.be.true;
           done();
         });
       });
