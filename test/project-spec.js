@@ -50,7 +50,8 @@ describe("Project", function() {
       var project = new Project("Jesse", "My Project", [repo1, repo2]);
       project.init(function(err, result) {
         var lists = project.getTasks(repo1.getId());
-        (lists.length).should.be.exactly(2);
+        console.log(lists);
+        (lists.length).should.be.exactly(3);
         var TODO = _.find(lists, {name:"TODO"});
         (TODO.tasks.length).should.be.exactly(3);
         var DOING = _.find(lists, {name:"DOING"});
