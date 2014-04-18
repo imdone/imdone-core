@@ -4,6 +4,7 @@ var should     = require('should'),
     Repository = require('../lib/repository'),
     Project    = require('../lib/project'),
     wrench     = require('wrench'),
+    log        = require('debug')('imdone-core:project-spec'),
     path       = require('path'),
     async      = require('async');
 
@@ -50,7 +51,7 @@ describe("Project", function() {
       var project = new Project("Jesse", "My Project", [repo1, repo2]);
       project.init(function(err, result) {
         var lists = project.getTasks(repo1.getId());
-        console.log(lists);
+        log(lists);
         (lists.length).should.be.exactly(3);
         var TODO = _.find(lists, {name:"TODO"});
         (TODO.tasks.length).should.be.exactly(3);
