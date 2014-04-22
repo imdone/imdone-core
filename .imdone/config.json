@@ -1,0 +1,32 @@
+{
+  "exclude": [
+    "^(node_modules|bower_components|test\\/(files|repos)|\\.imdone|target|build)\\/?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+  ],
+  "watcher": true,
+  "lists": [
+    {
+      "name": "TODO",
+      "hidden": false,
+      "tasks": []
+    },
+    {
+      "name": "DOING",
+      "hidden": false,
+      "tasks": []
+    },
+    {
+      "name": "DONE",
+      "hidden": false,
+      "tasks": []
+    }
+  ],
+  "marked": {
+    "gfm": true,
+    "tables": true,
+    "breaks": false,
+    "pedantic": false,
+    "sanitize": true,
+    "smartLists": true,
+    "langPrefix": "language-"
+  }
+}
