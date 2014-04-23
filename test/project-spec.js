@@ -6,6 +6,7 @@ var should     = require('should'),
     wrench     = require('wrench'),
     log        = require('debug')('imdone-core:project-spec'),
     path       = require('path'),
+    stringify  = require('json-stringify-safe'),
     async      = require('async');
 
 
@@ -145,6 +146,7 @@ describe("Project", function() {
           (tasksToMove[1].equals(project.getTasksInList("DOING")[2])).should.be.true;
           done();
         });
+
       });
     });  
   });

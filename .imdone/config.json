@@ -5,19 +5,16 @@
   "watcher": true,
   "lists": [
     {
-      "name": "TODO",
-      "hidden": false,
-      "tasks": []
-    },
-    {
       "name": "DOING",
-      "hidden": false,
-      "tasks": []
+      "hidden": false
     },
     {
       "name": "DONE",
-      "hidden": false,
-      "tasks": []
+      "hidden": false
+    },
+    {
+      "name": "TODO",
+      "hidden": false
     }
   ],
   "marked": {

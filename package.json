@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -36,6 +36,7 @@
     "grunt": "~0.4.4",
     "grunt-contrib-jshint": "~0.9.2",
     "grunt-mocha-test": "~0.10.0",
-    "sinon": "~1.9.0"
+    "sinon": "~1.9.0",
+    "json-stringify-safe": "~5.0.0"
   }
 }
