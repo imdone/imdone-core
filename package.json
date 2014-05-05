@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "marked": "~0.3.2",
     "isbinaryfile": "~2.0.1",
     "wrench": "~1.5.8",
-    "async": "~0.2.10",
+    "async": "~0.7.0",
     "chokidar": "~0.8.2",
     "debug": "~0.8.0"
   },
