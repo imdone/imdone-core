@@ -14,3 +14,15 @@ Things yet to be done...
   - Task
   - List
   - Config
+
+2. [Add plugin capability](#DOING:0)
+- Config
+```js
+{
+    ...
+    plugins: {
+        "npm package name": {plugin specific config}
+    }
+}
+```
+- Install with npm install

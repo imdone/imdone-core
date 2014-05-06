@@ -7,6 +7,7 @@ var should = require('should'),
     path   = require('path'),
     fs     = require('fs'),
     wrench = require('wrench'),
+    log    = require('debug')('imdone-core:repository-spec');
     async  = require('async');
 
 
@@ -174,6 +175,42 @@ describe("Repository", function() {
         wrench.rmdirSyncRecursive(configDir, true);
         expect(fs.existsSync(configDir)).to.be(false);
         done();
+      });
+    });
+  });
+
+  describe('plugin', function() {
+    var tmpDir      = path.join(process.cwd(), "tmp"),
+        tmpReposDir = path.join(tmpDir, "repos"),
+        repoSrc  = path.join(process.cwd(), "test", "repos"),
+        repo1Dir = path.join(tmpReposDir, "repo1"),
+        repo2Dir = path.join(tmpReposDir, "repo2"),
+        repo1,
+        repo2;
+    
+    beforeEach(function() {
+      wrench.mkdirSyncRecursive(tmpDir);
+      wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
+      repo1 = new Repository(repo1Dir, {watcher:false});
+      repo2 = new Repository(repo2Dir, {watcher:false});
+    });
+
+    afterEach(function() {
+      repo1.destroy();
+      repo2.destroy();
+      wrench.rmdirSyncRecursive(tmpDir, true);
+    });    
+
+    it('should return the named plugin object', function(done) {
+      var name = path.join(process.cwd(), "test", "test-plugin");
+      repo1.addPlugin(name, {foo:"bar"});
+      repo1.saveConfig(function(err) {
+        repo1.init(function(err) {
+          var plugin = repo1.plugin(name);
+          expect(plugin.config).to.be(repo1.config.plugins[name]);
+          expect(plugin.repo).to.be(repo1);
+          done();
+        });
       });
     });
   });
