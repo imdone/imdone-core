@@ -15,7 +15,7 @@ Things yet to be done...
   - List
   - Config
 
-2. [Add plugin capability](#DOING:0)
+2. [Add plugin capability](#DONE:0)
 - Config
 ```js
 {
