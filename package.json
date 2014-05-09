@@ -1,10 +1,10 @@
 {
   "name": "imdone-core",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
@@ -21,9 +21,6 @@
     "url": "https://github.com/imdone/imdone-core/issues"
   },
   "homepage": "https://github.com/imdone/imdone-core",
-  "scripts": {
-    "test": "grunt test"
-  },
   "dependencies": {
     "lodash": "~2.4.1",
     "marked": "~0.3.2",
