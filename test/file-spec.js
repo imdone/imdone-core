@@ -39,8 +39,8 @@ describe('File', function() {
       
       var expectation = sinon.mock();
       file.on("task.found", expectation);
-      expectation.exactly(4);
-      (file.extractTasks().getTasks().length).should.be.exactly(4);
+      expectation.exactly(5);
+      (file.extractTasks().getTasks().length).should.be.exactly(5);
       expectation.verify();      
     });
 
