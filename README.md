@@ -1,6 +1,7 @@
 imdone-core
 ===========
 [![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
+[![Dependency Status](https://gemnasium.com/piascikj/imdone-core.png)](https://gemnasium.com/piascikj/imdone-core)
 
 The heart of imdone seperated from it's outer layer to allow embedding in other projects.
 
