@@ -1,27 +1,19 @@
 {
   "exclude": [
-    "^(node_modules|bower_components|\\.imdone|target|build)[\\/\\\\]?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+    "^(node_modules|bower_components|test\\/(files|repos)|\\.imdone|target|build)[\\/\\\\]?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
   "lists": [
+    {
+      "name": "TODO",
+      "hidden": false
+    },
     {
       "name": "DOING",
       "hidden": false
     },
     {
       "name": "DONE",
-      "hidden": false
-    },
-    {
-      "name": "TODO",
-      "hidden": false
-    },
-    {
-      "name": "todo",
-      "hidden": false
-    },
-    {
-      "name": "doing",
       "hidden": false
     }
   ],
