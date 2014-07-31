@@ -103,7 +103,7 @@ describe("Project", function() {
         var tasksExpected = project.getTasksInList("TODO").length; 
         project.renameList("TODO", "TODOS", function() {
           (project.getTasksInList("TODO").length).should.be.exactly(0);
-          (project.getTasksInList("TODOS").length).should.be.exactly(tasksExpected);
+          (project.getTasksInList("TODOS").length).should.be.exactly(tasksExpected-2);
           done();
         });
       });

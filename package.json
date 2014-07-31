@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -22,13 +22,13 @@
   },
   "homepage": "https://github.com/imdone/imdone-core",
   "dependencies": {
-    "lodash": "~2.4.1",
-    "marked": "~0.3.2",
-    "isbinaryfile": "~2.0.1",
-    "wrench": "~1.5.8",
     "async": "~0.9.0",
     "chokidar": "~0.8.2",
-    "debug": "~0.8.0"
+    "debug": "~0.8.0",
+    "isbinaryfile": "~2.0.1",
+    "lodash": "~2.4.1",
+    "marked": "~0.3.2",
+    "wrench": "~1.5.8"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",

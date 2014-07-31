@@ -3,6 +3,16 @@
     "^(node_modules|bower_components|test\\/(files|repos)|\\.imdone|target|build)[\\/\\\\]?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
+  "code": {
+    "include_lists": [
+      "TODO",
+      "DOING",
+      "DONE",
+      "PLANNING",
+      "FIXME",
+      "ARCHIVE"
+    ]
+  },
   "lists": [
     {
       "name": "TODO",
