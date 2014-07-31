@@ -8,7 +8,7 @@ The heart of imdone seperated from it's outer layer to allow embedding in other 
 
 Things yet to be done...
 ----
-1. [Use [visionmedia/dox](https://github.com/visionmedia/dox), [smartcomments/smartcomments](https://github.com/smartcomments/smartcomments) and [JSDoc](http://usejsdoc.org) for documenting the following...](#DOING:20)
+1. [Use [visionmedia/dox](https://github.com/visionmedia/dox), [smartcomments/smartcomments](https://github.com/smartcomments/smartcomments) and [JSDoc](http://usejsdoc.org) for documenting the following...](#TODO:20)
   - Project
   - Repository
   - File
@@ -16,7 +16,7 @@ Things yet to be done...
   - List
   - Config
 
-2. [Add plugin capability](#DONE:20)
+2. [Add plugin capability](#archive:10)
 - Config
 ```js
 {
