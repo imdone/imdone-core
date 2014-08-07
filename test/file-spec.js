@@ -28,7 +28,7 @@ describe('File', function() {
     expect(someFile instanceof SomeFile).to.be(true);
     expect(someFile.getType()).to.be("SomeFile");
 
-    (someFile.extractTasks().tasks.length).should.be.exactly(6);
+    (someFile.extractTasks().tasks.length).should.be.exactly(7);
     expect(ok).to.be(true);
   });
 
@@ -50,8 +50,8 @@ describe('File', function() {
       
       var expectation = sinon.mock();
       file.on("task.found", expectation);
-      expectation.exactly(6);
-      (file.extractTasks().getTasks().length).should.be.exactly(6);
+      expectation.exactly(7);
+      (file.extractTasks().getTasks().length).should.be.exactly(7);
       expectation.verify();      
     });
 

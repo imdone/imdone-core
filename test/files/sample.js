@@ -4,5 +4,8 @@
 // TODO:20 task04
 /*
  * This is a code file DOING: another task
- * DOING: with a task 
- * DOING:0 or two */
+ * DOING:0 with a task 
+ */
+ var dog = {
+  name: /* TODO: name the dog */ "Rover"
+ };
