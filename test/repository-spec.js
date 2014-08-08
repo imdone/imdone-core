@@ -45,6 +45,19 @@ describe("Repository", function() {
     });
   });
 
+  it("Should serialize and deserialize successfully", function(done) {
+    repo.init(function(err, files) {
+      (files.length).should.be.exactly(2);
+      var sr = repo.serialize();
+      Repository.deserialize(sr, function(newRepo) {
+        (newRepo.getFiles().length).should.be.exactly(repo.getFiles().length);
+        (newRepo.getTasks().length).should.be.exactly(repo.getTasks().length);
+        (newRepo.getLists().length).should.be.exactly(repo.getLists().length);
+        done();
+      });
+    });
+  });
+
   describe("hasDefaultFile", function() {
     it("Should return false if no default file exists", function() {
       repo.init(function(err, files) {

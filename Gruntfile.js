@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(grunt) {
   
   grunt.initConfig({
@@ -22,6 +24,8 @@ module.exports = function(grunt) {
     jshint: {
       files: ['Gruntfile.js', 'lib/**/*.js'],
       options: {
+        globalstrict: true,
+        node: true,
         globals: {
           jQuery: true,
           console: false,
