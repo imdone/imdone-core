@@ -16,7 +16,7 @@ Things yet to be done...
   - List
   - Config
 
-2. [Add plugin capability](#archive:10)
+2. [Add plugin capability](#archive:40)
 - Config
 ```js
 {
