@@ -24,7 +24,6 @@
   "dependencies": {
     "async": "~0.9.0",
     "chokidar": "~0.8.2",
-    "fsevents": "0.2.0",
     "debug": "~0.8.0",
     "isbinaryfile": "~2.0.1",
     "lodash": "~2.4.1",
