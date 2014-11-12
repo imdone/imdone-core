@@ -1,13 +1,15 @@
-var should     = require('should'), 
-    _          = require('lodash'),
-    expect     = require('expect.js'),
-    Repository = require('../lib/watched-repository'),
-    Project    = require('../lib/fs-project'),
-    wrench     = require('wrench'),
-    log        = require('debug')('imdone-core:project-spec'),
-    path       = require('path'),
-    stringify  = require('json-stringify-safe'),
-    async      = require('async');
+var should       = require('should'), 
+    _            = require('lodash'),
+    expect       = require('expect.js'),
+    Repository   = require('../lib/repository'),
+    repoStore    = require('../lib/mixins/repo-fs-store'),
+    Project      = require('../lib/project'),
+    projectStore = require('../lib/mixins/project-fs-store'),
+    wrench       = require('wrench'),
+    log          = require('debug')('imdone-core:project-spec'),
+    path         = require('path'),
+    stringify    = require('json-stringify-safe'),
+    async        = require('async');
 
 
 describe("Project", function() {
@@ -22,8 +24,8 @@ describe("Project", function() {
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
-    repo1 = new Repository(repo1Dir, {watcher:false});
-    repo2 = new Repository(repo2Dir, {watcher:false});
+    repo1 = repoStore(new Repository(repo1Dir, {watcher:false}));
+    repo2 = repoStore(new Repository(repo2Dir, {watcher:false}));
   });
 
   afterEach(function() {
@@ -34,7 +36,7 @@ describe("Project", function() {
 
   describe("getTasks", function() {
     it("should return an array of lists with sorted tasks", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var lists = project.getTasks();
         (lists.length).should.be.exactly(3);
@@ -49,7 +51,7 @@ describe("Project", function() {
     });
 
     it("should return an array of lists with sorted tasks for the repo provided", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var lists = project.getTasks(repo1.getId());
         log(lists);
@@ -65,7 +67,7 @@ describe("Project", function() {
 
   describe("getLists", function() {
     it("should return the lists from a single repository", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1,repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1,repo2]));
       project.init(function(err, result) {
         var lists = project.getLists(repo1.getId());
         (lists.length).should.be.exactly(3);
@@ -74,7 +76,7 @@ describe("Project", function() {
     });
 
     it("should return the lists from all repositories", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var lists = project.getLists();
         (lists.length).should.be.exactly(3);
@@ -85,7 +87,7 @@ describe("Project", function() {
 
   describe("moveList", function() {
     it("should move a list by name in all repos and in project", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         project.moveList("TODO", 0, function() {
           var lists = project.getLists();
@@ -98,7 +100,7 @@ describe("Project", function() {
 
   describe("renameList", function() {
     it("Should modify the name of a list for all repos in the project", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var tasksExpected = project.getTasksInList("TODO").length; 
         project.renameList("TODO", "TODOS", function() {
@@ -112,7 +114,7 @@ describe("Project", function() {
 
   describe("moveTasks", function() {
     it("Should move a task to the requested location in the requested list", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var todo = project.getTasksInList("TODO");
         var taskToMove = todo[1];
@@ -124,7 +126,7 @@ describe("Project", function() {
       });
     });
     it("Should move a task to the requested location in the same list", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var todo = project.getTasksInList("TODO");
         var taskToMove = todo[1];
@@ -136,7 +138,7 @@ describe("Project", function() {
     });  
 
     it("Should move multiple tasks to the requested location in the requested list", function(done) {
-      var project = new Project("Jesse", "My Project", [repo1, repo2]);
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var todo = project.getTasksInList("TODO");
         var tasksToMove = [todo[0], todo[2]];

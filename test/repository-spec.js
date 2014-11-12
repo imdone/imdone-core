@@ -7,7 +7,8 @@ var should = require('should'),
     path   = require('path'),
     fs     = require('fs'),
     wrench = require('wrench'),
-    log    = require('debug')('imdone-core:repository-spec');
+    fsStore = require('../lib/mixins/repo-fs-store'),
+    log    = require('debug')('imdone-core:repository-spec'),
     async  = require('async');
 
 
@@ -19,26 +20,66 @@ repo.init();
 
 */
 
-var repo = new Repository(path.join(process.cwd(),"test","files"), {watcher:false});
-var configDir = path.join(repo.getPath(), ".imdone");
+
 
 describe("Repository", function() {
+  var tmpDir      = path.join(process.cwd(), "tmp"),
+      tmpReposDir = path.join(tmpDir, "repos"),
+      repoSrc  = path.join(process.cwd(), "test", "repos"),
+      repo1Dir = path.join(tmpReposDir, "repo1"),
+      repo2Dir = path.join(tmpReposDir, "repo2"),
+      repo, repo1, repo2, configDir;
+
+  beforeEach(function() {
+    wrench.mkdirSyncRecursive(tmpDir);
+    wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
+    repo = fsStore(new Repository(path.join(process.cwd(),"test","files"), {watcher:false}));
+    configDir = path.join(repo.getPath(), ".imdone");
+    repo1 = fsStore(new Repository(repo1Dir, {watcher:false}));
+    repo2 = fsStore(new Repository(repo2Dir, {watcher:false}));
+  });
+
+  afterEach(function() {
+    repo1.destroy();
+    repo2.destroy();
+    repo.destroy();
+    wrench.rmdirSyncRecursive(tmpDir, true);
+  });
+
   it("Should init successfully", function(done) {
     repo.init(function(err, files) {
+      log("files:", files);
       (files.length).should.be.exactly(2);
       done();
     });
   });
 
   it("Should write and delete a file successfully", function(done) {
-    repo.init(function(err, files) {
+    repo1.init(function(err, files) {
       (files.length).should.be.exactly(2);
-      var file = new File(repo.getId(), "test.md","[Add some content](#DONE:0)");
-      repo.writeFile(file, function(err, file) {
+      var file = new File(repo1.getId(), "test.md","[Add some content](#DONE:0)");
+      repo1.writeFile(file, function(err, file) {
+        expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
-        repo.deleteFile(file.path, function(err, file) {
+        repo1.deleteFile(file.path, function(err, file) {
           expect(err).to.be(null);
-          (repo.files.length).should.be.exactly(2);
+          (repo1.files.length).should.be.exactly(2);
+          done();
+        });
+      });
+    });
+  });
+
+  it("Should write and delete a file in a sub-dir successfully", function(done) {
+    repo1.init(function(err, files) {
+      (files.length).should.be.exactly(2);
+      var file = new File(repo1.getId(), "some-dir/some-dir2/test.md","[Add some content](#DONE:0)");
+      repo1.writeFile(file, function(err, file) {
+        expect(err).to.be(null);
+        (file.tasks.length).should.be.exactly(1);
+        repo1.deleteFile(file.path, function(err, file) {
+          expect(err).to.be(null);
+          (repo1.files.length).should.be.exactly(2);
           done();
         });
       });
@@ -49,7 +90,8 @@ describe("Repository", function() {
     repo.init(function(err, files) {
       (files.length).should.be.exactly(2);
       var sr = repo.serialize();
-      Repository.deserialize(sr, function(newRepo) {
+      newRepo = fsStore(Repository.deserialize(sr));
+      newRepo.init(function(err) {
         (newRepo.getFiles().length).should.be.exactly(repo.getFiles().length);
         (newRepo.getTasks().length).should.be.exactly(repo.getTasks().length);
         (newRepo.getLists().length).should.be.exactly(repo.getLists().length);
@@ -58,16 +100,17 @@ describe("Repository", function() {
     });
   });
 
-  describe("hasDefaultFile", function() {
-    it("Should return false if no default file exists", function() {
+  describe("hasDefaultFile", function(done) {
+    it("Should return false if no default file exists", function(done) {
       repo.init(function(err, files) {
         expect(repo.hasDefaultFile()).to.be(false);
+        done();
       });
     });
 
     it("Should return true if readme.md file exists", function(done) {
+      var file = new File(repo.getId(), "reADmE.md","[Add some content](#DONE:0)");
       repo.init(function(err, files) {
-        var file = new File(repo.getId(), "reADmE.md","[Add some content](#DONE:0)");
         repo.writeFile(file, function(err, file) {
           expect(repo.hasDefaultFile()).to.be(true);
 
@@ -79,8 +122,8 @@ describe("Repository", function() {
     });
 
     it("Should return true if home.md file exists", function(done) {
+      var file = new File(repo.getId(), "hOmE.Md","[Add some content](#DONE:0)");
       repo.init(function(err, files) {
-        var file = new File(repo.getId(), "hOmE.Md","[Add some content](#DONE:0)");
         repo.writeFile(file, function(err, file) {
           expect(repo.hasDefaultFile()).to.be(true);
 
@@ -183,11 +226,12 @@ describe("Repository", function() {
       repo.config.foo = "bar";
       repo.saveConfig(function(err) {
         expect(fs.existsSync(configDir)).to.be(true);
-        repo.loadConfig();
-        expect(repo.config.foo).to.be("bar");
-        wrench.rmdirSyncRecursive(configDir, true);
-        expect(fs.existsSync(configDir)).to.be(false);
-        done();
+        repo.loadConfig(function(err) {
+          expect(repo.config.foo).to.be("bar");
+          wrench.rmdirSyncRecursive(configDir, true);
+          expect(fs.existsSync(configDir)).to.be(false);
+          done();
+        });
       });
     });
   });

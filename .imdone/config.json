@@ -29,10 +29,6 @@
     {
       "name": "archive",
       "hidden": true
-    },
-    {
-      "name": "TODOS",
-      "hidden": false
     }
   ],
   "marked": {
