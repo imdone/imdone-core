@@ -103,9 +103,10 @@ describe("Project", function() {
       var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var tasksExpected = project.getTasksInList("TODO").length; 
+        log('tasksExpected:%d', tasksExpected);
         project.renameList("TODO", "TODOS", function() {
+          (project.getTasksInList("TODOS").length).should.be.exactly(tasksExpected);
           (project.getTasksInList("TODO").length).should.be.exactly(0);
-          (project.getTasksInList("TODOS").length).should.be.exactly(tasksExpected-2);
           done();
         });
       });

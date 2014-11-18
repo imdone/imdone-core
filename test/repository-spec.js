@@ -11,17 +11,6 @@ var should = require('should'),
     log    = require('debug')('imdone-core:repository-spec'),
     async  = require('async');
 
-
-/* 
-
-var Repository = require('./repository');
-var repo = new Repository('/home/jesse/projects/imdone-core/test/files');
-repo.init();
-
-*/
-
-
-
 describe("Repository", function() {
   var tmpDir      = path.join(process.cwd(), "tmp"),
       tmpReposDir = path.join(tmpDir, "repos"),
@@ -47,9 +36,25 @@ describe("Repository", function() {
   });
 
   it("Should init successfully", function(done) {
-    repo.init(function(err, files) {
-      log("files:", files);
-      (files.length).should.be.exactly(2);
+    async.series({
+      repo: function(cb) {
+        repo.init(function(err, files) {
+          if (err) return cb(err);
+          // log("files:", files);
+          cb(null, files);
+        });
+      },
+      repo1: function(cb) {
+        repo1.init(function(err, files) {
+          if (err) return cb(err);
+          // log("files:", files);
+          cb(null, files);
+        });
+      }
+    }, function(err, result) {
+      expect(err).to.be(undefined);
+      expect(result.repo.length).to.be(2);
+      expect(result.repo1.length).to.be(2);
       done();
     });
   });
@@ -90,12 +95,14 @@ describe("Repository", function() {
     repo.init(function(err, files) {
       (files.length).should.be.exactly(2);
       var sr = repo.serialize();
-      newRepo = fsStore(Repository.deserialize(sr));
-      newRepo.init(function(err) {
-        (newRepo.getFiles().length).should.be.exactly(repo.getFiles().length);
-        (newRepo.getTasks().length).should.be.exactly(repo.getTasks().length);
-        (newRepo.getLists().length).should.be.exactly(repo.getLists().length);
-        done();
+      Repository.deserialize(sr, function(err, newRepo) {
+        newRepo = fsStore(newRepo);
+        newRepo.init(function(err) {
+          (newRepo.getFiles().length).should.be.exactly(repo.getFiles().length);
+          (newRepo.getTasks().length).should.be.exactly(repo.getTasks().length);
+          (newRepo.getLists().length).should.be.exactly(repo.getLists().length);
+          done();
+        });
       });
     });
   });
@@ -136,7 +143,7 @@ describe("Repository", function() {
 
   });
 
-  describe("getDefaultFile", function() {
+  describe("getDefaultFile", function(done) {
     it("should return undefined if a default file doesn't exist", function(done) {
       repo.init(function(err, files) {
         expect(repo.getDefaultFile()).to.be(undefined);
@@ -202,6 +209,7 @@ describe("Repository", function() {
             }
           ],
           function(err, results) {
+            expect(err).to.be(undefined);
             done();
           })
         });
@@ -213,15 +221,18 @@ describe("Repository", function() {
   });
 
   describe("saveConfig", function() {
-    it("Should save the config file", function() {
-      repo.saveConfig();
-      expect(fs.existsSync(configDir)).to.be(true);
-      wrench.rmdirSyncRecursive(configDir, true);
-      expect(fs.existsSync(configDir)).to.be(false);
+    it("Should save the config file", function(done) {
+      repo.saveConfig(function(err) {
+        expect(err).to.be(null);
+        expect(fs.existsSync(configDir)).to.be(true);
+        wrench.rmdirSyncRecursive(configDir, true);
+        expect(fs.existsSync(configDir)).to.be(false);
+        done();
+      });
     });
   });
 
-  describe("loadConfig", function() {
+  describe("loadConfig", function(done) {
     it("Should load the config file", function(done) {
       repo.config.foo = "bar";
       repo.saveConfig(function(err) {
@@ -236,33 +247,29 @@ describe("Repository", function() {
     });
   });
 
-  describe('plugin', function() {
-    var tmpDir      = path.join(process.cwd(), "tmp"),
-        tmpReposDir = path.join(tmpDir, "repos"),
-        repoSrc  = path.join(process.cwd(), "test", "repos"),
-        repo1Dir = path.join(tmpReposDir, "repo1"),
-        repo2Dir = path.join(tmpReposDir, "repo2"),
-        repo1,
-        repo2;
-    
-    beforeEach(function() {
-      wrench.mkdirSyncRecursive(tmpDir);
-      wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
-      repo1 = new Repository(repo1Dir, {watcher:false});
-      repo2 = new Repository(repo2Dir, {watcher:false});
+  describe("renameList", function(done) {
+    it('should modify the list name in tasks with a given list name', function(done) {
+      repo1.init(function(err, files) {
+        expect(err).to.be(undefined);
+        expect(repo1.getTasksInList('TODO').length).to.be(3);
+        repo1.renameList('TODO', 'PLANNING', function(err) {
+          expect(err).to.be(undefined);
+          expect(repo1.getTasksInList('TODO').length).to.be(0);
+          expect(repo1.getTasksInList('PLANNING').length).to.be(3);
+          done();
+        });
+      });
     });
+  });
 
-    afterEach(function() {
-      repo1.destroy();
-      repo2.destroy();
-      wrench.rmdirSyncRecursive(tmpDir, true);
-    });    
-
+  describe('plugin', function(done) {
     it('should return the named plugin object', function(done) {
       var name = path.join(process.cwd(), "test", "test-plugin");
       repo1.addPlugin(name, {foo:"bar"});
       repo1.saveConfig(function(err) {
+        expect(err).to.be(null);
         repo1.init(function(err) {
+          expect(err).to.be(undefined);
           var plugin = repo1.plugin(name);
           expect(plugin.config).to.be(repo1.config.plugins[name]);
           expect(plugin.repo).to.be(repo1);

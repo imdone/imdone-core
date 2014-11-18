@@ -29,6 +29,14 @@
     {
       "name": "archive",
       "hidden": true
+    },
+    {
+      "name": "doing",
+      "hidden": false
+    },
+    {
+      "name": "TODOS",
+      "hidden": false
     }
   ],
   "marked": {
