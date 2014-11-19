@@ -104,8 +104,8 @@ describe("Project", function() {
       project.init(function(err, result) {
         var tasksExpected = project.getTasksInList("TODO").length; 
         log('tasksExpected:%d', tasksExpected);
-        project.renameList("TODO", "TODOS", function() {
-          (project.getTasksInList("TODOS").length).should.be.exactly(tasksExpected);
+        project.renameList("TODO", "PLANNING", function() {
+          (project.getTasksInList("PLANNING").length).should.be.exactly(tasksExpected);
           (project.getTasksInList("TODO").length).should.be.exactly(0);
           done();
         });
@@ -113,19 +113,23 @@ describe("Project", function() {
     });
   });
 
-  describe("moveTasks", function() {
+  describe("moveTasks", function(done) {
     it("Should move a task to the requested location in the requested list", function(done) {
       var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
         var todo = project.getTasksInList("TODO");
         var taskToMove = todo[1];
+        //console.log(JSON.stringify(taskToMove, null, 3));
         project.moveTasks([taskToMove], "DOING", 1, function() {
           var doing = project.getTasksInList("DOING");
+          console.log(JSON.stringify(doing,null, 3));
           (taskToMove.equals(doing[1])).should.be.true;
+          console.log("DONE");
           done();
         });
       });
     });
+
     it("Should move a task to the requested location in the same list", function(done) {
       var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
       project.init(function(err, result) {
