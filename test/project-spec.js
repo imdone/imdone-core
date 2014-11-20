@@ -11,18 +11,21 @@ var should       = require('should'),
     stringify    = require('json-stringify-safe'),
     async        = require('async');
 
-
 describe("Project", function() {
   var tmpDir      = path.join(process.cwd(), "tmp"),
       tmpReposDir = path.join(tmpDir, "repos"),
+      tmpCfgDir   = path.join(tmpDir, "user-home"),
       repoSrc  = path.join(process.cwd(), "test", "repos"),
       repo1Dir = path.join(tmpReposDir, "repo1"),
       repo2Dir = path.join(tmpReposDir, "repo2"),
       repo1,
       repo2;
+
+  process.env.IMDONE_CONFIG_DIR = tmpCfgDir;
   
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
+    wrench.mkdirSyncRecursive(path.join(tmpCfgDir,".imdone"));
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
     repo1 = repoStore(new Repository(repo1Dir, {watcher:false}));
     repo2 = repoStore(new Repository(repo2Dir, {watcher:false}));
