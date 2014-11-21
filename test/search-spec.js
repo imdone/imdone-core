@@ -22,8 +22,6 @@ describe("Search", function() {
       repo1,
       repo2;
 
-  process.env.IMDONE_CONFIG_DIR = tmpCfgDir;
-  
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
     wrench.mkdirSyncRecursive(path.join(tmpCfgDir,".imdone"));
@@ -52,7 +50,7 @@ describe("Search", function() {
     });
 
     it("Should skip the first 10 results if offset is 10", function(done) {
-      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]));
+      var project = projectStore(new Project("Jesse", "My Project", [repo1, repo2]), tmpCfgDir);
       project.init(function(err, result) {
         var search = new Search({project:project, query:"task", offset:10});
         search.find(function(err, result) {
