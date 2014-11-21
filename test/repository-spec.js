@@ -107,6 +107,18 @@ describe("Repository", function() {
     });
   });
 
+  describe("getFileTree", function() {
+    it("Should traverse a repo and return valid files and dirs in cb", function(done) {
+      repo2.init(function(err) {
+        expect(err).to.be(undefined);
+        repo2.getFileTree(function(err, out) {
+          expect(err).to.be(null);
+          done();
+        });
+      });
+    });
+  });
+
   describe("hasDefaultFile", function(done) {
     it("Should return false if no default file exists", function(done) {
       repo.init(function(err, files) {
