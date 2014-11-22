@@ -274,6 +274,48 @@ describe("Repository", function() {
     });
   });
 
+  describe("moveTasks", function(done) {
+    it("Should move a task to the requested location in the requested list", function(done) {
+      repo1.init(function(err, result) {
+        var todo = repo1.getTasksInList("TODO");
+        var taskToMove = todo[1];
+        //console.log(JSON.stringify(taskToMove, null, 3));
+        repo1.moveTasks([taskToMove], "DOING", 1, function(err) {  
+          expect(err).to.be(undefined);
+          var doing = repo1.getTasksInList("DOING");
+          (taskToMove.equals(doing[1])).should.be.true;
+          done();
+        });
+      });
+    });
+
+    it("Should move a task to the requested location in the same list", function(done) {
+      repo1.init(function(err, result) {
+        var todo = repo1.getTasksInList("TODO");
+        var taskToMove = todo[1];
+        repo1.moveTasks([taskToMove], "TODO", 2, function() {
+          (taskToMove.equals(repo1.getTasksInList("TODO")[2])).should.be.true;
+          done();
+        });
+      });
+    });  
+
+    it("Should move multiple tasks to the requested location in the requested list", function(done) {
+      repo1.init(function(err, result) {
+        var todo = repo1.getTasksInList("TODO");
+        var tasksToMove = [todo[0], todo[2]];
+        repo1.moveTasks(tasksToMove, "DOING", 1, function() {
+          (repo1.getTasksInList("TODO").length).should.be.exactly(todo.length-2);
+          (tasksToMove[0].equals(repo1.getTasksInList("DOING")[1])).should.be.true;
+          (tasksToMove[1].equals(repo1.getTasksInList("DOING")[2])).should.be.true;
+          done();
+        });
+
+      });
+    });  
+  });
+
+
   describe('plugin', function(done) {
     it('should return the named plugin object', function(done) {
       var name = path.join(process.cwd(), "test", "test-plugin");
