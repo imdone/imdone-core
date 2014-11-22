@@ -27,8 +27,8 @@ describe("Project", function() {
     wrench.mkdirSyncRecursive(tmpDir);
     wrench.mkdirSyncRecursive(path.join(tmpCfgDir,".imdone"));
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
-    repo1 = repoStore(new Repository(repo1Dir, {watcher:false}));
-    repo2 = repoStore(new Repository(repo2Dir, {watcher:false}));
+    repo1 = repoStore(new Repository(repo1Dir));
+    repo2 = repoStore(new Repository(repo2Dir));
   });
 
   afterEach(function() {

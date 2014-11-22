@@ -22,10 +22,10 @@ describe("Repository", function() {
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
-    repo = fsStore(new Repository(path.join(process.cwd(),"test","files"), {watcher:false}));
+    repo = fsStore(new Repository(path.join(process.cwd(),"test","files")));
     configDir = path.join(repo.getPath(), ".imdone");
-    repo1 = fsStore(new Repository(repo1Dir, {watcher:false}));
-    repo2 = fsStore(new Repository(repo2Dir, {watcher:false}));
+    repo1 = fsStore(new Repository(repo1Dir));
+    repo2 = fsStore(new Repository(repo2Dir));
   });
 
   afterEach(function() {
