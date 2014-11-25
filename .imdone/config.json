@@ -1,6 +1,6 @@
 {
   "exclude": [
-    "^(node_modules|bower_components|test\\/(files|repos)|\\.imdone|target|build|tmp)[\\/\\\\]?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+    "^(node_modules|bower_components|\\.imdone|target|build|test\\/(files|repos))[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
   "code": {
@@ -19,15 +19,15 @@
       "hidden": false
     },
     {
-      "name": "DOING",
-      "hidden": false
+      "name": "DONE",
+      "hidden": true
     },
     {
       "name": "archive",
       "hidden": true
     },
     {
-      "name": "DONE",
+      "name": "DOING",
       "hidden": false
     }
   ],
