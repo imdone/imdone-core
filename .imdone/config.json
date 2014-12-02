@@ -25,10 +25,6 @@
     {
       "name": "archive",
       "hidden": true
-    },
-    {
-      "name": "DOING",
-      "hidden": false
     }
   ],
   "marked": {
