@@ -20,11 +20,11 @@
     },
     {
       "name": "DONE",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "archive",
-      "hidden": true
+      "hidden": false
     }
   ],
   "marked": {
