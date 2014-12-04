@@ -279,10 +279,11 @@ describe("Repository", function() {
       repo1.init(function(err, result) {
         var todo = repo1.getTasksInList("TODO");
         var taskToMove = todo[1];
-        //console.log(JSON.stringify(taskToMove, null, 3));
         repo1.moveTasks([taskToMove], "DOING", 1, function(err) {  
           expect(err).to.be(undefined);
           var doing = repo1.getTasksInList("DOING");
+          console.log('taskToMove:%j', taskToMove);
+          console.log('task:%j', doing[1]);
           (taskToMove.equals(doing[1])).should.be.true;
           done();
         });
@@ -304,8 +305,10 @@ describe("Repository", function() {
       repo1.init(function(err, result) {
         var todo = repo1.getTasksInList("TODO");
         var tasksToMove = [todo[0], todo[2]];
+        console.log(tasksToMove);
         repo1.moveTasks(tasksToMove, "DOING", 1, function() {
           (repo1.getTasksInList("TODO").length).should.be.exactly(todo.length-2);
+          console.log(JSON.stringify(repo1.getTasksInList("DOING"), null, 3));
           (tasksToMove[0].equals(repo1.getTasksInList("DOING")[1])).should.be.true;
           (tasksToMove[1].equals(repo1.getTasksInList("DOING")[2])).should.be.true;
           done();

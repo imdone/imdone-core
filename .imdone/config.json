@@ -25,6 +25,10 @@
     {
       "name": "archive",
       "hidden": false
+    },
+    {
+      "name": "DOING",
+      "hidden": false
     }
   ],
   "marked": {
