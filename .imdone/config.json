@@ -19,16 +19,16 @@
       "hidden": false
     },
     {
+      "name": "DOING",
+      "hidden": false
+    },
+    {
       "name": "DONE",
       "hidden": false
     },
     {
       "name": "archive",
-      "hidden": false
-    },
-    {
-      "name": "DOING",
-      "hidden": false
+      "hidden": true
     }
   ],
   "marked": {

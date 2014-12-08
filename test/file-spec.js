@@ -1,9 +1,11 @@
-var should = require('should'), 
-    expect = require('expect.js'),
-    sinon  = require('sinon'),
-    File   = require('../lib/file'),
-    util   = require('util'),
-    fs     = require('fs');
+var should    = require('should'), 
+    expect    = require('expect.js'),
+    sinon     = require('sinon'),
+    File      = require('../lib/file'),
+    constants = require('../lib/constants'),
+    Config    = require('../lib/config'),
+    util      = require('util'),
+    fs        = require('fs');
 
 describe('File', function() {
 
@@ -39,8 +41,8 @@ describe('File', function() {
       
       var expectation = sinon.mock();
       file.on("task.found", expectation);
-      expectation.exactly(5);
-      (file.extractTasks().getTasks().length).should.be.exactly(5);
+      expectation.exactly(4);
+      (file.extractTasks().getTasks().length).should.be.exactly(4);
       expectation.verify();      
     });
 
@@ -55,6 +57,27 @@ describe('File', function() {
       expectation.verify();      
     });
 
+  });
+
+  describe("getCodeCommentRegex", function() {
+    it("Should return the regex for a given file type", function() {
+      var file = new File('test', 'test/files/sample.js', fs.readFileSync('test/files/sample.js', 'utf8'));
+      myRe = file.getCodeCommentRegex();
+      console.log(myRe);
+      str = file.getContent();
+      var myArray;
+      while ((myArray = myRe.exec(str)) !== null) {
+        console.log("Found %s at %d.  Next match starts at %d", myArray[0], myArray.index, myRe.lastIndex);
+      }
+    });
+  });
+
+  describe("extractTasksInCodeFile", function() {
+    it("Should extract code style tasks from a code file", function() {
+      var file = new File('test', 'test/files/sample.js', fs.readFileSync('test/files/sample.js', 'utf8'));
+      file.extractTasksInCodeFile(new Config(constants.DEFAULT_CONFIG));
+      console.log(file.tasks);      
+    })
   });
 
 });
