@@ -34,6 +34,20 @@ describe('File', function() {
     expect(ok).to.be(true);
   });
 
+  describe('getLinePos', function() {
+    it('should give the correct line position for each line of a file', function() {
+      var content = fs.readFileSync('test/files/test.js', 'utf8');
+      var file = new File('test', 'test/files/test.js', content);
+
+      for (var i=1; i < 13;i++) {
+        pos = file.getLinePos(i);
+        console.log("line:%d pos:%d", i, pos);
+        console.log("pos:%d line:%d", pos, file.getLineNumber(pos));
+      }
+
+    });
+  });
+
   describe("extractTasks", function() {
     it("Should find markdown tasks in a markdown file", function() {
       var content = fs.readFileSync('test/files/sample.md', 'utf8');
@@ -41,8 +55,8 @@ describe('File', function() {
       
       var expectation = sinon.mock();
       file.on("task.found", expectation);
-      expectation.exactly(4);
-      (file.extractTasks().getTasks().length).should.be.exactly(4);
+      expectation.exactly(5);
+      (file.extractTasks().getTasks().length).should.be.exactly(5);
       expectation.verify();      
     });
 

@@ -15,6 +15,8 @@ describe("Repository", function() {
   var tmpDir      = path.join(process.cwd(), "tmp"),
       tmpReposDir = path.join(tmpDir, "repos"),
       repoSrc  = path.join(process.cwd(), "test", "repos"),
+      filesSrc = path.join(process.cwd(),"test","files"),
+      repoDir  = path.join(tmpReposDir, "files"),
       repo1Dir = path.join(tmpReposDir, "repo1"),
       repo2Dir = path.join(tmpReposDir, "repo2"),
       repo, repo1, repo2, configDir;
@@ -22,7 +24,8 @@ describe("Repository", function() {
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
-    repo = fsStore(new Repository(path.join(process.cwd(),"test","files")));
+    wrench.copyDirSyncRecursive(filesSrc, repoDir, {forceDelete: true});
+    repo = fsStore(new Repository(repoDir));
     configDir = path.join(repo.getPath(), ".imdone");
     repo1 = fsStore(new Repository(repo1Dir));
     repo2 = fsStore(new Repository(repo2Dir));
@@ -53,7 +56,7 @@ describe("Repository", function() {
       }
     }, function(err, result) {
       expect(err).to.be(undefined);
-      expect(result.repo.length).to.be(2);
+      expect(result.repo.length).to.be(3);
       expect(result.repo1.length).to.be(2);
       done();
     });
@@ -93,7 +96,7 @@ describe("Repository", function() {
 
   it("Should serialize and deserialize successfully", function(done) {
     repo.init(function(err, files) {
-      (files.length).should.be.exactly(2);
+      (files.length).should.be.exactly(3);
       var sr = repo.serialize();
       Repository.deserialize(sr, function(err, newRepo) {
         newRepo = fsStore(newRepo);
@@ -282,8 +285,6 @@ describe("Repository", function() {
         repo1.moveTasks([taskToMove], "DOING", 1, function(err) {  
           expect(err).to.be(undefined);
           var doing = repo1.getTasksInList("DOING");
-          console.log('taskToMove:%j', taskToMove);
-          console.log('task:%j', doing[1]);
           (taskToMove.equals(doing[1])).should.be.true;
           done();
         });
@@ -302,15 +303,11 @@ describe("Repository", function() {
     });  
 
     it("Should move multiple tasks to the requested location in the requested list", function(done) {
-      repo1.init(function(err, result) {
-        var todo = repo1.getTasksInList("TODO");
-        var tasksToMove = [todo[0], todo[2]];
-        console.log(tasksToMove);
-        repo1.moveTasks(tasksToMove, "DOING", 1, function() {
-          (repo1.getTasksInList("TODO").length).should.be.exactly(todo.length-2);
-          console.log(JSON.stringify(repo1.getTasksInList("DOING"), null, 3));
-          (tasksToMove[0].equals(repo1.getTasksInList("DOING")[1])).should.be.true;
-          (tasksToMove[1].equals(repo1.getTasksInList("DOING")[2])).should.be.true;
+      repo.init(function(err, result) {
+        var tasksToMove = repo.getTasksInList("TODO");
+        repo.moveTasks(tasksToMove, "DONE", 0, function() {
+          (repo.getTasksInList("TODO").length).should.be.exactly(0);
+          (repo.getTasksInList("DONE").length).should.be.exactly(8);
           done();
         });
 
