@@ -2,6 +2,7 @@ var should = require('should'),
     expect = require('expect.js'),
     sinon  = require('sinon'),
     Repository = require('../lib/repository'),
+    Config = require('../lib/config'),
     File       = require('../lib/file'),
     util   = require('util'),
     path   = require('path'),
@@ -9,6 +10,7 @@ var should = require('should'),
     wrench = require('wrench'),
     fsStore = require('../lib/mixins/repo-fs-store'),
     log    = require('debug')('imdone-core:repository-spec'),
+    constants = require('../lib/constants'),
     async  = require('async');
 
 describe("Repository", function() {
@@ -249,6 +251,7 @@ describe("Repository", function() {
 
   describe("loadConfig", function(done) {
     it("Should load the config file", function(done) {
+      repo.config = new Config(constants.DEFAULT_CONFIG);
       repo.config.foo = "bar";
       repo.saveConfig(function(err) {
         expect(fs.existsSync(configDir)).to.be(true);
@@ -319,6 +322,7 @@ describe("Repository", function() {
   describe('plugin', function(done) {
     it('should return the named plugin object', function(done) {
       var name = path.join(process.cwd(), "test", "test-plugin");
+      repo1.config = new Config(constants.DEFAULT_CONFIG);
       repo1.addPlugin(name, {foo:"bar"});
       repo1.saveConfig(function(err) {
         expect(err).to.be(null);
