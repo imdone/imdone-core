@@ -271,7 +271,7 @@ describe("Repository", function() {
         expect(err).to.be(undefined);
         expect(repo1.getTasksInList('TODO').length).to.be(3);
         repo1.renameList('TODO', 'PLANNING', function(err) {
-          expect(err).to.be(undefined);
+          expect(err).to.be(null);
           expect(repo1.getTasksInList('PLANNING').length).to.be(3);
           expect(repo1.getTasksInList('TODO').length).to.be(0);
           done();
