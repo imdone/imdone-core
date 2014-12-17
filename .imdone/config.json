@@ -30,6 +30,14 @@
     {
       "name": "archive",
       "hidden": true
+    },
+    {
+      "name": "todo",
+      "hidden": false
+    },
+    {
+      "name": "doing",
+      "hidden": false
     }
   ],
   "marked": {
