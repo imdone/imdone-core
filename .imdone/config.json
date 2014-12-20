@@ -24,11 +24,11 @@
       "hidden": false
     },
     {
-      "name": "DONE",
+      "name": "archive",
       "hidden": true
     },
     {
-      "name": "archive",
+      "name": "DONE",
       "hidden": true
     }
   ],
