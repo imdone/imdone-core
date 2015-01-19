@@ -27,4 +27,4 @@ Things yet to be done...
 }
 ```
 - Install with npm install
-- #DOING:0 Use [gajus/gitdown](https://github.com/gajus/gitdown) for docs
+- [Use [gajus/gitdown](https://github.com/gajus/gitdown) for docs](#DOING:0)
