@@ -14,7 +14,7 @@ Code Style     | <pre>// TODO This is a task</pre>
 &nbsp;         | <pre>// TODO:5 This is a task</pre>
 Hash Style     | <pre>&#35;TODO:0 This is a task</pre>
 &nbsp;         | <pre>&#35;to-do:0 This is a task</pre>
-Markdown Style | <pre>&#91;This is a task&#93;&#40;todo:10&#41;</pre>
+Markdown Style | <pre>&#91;This is a task&#93;&#40;&#35;todo:10&#41;</pre>
   
 Task syntax
 ----
