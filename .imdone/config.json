@@ -25,11 +25,11 @@
     },
     {
       "name": "archive",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "DONE",
-      "hidden": true
+      "hidden": false
     }
   ],
   "marked": {
