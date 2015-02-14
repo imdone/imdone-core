@@ -24,12 +24,12 @@
       "hidden": false
     },
     {
-      "name": "archive",
-      "hidden": true
-    },
-    {
       "name": "DONE",
       "hidden": false
+    },
+    {
+      "name": "ARCHIVE",
+      "hidden": true
     }
   ],
   "marked": {
@@ -40,5 +40,15 @@
     "sanitize": true,
     "smartLists": true,
     "langPrefix": "language-"
+  },
+  "meta": {
+    "issue": {
+      "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
+      "titleTemplate": "Show github issue %s"
+    },
+    "assigned": {
+      "urlTemplate": "https://github.com/%s",
+      "titleTemplate": "guthub profile for %s"
+    }
   }
 }
