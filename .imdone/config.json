@@ -17,7 +17,7 @@
   "lists": [
     {
       "name": "TODO",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "DOING",
@@ -25,7 +25,7 @@
     },
     {
       "name": "DONE",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "ARCHIVE",
