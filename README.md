@@ -3,7 +3,34 @@ imdone-core
 [![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
 [![Dependency Status](https://gemnasium.com/piascikj/imdone-core.png)](https://gemnasium.com/piascikj/imdone-core)
 
-The heart of imdone seperated from it's outer layer to allow embedding in other projects.
+Organize TODO, FIXME, HACK, etc. comments in code or any text file.
+
+Initializing a Repository
+----
+```
+var Repo        = require('imdone-core/lib/repository'),
+    FsStore     = require('imdone-core/lib/mixins/repo-watched-fs-store');
+
+var repo = new FsStore(new Repo('path/to/my/project'));
+
+repo.on('initialized', function() {
+  // do something with the repo...
+  var lists = repo.getLists();
+  lists.forEach(function(list) {
+    var listTasks = repo.getTasksInList(list.name);
+  });
+
+  var tasks = repo.getTasks();
+});
+
+repo.on('file.update', function(file) {
+  // Do something usefull
+});
+
+repo.on('config.update', function() {
+  // Do something usefull
+});
+```
 
 Task formats
 ----

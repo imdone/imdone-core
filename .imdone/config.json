@@ -11,7 +11,8 @@
       "DONE",
       "PLANNING",
       "FIXME",
-      "ARCHIVE"
+      "ARCHIVE",
+      "HACK"
     ]
   },
   "lists": [
