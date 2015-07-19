@@ -1,8 +1,10 @@
 imdone-core
 ===========
 [![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
+[![Downloads](http://img.shields.io/npm/dm/imdone-core.svg?style=flat)](https://nodei.co/npm/imdone-core/)
 [![Dependency Status](https://gemnasium.com/piascikj/imdone-core.png)](https://gemnasium.com/piascikj/imdone-core)
 
+[![NPM](https://nodei.co/npm/imdone-core.png)](https://nodei.co/npm/imdone-core/)
 Organize TODO, FIXME, HACK, etc. comments in code or any text file.
 
 Initializing a Repository
