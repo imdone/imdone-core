@@ -106,7 +106,8 @@ todo.txt syntax
 Metadata links
 ----
 - Tasks with metadata can be linked to external resources like other task mgmt systems and websites
-- Add a `meta` attribute to `.imdone/config.json`  
+- Add a `meta` attribute to `.imdone/config.json`
+- In this example `user:piascikj` would link to <https://github.com/piascikj>  
 
 ```javascript
   "meta": {
