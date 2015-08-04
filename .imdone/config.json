@@ -30,7 +30,7 @@
     },
     {
       "name": "ARCHIVE",
-      "hidden": true
+      "hidden": false
     }
   ],
   "marked": {
@@ -43,7 +43,7 @@
     "langPrefix": "language-"
   },
   "meta": {
-    "issue": {
+    "git-iss": {
       "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
       "titleTemplate": "Show github issue %s"
     },

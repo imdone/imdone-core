@@ -5,7 +5,8 @@ imdone-core
 [![Dependency Status](https://gemnasium.com/piascikj/imdone-core.png)](https://gemnasium.com/piascikj/imdone-core)
 
 [![NPM](https://nodei.co/npm/imdone-core.png)](https://nodei.co/npm/imdone-core/)
-Organize TODO, FIXME, HACK, etc. comments in code or any text file.
+
+**Organize TODO, FIXME, HACK, etc. comments in code or any text file.**
 
 Initializing a Repository
 ----
