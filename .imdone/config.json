@@ -17,6 +17,10 @@
   },
   "lists": [
     {
+      "name": "BACKLOG",
+      "hidden": false
+    },
+    {
       "name": "TODO",
       "hidden": true
     },
@@ -30,6 +34,18 @@
     },
     {
       "name": "ARCHIVE",
+      "hidden": true
+    },
+    {
+      "name": "doing",
+      "hidden": false
+    },
+    {
+      "name": "todo",
+      "hidden": false
+    },
+    {
+      "name": "publish",
       "hidden": false
     }
   ],
