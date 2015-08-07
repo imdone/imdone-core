@@ -59,7 +59,7 @@ Task formats
 Task syntax
 ----
 - Code style tasks are intended to be used to capture existing tasks in code, so hash or markdown style should be used for new tasks
-- Code style tasks will only be detected if the list name matches a string in the `code.include_lists` attribute in `.imdone/config.json`
+- Code style tasks will only be detected if the list name matches a string in the `code.include_lists` attribute in `.imdone/config.json` and the file extension exists in lib/languages.js.
 - List names in code style tasks must be at least 2 uppercase letters or underscores
 - In Hash and markdown style tasks **list name** can be any combination of upper and lower case letters, underscores and dashes
 - In Hash and markdown style tasks the **list name** must be followed by a `:` and a number which determines sort order in the list
