@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "debug": "~0.8.0",
     "lodash": "~2.4.1",
     "marked": "~0.3.2",
-    "minimatch": "^1.0.0",
+    "minimatch": "^2.0.10",
     "wrench": "~1.5.8"
   },
   "devDependencies": {
