@@ -1,8 +1,6 @@
 {
   "exclude": [
-    "^(node_modules|bower_components|\\.imdone|target|build|dist)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$",
-    "^test\\/",
-    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+    "^(bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
   "code": {
@@ -23,7 +21,7 @@
     },
     {
       "name": "TODO",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "DOING",
@@ -36,6 +34,22 @@
     {
       "name": "ARCHIVE",
       "hidden": true
+    },
+    {
+      "name": "FIXME",
+      "hidden": false
+    },
+    {
+      "name": "doing",
+      "hidden": false
+    },
+    {
+      "name": "todo",
+      "hidden": false
+    },
+    {
+      "name": "publish",
+      "hidden": false
     }
   ],
   "marked": {
