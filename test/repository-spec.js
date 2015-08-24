@@ -1,4 +1,4 @@
-var should = require('should'), 
+var should = require('should'),
     expect = require('expect.js'),
     sinon  = require('sinon'),
     Repository = require('../lib/repository'),
@@ -11,6 +11,7 @@ var should = require('should'),
     fsStore = require('../lib/mixins/repo-fs-store'),
     log    = require('debug')('imdone-core:repository-spec'),
     constants = require('../lib/constants'),
+    languages = require('../lib/languages'),
     async  = require('async');
 
 describe("Repository", function() {
@@ -67,7 +68,7 @@ describe("Repository", function() {
   it("Should write and delete a file successfully", function(done) {
     repo1.init(function(err, files) {
       (files.length).should.be.exactly(2);
-      var file = new File(repo1.getId(), "test.md","[Add some content](#DONE:0)");
+      var file = new File({repoId: repo1.getId(), filePath: "test.md", content: "[Add some content](#DONE:0)", languages:languages});
       repo1.writeFile(file, function(err, file) {
         expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
@@ -83,7 +84,7 @@ describe("Repository", function() {
   it("Should write and delete a file in a sub-dir successfully", function(done) {
     repo1.init(function(err, files) {
       (files.length).should.be.exactly(2);
-      var file = new File(repo1.getId(), "some-dir/some-dir2/test.md","[Add some content](#DONE:0)");
+      var file = new File({repoId: repo1.getId(), filePath: "some-dir/some-dir2/test.md", content: "[Add some content](#DONE:0)", languages:languages});
       repo1.writeFile(file, function(err, file) {
         expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
@@ -133,7 +134,7 @@ describe("Repository", function() {
     });
 
     it("Should return true if readme.md file exists", function(done) {
-      var file = new File(repo.getId(), "reADmE.md","[Add some content](#DONE:0)");
+      var file = new File({repoId: repo.getId(), filePath: "reADmE.md", content: "[Add some content](#DONE:0)", languages:languages});
       repo.init(function(err, files) {
         repo.writeFile(file, function(err, file) {
           expect(repo.hasDefaultFile()).to.be(true);
@@ -146,7 +147,7 @@ describe("Repository", function() {
     });
 
     it("Should return true if home.md file exists", function(done) {
-      var file = new File(repo.getId(), "hOmE.Md","[Add some content](#DONE:0)");
+      var file = new File({repoId: repo.getId(), filePath: "hOmE.Md" ,content: "[Add some content](#DONE:0)", languages:languages});
       repo.init(function(err, files) {
         repo.writeFile(file, function(err, file) {
           expect(repo.hasDefaultFile()).to.be(true);
@@ -170,7 +171,7 @@ describe("Repository", function() {
 
     it("should return readme.md if it exist", function(done) {
       repo.init(function(err, files) {
-        var file = new File(repo.getId(), "reADmE.md","[Add some content](#DONE:0)");
+        var file = new File({repoId: repo.getId(), filePath: "reADmE.md", content: "[Add some content](#DONE:0)", languages:languages});
         repo.writeFile(file, function(err, file) {
           expect(repo.getDefaultFile()).to.be(file);
 
@@ -183,7 +184,7 @@ describe("Repository", function() {
 
     it("Should return home.md if it exists", function(done) {
       repo.init(function(err, files) {
-        var file = new File(repo.getId(), "hOmE.Md","[Add some content](#DONE:0)");
+        var file = new File({repoId: repo.getId(), filePath: "hOmE.Md", content: "[Add some content](#DONE:0)", languages:languages});
         repo.writeFile(file, function(err, file) {
           expect(repo.getDefaultFile()).to.be(file);
 
@@ -196,8 +197,8 @@ describe("Repository", function() {
 
     it("Should return readme.md if both home.md and readme.md exist", function(done) {
       repo.init(function(err, files) {
-        var home = new File(repo.getId(), "hOmE.Md","[Add some content](#DONE:0)");
-        var readme = new File(repo.getId(), "reADmE.Md","[Add some content](#DONE:0)");
+        var home = new File({repoId: repo.getId(), filePath: "hOmE.Md", content: "[Add some content](#DONE:0)", languages:languages});
+        var readme = new File({repoId: repo.getId(), filePath: "reADmE.Md", content: "[Add some content](#DONE:0)", languages:languages});
         async.parallel([
           function(cb){
             repo.writeFile(home, function(err, file) {
@@ -285,7 +286,7 @@ describe("Repository", function() {
       repo1.init(function(err, result) {
         var todo = repo1.getTasksInList("TODO");
         var taskToMove = todo[1];
-        repo1.moveTasks([taskToMove], "DOING", 1, function(err) {  
+        repo1.moveTasks([taskToMove], "DOING", 1, function(err) {
           expect(err).to.be(undefined);
           var doing = repo1.getTasksInList("DOING");
           (taskToMove.equals(doing[1])).should.be.true;
@@ -303,7 +304,7 @@ describe("Repository", function() {
           done();
         });
       });
-    });  
+    });
 
     it("Should move multiple tasks to the requested location in the requested list", function(done) {
       repo.init(function(err, result) {
@@ -315,7 +316,7 @@ describe("Repository", function() {
         });
 
       });
-    });  
+    });
   });
 
 
