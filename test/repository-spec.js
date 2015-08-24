@@ -60,21 +60,21 @@ describe("Repository", function() {
     }, function(err, result) {
       expect(err).to.be(undefined);
       expect(result.repo.length).to.be(3);
-      expect(result.repo1.length).to.be(2);
+      expect(result.repo1.length).to.be(3);
       done();
     });
   });
 
   it("Should write and delete a file successfully", function(done) {
     repo1.init(function(err, files) {
-      (files.length).should.be.exactly(2);
+      (files.length).should.be.exactly(3);
       var file = new File({repoId: repo1.getId(), filePath: "test.md", content: "[Add some content](#DONE:0)", languages:languages});
       repo1.writeFile(file, function(err, file) {
         expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
         repo1.deleteFile(file.path, function(err, file) {
           expect(err).to.be(null);
-          (repo1.files.length).should.be.exactly(2);
+          (repo1.files.length).should.be.exactly(3);
           done();
         });
       });
@@ -83,14 +83,14 @@ describe("Repository", function() {
 
   it("Should write and delete a file in a sub-dir successfully", function(done) {
     repo1.init(function(err, files) {
-      (files.length).should.be.exactly(2);
+      (files.length).should.be.exactly(3);
       var file = new File({repoId: repo1.getId(), filePath: "some-dir/some-dir2/test.md", content: "[Add some content](#DONE:0)", languages:languages});
       repo1.writeFile(file, function(err, file) {
         expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
         repo1.deleteFile(file.path, function(err, file) {
           expect(err).to.be(null);
-          (repo1.files.length).should.be.exactly(2);
+          (repo1.files.length).should.be.exactly(3);
           done();
         });
       });
