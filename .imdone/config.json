@@ -29,7 +29,7 @@
     },
     {
       "name": "DONE",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "ARCHIVE",
