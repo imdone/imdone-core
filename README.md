@@ -65,10 +65,10 @@ Task syntax
 - In Hash and markdown style tasks the **list name** must be followed by a `:` and a number which determines sort order in the list
   - Sort numbers can be reused, in which case tasks with the same sort number will be sorted alphabetically by text.
 - In code, tasks can be any style but must be in a line or block comment
-  - Code style tasks are only detected in comments for files with extensions listed in <a href="https://github.com/imdone/imdone-core/blob/master/lib/languages.js" target="_blank">imdone-core/languages.js</a> or the **languages** attribute in the `.imdone/config.json`
+  - Code style tasks are only detected in comments for files with extensions listed in [imdone-core/languages.js](https://github.com/imdone/imdone-core/blob/master/lib/languages.js) or the **languages** attribute in the `.imdone/config.json`
   - When a code style task is moved, all code style tasks in affected lists are rewitten as hash style tasks
 - For code and hash style tasks, the task text is terminated by the end of line
-- Task text can have <a href="https://github.com/ginatrapani/todo.txt-cli/wiki/The-Todo.txt-Format" target="_blank">todo.txt formatting</a> but not todo.txt priority
+- Task text can have [todo.txt formatting](https://github.com/ginatrapani/todo.txt-cli/wiki/The-Todo.txt-Format) but not todo.txt priority
 - Task text can have markdown formatting
 
 todo.txt syntax
