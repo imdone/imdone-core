@@ -64,6 +64,10 @@
     "assigned": {
       "urlTemplate": "https://github.com/%s",
       "titleTemplate": "guthub profile for %s"
+    },
+    "foo": {
+      "urlTemplate": "http://google.com?q=%s",
+      "titleTemplate": "Search google for %s"
     }
   }
 }
