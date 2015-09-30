@@ -1,6 +1,6 @@
 {
   "exclude": [
-    "^(bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
   "code": {
@@ -11,17 +11,22 @@
       "PLANNING",
       "FIXME",
       "ARCHIVE",
-      "HACK"
+      "HACK",
+      "CHANGED",
+      "XXX",
+      "IDEA",
+      "NOTE",
+      "REVIEW"
     ]
   },
   "lists": [
     {
       "name": "BACKLOG",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "TODO",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "DOING",
@@ -57,7 +62,7 @@
     }
   },
   "meta": {
-    "git-iss": {
+    "gh-iss": {
       "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
       "titleTemplate": "Show github issue %s"
     },
