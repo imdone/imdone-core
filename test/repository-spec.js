@@ -309,6 +309,7 @@ describe("Repository", function() {
     it("Should move multiple tasks to the requested location in the requested list", function(done) {
       repo.init(function(err, result) {
         var tasksToMove = repo.getTasksInList("TODO");
+        console.log(tasksToMove);
         repo.moveTasks(tasksToMove, "DONE", 0, function() {
           (repo.getTasksInList("TODO").length).should.be.exactly(0);
           (repo.getTasksInList("DONE").length).should.be.exactly(8);
