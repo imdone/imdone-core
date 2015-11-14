@@ -39,18 +39,6 @@
     {
       "name": "ARCHIVE",
       "hidden": true
-    },
-    {
-      "name": "doing",
-      "hidden": false
-    },
-    {
-      "name": "todo",
-      "hidden": false
-    },
-    {
-      "name": "publish",
-      "hidden": false
     }
   ],
   "marked": {

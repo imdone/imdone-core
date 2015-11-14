@@ -121,7 +121,7 @@ Metadata links
 
 Things yet to be done...
 ----
-1. [Use [visionmedia/dox](https://github.com/visionmedia/dox), [smartcomments/smartcomments](https://github.com/smartcomments/smartcomments) and [JSDoc](http://usejsdoc.org) for documenting the following... +doc](#TODO:60)
+1. [Use [visionmedia/dox](https://github.com/visionmedia/dox), [smartcomments/smartcomments](https://github.com/smartcomments/smartcomments) and [JSDoc](http://usejsdoc.org) for documenting the following... +doc](#TODO:20)
   - Project
   - Repository
   - File
