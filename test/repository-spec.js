@@ -58,7 +58,7 @@ describe("Repository", function() {
         });
       }
     }, function(err, result) {
-      expect(err).to.be(undefined);
+      expect(err).to.be(null);
       expect(result.repo.length).to.be(3);
       expect(result.repo1.length).to.be(3);
       done();
@@ -116,7 +116,7 @@ describe("Repository", function() {
   describe("getFileTree", function() {
     it("Should traverse a repo and return valid files and dirs in cb", function(done) {
       repo2.init(function(err) {
-        expect(err).to.be(undefined);
+        expect(err).to.be(null);
         repo2.getFileTree(function(err, out) {
           expect(err).to.be(null);
           done();
@@ -227,7 +227,7 @@ describe("Repository", function() {
             }
           ],
           function(err, results) {
-            expect(err).to.be(undefined);
+            expect(err).to.be(null);
             done();
           })
         });
@@ -269,7 +269,7 @@ describe("Repository", function() {
   describe("renameList", function(done) {
     it('should modify the list name in tasks with a given list name', function(done) {
       repo1.init(function(err, files) {
-        expect(err).to.be(undefined);
+        expect(err).to.be(null);
         expect(repo1.getTasksInList('TODO').length).to.be(3);
         repo1.renameList('TODO', 'PLANNING', function(err) {
           expect(err).to.be(null);
@@ -287,7 +287,7 @@ describe("Repository", function() {
         var todo = repo1.getTasksInList("TODO");
         var taskToMove = todo[1];
         repo1.moveTasks([taskToMove], "DOING", 1, function(err) {
-          expect(err).to.be(undefined);
+          expect(err).to.be(null);
           var doing = repo1.getTasksInList("DOING");
           (taskToMove.equals(doing[1])).should.be.true;
           done();
@@ -329,7 +329,7 @@ describe("Repository", function() {
       repo1.saveConfig(function(err) {
         expect(err).to.be(null);
         repo1.init(function(err) {
-          expect(err).to.be(undefined);
+          expect(err).to.be(null);
           var plugin = repo1.plugin(name);
           expect(plugin.config).to.be(repo1.config.plugins[name]);
           expect(plugin.repo).to.be(repo1);
