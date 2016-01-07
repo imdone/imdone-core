@@ -47,12 +47,14 @@ Task formats
 
 ### Hash Style
 <pre>
+&#35;TODO: This is a task
 &#35;TODO:0 This is a task
 &#35;to-do:0 This is a task
 </pre>
 
 ### Markdown Style
 <pre>
+&#91;This is a task&#93;&#40;&#35;todo&#41;
 &#91;This is a task&#93;&#40;&#35;todo:10&#41;
 </pre>
 
