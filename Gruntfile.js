@@ -4,23 +4,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    nodemon: {
-      dev: {
-        options: {
-          file: 'lib/server.js',
-          args: ['dev'],
-          ignoredFiles: ['README.md', 'node_modules/**'],
-          watchedExtensions: ['js'],
-          watchedFolders: ['lib'],
-          debug: false,
-          delayTime: 1,
-          env: {
-            NODE_ENV: 'dev'
-          },
-          cwd: __dirname
-        }
-      }
-    },
     jshint: {
       files: ['Gruntfile.js', 'lib/**/*.js'],
       options: {

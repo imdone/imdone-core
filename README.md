@@ -1,8 +1,8 @@
 imdone-core
 ===========
 [![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
-[![Downloads](http://img.shields.io/npm/dm/imdone-core.svg?style=flat)](https://nodei.co/npm/imdone-core/)
-[![Dependency Status](https://gemnasium.com/piascikj/imdone-core.png)](https://gemnasium.com/imdone/imdone-core)
+[![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
+[![Dependency Status](http://img.shields.io/gemnasium/imdone/imdone-core.svg?style=flat)](https://gemnasium.com/imdone/imdone-core)
 
 [![NPM](https://nodei.co/npm/imdone-core.png)](https://nodei.co/npm/imdone-core/)
 
@@ -130,3 +130,16 @@ Things yet to be done...
   - Config
 
 - [Use [gajus/gitdown](https://github.com/gajus/gitdown) for docs +doc](#BACKLOG:0)
+
+
+License
+----
+
+[MIT](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/imdone-core.svg
+[npm-url]: https://npmjs.org/package/imdone-core
+[downloads-image]: https://img.shields.io/npm/dm/imdone-core.svg
+[downloads-url]: https://npmjs.org/package/imdone-core
+[travis-image]: https://img.shields.io/travis/imdone/imdone-core/master.svg?label=linux
+[travis-url]: https://travis-ci.org/imdone/imdone-core
