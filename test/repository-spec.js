@@ -286,6 +286,7 @@ describe("Repository", function() {
       repo1.init(function(err, result) {
         var todo = repo1.getTasksInList("TODO");
         var taskToMove = todo[1];
+        console.log(taskToMove);
         repo1.moveTasks([taskToMove], "DOING", 1, function(err) {
           expect(err).to.be(null);
           var doing = repo1.getTasksInList("DOING");
@@ -299,6 +300,7 @@ describe("Repository", function() {
       repo1.init(function(err, result) {
         var todo = repo1.getTasksInList("TODO");
         var taskToMove = todo[1];
+        console.log(taskToMove);
         repo1.moveTasks([taskToMove], "TODO", 2, function() {
           (taskToMove.equals(repo1.getTasksInList("TODO")[2])).should.be.true;
           done();
@@ -309,7 +311,6 @@ describe("Repository", function() {
     it("Should move multiple tasks to the requested location in the requested list", function(done) {
       repo.init(function(err, result) {
         var tasksToMove = repo.getTasksInList("TODO");
-        console.log(tasksToMove);
         repo.moveTasks(tasksToMove, "DONE", 0, function() {
           (repo.getTasksInList("TODO").length).should.be.exactly(0);
           (repo.getTasksInList("DONE").length).should.be.exactly(8);

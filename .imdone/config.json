@@ -39,6 +39,22 @@
     {
       "name": "ARCHIVE",
       "hidden": true
+    },
+    {
+      "name": "doing",
+      "hidden": false
+    },
+    {
+      "name": "todo",
+      "hidden": false
+    },
+    {
+      "name": "publish",
+      "hidden": false
+    },
+    {
+      "name": "PLANNING",
+      "hidden": false
     }
   ],
   "marked": {
@@ -74,5 +90,6 @@
       "urlTemplate": "http://google.com?q=%s",
       "titleTemplate": "Search google for %s"
     }
-  }
+  },
+  "keepEmptyPriority": false
 }
