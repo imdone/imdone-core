@@ -54,7 +54,7 @@ Task formats
 
 ### Markdown Style
 <pre>
-&#91;This is a task&#93;&#40;&#35;todo&#41;
+&#91;This is a task&#93;&#40;&#35;todo:&#41;
 &#91;This is a task&#93;&#40;&#35;todo:10&#41;
 </pre>
 

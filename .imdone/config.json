@@ -29,10 +29,6 @@
       "hidden": false
     },
     {
-      "name": "DOING",
-      "hidden": false
-    },
-    {
       "name": "DONE",
       "hidden": true
     },
@@ -41,19 +37,7 @@
       "hidden": true
     },
     {
-      "name": "doing",
-      "hidden": false
-    },
-    {
       "name": "todo",
-      "hidden": false
-    },
-    {
-      "name": "publish",
-      "hidden": false
-    },
-    {
-      "name": "PLANNING",
       "hidden": false
     }
   ],
