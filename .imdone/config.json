@@ -35,10 +35,6 @@
     {
       "name": "ARCHIVE",
       "hidden": true
-    },
-    {
-      "name": "todo",
-      "hidden": false
     }
   ],
   "marked": {
