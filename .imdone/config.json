@@ -26,14 +26,22 @@
     },
     {
       "name": "TODO",
-      "hidden": false
-    },
-    {
-      "name": "DONE",
       "hidden": true
     },
     {
       "name": "ARCHIVE",
+      "hidden": true
+    },
+    {
+      "name": "DOING",
+      "hidden": false
+    },
+    {
+      "name": "READY",
+      "hidden": false
+    },
+    {
+      "name": "DONE",
       "hidden": true
     }
   ],
