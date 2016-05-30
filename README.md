@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/imdone/imdone-core.png?label=ready&title=Ready)](https://waffle.io/imdone/imdone-core)
 imdone-core
 ===========
 [![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
