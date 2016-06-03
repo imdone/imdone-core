@@ -22,14 +22,10 @@
   "lists": [
     {
       "name": "BACKLOG",
-      "hidden": false
-    },
-    {
-      "name": "TODO",
       "hidden": true
     },
     {
-      "name": "ARCHIVE",
+      "name": "TODO",
       "hidden": true
     },
     {
@@ -42,6 +38,10 @@
     },
     {
       "name": "DONE",
+      "hidden": true
+    },
+    {
+      "name": "ARCHIVE",
       "hidden": true
     }
   ],
