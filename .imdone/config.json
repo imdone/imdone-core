@@ -79,5 +79,9 @@
       "titleTemplate": "Search google for %s"
     }
   },
-  "keepEmptyPriority": false
+  "keepEmptyPriority": false,
+  "sync": {
+    "id": "5754503b1db0d4c60b9f0d14",
+    "name": "imdone-core"
+  }
 }
