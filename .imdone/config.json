@@ -43,18 +43,6 @@
     {
       "name": "ARCHIVE",
       "hidden": true
-    },
-    {
-      "name": "doing",
-      "hidden": false
-    },
-    {
-      "name": "todo",
-      "hidden": false
-    },
-    {
-      "name": "publish",
-      "hidden": false
     }
   ],
   "marked": {
@@ -91,9 +79,5 @@
       "titleTemplate": "Search google for %s"
     }
   },
-  "keepEmptyPriority": false,
-  "sync": {
-    "id": "57b9c9de304a69136b92ec6a",
-    "name": "imdone-core"
-  }
+  "keepEmptyPriority": false
 }
