@@ -79,5 +79,10 @@
       "titleTemplate": "Search google for %s"
     }
   },
-  "keepEmptyPriority": false
+  "keepEmptyPriority": false,
+  "sync": {
+    "id": "57e98b3522ec31c92e2a1e17",
+    "name": "imdone-core",
+    "useImdoneioForPriority": true
+  }
 }
