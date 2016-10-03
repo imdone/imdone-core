@@ -1,3 +1,6 @@
+# 1.3.3
+- Update marked and minimatch for security reasons
+
 # 1.3.2
 - When a user adds a list to the board, utomatically add list name to config.code.include_lists if it's all caps
 
