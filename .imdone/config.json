@@ -47,15 +47,15 @@
     },
     {
       "name": "doing",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "todo",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "publish",
-      "hidden": false
+      "hidden": true
     }
   ],
   "marked": {
@@ -92,10 +92,5 @@
       "titleTemplate": "Search google for %s"
     }
   },
-  "keepEmptyPriority": false,
-  "sync": {
-    "id": "57e98b3522ec31c92e2a1e17",
-    "name": "imdone-core",
-    "useImdoneioForPriority": true
-  }
+  "keepEmptyPriority": false
 }
