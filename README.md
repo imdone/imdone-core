@@ -1,11 +1,11 @@
-[![Stories in Ready](https://badge.waffle.io/imdone/imdone-core.png?label=ready&title=Ready)](https://waffle.io/imdone/imdone-core)
 imdone-core
 ===========
-[![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
-[![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
-[![Dependency Status](http://img.shields.io/gemnasium/imdone/imdone-core.svg?style=flat)](https://gemnasium.com/imdone/imdone-core)
 
 [![NPM](https://nodei.co/npm/imdone-core.png)](https://nodei.co/npm/imdone-core/)
+
+[![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
+[![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
+[![Stories in Ready](https://badge.waffle.io/imdone/imdone-core.png?label=ready&title=Ready)](https://waffle.io/imdone/imdone-core)
 
 **Organize TODO, FIXME, HACK, etc. comments in code or any text file.**
 

@@ -1,3 +1,6 @@
+# 1.3.5
+- Update .imdoneignore functionality to work like .gitignore
+
 # 1.3.3
 - Update marked and minimatch for security reasons
 

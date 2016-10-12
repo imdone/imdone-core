@@ -3,6 +3,7 @@
     "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
+  "keepEmptyPriority": false,
   "code": {
     "include_lists": [
       "TODO",
@@ -17,16 +18,16 @@
       "IDEA",
       "NOTE",
       "REVIEW",
-      "WOWWOW"
+      "BACKLOG"
     ]
   },
   "lists": [
     {
-      "name": "BACKLOG",
-      "hidden": true
+      "name": "TODO",
+      "hidden": false
     },
     {
-      "name": "TODO",
+      "name": "BACKLOG",
       "hidden": true
     },
     {
@@ -34,27 +35,23 @@
       "hidden": false
     },
     {
-      "name": "READY",
+      "name": "doing",
+      "hidden": false
+    },
+    {
+      "name": "todo",
       "hidden": false
     },
     {
       "name": "DONE",
-      "hidden": true
-    },
-    {
-      "name": "ARCHIVE",
-      "hidden": true
-    },
-    {
-      "name": "doing",
-      "hidden": true
-    },
-    {
-      "name": "todo",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "publish",
+      "hidden": false
+    },
+    {
+      "name": "ARCHIVE",
       "hidden": true
     }
   ],
@@ -63,7 +60,6 @@
     "tables": true,
     "breaks": false,
     "pedantic": false,
-    "sanitize": true,
     "smartLists": true,
     "langPrefix": "language-"
   },
@@ -91,6 +87,5 @@
       "urlTemplate": "http://google.com?q=%s",
       "titleTemplate": "Search google for %s"
     }
-  },
-  "keepEmptyPriority": false
+  }
 }
