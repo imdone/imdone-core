@@ -35,22 +35,6 @@
       "hidden": false
     },
     {
-      "name": "doing",
-      "hidden": false
-    },
-    {
-      "name": "todo",
-      "hidden": false
-    },
-    {
-      "name": "DONE",
-      "hidden": false
-    },
-    {
-      "name": "publish",
-      "hidden": false
-    },
-    {
       "name": "ARCHIVE",
       "hidden": true
     }
