@@ -1,3 +1,6 @@
+# 1.3.8
+- Add velocity comments
+
 # 1.3.5
 - Update .imdoneignore functionality to work like .gitignore
 
