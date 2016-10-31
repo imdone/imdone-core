@@ -1,3 +1,6 @@
+# 1.3.9
+- Add .boot
+
 # 1.3.8
 - Add velocity comments
 
