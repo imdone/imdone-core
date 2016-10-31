@@ -59,17 +59,10 @@
     }
   },
   "meta": {
-    "gh-iss": {
+    "gh": {
       "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
-      "titleTemplate": "Show github issue %s"
-    },
-    "assigned": {
-      "urlTemplate": "https://github.com/%s",
-      "titleTemplate": "guthub profile for %s"
-    },
-    "foo": {
-      "urlTemplate": "http://google.com?q=%s",
-      "titleTemplate": "Search google for %s"
+      "titleTemplate": "View github issue %s",
+      "icon": "icon-octoface"
     }
   }
 }
