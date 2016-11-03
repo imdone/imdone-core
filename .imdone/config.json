@@ -3,7 +3,7 @@
     "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
-  "keepEmptyPriority": false,
+  "keepEmptyPriority": true,
   "code": {
     "include_lists": [
       "TODO",
@@ -23,20 +23,16 @@
   },
   "lists": [
     {
-      "name": "TODO",
-      "hidden": false
-    },
-    {
       "name": "BACKLOG",
       "hidden": true
     },
     {
-      "name": "DOING",
+      "name": "TODO",
       "hidden": false
     },
     {
-      "name": "ARCHIVE",
-      "hidden": true
+      "name": "DOING",
+      "hidden": false
     }
   ],
   "marked": {
