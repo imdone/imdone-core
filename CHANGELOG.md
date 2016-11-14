@@ -1,3 +1,6 @@
+# 1.3.11
+- Add haml extension and -# comment
+
 # 1.3.9
 - Add .boot
 
