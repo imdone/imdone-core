@@ -1,3 +1,6 @@
+# 1.3.13
+- Raise async limit
+
 # 1.3.11
 - Add haml extension and -# comment
 
