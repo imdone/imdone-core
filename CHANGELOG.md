@@ -1,3 +1,6 @@
+# 1.3.15
+- Fire config.loaded event after config is set
+
 # 1.3.14
 - Make sure list is in include_lists before adding it through listeners
 
