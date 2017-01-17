@@ -1,3 +1,6 @@
+# 1.3.17
+- Simplify readdir with node-dir
+
 # 1.3.16
 - Add php block comment.
 - Fix issue with hash style lists not getting added
