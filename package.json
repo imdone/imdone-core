@@ -34,8 +34,8 @@
     "isbinaryfile": "^3.0.0",
     "lodash": "2.4.2",
     "marked": "^0.3.6",
-    "read-chunk": "^1.0.1",
-    "wrench": "~1.5.8"
+    "node-dir": "^0.1.16",
+    "read-chunk": "^1.0.1"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
@@ -44,6 +44,7 @@
     "grunt-contrib-jshint": "~0.9.2",
     "grunt-mocha-test": "~0.10.0",
     "sinon": "~1.9.0",
-    "json-stringify-safe": "~5.0.0"
+    "json-stringify-safe": "~5.0.0",
+    "wrench": "~1.5.8"
   }
 }
