@@ -1,3 +1,7 @@
+# 1.3.16
+- Add php block comment.
+- Fix issue with hash style lists not getting added
+
 # 1.3.15
 - Fire config.loaded event after config is set
 
