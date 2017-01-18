@@ -1,3 +1,6 @@
+# 1.3.8
+- Add delete tasks
+
 # 1.3.17
 - Simplify readdir with node-dir
 
