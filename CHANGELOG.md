@@ -1,3 +1,7 @@
+# 1.3.20
+- Improve stats performance
+- emits tasks on update
+
 # 1.3.19
 - Minor bug fixes
 
