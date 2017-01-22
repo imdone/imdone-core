@@ -1,4 +1,7 @@
-# 1.3.8
+# 1.3.19
+- Minor bug fixes
+
+# 1.3.18
 - Add delete tasks
 
 # 1.3.17
