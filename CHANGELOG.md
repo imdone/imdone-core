@@ -1,6 +1,7 @@
 # 1.3.20
 - Improve stats performance
 - emits tasks on update
+- Add isListVisible
 
 # 1.3.19
 - Minor bug fixes
