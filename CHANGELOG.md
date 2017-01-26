@@ -1,3 +1,6 @@
+# 1.3.21
+- Reduce async file access limit to 256
+
 # 1.3.20
 - Improve stats performance
 - emits tasks on update
