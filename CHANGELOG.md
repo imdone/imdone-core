@@ -1,3 +1,6 @@
+# 1.3.23
+- file.isOk callback with false if isBinaryCheck errs
+
 # 1.3.22
 - Drop async file access limit to 10
 
