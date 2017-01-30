@@ -1,3 +1,6 @@
+# 1.3.24
+- Simplify isBinary check
+
 # 1.3.23
 - file.isOk callback with false if isBinaryCheck errs
 
