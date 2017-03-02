@@ -1,3 +1,6 @@
+# 1.3.25
+- Use eachLimit for Repository.readFiles
+
 # 1.3.24
 - Simplify isBinary check
 
