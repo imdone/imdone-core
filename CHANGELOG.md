@@ -1,3 +1,6 @@
+# 1.3.26
+- Check excludes for all files before running stat
+
 # 1.3.25
 - Use eachLimit for Repository.readFiles
 
