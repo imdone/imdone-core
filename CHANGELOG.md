@@ -1,3 +1,6 @@
+# 1.3.27
+- Allow umlauts and other special characters in contexts
+
 # 1.3.26
 - Check excludes for all files before running stat
 
