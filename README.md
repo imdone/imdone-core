@@ -15,7 +15,7 @@ Initializing a Repository
 var Repo        = require('imdone-core/lib/repository'),
     FsStore     = require('imdone-core/lib/mixins/repo-watched-fs-store');
 
-var repo = new FsStore(new Repo('path/to/my/project'));
+var repo = FsStore(new Repo('path/to/my/project'));
 
 repo.on('initialized', function() {
   // do something with the repo...
