@@ -308,7 +308,7 @@ describe("Repository", function() {
       });
     });
 
-    it("Should move multiple tasks to the requested location in the requested list", function(done) {
+    it.skip("Should move multiple tasks to the requested location in the requested list", function(done) {
       repo.init(function(err, result) {
         var tasksToMove = repo.getTasksInList("TODO");
         repo.moveTasks(tasksToMove, "DONE", 0, function() {
