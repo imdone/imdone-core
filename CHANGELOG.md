@@ -1,3 +1,6 @@
+# 1.3.34
+- Update chokidar
+
 # 1.3.27
 - Allow umlauts and other special characters in contexts
 
