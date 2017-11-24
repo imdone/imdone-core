@@ -47,6 +47,11 @@
     "smartLists": true,
     "langPrefix": "language-"
   },
+  "sync": {
+    "id": "5a184ca5f9f5ac05016e9459",
+    "name": "imdone/imdone-core",
+    "useImdoneioForPriority": true
+  },
   "languages": {
     ".cash": {
       "name": "Cash",
