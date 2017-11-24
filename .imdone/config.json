@@ -64,10 +64,5 @@
       "titleTemplate": "View github issue %s",
       "icon": "icon-octoface"
     }
-  },
-  "sync": {
-    "id": "5820ea0d9f136b3f9eda3f3e",
-    "name": "imdone-core",
-    "useImdoneioForPriority": true
   }
 }
