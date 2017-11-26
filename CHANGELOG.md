@@ -1,3 +1,6 @@
+# 1.3.38
+- Add list to include_lists
+
 # 1.3.34
 - Update chokidar
 
