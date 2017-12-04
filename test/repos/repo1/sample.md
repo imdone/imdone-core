@@ -1,4 +1,4 @@
-- [task 1 in repo 1](#TODO:10)
+- [task 1 in repo 1](#TODO:)
 - [task 2 in repo 1](#DOING:100)
-- [task 3 in repo 1](#TODO:0)
+- [task 3 in repo 1](#TODO:)
 - [task 4 in repo 1](#DOING:60)
