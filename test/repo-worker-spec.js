@@ -6,7 +6,7 @@ const {ImdoneRepoWorkerProxy} = require('../lib/repo-worker-proxy')
 const Task = require('../lib/task')
 const File = require('../lib/file')
 
-describe.only('ImdoneRepoWorkerProxy', function () {
+describe('ImdoneRepoWorkerProxy', function () {
   let repo
   beforeEach(function () {
     repo = new ImdoneRepoWorkerProxy(helper.getFreshRepo())
