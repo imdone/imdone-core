@@ -1,2 +1,7 @@
 *
-!lib/
+!lib
+!lib/**/*
+!test
+!test/**/*
+test/repos
+test/files
