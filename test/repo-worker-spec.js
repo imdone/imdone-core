@@ -43,4 +43,5 @@ describe('ImdoneRepoWorkerProxy', function () {
       repo.init()
     })
   })
+  // DOING: Add moveTasks Tests
 })
