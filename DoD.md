@@ -1,4 +1,4 @@
-- #DOING: Definition of done template for current story
+-  #DOING: Definition of done template for current story
   - How do we define the current story?  Maybe DOING???
   - Add definition of done to the TODO and issue
   - Automate the checking of files like Readme.md

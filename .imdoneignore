@@ -3,5 +3,6 @@
 !lib/**/*
 !test
 !test/**/*
+!DoD.md
 test/repos
 test/files
