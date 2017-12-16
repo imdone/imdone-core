@@ -6,7 +6,7 @@ const {ImdoneRepoWorkerProxy} = require('../lib/repo-worker-proxy')
 const Task = require('../lib/task')
 const File = require('../lib/file')
 
-// DOING: As an imdone observer I would like a Repository to run in a different event loop so that it doesn't lock up my event loop
+// DOING: As an imdone observer I would like a Repository to run in a different event loop so that it doesn't lock up my event loop id:22 gh:111
 describe('ImdoneRepoWorkerProxy', function () {
   let repo
   beforeEach(function () {
