@@ -95,4 +95,47 @@ describe('File', function() {
     })
   });
 
+  describe('trimCodeBlockStart', () => {
+    it('should trim the code block start pattern from a line of text', () => {
+      var content = fs.readFileSync('test/files/sample.js', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      file.trimCodeBlockStart('/* This is a comment').should.equal('This is a comment');
+      file.trimCodeBlockStart('/*This is a comment').should.equal('This is a comment');
+      file.trimCodeBlockStart(' /*This is a comment').should.equal('This is a comment');
+      file.trimCodeBlockStart('  /* This is a comment').should.equal('This is a comment');
+      file.trimCodeBlockStart('   /* This is a comment').should.equal('This is a comment');
+      file.trimCodeBlockStart('   /*  This is a comment').should.equal(' This is a comment');
+    })
+  })
+
+  describe('trimCodeBlockIgnore', () => {
+    it('should trim the code block ignore pattern from a line of text', () => {
+      var content = fs.readFileSync('test/files/sample.js', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      file.trimCodeBlockIgnore('* This is a comment').should.equal('This is a comment');
+      file.trimCodeBlockIgnore('*This is a comment').should.equal('This is a comment');
+      file.trimCodeBlockIgnore(' *This is a comment').should.equal('This is a comment');
+      file.trimCodeBlockIgnore('  * This is a comment').should.equal('This is a comment');
+    })
+  })
+
+  describe('trimCodeBlockEnd', () => {
+    it('should trim the code block end pattern from a line of text', () => {
+      var content = fs.readFileSync('test/files/sample.js', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      file.trimCodeBlockEnd('This is a comment */').should.equal('This is a comment');
+      file.trimCodeBlockEnd('This is a comment*/').should.equal('This is a comment');
+    })
+  })
+
+  describe('trimCodeCommentStart', () => {
+    it('should trim the comment start from a line of text', () => {
+      var content = fs.readFileSync('test/files/sample.js', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      file.trimCodeCommentStart('//This is a comment').should.equal('This is a comment');
+      file.trimCodeCommentStart(' // This is a comment').should.equal('This is a comment');
+      file.trimCodeCommentStart('  // This is a comment').should.equal('This is a comment');
+      file.trimCodeCommentStart('  //  This is a comment').should.equal(' This is a comment');
+    })
+  })
 });
