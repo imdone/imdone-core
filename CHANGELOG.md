@@ -1,5 +1,6 @@
 # 1.3.45
 - switch to markdown-it for check-lists
+- Add following lines as task description
 
 # 1.3.38
 - Add list to include_lists
