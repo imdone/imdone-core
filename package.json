@@ -44,7 +44,8 @@
     "ignore": "^3.2.0",
     "isbinaryfile": "^3.0.2",
     "lodash": "2.4.2",
-    "marked": "^0.3.6",
+    "markdown-it": "^8.4.0",
+    "markdown-it-checkbox": "^1.1.0",
     "recursive-readdir": "^2.2.1"
   },
   "devDependencies": {
