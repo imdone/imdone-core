@@ -95,47 +95,89 @@ describe('File', function() {
     })
   });
 
-  describe('trimCodeBlockStart', () => {
+  describe('trimCommentBlockStart', () => {
     it('should trim the code block start pattern from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
-      file.trimCodeBlockStart('/* This is a comment').should.equal('This is a comment');
-      file.trimCodeBlockStart('/*This is a comment').should.equal('This is a comment');
-      file.trimCodeBlockStart(' /*This is a comment').should.equal('This is a comment');
-      file.trimCodeBlockStart('  /* This is a comment').should.equal('This is a comment');
-      file.trimCodeBlockStart('   /* This is a comment').should.equal('This is a comment');
-      file.trimCodeBlockStart('   /*  This is a comment').should.equal(' This is a comment');
+      file.trimCommentBlockStart('/* This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockStart('/*This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockStart(' /*This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockStart('  /* This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockStart('   /* This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockStart('   /*  This is a comment').should.equal(' This is a comment');
     })
   })
 
-  describe('trimCodeBlockIgnore', () => {
+  describe('trimCommentBlockIgnore', () => {
     it('should trim the code block ignore pattern from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
-      file.trimCodeBlockIgnore('* This is a comment').should.equal('This is a comment');
-      file.trimCodeBlockIgnore('*This is a comment').should.equal('This is a comment');
-      file.trimCodeBlockIgnore(' *This is a comment').should.equal('This is a comment');
-      file.trimCodeBlockIgnore('  * This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockIgnore('* This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockIgnore('*This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockIgnore(' *This is a comment').should.equal('This is a comment');
+      file.trimCommentBlockIgnore('  * This is a comment').should.equal('This is a comment');
     })
   })
 
-  describe('trimCodeBlockEnd', () => {
+  describe('trimCommentBlockEnd', () => {
     it('should trim the code block end pattern from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
-      file.trimCodeBlockEnd('This is a comment */').should.equal('This is a comment');
-      file.trimCodeBlockEnd('This is a comment*/').should.equal('This is a comment');
+      file.trimCommentBlockEnd('This is a comment */').should.equal('This is a comment');
+      file.trimCommentBlockEnd('This is a comment*/').should.equal('This is a comment');
+      file.trimCommentBlockEnd('*/').should.equal('');
+      file.trimCommentBlockEnd('*/ ').should.equal('');
+      file.trimCommentBlockEnd(' */ ').should.equal('');
+      file.trimCommentBlockEnd(' */  ').should.equal('');
     })
   })
 
-  describe('trimCodeCommentStart', () => {
+  describe('trimCommentStart', () => {
     it('should trim the comment start from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
-      file.trimCodeCommentStart('//This is a comment').should.equal('This is a comment');
-      file.trimCodeCommentStart(' // This is a comment').should.equal('This is a comment');
-      file.trimCodeCommentStart('  // This is a comment').should.equal('This is a comment');
-      file.trimCodeCommentStart('  //  This is a comment').should.equal(' This is a comment');
+      file.trimCommentStart('//This is a comment').should.equal('This is a comment');
+      file.trimCommentStart(' // This is a comment').should.equal('This is a comment');
+      file.trimCommentStart('  // This is a comment').should.equal('This is a comment');
+      file.trimCommentStart('  //  This is a comment').should.equal(' This is a comment');
+    })
+  })
+
+  describe('trimCommentChars', () => {
+    it('should trim the code block end pattern from a line of text', () => {
+      var content = fs.readFileSync('test/files/sample.js', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      file.trimCommentChars('This is a comment */').should.equal('This is a comment');
+      file.trimCommentChars('This is a comment*/').should.equal('This is a comment');
+      file.trimCommentChars('*/').should.equal('');
+      file.trimCommentChars('*/ ').should.equal('');
+      file.trimCommentChars(' */ ').should.equal('');
+      file.trimCommentChars(' */  ').should.equal('');
+    })
+  })
+  describe('hasTaskAtLine', () => {
+    it('returns truthy if a line has a task', () => {
+      var content = fs.readFileSync('test/files/sample.js', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      should(file.hasTaskInText('TODO: a task')).be.ok()
+      should(file.hasTaskInText('[a task](#TODO:0)')).be.ok()
+      should(file.hasTaskInText('well a task')).not.be.ok()
+      should(file.hasTaskInText('#TODO: a task')).be.ok()
+    })
+  })
+  describe('extractTasks', () => {
+    it('extracts tasks and descriptions', () => {
+      var content = fs.readFileSync('test/files/descriptions.js', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/descriptions.js', content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      file.tasks[0].description.length.should.be.exactly(2)
+      file.tasks[1].description.length.should.be.exactly(1)
+      file.tasks[2].description.length.should.be.exactly(2)
+      file.tasks[3].description.length.should.be.exactly(0)
+      file.tasks[4].description.length.should.be.exactly(1)
     })
   })
 });
