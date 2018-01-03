@@ -17,12 +17,12 @@ describe('File', function() {
     }
 
     var ok;
-
+    var config = new Config(constants.DEFAULT_CONFIG);
     util.inherits(SomeFile, File);
 
-    SomeFile.prototype.extractTasks = function() {
+    SomeFile.prototype.extractTasks = function(config) {
       ok = true;
-      return SomeFile.super_.prototype.extractTasks.apply(this);
+      return SomeFile.super_.prototype.extractTasks.call(this, config);
     };
 
     var someFile = new SomeFile({repoId: 'test', filePath: 'test/files/sample.js', content: fs.readFileSync('test/files/sample.js', 'utf8'), languages: languages});
@@ -31,7 +31,7 @@ describe('File', function() {
     expect(someFile instanceof SomeFile).to.be(true);
     expect(someFile.getType()).to.be("SomeFile");
 
-    (someFile.extractTasks().tasks.length).should.be.exactly(7);
+    (someFile.extractTasks(config).tasks.length).should.be.exactly(7);
     expect(ok).to.be(true);
   });
 
@@ -68,7 +68,8 @@ describe('File', function() {
       var expectation = sinon.mock();
       file.on("task.found", expectation);
       expectation.exactly(7);
-      (file.extractTasks().getTasks().length).should.be.exactly(7);
+      var config = new Config(constants.DEFAULT_CONFIG);
+      (file.extractTasks(config).getTasks().length).should.be.exactly(7);
       expectation.verify();
     });
 
@@ -155,16 +156,16 @@ describe('File', function() {
       file.trimCommentChars(' */  ').should.equal('');
     })
   })
-  describe('hasTaskAtLine', () => {
+  describe('hasTaskInText', () => {
     it('returns truthy if a line has a task', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
-      should(file.hasTaskInText('TODO: a task')).be.ok()
-      should(file.hasTaskInText('[a task](#TODO:0)')).be.ok()
-      should(file.hasTaskInText('well a task')).not.be.ok()
-      should(file.hasTaskInText('#TODO: a task')).be.ok()
+      should(file.hasTaskInText(config, 'TODO: a task')).be.ok()
+      should(file.hasTaskInText(config, '[a task](#TODO:0)')).be.ok()
+      should(file.hasTaskInText(config, 'well a task')).not.be.ok()
+      should(file.hasTaskInText(config, '#TODO: a task')).be.ok()
     })
   })
   describe('extractTasks', () => {
