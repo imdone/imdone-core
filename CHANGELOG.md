@@ -1,3 +1,6 @@
+# 1.3.51
+- Allow hash style tasks in code if they're in config.lists or config.code.include_lists
+  
 # 1.3.45
 - switch to markdown-it for check-lists
 - Add following lines as task description
