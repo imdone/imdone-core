@@ -288,7 +288,7 @@ describe("Repository", function() {
         var taskToMove = todo[1];
         console.log(taskToMove);
         repo1.moveTasks([taskToMove], "DOING", 1, function(err) {
-          expect(err).to.be(null);
+          expect(err).to.be(undefined);
           var doing = repo1.getTasksInList("DOING");
           (taskToMove.equals(doing[1])).should.be.true;
           done();
