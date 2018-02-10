@@ -4,5 +4,6 @@
 !test
 !test/**/*
 !DoD.md
+!README.md
 test/repos
 test/files

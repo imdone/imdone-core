@@ -37,6 +37,10 @@
     {
       "name": "DOING",
       "hidden": false
+    },
+    {
+      "name": "NOTE",
+      "hidden": false
     }
   ],
   "marked": {

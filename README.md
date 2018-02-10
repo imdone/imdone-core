@@ -1,49 +1,44 @@
-imdone-core
-===========
-
-[![NPM](https://nodei.co/npm/imdone-core.png)](https://nodei.co/npm/imdone-core/)
-
+[![npm version](https://badge.fury.io/js/imdone-core.svg)](https://badge.fury.io/js/imdone-core)
 [![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
 [![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
-[![Stories in Ready](https://badge.waffle.io/imdone/imdone-core.png?label=ready&title=Ready)](https://waffle.io/imdone/imdone-core)
 
-**Organize TODO, FIXME, HACK, etc. comments in code or any text file.**
+Imdone is text based kanban processor with a simple syntax and model that allows the user to create and modify tasks using the keyboard to improve productivity.
 
-Initializing a Repository
-----
-```
-var Repo        = require('imdone-core/lib/repository'),
-    FsStore     = require('imdone-core/lib/mixins/repo-watched-fs-store');
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-var repo = FsStore(new Repo('path/to/my/project'));
 
-repo.on('initialized', function() {
-  // do something with the repo...
-  var lists = repo.getLists();
-  lists.forEach(function(list) {
-    var listTasks = repo.getTasksInList(list.name);
-  });
+- [Imdone format](#imdone-format)
+  - [Code Style](#code-style)
+  - [Hash Style](#hash-style)
+  - [Markdown Style](#markdown-style)
+- [Task syntax](#task-syntax)
+- [todo.txt syntax](#todotxt-syntax)
+  - [Create date](#create-date)
+  - [Completed date](#completed-date)
+  - [Due Date](#due-date)
+  - [Tags (todo.txt projects)](#tags-todotxt-projects)
+  - [Context](#context)
+  - [Metadata](#metadata)
+- [Metadata links](#metadata-links)
+- [Resources](#resources)
+- [License](#license)
 
-  var tasks = repo.getTasks();
-});
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-repo.on('file.update', function(file) {
-  // Do something usefull
-});
-
-repo.on('config.update', function() {
-  // Do something usefull
-});
-```
-
-Task formats
-----
+## Imdone format
+Imdone aims to keep you in the flow of your work while capturing tasks to be accomplished later.  Most kanban tools require the user to use a UI.  Imdone lets you capture tasks in a simple text format that has roots in programming [comment tags like TODO and FIXME](https://en.wikipedia.org/wiki/Comment_%28computer_programming%29#Tags) and [todo.txt format](https://github.com/todotxt/todo.txt#todotxt-format).
 
 ### Code Style
 <pre>
 // TODO This is a task
 // TODO: This is a task
 // TODO:5 This is a task
+// TODO: A task with a descrption looks like this.
+// Every line after the task is part of the description until we find another
+// task, a blank comment line, or a line of code
+// - A list item
+// - Another list item
 </pre>
 
 ### Hash Style
@@ -51,7 +46,16 @@ Task formats
 &#35;TODO: This is a task
 &#35;TODO:0 This is a task
 &#35;to-do:0 This is a task
+
+&lt;!--
+&#35;TODO: If you don't want your task to get converted to html in markdown files, put it in a comment.
+You can still add descriptive text, but don't forget to leave a blank line
+between the description and the comment end tag, or the comment end will become
+a part of your description.
+
+ --&gt;
 </pre>
+- Take a look at the source of this README.md.  You'll probably find a few tasks in comments.
 
 ### Markdown Style
 <pre>
@@ -121,19 +125,29 @@ Metadata links
     }
   }
 ```
+<!--
+#TODO: Add Node.js API SECTION
+## Node.js API
+### Generated Docs
+- use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)
+### Examples
+- use links to github [examples](https://github.com/imdone-core/tree/master/examples)
 
-Things yet to be done...
+-->
+
+<!--
+#TODO: Add Contributing Section
+## Contributing
+### Build and Test
+### FAQs and BUGs
+
+-->
+
+Resources
 ----
-1. [Use [visionmedia/dox](https://github.com/visionmedia/dox), [smartcomments/smartcomments](https://github.com/smartcomments/smartcomments) and [JSDoc](http://usejsdoc.org) for documenting the following... +doc](#TODO:)
-  - Project
-  - Repository
-  - File
-  - Task
-  - List
-  - Config
-
-- [Use [gajus/gitdown](https://github.com/gajus/gitdown) for docs +doc](#BACKLOG:)
-
+- [Is the keyboard faster than the mouse? | Hacker News](https://news.ycombinator.com/item?id=14544571)
+- [Blog | Personal Kanban](http://personalkanban.com/pk/blog/)
+- [Do TODO comments make sense? - Software Engineering Stack Exchange](https://softwareengineering.stackexchange.com/questions/125320/do-todo-comments-make-sense)
 
 License
 ----
