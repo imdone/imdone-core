@@ -1,6 +1,6 @@
 [![npm version](https://badge.fury.io/js/imdone-core.svg)](https://badge.fury.io/js/imdone-core)
-[![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
 [![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
+[![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
 
 Imdone is text based kanban processor with a simple syntax and model that allows the user to create and modify tasks using the keyboard to improve productivity.
 
@@ -12,15 +12,15 @@ Imdone is text based kanban processor with a simple syntax and model that allows
   - [Code Style](#code-style)
   - [Hash Style](#hash-style)
   - [Markdown Style](#markdown-style)
-- [Task syntax](#task-syntax)
-- [todo.txt syntax](#todotxt-syntax)
-  - [Create date](#create-date)
-  - [Completed date](#completed-date)
-  - [Due Date](#due-date)
-  - [Tags (todo.txt projects)](#tags-todotxt-projects)
-  - [Context](#context)
-  - [Metadata](#metadata)
-- [Metadata links](#metadata-links)
+  - [Task syntax](#task-syntax)
+  - [todo.txt syntax examples](#todotxt-syntax-examples)
+    - [Create date](#create-date)
+    - [Completed date](#completed-date)
+    - [Due Date](#due-date)
+    - [Tags (todo.txt projects)](#tags-todotxt-projects)
+    - [Context](#context)
+    - [Metadata](#metadata)
+      - [Metadata links](#metadata-links)
 - [Resources](#resources)
 - [License](#license)
 
@@ -55,7 +55,8 @@ a part of your description.
 
  --&gt;
 </pre>
-- Take a look at the source of this README.md.  You'll probably find a few tasks in comments.
+
+Take a look at the source of this README.md.  You'll probably find a few tasks in comments.
 
 ### Markdown Style
 <pre>
@@ -63,56 +64,56 @@ a part of your description.
 &#91;This is a task&#93;&#40;&#35;todo:10&#41;
 </pre>
 
-Task syntax
-----
-- Code style tasks are intended to be used to capture existing tasks in code, so hash or markdown style should be used for new tasks
+### Task syntax
 - Code style tasks will only be detected if the list name matches a string in the `code.include_lists` attribute in `.imdone/config.json` and the file extension exists in lib/languages.js.
-- List names in code style tasks must be at least 2 uppercase letters or underscores
+- List names in code style tasks must match this regular expression ([A-Z]+[A-Z-_]+?).
 - In Hash and markdown style tasks **list name** can be any combination of upper and lower case letters, underscores and dashes
 - In Hash and markdown style tasks the **list name** must be followed by a `:` and a number which determines sort order in the list
   - Sort numbers can be reused, in which case tasks with the same sort number will be sorted alphabetically by text.
 - In code, tasks can be any style but must be in a line or block comment
   - Code style tasks are only detected in comments for files with extensions listed in [imdone-core/languages.js](https://github.com/imdone/imdone-core/blob/master/lib/languages.js) or the **languages** attribute in the `.imdone/config.json`
-  - When a code style task is moved, all code style tasks in affected lists are rewitten as hash style tasks
 - For code and hash style tasks, the task text is terminated by the end of line
-- Task text can have [todo.txt formatting](https://github.com/ginatrapani/todo.txt-cli/wiki/The-Todo.txt-Format) but not todo.txt priority
+- Task text can have [todo.txt formatting](https://github.com/todotxt/todo.txt) excluding the completion and priority markers.
 - Task text can have markdown formatting
 
-todo.txt syntax
-----
+<!--  DOING: Add a section about descriptions
+### Task Descriptions
+Task descriptions are captured from the lines that follow a task.  In code files a description ends when imdone encounters another task or code.  In non-code files the description ends when imdone encounters another task or a blank line.
+-->
 
-### Create date
+### todo.txt syntax examples
+
+#### Create date
 <pre>
 &#35;DOING:20 2015-02-09 This task was created on 2015-02-09
 </pre>
 
-### Completed date
+#### Completed date
 <pre>
 &#35;DOING:20 x 2015-02-09 2015-02-08 This task was created on 2015-02-08 and completed on 2015-02-09
 </pre>
 
-### Due Date
+#### Due Date
 <pre>
 &#35;doing:20 This task is due on 2015-02-09 due:2015-02-09
 </pre>
 
-### Tags (todo.txt projects)
+#### Tags (todo.txt projects)
 <pre>
 &#35;doing:20 This task has a &#42;madjs&#42; tag +madjs
 </pre>
 
-### Context
+#### Context
 <pre>
 &#35;doing:20 This task has a &#42;madjs&#42; context @madjs
 </pre>
 
-### Metadata
+#### Metadata
 <pre>
 &#35;doing:20 This task has profile metadata profile:piascikj
 </pre>
 
-Metadata links
-----
+##### Metadata links
 - Tasks with metadata can be linked to external resources like other task mgmt systems and websites
 - Add a `meta` attribute to `.imdone/config.json`
 - In this example `user:piascikj` would link to <https://github.com/piascikj>  
@@ -126,7 +127,7 @@ Metadata links
   }
 ```
 <!--
-#TODO: Add Node.js API SECTION id:28 gh:129 ic:gh
+#DOING: Add Node.js API SECTION id:28 gh:129 ic:gh
 ## Node.js API
 ### Generated Docs
 - use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)
