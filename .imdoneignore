@@ -3,6 +3,8 @@
 !lib/**/*
 !test
 !test/**/*
+!docs
+!docs/**/*
 !DoD.md
 !README.md
 test/repos

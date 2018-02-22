@@ -127,7 +127,7 @@ Task descriptions are captured from the lines that follow a task.  In code files
   }
 ```
 <!--
-#DOING: Add Node.js API SECTION id:28 gh:129 ic:gh
+#TODO: Add Node.js API SECTION id:28 gh:129 ic:gh
 ## Node.js API
 ### Generated Docs
 - use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)
@@ -146,6 +146,16 @@ Task descriptions are captured from the lines that follow a task.  In code files
 
 Resources
 ----
+- [I Still Use Plain Text for Everything, and I Love It](https://lifehacker.com/i-still-use-plain-text-for-everything-and-i-love-it-1758380840)
+- [Why Geeks Love Plain Text (And Why You Should Too)](http://www.lifehack.org/articles/technology/why-geeks-love-plain-text-and-why-you-should-too.html)
+- [The Benefits of Using Plain Text | Terminally Incoherent](http://www.terminally-incoherent.com/blog/2007/07/18/the-benefits-of-using-plain-text/)
+- [The future of education is plain text · Simply Statistics](https://simplystatistics.org/2017/06/13/the-future-of-education-is-plain-text/)
+  - [The future of education is plain text | Hacker News](https://news.ycombinator.com/item?id=14545250)
+- [Derry Birkett › Plain text is the best UX](http://derrybirkett.com/comment/plain-text-is-the-best-ux/)
+- [Tools – The Plain Text Project](https://plaintextproject.online/tools.html)
+- [The Plain Text Workflow · Richard A. Lent, Ph.D.](https://richardlent.github.io/post/the-plain-text-workflow/)
+- [My Plain Text Workflow – Doyce Testerman](http://doycetesterman.com/index.php/2014/12/my-plain-text-workflow/)
+- [Word Processors: Stupid and Inefficient](http://ricardo.ecn.wfu.edu/~cottrell/wp.html)
 - [Is the keyboard faster than the mouse? | Hacker News](https://news.ycombinator.com/item?id=14544571)
 - [Blog | Personal Kanban](http://personalkanban.com/pk/blog/)
 - [Do TODO comments make sense? - Software Engineering Stack Exchange](https://softwareengineering.stackexchange.com/questions/125320/do-todo-comments-make-sense)
@@ -161,3 +171,8 @@ License
 [downloads-url]: https://npmjs.org/package/imdone-core
 [travis-image]: https://img.shields.io/travis/imdone/imdone-core/master.svg?label=linux
 [travis-url]: https://travis-ci.org/imdone/imdone-core
+
+<!--
+- #TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done!
+
+-->

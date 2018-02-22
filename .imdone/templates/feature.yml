@@ -1,0 +1,12 @@
+name: feature
+directory: features
+type: file
+workflow: # Array of lists like config.json
+template: |
+  #BACKLOG: Feature name
+    ## Business Benefit
+    ## Acceptance Criteria
+    - [ ] criteria description
+
+    Stories
+    ----
