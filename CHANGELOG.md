@@ -1,3 +1,6 @@
+# 1.3.58
+- extend include_lists
+
 # 1.3.54
 - Add .pug to languages
 - Update comment symbol for .jade and .pug to be //-
