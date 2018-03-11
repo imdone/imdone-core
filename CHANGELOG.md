@@ -1,3 +1,6 @@
+# 1.3.59
+- Fix meta so it captures the first key:
+
 # 1.3.58
 - extend include_lists
 
