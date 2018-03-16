@@ -1,3 +1,6 @@
+# 1.3.60
+- Fix dateCreated and dateCompleted
+
 # 1.3.59
 - Fix meta so it captures the first key:
 

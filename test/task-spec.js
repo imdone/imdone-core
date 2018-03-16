@@ -14,4 +14,15 @@ describe('task', function() {
       should(task.hasMetaData('ic', ['github','trello'])).be.true();
     })
   })
+
+  it('should parse todo text dateCreated', () => {
+    let task = new Task({text: ' 2016-03-20 This was created on 3/20/2016'});
+    (task.dateCreated).should.equal('2016-03-20')
+  })
+
+  it('should parse todo text dateCompleted', () => {
+    let task = new Task({text: ' 2017-03-20 2016-03-20 This was created on 3/20/2016'});
+    should(task.dateCreated).equal('2016-03-20')
+    should(task.dateCompleted).equal('2017-03-20')
+  })
 })
