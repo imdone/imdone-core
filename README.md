@@ -82,15 +82,16 @@ Task descriptions are captured from the lines that follow a task.  In code files
 -->
 
 ### todo.txt syntax examples
+Imdone uses todo.txt +project/tag @context and meta:data
 
 #### Create date
 <pre>
-&#35;DOING:20 2015-02-09 This task was created on 2015-02-09
+&#35;DOING:20 This task was created on 2018-02-09 created:2018-02-09
 </pre>
 
 #### Completed date
 <pre>
-&#35;DOING:20 x 2015-02-09 2015-02-08 This task was created on 2015-02-08 and completed on 2015-02-09
+&#35;DOING:20 This task was completed on 2018-02-09 completed:2018-02-09
 </pre>
 
 #### Due Date
