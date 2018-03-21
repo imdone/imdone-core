@@ -1,3 +1,6 @@
+# 1.4.1
+- Fix updateMetaData
+
 # 1.4.0
 - Switch to metadata for created and completed dates
 
