@@ -1,3 +1,6 @@
+# 1.4.2
+- Fix add and remove metaData
+
 # 1.4.1
 - Fix updateMetaData
 
