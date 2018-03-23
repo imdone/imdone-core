@@ -1,3 +1,6 @@
+# 1.4.3
+- Add savingFiles attribute when saving modified files
+
 # 1.4.2
 - Fix add and remove metaData
 
