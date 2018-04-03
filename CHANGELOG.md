@@ -1,3 +1,6 @@
+# 1.4.4
+- repository.query Add rql querying of tasks
+
 # 1.4.3
 - Add savingFiles attribute when saving modified files
 
