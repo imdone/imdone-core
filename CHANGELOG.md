@@ -1,4 +1,4 @@
-# 1.4.5
+# 1.4.6
 - ignore tasks found in list if list has property `ignore: true` in config.lists
 
 # 1.4.4
