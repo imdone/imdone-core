@@ -1,3 +1,6 @@
+# 1.4.5
+- ignore tasks found in list if list has property `ignore: true` in config.lists
+
 # 1.4.4
 - repository.query Add rql querying of tasks
 
