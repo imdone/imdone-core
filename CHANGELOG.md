@@ -1,3 +1,6 @@
+# 1.4.7
+- Add .vue extension
+
 # 1.4.6
 - ignore tasks found in list if list has property `ignore: true` in config.lists
 
