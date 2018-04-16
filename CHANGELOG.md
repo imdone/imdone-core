@@ -1,3 +1,6 @@
+# 1.4.8
+- use string.search as fallback to rql
+
 # 1.4.7
 - Add .vue extension
 
