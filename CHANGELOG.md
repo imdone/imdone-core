@@ -1,4 +1,4 @@
-# 1.4.9
+# 1.4.10
 - Add task properties (created, completed, due, remind) as dates if they exist in metadata and parse as dates
 
 # 1.4.8
