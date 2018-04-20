@@ -1,3 +1,6 @@
+# 1.4.12
+- Make Repository.query return an empty array if no tasks found
+
 # 1.4.11
 - Expose Repository.query to filter tasks without repo
 
