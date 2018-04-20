@@ -1,3 +1,6 @@
+# 1.4.11
+- Expose Repository.query to filter tasks without repo
+
 # 1.4.10
 - Add task properties (created, completed, due, remind) as dates if they exist in metadata and parse as dates
 
