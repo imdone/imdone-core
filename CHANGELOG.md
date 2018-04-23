@@ -1,3 +1,6 @@
+# 1.4.13
+- Add rawTask to opts for Task constructor
+
 # 1.4.12
 - Make Repository.query return an empty array if no tasks found
 
