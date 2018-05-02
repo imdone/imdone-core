@@ -1,3 +1,6 @@
+# 1.4.15
+- ignore hash and link style tasks in code files
+
 # 1.4.14
 - Add modifyDescription
 
