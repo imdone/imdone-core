@@ -1,3 +1,6 @@
+# 1.4.14
+- Add modifyDescription
+
 # 1.4.13
 - Add rawTask to opts for Task constructor
 
