@@ -1,4 +1,4 @@
-#DOING: As a user I would like to create new files in my project from templates I define, so I can save time creating files and content +story id:32 gh:134 ic:gh
+#TODO: As a user I would like to create new files in my project from templates I define, so I can save time creating files and content +story id:32 gh:134 ic:gh
   - [ ] Use dropdown on alt+p and alt+j to show templates
 #TODO: As a user I would like to create a TODO in a readme.md file, and have a link created to the issue created on imdone.io id:34 gh:136 ic:gh
   - [ ] Create link outside of comment
