@@ -1,3 +1,6 @@
+# 1.4.19
+- Add doc generation and move regex dependency
+
 # 1.4.17
 - Improve issue matching
 
