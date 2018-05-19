@@ -1,0 +1,24 @@
+name: epic
+lists: # Array of lists like config.json
+  - name: BACKLOG
+    hidden: false
+  - name: TODO
+    hidden: false
+  - name: DOING
+    hidden: false
+  - name: DONE
+    hidden: false
+    ignore: true
+schema: # json schema for model used in template
+  epicName:
+    title: "epic name"
+    type: string
+template: |
+  ---
+  tags:
+    - epic
+  ---
+  #BACKLOG: ${epicName}
+    ## Business Benefit
+    ## Acceptance Criteria
+    - [ ] criteria description
