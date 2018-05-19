@@ -1,0 +1,1716 @@
+[
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: Add Node.js API SECTION id:28 gh:129 ic:gh",
+    "text": "Add Node.js API SECTION id:28 gh:129 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 131,
+    "id": "f8dba4101aec10f3c9adf48935b414282e6bf4ca",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "README.md",
+      "id": "README.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.757Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "28"
+      ],
+      "gh": [
+        "129"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [
+      "## Node.js API",
+      "### Generated Docs",
+      "- use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)",
+      "### Examples",
+      "- use links to github [examples](https://github.com/imdone-core/tree/master/examples)"
+    ],
+    "rawDescription": [
+      "## Node.js API",
+      "### Generated Docs",
+      "- use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)",
+      "### Examples",
+      "- use links to github [examples](https://github.com/imdone-core/tree/master/examples)"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 5,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -5604
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: Add Contributing Section id:29 gh:130 ic:gh",
+    "text": "Add Contributing Section id:29 gh:130 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 141,
+    "id": "b281779e4e3d77700b8a9aa04e70be5b5992ab8c",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "README.md",
+      "id": "README.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.757Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "29"
+      ],
+      "gh": [
+        "130"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [
+      "## Contributing",
+      "### Build and Test",
+      "### FAQs and BUGs"
+    ],
+    "rawDescription": [
+      "## Contributing",
+      "### Build and Test",
+      "### FAQs and BUGs"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 3,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -5900
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
+    "text": "As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 177,
+    "id": "d8205b85b1da65f8ff65f05ea1486c7a2473723f",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "README.md",
+      "id": "README.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.757Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "30"
+      ],
+      "gh": [
+        "132"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -7959
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: Definition of done template for current story id:23 gh:113",
+    "text": "Definition of done template for current story id:23 gh:113",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 1,
+    "id": "f1d0d02ec2566770c965a784fc3e5cc04d83ac7e",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/DoD.md",
+      "id": "docs/DoD.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.757Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "23"
+      ],
+      "gh": [
+        "113"
+      ]
+    },
+    "description": [
+      "  - How do we define the current story?  Maybe DOING???",
+      "  - Add definition of done to the TODO and issue",
+      "  - Automate the checking of files like Readme.md",
+      "  - If file hasn't changed prompt to accept no change and audit",
+      "  - Use yaml to create the DoD file",
+      "  - Make them answer questions before push"
+    ],
+    "rawDescription": [
+      "  - How do we define the current story?  Maybe DOING???",
+      "  - Add definition of done to the TODO and issue",
+      "  - Automate the checking of files like Readme.md",
+      "  - If file hasn't changed prompt to accept no change and audit",
+      "  - Use yaml to create the DoD file",
+      "  - Make them answer questions before push"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 6,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": 0
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: Add Node.js API SECTION id:28 gh:129 ic:gh",
+    "text": "Add Node.js API SECTION id:28 gh:129 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 131,
+    "id": "9423e62d6f558154ef19bb71770cc8eda0f43a10",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/README.md",
+      "id": "docs/README.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-13T23:55:11.672Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "28"
+      ],
+      "gh": [
+        "129"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [
+      "## Node.js API",
+      "### Generated Docs",
+      "- use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)",
+      "### Examples",
+      "- use links to github [examples](https://github.com/imdone-core/tree/master/examples)"
+    ],
+    "rawDescription": [
+      "## Node.js API",
+      "### Generated Docs",
+      "- use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)",
+      "### Examples",
+      "- use links to github [examples](https://github.com/imdone-core/tree/master/examples)"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 5,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -5840
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: Add Contributing Section id:29 gh:130 ic:gh",
+    "text": "Add Contributing Section id:29 gh:130 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 141,
+    "id": "c3b33b3c8afa65bd097dcf9a1604a4055ebdd693",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/README.md",
+      "id": "docs/README.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-13T23:55:11.672Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "29"
+      ],
+      "gh": [
+        "130"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [
+      "## Contributing",
+      "### Build and Test",
+      "### FAQs and BUGs"
+    ],
+    "rawDescription": [
+      "## Contributing",
+      "### Build and Test",
+      "### FAQs and BUGs"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 3,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -6136
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
+    "text": "As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 177,
+    "id": "65449a782b7380867310dbdd65a4747dc8889e83",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/README.md",
+      "id": "docs/README.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-13T23:55:11.672Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "30"
+      ],
+      "gh": [
+        "132"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -8195
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: As a user I would like to create new files in my project from templates I define, so I can save time creating files and content +story id:32 gh:134 ic:gh",
+    "text": "As a user I would like to create new files in my project from templates I define, so I can save time creating files and content +story id:32 gh:134 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 1,
+    "id": "d4c6b4d7b772d3e65fac5acf4a5d2c74b99df1ea",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/features/templates.md",
+      "id": "docs/features/templates.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.757Z"
+    },
+    "type": "HASHTAG",
+    "tags": [
+      "story"
+    ],
+    "meta": {
+      "id": [
+        "32"
+      ],
+      "gh": [
+        "134"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [
+      "  - [ ] Use dropdown on alt+p and alt+j to show templates"
+    ],
+    "rawDescription": [
+      "  - [ ] Use dropdown on alt+p and alt+j to show templates"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 1,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": 0
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: As a user I would like to create a TODO in a readme.md file, and have a link created to the issue created on imdone.io id:34 gh:136 ic:gh",
+    "text": "As a user I would like to create a TODO in a readme.md file, and have a link created to the issue created on imdone.io id:34 gh:136 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 3,
+    "id": "9b2105b9ef7ca3362478b7f4b18d604bde444cde",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/features/templates.md",
+      "id": "docs/features/templates.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.757Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "34"
+      ],
+      "gh": [
+        "136"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [
+      "  - [ ] Create link outside of comment"
+    ],
+    "rawDescription": [
+      "  - [ ] Create link outside of comment"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 1,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -219
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: As a user I would like to add content to my TODO descriptions from markdown templates stored in my project id:36 gh:138 ic:gh",
+    "text": "As a user I would like to add content to my TODO descriptions from markdown templates stored in my project id:36 gh:138 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 5,
+    "id": "75bceb5bf3610750dd7fc22428d3918f833546a2",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/features/templates.md",
+      "id": "docs/features/templates.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.757Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "36"
+      ],
+      "gh": [
+        "138"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [
+      "- [ ] Append templates to tasks with `t:<type>` metadata in them. (e.g. `t:story`)",
+      "   - [ ] if TODO appears in a single line comment, append template with single line comment prefix and the same indentation as the TODO comment",
+      "   - [ ] If TODO appears in a multiline comment, just append template at the same indentation as the TODO comment",
+      "   - [ ] Remove `t:story` after the template has been appended to the description",
+      "- [ ] templates.md will contain templates in the format...",
+      " ```",
+      " # <type>",
+      " Any markdown for your template",
+      " ```"
+    ],
+    "rawDescription": [
+      "- [ ] Append templates to tasks with `t:<type>` metadata in them. (e.g. `t:story`)",
+      "   - [ ] if TODO appears in a single line comment, append template with single line comment prefix and the same indentation as the TODO comment",
+      "   - [ ] If TODO appears in a multiline comment, just append template at the same indentation as the TODO comment",
+      "   - [ ] Remove `t:story` after the template has been appended to the description",
+      "- [ ] templates.md will contain templates in the format...",
+      " ```",
+      " # <type>",
+      " Any markdown for your template",
+      " ```"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 9,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -403
+  },
+  {
+    "frontMatter": {
+      "tags": [
+        "imdone.io",
+        "story"
+      ],
+      "context": [
+        "github"
+      ],
+      "meta": {
+        "feature": [
+          "1"
+        ]
+      }
+    },
+    "rawTask": "#DOING: This task should have all tags, context and metadata from above front-matter",
+    "text": "This task should have all tags, context and metadata from above front-matter",
+    "list": "DOING",
+    "order": "",
+    "hasColon": true,
+    "line": 11,
+    "id": "2837c3400d8421815ffaecf1de0249cd200c74eb",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/front-matter-example.md",
+      "id": "docs/front-matter-example.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-18T16:34:08.111Z"
+    },
+    "type": "HASHTAG",
+    "tags": [],
+    "context": [],
+    "meta": {},
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -75
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: Add GFM style tasks with [todotext project](https://github.com/todotxt/todo.txt#project) is the list name id:2 gh:90",
+    "text": " Add GFM style tasks with [todotext project](https://github.com/todotxt/todo.txt#project) is the list name id:2 gh:90",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 57,
+    "id": "978a77c7ea6295e6643d747515146b5b817297ab",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/file.js",
+      "id": "lib/file.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:04:33.723Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "2"
+      ],
+      "gh": [
+        "90"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 0
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: Allow languages to have multiple block comment styles, like html gh:13 id:5",
+    "text": "Allow languages to have multiple block comment styles, like html gh:13 id:5",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 339,
+    "id": "904bf3db9bd9a9d61faeae3edb590cc5cf38fa81",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/file.js",
+      "id": "lib/file.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:04:33.723Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "gh": [
+        "13"
+      ],
+      "id": [
+        "5"
+      ]
+    },
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: Make sure the tag is in our list of tags before we call it a task id:27 gh:121",
+    "text": " Make sure the tag is in our list of tags before we call it a task id:27 gh:121",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 422,
+    "id": "72d61a95dc87c8f676535a0e2b0a8232fd2781db",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/file.js",
+      "id": "lib/file.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:04:33.723Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "27"
+      ],
+      "gh": [
+        "121"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#BACKLOG: Save all lists found so we can present them to the user id:6 gh:92",
+    "text": "Save all lists found so we can present them to the user id:6 gh:92",
+    "list": "BACKLOG",
+    "order": "",
+    "hasColon": true,
+    "line": 449,
+    "id": "2a14ec772ceb9b18cb0db662430c23a119e08661",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/file.js",
+      "id": "lib/file.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:04:33.723Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "6"
+      ],
+      "gh": [
+        "92"
+      ]
+    },
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "commentStartOnLine": 55
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#BACKLOG: Save all lists found so we can present them to the user id:6 gh:109",
+    "text": "Save all lists found so we can present them to the user id:6 gh:109",
+    "list": "BACKLOG",
+    "order": "",
+    "hasColon": true,
+    "line": 488,
+    "id": "098623328e1f189a5ed58bfd5febe7929e066cc0",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/file.js",
+      "id": "lib/file.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:04:33.723Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "6"
+      ],
+      "gh": [
+        "109"
+      ]
+    },
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "commentStartOnLine": 53
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#BACKLOG: Save all lists found so we can present them to the user id:8 gh:94",
+    "text": "Save all lists found so we can present them to the user id:8 gh:94",
+    "list": "BACKLOG",
+    "order": "",
+    "hasColon": true,
+    "line": 522,
+    "id": "97ed5ba07675741fccf53f0d16f77565f3886ae3",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/file.js",
+      "id": "lib/file.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:04:33.723Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "8"
+      ],
+      "gh": [
+        "94"
+      ]
+    },
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "commentStartOnLine": 53
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: As a user I would like imdone to recognize code style tasks in markdown file comments id:38 gh:140 ic:gh",
+    "text": " As a user I would like imdone to recognize code style tasks in markdown file comments id:38 gh:140 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 555,
+    "id": "f7cf39fa06bce6a64f74b5c8fc3d55607d3fb2c0",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/file.js",
+      "id": "lib/file.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:04:33.723Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "38"
+      ],
+      "gh": [
+        "140"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [
+      "- If the file type has a block attribute, then search for code style tasks in comments"
+    ],
+    "rawDescription": [
+      "  // - If the file type has a block attribute, then search for code style tasks in comments"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 1,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "BACKLOG: Create list groups to show and hide for projects/repos id:11 gh:96",
+    "text": " Create list groups to show and hide for projects/repos id:11 gh:96",
+    "list": "BACKLOG",
+    "order": "",
+    "hasColon": true,
+    "line": 3,
+    "id": "ced6f07563be8e297b309bf60b502805dedef0ad",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/list.js",
+      "id": "lib/list.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-03-26T15:28:59.430Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "11"
+      ],
+      "gh": [
+        "96"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "BACKLOG",
+    "commentStartOnLine": 0
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: Build out issues-repo, a way to integrate issues that don't have TODO comments. Only works if there's a kanban approach. id:14 gh:99",
+    "text": " Build out issues-repo, a way to integrate issues that don't have TODO comments. Only works if there's a kanban approach. id:14 gh:99",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 3,
+    "id": "ea8a2a8e12f3ff4d7c0342c5decd4f8c5f16c1c0",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/mixins/issues-repo.js",
+      "id": "lib/mixins/issues-repo.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.758Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "14"
+      ],
+      "gh": [
+        "99"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 0
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: Should return a collection of lists containing issues and tasks +issues id:3 gh:91",
+    "text": " Should return a collection of lists containing issues and tasks +issues id:3 gh:91",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 10,
+    "id": "79e0fa595621be53ac3f3ba3e612f632efbfee43",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/mixins/issues-repo.js",
+      "id": "lib/mixins/issues-repo.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.758Z"
+    },
+    "type": "CODE",
+    "tags": [
+      "issues"
+    ],
+    "meta": {
+      "id": [
+        "3"
+      ],
+      "gh": [
+        "91"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 4
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "DONE: Just count the files and check if shouldExclude +performance id:17 gh:103",
+    "text": " Just count the files and check if shouldExclude +performance id:17 gh:103",
+    "list": "DONE",
+    "order": "",
+    "hasColon": true,
+    "line": 95,
+    "id": "9220ac1b640cb048934b315c864e7050dd3df852",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/mixins/repo-fs-store.js",
+      "id": "lib/mixins/repo-fs-store.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.758Z"
+    },
+    "type": "CODE",
+    "tags": [
+      "performance"
+    ],
+    "meta": {
+      "id": [
+        "17"
+      ],
+      "gh": [
+        "103"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "DONE",
+    "commentStartOnLine": 8
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: If a config is bad move it to config.json.bak and save a new one with defaults +enhancement +standup +chore gh:2 id:9",
+    "text": " If a config is bad move it to config.json.bak and save a new one with defaults +enhancement +standup +chore gh:2 id:9",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 161,
+    "id": "9e7dc64f43719189b09668a3bc75023e349c6d04",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/mixins/repo-fs-store.js",
+      "id": "lib/mixins/repo-fs-store.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.758Z"
+    },
+    "type": "CODE",
+    "tags": [
+      "enhancement",
+      "standup",
+      "chore"
+    ],
+    "meta": {
+      "gh": [
+        "2"
+      ],
+      "id": [
+        "9"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 4
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: Implement getTemplates id:39 gh:143 ic:gh",
+    "text": " Implement getTemplates id:39 gh:143 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 380,
+    "id": "6daff2c8e9aefde6955b292ff5b40854d6ad4fac",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/mixins/repo-fs-store.js",
+      "id": "lib/mixins/repo-fs-store.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.758Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "39"
+      ],
+      "gh": [
+        "143"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [
+      " - [ ] Test"
+    ],
+    "rawDescription": [
+      "    //  - [ ] Test"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 1,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 4
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: update this.config on config.update gh:281 id:19",
+    "text": " update this.config on config.update gh:281 id:19",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 27,
+    "id": "8c70c1fcf7ecc7576af8e25187bb4d5a01ddbe6e",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/repo-worker-proxy.js",
+      "id": "lib/repo-worker-proxy.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.758Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "gh": [
+        "281"
+      ],
+      "id": [
+        "19"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 4
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: Emit file.saved for individual files being saved then update checksum in writeFile id:12 gh:97",
+    "text": " Emit file.saved for individual files being saved then update checksum in writeFile id:12 gh:97",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 26,
+    "id": "8c954d040366811c418b0df5c21b9f1d9f668ac7",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/repository.js",
+      "id": "lib/repository.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-10T17:50:17.838Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "12"
+      ],
+      "gh": [
+        "97"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [
+      ""
+    ],
+    "rawDescription": [
+      "//"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 1,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 0
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: Let's use saveModifiedFiles here id:15 gh:100",
+    "text": " Let's use saveModifiedFiles here id:15 gh:100",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 888,
+    "id": "3228d6cb51ee8e43f89e80a5c7ad308aa9b32d88",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/repository.js",
+      "id": "lib/repository.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-10T17:50:17.838Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "15"
+      ],
+      "gh": [
+        "100"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: saveConfig id:33 gh:135 ic:gh",
+    "text": " saveConfig id:33 gh:135 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 1165,
+    "id": "6abaa63f26b91b1f6d71857854e9526c3f73fe7e",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/repository.js",
+      "id": "lib/repository.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-10T17:50:17.838Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "33"
+      ],
+      "gh": [
+        "135"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: implement deleteWorkflow id:35 gh:137 ic:gh",
+    "text": " implement deleteWorkflow id:35 gh:137 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 1169,
+    "id": "f6becfd89d92880d889bb43175511a19e0c69fb6",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/repository.js",
+      "id": "lib/repository.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-10T17:50:17.838Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "35"
+      ],
+      "gh": [
+        "137"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: implement applyWorkflow id:37 gh:139 ic:gh",
+    "text": " implement applyWorkflow id:37 gh:139 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 1173,
+    "id": "4dc0bd4d4fbf09c0665a6c06cfb28b629627cb47",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/repository.js",
+      "id": "lib/repository.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-10T17:50:17.838Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "37"
+      ],
+      "gh": [
+        "139"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#BACKLOG: #hashtags should be treated like todo.txt tags +enhancement gh:78 id:4",
+    "text": "#hashtags should be treated like todo.txt tags +enhancement gh:78 id:4",
+    "list": "BACKLOG",
+    "order": "",
+    "hasColon": true,
+    "line": 98,
+    "id": "18f942a7a22d7be106224507a5828120df2038c1",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/task.js",
+      "id": "lib/task.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:01:42.869Z"
+    },
+    "type": "HASHTAG",
+    "tags": [
+      "enhancement"
+    ],
+    "meta": {
+      "gh": [
+        "78"
+      ],
+      "id": [
+        "4"
+      ]
+    },
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: implement updateTags id:7 gh:93",
+    "text": " implement updateTags id:7 gh:93",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 111,
+    "id": "7d9922d597640cdef0f4fcb9ae630787c14a4c4e",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/task.js",
+      "id": "lib/task.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:01:42.869Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "7"
+      ],
+      "gh": [
+        "93"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: We should also remove stuff id:0 gh:86",
+    "text": " We should also remove stuff id:0 gh:86",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 119,
+    "id": "ff735d08e2afd6e15ef68fa26ffb338f41eee735",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/task.js",
+      "id": "lib/task.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:01:42.869Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "0"
+      ],
+      "gh": [
+        "86"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: implement updateContext id:1 gh:124",
+    "text": " implement updateContext id:1 gh:124",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 123,
+    "id": "6e03bdda50402a33fe8ec548e83e7301de4b8a5d",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/task.js",
+      "id": "lib/task.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:01:42.869Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "1"
+      ],
+      "gh": [
+        "124"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: We should also remove stuff id:10 gh:95",
+    "text": " We should also remove stuff id:10 gh:95",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 131,
+    "id": "cccc5d3ca3f384def6f7f0455a3e4c0ff4b5724c",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "lib/task.js",
+      "id": "lib/task.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-18T18:01:42.869Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "10"
+      ],
+      "gh": [
+        "95"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 2
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "TODO: As an imdone observer I would like a Repository to run in a different event loop so that it doesn't lock up my event loop id:22 gh:111 ic:gh",
+    "text": " As an imdone observer I would like a Repository to run in a different event loop so that it doesn't lock up my event loop id:22 gh:111 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 9,
+    "id": "a0323f72eff2408403bd49d07924a69c7a5190f2",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "test/repo-worker-spec.js",
+      "id": "test/repo-worker-spec.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.758Z"
+    },
+    "type": "CODE",
+    "meta": {
+      "id": [
+        "22"
+      ],
+      "gh": [
+        "111"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "inCodeBlock": false,
+    "singleLineBlockComment": false,
+    "description": [
+      "### Acceptance Criteria",
+      "- [ ] Emits all events comming from repo-worker.js repo as its own",
+      "- [ ] Implements repository.js API",
+      "### Tasks",
+      "- [ ] Create tests for all events being emitted by Repository",
+      "- [ ] Add all Repository methods"
+    ],
+    "rawDescription": [
+      "// ### Acceptance Criteria",
+      "// - [ ] Emits all events comming from repo-worker.js repo as its own",
+      "// - [ ] Implements repository.js API",
+      "// ### Tasks",
+      "// - [ ] Create tests for all events being emitted by Repository",
+      "// - [ ] Add all Repository methods"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 6,
+    "descriptionStartsWith": "//",
+    "originalList": "TODO",
+    "commentStartOnLine": 0
+  },
+  {
+    "frontMatter": {
+      "tags": [],
+      "context": [],
+      "meta": {}
+    },
+    "rawTask": "#TODO: Add moveTasks Tests id:20 gh:107",
+    "text": "Add moveTasks Tests id:20 gh:107",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 53,
+    "id": "437bab8d374ff51ce3a87f360d0f95e252f65c69",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "test/repo-worker-spec.js",
+      "id": "test/repo-worker-spec.js",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "js",
+      "lang": "javascript",
+      "modified": false,
+      "modifiedTime": "2018-05-08T19:42:25.758Z"
+    },
+    "type": "HASHTAG",
+    "meta": {
+      "id": [
+        "20"
+      ],
+      "gh": [
+        "107"
+      ]
+    },
+    "description": [],
+    "rawDescription": [],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 0,
+    "descriptionStartsWith": "//",
+    "commentStartOnLine": 2
+  }
+]

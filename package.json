@@ -46,6 +46,7 @@
     "chokidar": "1.7.0",
     "debug": "^2.2.0",
     "escape-string-regexp": "^1.0.5",
+    "front-matter": "^2.3.0",
     "ignore": "^3.2.0",
     "isbinaryfile": "^3.0.2",
     "lodash": "2.4.2",
