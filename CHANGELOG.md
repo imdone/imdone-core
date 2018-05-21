@@ -1,3 +1,9 @@
+# 1.5.2
+- add allContext, allTags and allMeta to tasks
+
+# 1.5.0
+- Add frontMatter
+
 # 1.4.19
 - Add doc generation and move regex dependency
 

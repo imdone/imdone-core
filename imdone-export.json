@@ -51,10 +51,22 @@
       "### Examples",
       "- use links to github [examples](https://github.com/imdone-core/tree/master/examples)"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -5604,
     "originalDescriptionLength": 5,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -5604
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "28"
+      ],
+      "gh": [
+        "129"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -104,10 +116,22 @@
       "### Build and Test",
       "### FAQs and BUGs"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -5900,
     "originalDescriptionLength": 3,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -5900
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "29"
+      ],
+      "gh": [
+        "130"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -149,10 +173,22 @@
     },
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -7959,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -7959
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "30"
+      ],
+      "gh": [
+        "132"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -205,10 +241,19 @@
       "  - Use yaml to create the DoD file",
       "  - Make them answer questions before push"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 0,
     "originalDescriptionLength": 6,
     "descriptionStartsWith": "",
-    "commentStartOnLine": 0
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "23"
+      ],
+      "gh": [
+        "113"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -262,10 +307,22 @@
       "### Examples",
       "- use links to github [examples](https://github.com/imdone-core/tree/master/examples)"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -5840,
     "originalDescriptionLength": 5,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -5840
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "28"
+      ],
+      "gh": [
+        "129"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -315,10 +372,22 @@
       "### Build and Test",
       "### FAQs and BUGs"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -6136,
     "originalDescriptionLength": 3,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -6136
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "29"
+      ],
+      "gh": [
+        "130"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -360,10 +429,22 @@
     },
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -8195,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -8195
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "30"
+      ],
+      "gh": [
+        "132"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -418,10 +499,30 @@
     "rawDescription": [
       "  - [ ] Create link outside of comment"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -83,
     "originalDescriptionLength": 1,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -83
+    "allTags": [
+      "story",
+      "enhancement"
+    ],
+    "allContext": [
+      "github"
+    ],
+    "allMeta": {
+      "id": [
+        "34"
+      ],
+      "gh": [
+        "136"
+      ],
+      "ic": [
+        "gh"
+      ],
+      "sprint": [
+        "1"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -471,10 +572,18 @@
       "- User will be asked to provide information based on 'model' param",
       "- template files should have a .yml or .yaml extension"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -23,
     "originalDescriptionLength": 5,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -23
+    "allTags": [
+      "epic"
+    ],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "40"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -524,10 +633,26 @@
     "rawDescription": [
       "  - [ ] Use dropdown on alt+p and alt+j to show templates"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -40,
     "originalDescriptionLength": 1,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -40
+    "allTags": [
+      "story"
+    ],
+    "allContext": [
+      "github"
+    ],
+    "allMeta": {
+      "id": [
+        "32"
+      ],
+      "gh": [
+        "134"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -593,10 +718,26 @@
       " Any markdown for your template",
       " ```"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": -252,
     "originalDescriptionLength": 9,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -252
+    "allTags": [
+      "story"
+    ],
+    "allContext": [
+      "github"
+    ],
+    "allMeta": {
+      "id": [
+        "36"
+      ],
+      "gh": [
+        "138"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -637,11 +778,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 0,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 0
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "2"
+      ],
+      "gh": [
+        "90"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -680,10 +830,19 @@
     },
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "gh": [
+        "13"
+      ],
+      "id": [
+        "5"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -724,11 +883,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "27"
+      ],
+      "gh": [
+        "121"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -767,10 +935,19 @@
     },
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 55,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
-    "commentStartOnLine": 55
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "6"
+      ],
+      "gh": [
+        "92"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -809,10 +986,19 @@
     },
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 53,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
-    "commentStartOnLine": 53
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "6"
+      ],
+      "gh": [
+        "109"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -851,10 +1037,19 @@
     },
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 53,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
-    "commentStartOnLine": 53
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "8"
+      ],
+      "gh": [
+        "94"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -902,11 +1097,23 @@
     "rawDescription": [
       "  // - If the file type has a block attribute, then search for code style tasks in comments"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 1,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "38"
+      ],
+      "gh": [
+        "140"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -947,11 +1154,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 0,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "BACKLOG",
-    "commentStartOnLine": 0
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "11"
+      ],
+      "gh": [
+        "96"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -992,11 +1208,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 0,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 0
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "14"
+      ],
+      "gh": [
+        "99"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1039,11 +1264,22 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 4,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 4
+    "allTags": [
+      "issues"
+    ],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "3"
+      ],
+      "gh": [
+        "91"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1073,6 +1309,7 @@
     "tags": [
       "performance"
     ],
+    "context": [],
     "meta": {
       "id": [
         "17"
@@ -1085,11 +1322,22 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 8,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "DONE",
-    "commentStartOnLine": 8
+    "allTags": [
+      "performance"
+    ],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "17"
+      ],
+      "gh": [
+        "103"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1134,11 +1382,24 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 4,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 4
+    "allTags": [
+      "enhancement",
+      "standup",
+      "chore"
+    ],
+    "allContext": [],
+    "allMeta": {
+      "gh": [
+        "2"
+      ],
+      "id": [
+        "9"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1186,11 +1447,23 @@
     "rawDescription": [
       "    //  - [ ] Test"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 4,
     "originalDescriptionLength": 1,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 4
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "39"
+      ],
+      "gh": [
+        "143"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1231,11 +1504,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 4,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 4
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "gh": [
+        "281"
+      ],
+      "id": [
+        "19"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1280,11 +1562,20 @@
     "rawDescription": [
       "//"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 0,
     "originalDescriptionLength": 1,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 0
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "12"
+      ],
+      "gh": [
+        "97"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1325,11 +1616,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "15"
+      ],
+      "gh": [
+        "100"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1373,11 +1673,23 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "33"
+      ],
+      "gh": [
+        "135"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1421,11 +1733,23 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "35"
+      ],
+      "gh": [
+        "137"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1469,11 +1793,23 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "37"
+      ],
+      "gh": [
+        "139"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1497,7 +1833,7 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-20T16:45:21.932Z"
+      "modifiedTime": "2018-05-21T18:17:44.219Z"
     },
     "type": "HASHTAG",
     "tags": [
@@ -1514,10 +1850,21 @@
     },
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
-    "commentStartOnLine": 2
+    "allTags": [
+      "enhancement"
+    ],
+    "allContext": [],
+    "allMeta": {
+      "gh": [
+        "78"
+      ],
+      "id": [
+        "4"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1541,7 +1888,7 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-20T16:45:21.932Z"
+      "modifiedTime": "2018-05-21T18:17:44.219Z"
     },
     "type": "CODE",
     "tags": [],
@@ -1558,11 +1905,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "7"
+      ],
+      "gh": [
+        "93"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1586,7 +1942,7 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-20T16:45:21.932Z"
+      "modifiedTime": "2018-05-21T18:17:44.219Z"
     },
     "type": "CODE",
     "tags": [],
@@ -1603,11 +1959,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "0"
+      ],
+      "gh": [
+        "86"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1631,7 +1996,7 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-20T16:45:21.932Z"
+      "modifiedTime": "2018-05-21T18:17:44.219Z"
     },
     "type": "CODE",
     "tags": [],
@@ -1648,11 +2013,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "1"
+      ],
+      "gh": [
+        "124"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1676,7 +2050,7 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-20T16:45:21.932Z"
+      "modifiedTime": "2018-05-21T18:17:44.219Z"
     },
     "type": "CODE",
     "tags": [],
@@ -1693,11 +2067,20 @@
     "singleLineBlockComment": false,
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "10"
+      ],
+      "gh": [
+        "95"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1755,11 +2138,23 @@
       "// - [ ] Create tests for all events being emitted by Repository",
       "// - [ ] Add all Repository methods"
     ],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 0,
     "originalDescriptionLength": 6,
     "descriptionStartsWith": "//",
     "originalList": "TODO",
-    "commentStartOnLine": 0
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "22"
+      ],
+      "gh": [
+        "111"
+      ],
+      "ic": [
+        "gh"
+      ]
+    }
   },
   {
     "frontMatter": {
@@ -1798,9 +2193,18 @@
     },
     "description": [],
     "rawDescription": [],
-    "commentSartOnLine": 0,
+    "commentStartOnLine": 2,
     "originalDescriptionLength": 0,
     "descriptionStartsWith": "//",
-    "commentStartOnLine": 2
+    "allTags": [],
+    "allContext": [],
+    "allMeta": {
+      "id": [
+        "20"
+      ],
+      "gh": [
+        "107"
+      ]
+    }
   }
 ]
