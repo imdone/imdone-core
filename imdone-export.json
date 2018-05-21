@@ -24,6 +24,8 @@
       "modifiedTime": "2018-05-08T19:42:25.757Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "28"
@@ -79,6 +81,8 @@
       "modifiedTime": "2018-05-08T19:42:25.757Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "29"
@@ -130,6 +134,8 @@
       "modifiedTime": "2018-05-08T19:42:25.757Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "30"
@@ -173,6 +179,8 @@
       "modifiedTime": "2018-05-08T19:42:25.757Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "23"
@@ -227,6 +235,8 @@
       "modifiedTime": "2018-05-13T23:55:11.672Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "28"
@@ -282,6 +292,8 @@
       "modifiedTime": "2018-05-13T23:55:11.672Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "29"
@@ -333,6 +345,8 @@
       "modifiedTime": "2018-05-13T23:55:11.672Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "30"
@@ -353,79 +367,40 @@
   },
   {
     "frontMatter": {
-      "tags": [],
-      "context": [],
-      "meta": {}
-    },
-    "rawTask": "#TODO: As a user I would like to create new files in my project from templates I define, so I can save time creating files and content +story id:32 gh:134 ic:gh",
-    "text": "As a user I would like to create new files in my project from templates I define, so I can save time creating files and content +story id:32 gh:134 ic:gh",
-    "list": "TODO",
-    "order": "",
-    "hasColon": true,
-    "line": 1,
-    "id": "d4c6b4d7b772d3e65fac5acf4a5d2c74b99df1ea",
-    "repoId": "/Users/jesse/projects/imdone-core",
-    "source": {
-      "path": "docs/features/templates.md",
-      "id": "docs/features/templates.md",
-      "repoId": "/Users/jesse/projects/imdone-core",
-      "type": "File",
-      "ext": "md",
-      "lang": "markdown",
-      "modified": false,
-      "modifiedTime": "2018-05-08T19:42:25.757Z"
-    },
-    "type": "HASHTAG",
-    "tags": [
-      "story"
-    ],
-    "meta": {
-      "id": [
-        "32"
+      "tags": [
+        "story",
+        "enhancement"
       ],
-      "gh": [
-        "134"
+      "context": [
+        "github"
       ],
-      "ic": [
-        "gh"
-      ]
-    },
-    "description": [
-      "  - [ ] Use dropdown on alt+p and alt+j to show templates"
-    ],
-    "rawDescription": [
-      "  - [ ] Use dropdown on alt+p and alt+j to show templates"
-    ],
-    "commentSartOnLine": 0,
-    "originalDescriptionLength": 1,
-    "descriptionStartsWith": "",
-    "commentStartOnLine": 0
-  },
-  {
-    "frontMatter": {
-      "tags": [],
-      "context": [],
-      "meta": {}
+      "meta": {
+        "sprint": [
+          "1"
+        ]
+      }
     },
     "rawTask": "#TODO: As a user I would like to create a TODO in a readme.md file, and have a link created to the issue created on imdone.io id:34 gh:136 ic:gh",
     "text": "As a user I would like to create a TODO in a readme.md file, and have a link created to the issue created on imdone.io id:34 gh:136 ic:gh",
     "list": "TODO",
     "order": "",
     "hasColon": true,
-    "line": 3,
-    "id": "9b2105b9ef7ca3362478b7f4b18d604bde444cde",
+    "line": 11,
+    "id": "1cbc45126f76a41eb83b12734b9e040b48f00bcb",
     "repoId": "/Users/jesse/projects/imdone-core",
     "source": {
-      "path": "docs/features/templates.md",
-      "id": "docs/features/templates.md",
+      "path": "docs/backlog/readme-links/stories.md",
+      "id": "docs/backlog/readme-links/stories.md",
       "repoId": "/Users/jesse/projects/imdone-core",
       "type": "File",
       "ext": "md",
       "lang": "markdown",
       "modified": false,
-      "modifiedTime": "2018-05-08T19:42:25.757Z"
+      "modifiedTime": "2018-05-19T15:59:32.176Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "34"
@@ -446,12 +421,122 @@
     "commentSartOnLine": 0,
     "originalDescriptionLength": 1,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -219
+    "commentStartOnLine": -83
   },
   {
     "frontMatter": {
-      "tags": [],
+      "tags": [
+        "epic"
+      ],
       "context": [],
+      "meta": {}
+    },
+    "rawTask": "#DOING: As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. id:40",
+    "text": "As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. id:40",
+    "list": "DOING",
+    "order": "",
+    "hasColon": true,
+    "line": 5,
+    "id": "671df79dc689d6a16f8d6000e9ff55c0886805a4",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/backlog/templates/readme.md",
+      "id": "docs/backlog/templates/readme.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-19T15:45:19.843Z"
+    },
+    "type": "HASHTAG",
+    "tags": [],
+    "context": [],
+    "meta": {
+      "id": [
+        "40"
+      ]
+    },
+    "description": [
+      "Acceptance Criteria",
+      "----",
+      "- User can select from all templates stored in .imdone/templates",
+      "- User will be asked to provide information based on 'model' param",
+      "- template files should have a .yml or .yaml extension"
+    ],
+    "rawDescription": [
+      "Acceptance Criteria",
+      "----",
+      "- User can select from all templates stored in .imdone/templates",
+      "- User will be asked to provide information based on 'model' param",
+      "- template files should have a .yml or .yaml extension"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 5,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -23
+  },
+  {
+    "frontMatter": {
+      "tags": [
+        "story"
+      ],
+      "context": [
+        "github"
+      ],
+      "meta": {}
+    },
+    "rawTask": "#TODO: As a user I would like to create new files in my project from templates I define, so I can save time creating files and content id:32 gh:134 ic:gh",
+    "text": "As a user I would like to create new files in my project from templates I define, so I can save time creating files and content id:32 gh:134 ic:gh",
+    "list": "TODO",
+    "order": "",
+    "hasColon": true,
+    "line": 7,
+    "id": "ac898707ab84612abfa6e759899ad0cfaa94ea37",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "source": {
+      "path": "docs/backlog/templates/stories.md",
+      "id": "docs/backlog/templates/stories.md",
+      "repoId": "/Users/jesse/projects/imdone-core",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-05-19T15:08:07.561Z"
+    },
+    "type": "HASHTAG",
+    "tags": [],
+    "context": [],
+    "meta": {
+      "id": [
+        "32"
+      ],
+      "gh": [
+        "134"
+      ],
+      "ic": [
+        "gh"
+      ]
+    },
+    "description": [
+      "  - [ ] Use dropdown on alt+p and alt+j to show templates"
+    ],
+    "rawDescription": [
+      "  - [ ] Use dropdown on alt+p and alt+j to show templates"
+    ],
+    "commentSartOnLine": 0,
+    "originalDescriptionLength": 1,
+    "descriptionStartsWith": "",
+    "commentStartOnLine": -40
+  },
+  {
+    "frontMatter": {
+      "tags": [
+        "story"
+      ],
+      "context": [
+        "github"
+      ],
       "meta": {}
     },
     "rawTask": "#TODO: As a user I would like to add content to my TODO descriptions from markdown templates stored in my project id:36 gh:138 ic:gh",
@@ -459,20 +544,22 @@
     "list": "TODO",
     "order": "",
     "hasColon": true,
-    "line": 5,
-    "id": "75bceb5bf3610750dd7fc22428d3918f833546a2",
+    "line": 9,
+    "id": "3c2ba96d2baff31831e3b744e0a3aac8aef46d68",
     "repoId": "/Users/jesse/projects/imdone-core",
     "source": {
-      "path": "docs/features/templates.md",
-      "id": "docs/features/templates.md",
+      "path": "docs/backlog/templates/stories.md",
+      "id": "docs/backlog/templates/stories.md",
       "repoId": "/Users/jesse/projects/imdone-core",
       "type": "File",
       "ext": "md",
       "lang": "markdown",
       "modified": false,
-      "modifiedTime": "2018-05-08T19:42:25.757Z"
+      "modifiedTime": "2018-05-19T15:08:07.561Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "36"
@@ -509,51 +596,7 @@
     "commentSartOnLine": 0,
     "originalDescriptionLength": 9,
     "descriptionStartsWith": "",
-    "commentStartOnLine": -403
-  },
-  {
-    "frontMatter": {
-      "tags": [
-        "imdone.io",
-        "story"
-      ],
-      "context": [
-        "github"
-      ],
-      "meta": {
-        "feature": [
-          "1"
-        ]
-      }
-    },
-    "rawTask": "#DOING: This task should have all tags, context and metadata from above front-matter",
-    "text": "This task should have all tags, context and metadata from above front-matter",
-    "list": "DOING",
-    "order": "",
-    "hasColon": true,
-    "line": 11,
-    "id": "2837c3400d8421815ffaecf1de0249cd200c74eb",
-    "repoId": "/Users/jesse/projects/imdone-core",
-    "source": {
-      "path": "docs/front-matter-example.md",
-      "id": "docs/front-matter-example.md",
-      "repoId": "/Users/jesse/projects/imdone-core",
-      "type": "File",
-      "ext": "md",
-      "lang": "markdown",
-      "modified": false,
-      "modifiedTime": "2018-05-18T16:34:08.111Z"
-    },
-    "type": "HASHTAG",
-    "tags": [],
-    "context": [],
-    "meta": {},
-    "description": [],
-    "rawDescription": [],
-    "commentSartOnLine": 0,
-    "originalDescriptionLength": 0,
-    "descriptionStartsWith": "",
-    "commentStartOnLine": -75
+    "commentStartOnLine": -252
   },
   {
     "frontMatter": {
@@ -577,9 +620,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:04:33.723Z"
+      "modifiedTime": "2018-05-18T18:14:13.155Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "2"
@@ -620,9 +665,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:04:33.723Z"
+      "modifiedTime": "2018-05-18T18:14:13.155Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "gh": [
         "13"
@@ -660,9 +707,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:04:33.723Z"
+      "modifiedTime": "2018-05-18T18:14:13.155Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "27"
@@ -703,9 +752,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:04:33.723Z"
+      "modifiedTime": "2018-05-18T18:14:13.155Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "6"
@@ -743,9 +794,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:04:33.723Z"
+      "modifiedTime": "2018-05-18T18:14:13.155Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "6"
@@ -783,9 +836,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:04:33.723Z"
+      "modifiedTime": "2018-05-18T18:14:13.155Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "8"
@@ -823,9 +878,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:04:33.723Z"
+      "modifiedTime": "2018-05-18T18:14:13.155Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "38"
@@ -876,6 +933,8 @@
       "modifiedTime": "2018-03-26T15:28:59.430Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "11"
@@ -919,6 +978,8 @@
       "modifiedTime": "2018-05-08T19:42:25.758Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "14"
@@ -965,6 +1026,7 @@
     "tags": [
       "issues"
     ],
+    "context": [],
     "meta": {
       "id": [
         "3"
@@ -1059,6 +1121,7 @@
       "standup",
       "chore"
     ],
+    "context": [],
     "meta": {
       "gh": [
         "2"
@@ -1102,6 +1165,8 @@
       "modifiedTime": "2018-05-08T19:42:25.758Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "39"
@@ -1152,6 +1217,8 @@
       "modifiedTime": "2018-05-08T19:42:25.758Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "gh": [
         "281"
@@ -1195,6 +1262,8 @@
       "modifiedTime": "2018-05-10T17:50:17.838Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "12"
@@ -1242,6 +1311,8 @@
       "modifiedTime": "2018-05-10T17:50:17.838Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "15"
@@ -1285,6 +1356,8 @@
       "modifiedTime": "2018-05-10T17:50:17.838Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "33"
@@ -1331,6 +1404,8 @@
       "modifiedTime": "2018-05-10T17:50:17.838Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "35"
@@ -1377,6 +1452,8 @@
       "modifiedTime": "2018-05-10T17:50:17.838Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "37"
@@ -1409,8 +1486,8 @@
     "list": "BACKLOG",
     "order": "",
     "hasColon": true,
-    "line": 98,
-    "id": "18f942a7a22d7be106224507a5828120df2038c1",
+    "line": 120,
+    "id": "2684d38b636736e0cca260478805dc15961f301a",
     "repoId": "/Users/jesse/projects/imdone-core",
     "source": {
       "path": "lib/task.js",
@@ -1420,12 +1497,13 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:01:42.869Z"
+      "modifiedTime": "2018-05-20T16:45:21.932Z"
     },
     "type": "HASHTAG",
     "tags": [
       "enhancement"
     ],
+    "context": [],
     "meta": {
       "gh": [
         "78"
@@ -1452,8 +1530,8 @@
     "list": "TODO",
     "order": "",
     "hasColon": true,
-    "line": 111,
-    "id": "7d9922d597640cdef0f4fcb9ae630787c14a4c4e",
+    "line": 133,
+    "id": "9ae085479b9423d4f020f7a4b3601101b19ead6d",
     "repoId": "/Users/jesse/projects/imdone-core",
     "source": {
       "path": "lib/task.js",
@@ -1463,9 +1541,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:01:42.869Z"
+      "modifiedTime": "2018-05-20T16:45:21.932Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "7"
@@ -1495,8 +1575,8 @@
     "list": "TODO",
     "order": "",
     "hasColon": true,
-    "line": 119,
-    "id": "ff735d08e2afd6e15ef68fa26ffb338f41eee735",
+    "line": 141,
+    "id": "4196194a12269871525f1e1d4486501a0a153dd7",
     "repoId": "/Users/jesse/projects/imdone-core",
     "source": {
       "path": "lib/task.js",
@@ -1506,9 +1586,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:01:42.869Z"
+      "modifiedTime": "2018-05-20T16:45:21.932Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "0"
@@ -1538,8 +1620,8 @@
     "list": "TODO",
     "order": "",
     "hasColon": true,
-    "line": 123,
-    "id": "6e03bdda50402a33fe8ec548e83e7301de4b8a5d",
+    "line": 145,
+    "id": "03e83a230ba5d157c6f2ee0d597a33b61812563c",
     "repoId": "/Users/jesse/projects/imdone-core",
     "source": {
       "path": "lib/task.js",
@@ -1549,9 +1631,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:01:42.869Z"
+      "modifiedTime": "2018-05-20T16:45:21.932Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "1"
@@ -1581,8 +1665,8 @@
     "list": "TODO",
     "order": "",
     "hasColon": true,
-    "line": 131,
-    "id": "cccc5d3ca3f384def6f7f0455a3e4c0ff4b5724c",
+    "line": 153,
+    "id": "ef7bae853ca02298b28b6a37530b58edf134a20f",
     "repoId": "/Users/jesse/projects/imdone-core",
     "source": {
       "path": "lib/task.js",
@@ -1592,9 +1676,11 @@
       "ext": "js",
       "lang": "javascript",
       "modified": false,
-      "modifiedTime": "2018-05-18T18:01:42.869Z"
+      "modifiedTime": "2018-05-20T16:45:21.932Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "10"
@@ -1638,6 +1724,8 @@
       "modifiedTime": "2018-05-08T19:42:25.758Z"
     },
     "type": "CODE",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "22"
@@ -1698,6 +1786,8 @@
       "modifiedTime": "2018-05-08T19:42:25.758Z"
     },
     "type": "HASHTAG",
+    "tags": [],
+    "context": [],
     "meta": {
       "id": [
         "20"
