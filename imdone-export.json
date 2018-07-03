@@ -456,6 +456,9 @@
         "github"
       ],
       "meta": {
+        "milestone": [
+          "2.0"
+        ],
         "sprint": [
           "1"
         ]
@@ -466,8 +469,8 @@
     "list": "TODO",
     "order": "",
     "hasColon": true,
-    "line": 11,
-    "id": "1cbc45126f76a41eb83b12734b9e040b48f00bcb",
+    "line": 13,
+    "id": "8741d7a211eda42ebbfd4f45485f36582bdcd62c",
     "repoId": "/Users/jesse/projects/imdone-core",
     "source": {
       "path": "docs/backlog/readme-links/stories.md",
@@ -477,7 +480,7 @@
       "ext": "md",
       "lang": "markdown",
       "modified": false,
-      "modifiedTime": "2018-05-19T15:59:32.176Z"
+      "modifiedTime": "2018-05-25T19:25:51.431Z"
     },
     "type": "HASHTAG",
     "tags": [],
@@ -499,7 +502,7 @@
     "rawDescription": [
       "  - [ ] Create link outside of comment"
     ],
-    "commentStartOnLine": -83,
+    "commentStartOnLine": -107,
     "originalDescriptionLength": 1,
     "descriptionStartsWith": "",
     "allTags": [
@@ -518,6 +521,9 @@
       ],
       "ic": [
         "gh"
+      ],
+      "milestone": [
+        "2.0"
       ],
       "sprint": [
         "1"

@@ -5,6 +5,8 @@ tags:
 context:
   - github
 meta:
+  milestone:
+   - '2.0'
   sprint:
    - 1
 ---
