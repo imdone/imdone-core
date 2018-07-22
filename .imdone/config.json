@@ -56,17 +56,6 @@
     "name": "imdone/imdone-core",
     "useImdoneioForPriority": true
   },
-  "languages": {
-    ".cash": {
-      "name": "Cash",
-      "symbol": "$",
-      "block": {
-        "start": "<$",
-        "end": "$>",
-        "ignore": "$"
-      }
-    }
-  },
   "meta": {
     "gh": {
       "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
