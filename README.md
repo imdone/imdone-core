@@ -174,6 +174,6 @@ License
 [travis-url]: https://travis-ci.org/imdone/imdone-core
 
 <!--
-- #TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh
+- #TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh +enhancement
 
 -->
