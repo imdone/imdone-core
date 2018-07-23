@@ -1,9 +1,43 @@
 {
-  "exclude": [
-    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+  "noHelp": true,
+  "meta": {
+    "gh": {
+      "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
+      "titleTemplate": "View github issue %s",
+      "icon": "icon-octoface"
+    }
+  },
+  "sync": {
+    "id": "5a184ca5f9f5ac05016e9459",
+    "name": "imdone/imdone-core",
+    "useImdoneioForPriority": true
+  },
+  "marked": {
+    "gfm": true,
+    "tables": true,
+    "breaks": false,
+    "pedantic": false,
+    "smartLists": true,
+    "langPrefix": "language-"
+  },
+  "lists": [
+    {
+      "hidden": false,
+      "name": "BACKLOG"
+    },
+    {
+      "hidden": false,
+      "name": "TODO"
+    },
+    {
+      "hidden": false,
+      "name": "DOING"
+    },
+    {
+      "hidden": true,
+      "name": "DONE"
+    }
   ],
-  "watcher": true,
-  "keepEmptyPriority": true,
   "code": {
     "include_lists": [
       "TODO",
@@ -21,47 +55,9 @@
       "BACKLOG"
     ]
   },
-  "lists": [
-    {
-      "name": "BACKLOG",
-      "hidden": false
-    },
-    {
-      "name": "TODO",
-      "hidden": false
-    },
-    {
-      "name": "DOING",
-      "hidden": false
-    },
-    {
-      "name": "DONE",
-      "hidden": true
-    },
-    {
-      "name": "NOTE",
-      "hidden": true
-    }
-  ],
-  "marked": {
-    "langPrefix": "language-",
-    "smartLists": true,
-    "pedantic": false,
-    "breaks": false,
-    "tables": true,
-    "gfm": true
-  },
-  "sync": {
-    "useImdoneioForPriority": true,
-    "name": "imdone/imdone-core",
-    "id": "5a184ca5f9f5ac05016e9459"
-  },
-  "meta": {
-    "gh": {
-      "icon": "icon-octoface",
-      "titleTemplate": "View github issue %s",
-      "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s"
-    }
-  },
-  "noHelp": true
+  "keepEmptyPriority": true,
+  "watcher": true,
+  "exclude": [
+    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+  ]
 }
