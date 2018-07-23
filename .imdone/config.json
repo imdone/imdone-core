@@ -1,23 +1,25 @@
 {
-  "meta": {
-    "gh": {
-      "icon": "icon-octoface",
-      "titleTemplate": "View github issue %s",
-      "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s"
-    }
-  },
-  "sync": {
-    "useImdoneioForPriority": true,
-    "name": "imdone/imdone-core",
-    "id": "5a184ca5f9f5ac05016e9459"
-  },
-  "marked": {
-    "langPrefix": "language-",
-    "smartLists": true,
-    "pedantic": false,
-    "breaks": false,
-    "tables": true,
-    "gfm": true
+  "exclude": [
+    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+  ],
+  "watcher": true,
+  "keepEmptyPriority": true,
+  "code": {
+    "include_lists": [
+      "TODO",
+      "DOING",
+      "DONE",
+      "PLANNING",
+      "FIXME",
+      "ARCHIVE",
+      "HACK",
+      "CHANGED",
+      "XXX",
+      "IDEA",
+      "NOTE",
+      "REVIEW",
+      "BACKLOG"
+    ]
   },
   "lists": [
     {
@@ -41,26 +43,24 @@
       "hidden": true
     }
   ],
-  "code": {
-    "include_lists": [
-      "TODO",
-      "DOING",
-      "DONE",
-      "PLANNING",
-      "FIXME",
-      "ARCHIVE",
-      "HACK",
-      "CHANGED",
-      "XXX",
-      "IDEA",
-      "NOTE",
-      "REVIEW",
-      "BACKLOG"
-    ]
+  "marked": {
+    "langPrefix": "language-",
+    "smartLists": true,
+    "pedantic": false,
+    "breaks": false,
+    "tables": true,
+    "gfm": true
   },
-  "keepEmptyPriority": true,
-  "watcher": true,
-  "exclude": [
-    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
-  ]
+  "sync": {
+    "useImdoneioForPriority": true,
+    "name": "imdone/imdone-core",
+    "id": "5a184ca5f9f5ac05016e9459"
+  },
+  "meta": {
+    "gh": {
+      "icon": "icon-octoface",
+      "titleTemplate": "View github issue %s",
+      "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s"
+    }
+  }
 }
