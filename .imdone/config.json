@@ -62,5 +62,6 @@
       "titleTemplate": "View github issue %s",
       "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s"
     }
-  }
+  },
+  "noHelp": true
 }
