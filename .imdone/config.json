@@ -1,24 +1,25 @@
 {
-  "noHelp": true,
-  "meta": {
-    "gh": {
-      "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
-      "titleTemplate": "View github issue %s",
-      "icon": "icon-octoface"
-    }
-  },
-  "sync": {
-    "id": "5a184ca5f9f5ac05016e9459",
-    "name": "imdone/imdone-core",
-    "useImdoneioForPriority": true
-  },
-  "marked": {
-    "gfm": true,
-    "tables": true,
-    "breaks": false,
-    "pedantic": false,
-    "smartLists": true,
-    "langPrefix": "language-"
+  "exclude": [
+    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+  ],
+  "watcher": true,
+  "keepEmptyPriority": true,
+  "code": {
+    "include_lists": [
+      "TODO",
+      "DOING",
+      "DONE",
+      "PLANNING",
+      "FIXME",
+      "ARCHIVE",
+      "HACK",
+      "CHANGED",
+      "XXX",
+      "IDEA",
+      "NOTE",
+      "REVIEW",
+      "BACKLOG"
+    ]
   },
   "lists": [
     {
@@ -38,26 +39,25 @@
       "name": "DONE"
     }
   ],
-  "code": {
-    "include_lists": [
-      "TODO",
-      "DOING",
-      "DONE",
-      "PLANNING",
-      "FIXME",
-      "ARCHIVE",
-      "HACK",
-      "CHANGED",
-      "XXX",
-      "IDEA",
-      "NOTE",
-      "REVIEW",
-      "BACKLOG"
-    ]
+  "marked": {
+    "gfm": true,
+    "tables": true,
+    "breaks": false,
+    "pedantic": false,
+    "smartLists": true,
+    "langPrefix": "language-"
   },
-  "keepEmptyPriority": true,
-  "watcher": true,
-  "exclude": [
-    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
-  ]
+  "sync": {
+    "id": "5a184ca5f9f5ac05016e9459",
+    "name": "imdone/imdone-core",
+    "useImdoneioForPriority": true
+  },
+  "noHelp": true,
+  "meta": {
+    "gh": {
+      "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
+      "titleTemplate": "View github issue %s",
+      "icon": "icon-octoface"
+    }
+  }
 }
