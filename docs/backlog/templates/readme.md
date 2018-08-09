@@ -2,7 +2,7 @@
 tags:
   - epic
 ---
-#DOING: As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. id:40 gh:163
+#TODO: As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. gh:163 id:40
 Acceptance Criteria
 ----
 - User can select from all templates stored in .imdone/templates
