@@ -1,3 +1,5 @@
+[![TODO board](https://imdone.io/api/1.0/projects/5a184ca5f9f5ac05016e9459/badge)](https://imdone.io/app#/board/imdone/imdone-core)
+
 [![npm version](https://badge.fury.io/js/imdone-core.svg)](https://badge.fury.io/js/imdone-core)
 [![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
 [![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
