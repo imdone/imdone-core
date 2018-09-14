@@ -54,7 +54,7 @@
     "markdown-it-checkbox": "^1.1.0",
     "moment": "^2.22.1",
     "orql": "^0.2.0",
-    "recursive-readdir": "^2.2.1"
+    "readdirp": "^2.2.1"
   },
   "devDependencies": {
     "doctoc": "^1.3.0",

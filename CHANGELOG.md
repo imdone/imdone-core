@@ -1,3 +1,6 @@
+# 1.5.10
+- Switch to readdirp
+
 # 1.5.2
 - add allContext, allTags and allMeta to tasks
 

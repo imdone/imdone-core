@@ -177,3 +177,5 @@ License
 - #TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done! +enhancement id:30 gh:132 ic:gh
 
 -->
+
+<!-- #DOING: fix this stupid thing. due tomorrow at 8PM. -->
