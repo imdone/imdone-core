@@ -13,4 +13,4 @@ const something = "something"
 // TODO: No description
 // TODO: Test use of descriptions 4
 // - [ ] It stops when the comments stop
-const newthing = "newthing"
+const newthing = "newthing" // not part of the description
