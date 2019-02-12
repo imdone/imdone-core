@@ -7,5 +7,7 @@
 !docs/**/*
 !DoD.md
 !README.md
+!notes
+!notes/**/*
 test/repos
 test/files
