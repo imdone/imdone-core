@@ -6,7 +6,7 @@ const {ImdoneRepoWorkerProxy} = require('../lib/repo-worker-proxy')
 const Task = require('../lib/task')
 const File = require('../lib/file')
 
-// TODO:30 As an imdone observer I would like a Repository to run in a different event loop so that it doesn't lock up my event loop id:22 gh:111 ic:gh
+// TODO: As an imdone observer I would like a Repository to run in a different event loop so that it doesn't lock up my event loop id:22 gh:111 ic:gh
 // ### Acceptance Criteria
 // - [ ] Emits all events comming from repo-worker.js repo as its own
 // - [ ] Implements repository.js API
@@ -50,7 +50,7 @@ describe('ImdoneRepoWorkerProxy', function () {
       repo.init()
     })
   })
-  // #TODO:190 Add moveTasks Tests id:20 gh:107
+  // #TODO: Add moveTasks Tests id:20 gh:107
 
 
 
