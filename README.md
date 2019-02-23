@@ -130,7 +130,7 @@ Imdone uses todo.txt +project/tag @context and meta:data
   }
 ```
 <!--
-#TODO: Add Node.js API SECTION id:28 gh:129 ic:gh
+#TODO:170 Add Node.js API SECTION id:28 gh:129 ic:gh
        ## Node.js API
        ### Generated Docs
        - use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)
@@ -140,7 +140,7 @@ Imdone uses todo.txt +project/tag @context and meta:data
 -->
 
 <!--
-#TODO: Add Contributing Section id:29 gh:130 ic:gh
+#TODO:150 Add Contributing Section id:29 gh:130 ic:gh
        ## Contributing
        ### Build and Test
        ### FAQs and BUGs
@@ -176,7 +176,7 @@ License
 [travis-url]: https://travis-ci.org/imdone/imdone-core
 
 <!--
-- #TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done! ic:gh gh:132 id:30 +enhancement
+- #TODO:250 As a vscode user I would like to see the imdone board in vscode so I can get shit done! ic:gh gh:132 id:30 +enhancement
 
 
 

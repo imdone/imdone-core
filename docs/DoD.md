@@ -1,4 +1,4 @@
--  #TODO: Definition of done template for current story id:23 gh:113
+-  #TODO:270 Definition of done template for current story id:23 gh:113
 - How do we define the current story?  Maybe DOING???
 - Add definition of done to the TODO and issue
 - Automate the checking of files like Readme.md
