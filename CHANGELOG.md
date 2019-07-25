@@ -1,3 +1,6 @@
+# 1.5.28
+- Implement Repository.modifyTaskFromContent
+
 # 1.5.10
 - Switch to readdirp
 
