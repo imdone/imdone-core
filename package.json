@@ -7,6 +7,7 @@
     "build": "doctoc --github --notitle README.md && npm test",
     "test": "export NODE_ENV=test && npm run coverage",
     "test-debug": "mocha debug",
+    "mocha": "mocha",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha",
     "lint": "jshint ./lib",
     "docs:dev": "vuepress dev docs",

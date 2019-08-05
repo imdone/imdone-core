@@ -2,6 +2,7 @@ var should    = require('should'),
     expect    = require('expect.js'),
     sinon     = require('sinon'),
     File      = require('../lib/file'),
+    path      = require('path'),
     constants = require('../lib/constants'),
     Config    = require('../lib/config'),
     util      = require('util'),
@@ -24,8 +25,10 @@ describe('File', function() {
       ok = true;
       return SomeFile.super_.prototype.extractTasks.call(this, config);
     };
-
-    var someFile = new SomeFile({repoId: 'test', filePath: 'test/files/sample.js', content: fs.readFileSync('test/files/sample.js', 'utf8'), languages: languages});
+    const filePath = path.join('test','files','sample.js')
+    const content = fs.readFileSync('test/files/sample.js', 'utf8')
+    debugger
+    var someFile = new SomeFile({repoId: 'test', filePath, content, languages: languages});
 
     expect(someFile instanceof File).to.be(true);
     expect(someFile instanceof SomeFile).to.be(true);
@@ -158,8 +161,9 @@ describe('File', function() {
   })
   describe('hasTaskInText', () => {
     it('returns truthy if a line has a task', () => {
-      var content = fs.readFileSync('test/files/sample.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      const filePath = path.join('test','files','sample.js')
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
       should(file.hasTaskInText(config, 'TODO: a task')).be.ok()
@@ -175,10 +179,15 @@ describe('File', function() {
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
       file.tasks[0].description.length.should.be.exactly(2)
+      file.tasks[0].line.should.be.exactly(2)
       file.tasks[1].description.length.should.be.exactly(1)
+      file.tasks[1].line.should.be.exactly(5)
       file.tasks[2].description.length.should.be.exactly(2)
+      file.tasks[2].line.should.be.exactly(10)
       file.tasks[3].description.length.should.be.exactly(0)
+      file.tasks[3].line.should.be.exactly(13)
       file.tasks[4].description.length.should.be.exactly(1)
+      file.tasks[4].line.should.be.exactly(14)
     })
   })
 });
