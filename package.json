@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.5.29",
+  "version": "1.5.30",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -46,6 +46,7 @@
     "checksum": "^0.1.1",
     "cheerio": "^1.0.0-rc.2",
     "debug": "^2.2.0",
+    "eol": "^0.9.1",
     "escape-string-regexp": "^1.0.5",
     "front-matter": "^2.3.0",
     "ignore": "^3.2.0",
