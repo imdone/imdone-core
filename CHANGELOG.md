@@ -1,3 +1,6 @@
+# 1.5.31
+- When moving a task, only change the order of the current task unless it's moving to the top of a list with more than one task, then we update the task that was previously first as well.
+
 # 1.5.28
 - Implement Repository.modifyTaskFromContent
 
