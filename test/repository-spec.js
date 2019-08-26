@@ -269,7 +269,7 @@ describe("Repository", function() {
   describe("renameList", function(done) {
     it('should modify the list name in tasks with a given list name', function(done) {
       repo1.init(function(err, files) {
-        expect(err).to.be(null);
+        expect(err).to.be(null || undefined);
         expect(repo1.getTasksInList('TODO').length).to.be(3);
         repo1.renameList('TODO', 'PLANNING', function(err) {
           expect(err).to.be(null);
@@ -330,7 +330,7 @@ describe("Repository", function() {
       repo1.saveConfig(function(err) {
         expect(err).to.be(null);
         repo1.init(function(err) {
-          expect(err).to.be(null);
+          expect(err).to.be(null || undefined);
           var plugin = repo1.plugin(name);
           expect(plugin.config).to.be(repo1.config.plugins[name]);
           expect(plugin.repo).to.be(repo1);
