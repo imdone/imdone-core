@@ -22,7 +22,8 @@ describe("Repository", function() {
       repoDir  = path.join(tmpReposDir, "files"),
       repo1Dir = path.join(tmpReposDir, "repo1"),
       repo2Dir = path.join(tmpReposDir, "repo2"),
-      repo, repo1, repo2, configDir;
+      repo3Dir = path.join(tmpReposDir, 'repo3'),
+      repo, repo1, repo2, repo3, configDir;
 
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
@@ -32,11 +33,13 @@ describe("Repository", function() {
     configDir = path.join(repo.getPath(), ".imdone");
     repo1 = fsStore(new Repository(repo1Dir));
     repo2 = fsStore(new Repository(repo2Dir));
+    repo3 = fsStore(new Repository(repo3Dir))
   });
 
   afterEach(function() {
     repo1.destroy();
     repo2.destroy();
+    repo3.destroy()
     repo.destroy();
     wrench.rmdirSyncRecursive(tmpDir, true);
   });
@@ -280,6 +283,61 @@ describe("Repository", function() {
       });
     });
   });
+
+  describe.only('modifyFromContent', () => {
+    it('removes a a description from a TODO that starts on the same line as code', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("TODO");
+        var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '1')
+        expect(taskToModify.description.length).to.be(1)
+        repo3.modifyTaskFromContent(taskToModify, taskToModify.text, function(err) {
+          var todo = repo3.getTasksInList("TODO");
+          var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '1')
+          expect(taskToModify.description.length).to.be(0)
+          done();
+        });
+      });
+    })
+    it('removes a a description from a TODO in a block comment', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("TODO");
+        var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '2')
+        expect(taskToModify.description.length).to.be(3)
+        repo3.modifyTaskFromContent(taskToModify, taskToModify.text, function(err) {
+          var todo = repo3.getTasksInList("TODO");
+          var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '2')
+          expect(taskToModify.description.length).to.be(0)
+          done();
+        });
+      });
+    })
+    it('removes a a description from a TODO on the same line as code with a description that ends with a block comment', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("TODO");
+        var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '3')
+        expect(taskToModify.description.length).to.be(1)
+        repo3.modifyTaskFromContent(taskToModify, taskToModify.text, function(err) {
+          var todo = repo3.getTasksInList("TODO");
+          var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '3')
+          expect(taskToModify.description.length).to.be(0)
+          done();
+        });
+      });
+    })
+    it.only('removes a a description from a TODO with two lines of comments following', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("TODO");
+        var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '4')
+        expect(taskToModify.description.length).to.be(2)
+        repo3.modifyTaskFromContent(taskToModify, taskToModify.text, function(err) {
+          var todo = repo3.getTasksInList("TODO");
+          var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '4')
+          expect(taskToModify.description.length).to.be(0)
+          done();
+        });
+      });
+    })
+  })
 
   describe("moveTasks", function(done) {
     it("Should move a task to the requested location in the requested list", function(done) {
