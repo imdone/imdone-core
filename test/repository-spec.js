@@ -283,9 +283,48 @@ describe("Repository", function() {
       });
     });
   });
+  
+  describe('deleteTasks', () => {
+    it('deletes a block comment task on a single line', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("TODO");
+        var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '0')
+        repo3.deleteTasks([taskToDelete], function(err) {
+          var todo = repo3.getTasksInList("TODO");
+          var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '0')
+          expect(taskToDelete).to.be(undefined)
+          done();
+        });
+      });
+    })
+    it('deletes a TODO that starts on the same line as code', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("TODO");
+        var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '1')
+        repo3.deleteTasks([taskToDelete], function(err) {
+          var todo = repo3.getTasksInList("TODO");
+          var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '1')
+          expect(taskToDelete).to.be(undefined)
+          done();
+        });
+      });
+    })
+    it('deletes a TODO in a block comment', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("TODO");
+        var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '2')
+        repo3.deleteTasks([taskToDelete], function(err) {
+          var todo = repo3.getTasksInList("TODO");
+          var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '2')
+          expect(taskToDelete).to.be(undefined)
+          done();
+        });
+      });
+    })
+  })
 
-  describe.only('modifyFromContent', () => {
-    it('removes a a description from a TODO that starts on the same line as code', (done) => {
+  describe('modifyFromContent', () => {
+    it('removes a description from a TODO that starts on the same line as code', (done) => {
       repo3.init(function(err, result) {
         var todo = repo3.getTasksInList("TODO");
         var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '1')
@@ -324,7 +363,7 @@ describe("Repository", function() {
         });
       });
     })
-    it.only('removes a a description from a TODO with two lines of comments following', (done) => {
+    it('removes a a description from a TODO with two lines of comments following', (done) => {
       repo3.init(function(err, result) {
         var todo = repo3.getTasksInList("TODO");
         var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '4')
