@@ -5,6 +5,6 @@
 ### Some content that should stay
 
 This should be left behind
-- #TODO:50.56 ## **A task with a bullet and comment**
+- #DOING:50.56 ## **A task with a bullet and comment**
   - another description line
   - and another
