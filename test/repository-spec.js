@@ -482,6 +482,16 @@ describe("Repository", function() {
         });
       });
     })
+    it('ends the description on blank comment lines', (done) => {
+      repo3.init(function(err, result) {
+        var trickyTasks = repo3.getFile('tricky.js').getTasks()
+        const task_a1 = trickyTasks.find(task => task.meta.id && task.meta.id[0] === 'a1')
+        const task_a3 = trickyTasks.find(task => task.meta.id && task.meta.id[0] === 'a3')
+        expect(task_a1.description.length).to.be(1)
+        expect(task_a3.description.length).to.be(2)
+        done()
+      });
+    })
   })
 
   describe("moveTasks", function(done) {

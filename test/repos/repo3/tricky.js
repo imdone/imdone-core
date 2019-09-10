@@ -1,7 +1,7 @@
 /**
  * Checks if an event is supported in the current execution environment.
  *
- * NOTE This will not work correctly for non-generic events such as `change`,
+ * NOTE id:a1 This will not work correctly for non-generic events such as `change`,
  * `reset`, `load`, `error`, and `select`.
  * 
  * Borrows from Modernizr.
@@ -17,13 +17,13 @@
             // to proceed, while also allowing a post-build linter to detect it.
             //
             // Outputs:
-            //   /* FIXME (minify-errors-in-prod): Unminified error message in production build! */
+            //   /* FIXME id:a2 (minify-errors-in-prod): Unminified error message in production build! */
             //   if (!condition) {
             //     throw ReactError(Error(`A ${adj} message that contains ${noun}`));
             //   }
 
 
-      // NOTE We could also support `ClassProperty` and `MethodDefinition`
+      // NOTE id:a3 We could also support `ClassProperty` and `MethodDefinition`
       // here to be pedantic. However, hooks in a class are an anti-pattern. So
       // we don't allow it to error early.
       // 
