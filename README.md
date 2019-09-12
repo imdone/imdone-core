@@ -131,16 +131,16 @@ Imdone uses todo.txt +project/tag @context and meta:data
 ```
 <!--
 #TODO:30 Add Node.js API SECTION id:28 gh:129 ic:gh
-       ## Node.js API
-       ### Generated Docs
-       - use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)
-       ### Examples
-       - use links to github [examples](https://github.com/imdone-core/tree/master/examples)
+## Node.js API
+### Generated Docs
+- use [jsdoc3/jsdoc: An API documentation generator for JavaScript.](https://github.com/jsdoc3/jsdoc)
+### Examples
+- use links to github [examples](https://github.com/imdone-core/tree/master/examples)
 
 -->
 
 <!--
-#TODO:0 Add Contributing Section id:29 gh:130 ic:gh
+#TODO:50 Add Contributing Section id:29 gh:130 ic:gh
        ## Contributing
        ### Build and Test
        ### FAQs and BUGs
