@@ -283,8 +283,33 @@ describe("Repository", function() {
       });
     });
   });
-  
+
   describe('deleteTasks', () => {
+    it.only('deletes all tasks', (done) => {
+      repo3.init(function(err, result) {
+        var tasks = repo3.getTasks()
+        repo3.deleteTasks(tasks, function(err) {
+          debugger
+          var tasksNow = repo3.getTasks()
+          expect(tasksNow.length).to.be(0)
+          done();
+        });
+      });
+    })
+
+    it('deletes all tasks in a list', (done) => {
+      repo3.init(function(err, result) {
+        var todos = repo3.getTasksInList("TODO");
+        repo3.deleteTasks(todos, function(err) {
+          var todosNow = repo3.getTasksInList("TODO");
+          expect(todosNow.length).to.be(0)
+          done();
+        });
+      });
+    })
+  })
+
+  describe('deleteTask', () => {
     it('deletes a block comment task on a single line', (done) => {
       repo3.init(function(err, result) {
         var todo = repo3.getTasksInList("TODO");

@@ -18,25 +18,30 @@
       "IDEA",
       "NOTE",
       "REVIEW",
-      "BACKLOG"
+      "BACKLOG",
+      "READY"
     ]
   },
   "lists": [
     {
-      "hidden": false,
-      "name": "BACKLOG"
+      "name": "BACKLOG",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "name": "TODO"
+      "name": "TODO",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "name": "DOING"
+      "name": "DOING",
+      "hidden": false
     },
     {
-      "hidden": false,
-      "name": "DONE"
+      "name": "READY",
+      "hidden": false
+    },
+    {
+      "name": "DONE",
+      "hidden": false
     }
   ],
   "marked": {
