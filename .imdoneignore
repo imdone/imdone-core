@@ -1,13 +1,4 @@
-*
-!lib
-!lib/**/*
-!test
-!test/**/*
-!docs
-!docs/**/*
-!DoD.md
-!README.md
-!notes
-!notes/**/*
 test/repos
 test/files
+tmp
+imdone-export.json

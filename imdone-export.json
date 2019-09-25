@@ -139,7 +139,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
+    "rawTask": "#TODO:90 As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
     "text": "As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
     "list": "TODO",
     "order": "",
@@ -196,7 +196,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#TODO: Definition of done template for current story id:23 gh:113",
+    "rawTask": "#TODO:110 Definition of done template for current story id:23 gh:113",
     "text": "Definition of done template for current story id:23 gh:113",
     "list": "TODO",
     "order": "",
@@ -261,7 +261,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#TODO: Add Node.js API SECTION id:28 gh:129 ic:gh",
+    "rawTask": "#TODO:30 Add Node.js API SECTION id:28 gh:129 ic:gh",
     "text": "Add Node.js API SECTION id:28 gh:129 ic:gh",
     "list": "TODO",
     "order": "",
@@ -395,7 +395,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#TODO: As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
+    "rawTask": "#TODO:100 As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
     "text": "As a vscode user I would like to see the imdone board in vscode so I can get shit done! id:30 gh:132 ic:gh",
     "list": "TODO",
     "order": "",
@@ -464,7 +464,7 @@
         ]
       }
     },
-    "rawTask": "#TODO: As a user I would like to create a TODO in a readme.md file, and have a link created to the issue created on imdone.io id:34 gh:136 ic:gh",
+    "rawTask": "#TODO:70 As a user I would like to create a TODO in a readme.md file, and have a link created to the issue created on imdone.io id:34 gh:136 ic:gh",
     "text": "As a user I would like to create a TODO in a readme.md file, and have a link created to the issue created on imdone.io id:34 gh:136 ic:gh",
     "list": "TODO",
     "order": "",
@@ -538,7 +538,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#DOING: As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. id:40",
+    "rawTask": "#DOING:0 As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. id:40",
     "text": "As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. id:40",
     "list": "DOING",
     "order": "",
@@ -601,7 +601,7 @@
       ],
       "meta": {}
     },
-    "rawTask": "#TODO: As a user I would like to create new files in my project from templates I define, so I can save time creating files and content id:32 gh:134 ic:gh",
+    "rawTask": "#TODO:80 As a user I would like to create new files in my project from templates I define, so I can save time creating files and content id:32 gh:134 ic:gh",
     "text": "As a user I would like to create new files in my project from templates I define, so I can save time creating files and content id:32 gh:134 ic:gh",
     "list": "TODO",
     "order": "",
@@ -670,7 +670,7 @@
       ],
       "meta": {}
     },
-    "rawTask": "#TODO: As a user I would like to add content to my TODO descriptions from markdown templates stored in my project id:36 gh:138 ic:gh",
+    "rawTask": "#TODO:60 As a user I would like to add content to my TODO descriptions from markdown templates stored in my project id:36 gh:138 ic:gh",
     "text": "As a user I would like to add content to my TODO descriptions from markdown templates stored in my project id:36 gh:138 ic:gh",
     "list": "TODO",
     "order": "",
@@ -805,7 +805,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#TODO: Allow languages to have multiple block comment styles, like html gh:13 id:5",
+    "rawTask": "#TODO:50 Allow languages to have multiple block comment styles, like html gh:13 id:5",
     "text": "Allow languages to have multiple block comment styles, like html gh:13 id:5",
     "list": "TODO",
     "order": "",
@@ -910,7 +910,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#BACKLOG: Save all lists found so we can present them to the user id:6 gh:92",
+    "rawTask": "#BACKLOG:30 Save all lists found so we can present them to the user id:6 gh:92",
     "text": "Save all lists found so we can present them to the user id:6 gh:92",
     "list": "BACKLOG",
     "order": "",
@@ -961,7 +961,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#BACKLOG: Save all lists found so we can present them to the user id:6 gh:109",
+    "rawTask": "#BACKLOG:20 Save all lists found so we can present them to the user id:6 gh:109",
     "text": "Save all lists found so we can present them to the user id:6 gh:109",
     "list": "BACKLOG",
     "order": "",
@@ -1012,7 +1012,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#BACKLOG: Save all lists found so we can present them to the user id:8 gh:94",
+    "rawTask": "#BACKLOG:40 Save all lists found so we can present them to the user id:8 gh:94",
     "text": "Save all lists found so we can present them to the user id:8 gh:94",
     "list": "BACKLOG",
     "order": "",
@@ -2168,7 +2168,7 @@
       "context": [],
       "meta": {}
     },
-    "rawTask": "#TODO: Add moveTasks Tests id:20 gh:107",
+    "rawTask": "#TODO:40 Add moveTasks Tests id:20 gh:107",
     "text": "Add moveTasks Tests id:20 gh:107",
     "list": "TODO",
     "order": "",

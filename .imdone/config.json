@@ -1,6 +1,6 @@
 {
   "exclude": [
-    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs|flow-typed|imdone-export.json)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
   "keepEmptyPriority": false,
@@ -51,13 +51,5 @@
     "pedantic": false,
     "smartLists": true,
     "langPrefix": "language-"
-  },
-  "noHelp": true,
-  "meta": {
-    "gh": {
-      "urlTemplate": "https://github.com/imdone/imdone-core/issues/%s",
-      "titleTemplate": "View github issue %s",
-      "icon": "icon-octoface"
-    }
   }
 }
