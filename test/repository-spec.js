@@ -285,11 +285,10 @@ describe("Repository", function() {
   });
 
   describe('deleteTasks', () => {
-    it.only('deletes all tasks', (done) => {
+    it('deletes all tasks', (done) => {
       repo3.init(function(err, result) {
         var tasks = repo3.getTasks()
         repo3.deleteTasks(tasks, function(err) {
-          debugger
           var tasksNow = repo3.getTasks()
           expect(tasksNow.length).to.be(0)
           done();
@@ -515,6 +514,19 @@ describe("Repository", function() {
         expect(task_a1.description.length).to.be(1)
         expect(task_a3.description.length).to.be(2)
         done()
+      });
+    })
+    it('removes a description from a TODO with a description in a yaml file', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("TODO");
+        var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '999')
+        expect(taskToModify.description.length).to.be(1)
+        repo3.modifyTaskFromContent(taskToModify, taskToModify.text, function(err) {
+          var todo = repo3.getTasksInList("TODO");
+          var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '999')
+          expect(taskToModify.description.length).to.be(0)
+          done();
+        });
       });
     })
   })
