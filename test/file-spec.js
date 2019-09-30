@@ -189,5 +189,11 @@ describe('File', function() {
       file.tasks[4].description.length.should.be.exactly(1)
       file.tasks[4].line.should.be.exactly(14)
     })
+    it('extracts tasks in a c sharp file', () => {
+      var content = fs.readFileSync('test/repos/repo3/KillSurvivorCommandHandler.cs', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/repos/repo3/KillSurvivorCommandHandler.cs', content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+    })
   })
 });
