@@ -52,7 +52,4 @@ describe('ImdoneRepoWorkerProxy', function () {
   })
   // #TODO:50 Add moveTasks Tests id:20 gh:107
 
-
-
-
 })

@@ -176,8 +176,4 @@ License
 <!--
 - #TODO:120 As a vscode user I would like to see the imdone board in vscode so I can get shit done! ic:gh gh:132 id:30 +enhancement
 
-
-
-
-
 -->
