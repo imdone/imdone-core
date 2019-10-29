@@ -34,7 +34,7 @@ Imdone aims to keep you in the flow of your work while capturing tasks to be acc
 // TODO This is a task
 // TODO: This is a task
 // TODO:5 This is a task
-// TODO: A task with a descrption looks like this.
+// TODO: A task with a description looks like this.
 // Every line after the task is part of the description until we find another
 // task, a blank comment line, or a line of code
 // - A list item
@@ -139,9 +139,9 @@ Imdone uses todo.txt +project/tag @context and meta:data
 
 <!--
 #TODO:50 Add Contributing Section id:29 gh:130 ic:gh
-       ## Contributing
-       ### Build and Test
-       ### FAQs and BUGs
+## Contributing
+### Build and Test
+### FAQs and BUGs
 
 -->
 
