@@ -24,24 +24,25 @@
   },
   "lists": [
     {
-      "name": "BACKLOG",
-      "hidden": false
+      "hidden": false,
+      "name": "BACKLOG"
     },
     {
-      "name": "TODO",
-      "hidden": false
+      "hidden": false,
+      "name": "TODO"
     },
     {
-      "name": "DOING",
-      "hidden": false
+      "hidden": false,
+      "name": "DOING"
     },
     {
-      "name": "READY",
-      "hidden": false
+      "hidden": false,
+      "name": "READY"
     },
     {
-      "name": "DONE",
-      "hidden": false
+      "hidden": false,
+      "ignore": true,
+      "name": "DONE"
     }
   ],
   "marked": {
@@ -51,5 +52,20 @@
     "pedantic": false,
     "smartLists": true,
     "langPrefix": "language-"
+  },
+  "settings": {
+    "cards": {
+      "colors": [
+        {
+          "color": "green",
+          "filter": "contains(allTags,story)"
+        },
+        {
+          "color": "black",
+          "filter": "list=TODO"
+        }
+      ]
+    },
+    "journalPath": "/notes"
   }
 }
