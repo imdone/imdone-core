@@ -532,7 +532,7 @@ describe("Repository", function() {
   })
 
   describe("query", function(done) {
-    it.only("Should filter tasks by modified time", function(done) {
+    it("Should filter tasks by modified time", function(done) {
       repo1.init(function(err, result) {
         const tasks = repo1.query('gt(source.modifiedTime,2019-11-01)')
         expect(tasks.length).to.be(3)
