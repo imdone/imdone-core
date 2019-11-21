@@ -63,6 +63,10 @@
         {
           "color": "black",
           "filter": "list=TODO"
+        },
+        {
+          "color": "red",
+          "filter": "allTags=contains=urgent"
         }
       ]
     },
