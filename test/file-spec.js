@@ -27,7 +27,6 @@ describe('File', function() {
     };
     const filePath = path.join('test','files','sample.js')
     const content = fs.readFileSync('test/files/sample.js', 'utf8')
-    debugger
     var someFile = new SomeFile({repoId: 'test', filePath, content, languages: languages});
 
     expect(someFile instanceof File).to.be(true);
