@@ -17,7 +17,7 @@ describe('task', function() {
   })
 
   describe('getTextAndDescription', () => {
-    it.only('should only detect metadata when it\'s not in back ticks', () => {
+    it('should only detect metadata when it\'s not in back ticks', () => {
       let task = new Task({text: 'this ` expand:1` is a bit of a `test:1 for us` expand:1 @sure @thing `+one` ` @two`'})
       let wholeTask = task.getText({stripMeta: true, sanitize: true, stripTags: true, stripContext: true})
       expect(wholeTask).to.be('this ` expand:1` is a bit of a `test:1 for us` `+one` ` @two`');
