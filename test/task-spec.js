@@ -23,4 +23,19 @@ describe('task', function() {
       expect(wholeTask).to.be('this ` expand:1` is a bit of a `test:1 for us` `+one` ` @two`');
     })
   })
+
+  describe('getMetaData', () => {
+    it('should not add metadata that\'s not preceded with a "space"', () => {
+      let task = new Task({text: '# should also use [formatDescription](src/utils/task-text-utils.js:33:1) +urgent'})
+      should(task.hasMetaData('js', '33')).be.false();
+    })
+  })
+
+  describe('removeMetaData', () => {
+    it('should not remove metadata that\'s not preceded with a "space"', () => {
+      const text = '# should also use [formatDescription](src/utils/task-text-utils.js:33:1) +urgent'
+      let textWithoutMeta = Task.removeMetaData(text)
+      expect(textWithoutMeta).to.be(text)
+    })
+  })
 })

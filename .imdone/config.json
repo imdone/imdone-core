@@ -1,8 +1,4 @@
 {
-  "exclude": [
-    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs|flow-typed|imdone-export.json)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
-  ],
-  "watcher": true,
   "keepEmptyPriority": false,
   "code": {
     "include_lists": [
@@ -54,6 +50,7 @@
     "langPrefix": "language-"
   },
   "settings": {
+    "addNewCardsToTop": true,
     "cards": {
       "colors": [
         {
@@ -67,6 +64,10 @@
         {
           "color": "red",
           "filter": "allTags=contains=urgent"
+        },
+        {
+          "color": "red",
+          "filter": ":bug:"
         }
       ]
     },
