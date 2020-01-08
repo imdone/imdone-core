@@ -60,6 +60,7 @@ describe('File', function() {
       file.on("task.found", expectation);
       expectation.exactly(6);
       (file.extractTasks().getTasks().length).should.be.exactly(6);
+      (file.tasks[2].description.length).should.be.exactly(1)
       expectation.verify();
     });
 
@@ -75,6 +76,18 @@ describe('File', function() {
       expectation.verify();
     });
 
+  });
+
+  describe("modifyTaskFromContent", function() {
+    it("Should modfy a description from content", function() {
+      var content = fs.readFileSync('test/files/sample.md', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      (file.extractTasks(config).getTasks().length).should.be.exactly(6);
+      (file.tasks[2].description.length).should.be.exactly(1)
+      file.modifyTaskFromContent(file.tasks[2], 'task 1 +okay\n- A description line\n- [ ] a sub task\n', config)
+      // (file.tasks[2].description.length).should.be.exactly(2)
+    });
   });
 
   describe("getCodeCommentRegex", function() {
