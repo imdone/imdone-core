@@ -149,6 +149,8 @@ Imdone uses todo.txt +project/tag @context and meta:data
 
 Resources
 ----
+- [Using TODO Comments to Keep You Programming in the Zone](https://medium.com/imdoneio/the-imdone-pitch-feedback-welcome-386430accf01)
+- [5 ways using TODO comments will make you a better programmer](https://medium.com/imdoneio/5-ways-using-todo-comments-will-make-you-a-better-programmer-240abd00d9e4)
 - [I Still Use Plain Text for Everything, and I Love It](https://lifehacker.com/i-still-use-plain-text-for-everything-and-i-love-it-1758380840)
 - [Why Geeks Love Plain Text (And Why You Should Too)](http://www.lifehack.org/articles/technology/why-geeks-love-plain-text-and-why-you-should-too.html)
 - [The Benefits of Using Plain Text | Terminally Incoherent](http://www.terminally-incoherent.com/blog/2007/07/18/the-benefits-of-using-plain-text/)
