@@ -48,16 +48,16 @@
     "debug": "^2.2.0",
     "eol": "^0.9.1",
     "escape-string-regexp": "^1.0.5",
-    "front-matter": "^2.3.0",
+    "gray-matter": "^4.0.2",
     "ignore": "^3.2.0",
     "isbinaryfile": "^3.0.2",
+    "js-yaml": "^3.13.1",
     "lodash": "2.4.2",
     "markdown-it": "^8.4.0",
     "markdown-it-checkbox": "^1.1.0",
     "orql": "^0.2.0",
     "readdirp": "^2.2.1",
-    "sane": "^4.1.0",
-    "yaml": "^1.7.2"
+    "sane": "^4.1.0"
   },
   "devDependencies": {
     "doctoc": "^1.3.0",
