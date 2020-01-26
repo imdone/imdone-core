@@ -18,7 +18,6 @@ template: |
   tags:
     - epic
   ---
-  #BACKLOG: ${epicName}
-    ## Business Benefit
-    ## Acceptance Criteria
+  #BACKLOG:0 ${epicName}
+
     - [ ] criteria description
