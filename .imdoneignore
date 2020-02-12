@@ -2,3 +2,4 @@ test/repos
 test/files
 tmp
 imdone-export.json
+.imdone/templates
