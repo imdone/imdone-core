@@ -25,10 +25,10 @@ lists:
   - hidden: false
     name: READY
   - hidden: false
-    ignore: true
+    ignore: false
     name: DONE
-  - name: FIXME
-    hidden: false
+  - hidden: false
+    name: FIXME
 marked:
   gfm: true
   tables: true
@@ -37,12 +37,7 @@ marked:
   smartLists: true
   langPrefix: language-
 settings:
-  journalType: folder
-  journalPath: /notes
-  taskPrefix: '#'
-  maxLines: 6
   addNewCardsToTop: true
-  newCardSyntax: MARKDOWN
   cards:
     colors:
       - color: green
@@ -53,3 +48,10 @@ settings:
         filter: allTags=contains=urgent
       - color: red
         filter: ':bug:'
+  doneList: DONE
+  filteredLists: []
+  journalPath: /notes
+  journalType: Folder
+  maxLines: 6
+  newCardSyntax: MARKDOWN
+  taskPrefix: '#'
