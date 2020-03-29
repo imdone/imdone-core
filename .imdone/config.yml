@@ -37,7 +37,12 @@ marked:
   smartLists: true
   langPrefix: language-
 settings:
+  journalType: Folder
+  journalPath: /notes
+  taskPrefix: '#'
+  maxLines: 6
   addNewCardsToTop: true
+  newCardSyntax: MARKDOWN
   cards:
     colors:
       - color: green
@@ -50,8 +55,3 @@ settings:
         filter: ':bug:'
   doneList: DONE
   filteredLists: []
-  journalPath: /notes
-  journalType: Folder
-  maxLines: 6
-  newCardSyntax: MARKDOWN
-  taskPrefix: '#'
