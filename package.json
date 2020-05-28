@@ -54,11 +54,9 @@
     "isbinaryfile": "^3.0.2",
     "js-yaml": "^3.13.1",
     "lodash": "2.4.2",
-    "lunr": "^2.3.8",
     "markdown-it": "^8.4.0",
     "markdown-it-checkbox": "^1.1.0",
     "orql": "^0.2.0",
-    "paralleljs": "^0.2.1",
     "readdirp": "^2.2.1",
     "sane": "^4.1.0"
   },
