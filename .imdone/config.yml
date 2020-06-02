@@ -17,6 +17,8 @@ code:
     - READY
 lists:
   - hidden: false
+    name: FIXME
+  - hidden: false
     name: BACKLOG
   - hidden: false
     name: TODO
@@ -27,8 +29,6 @@ lists:
   - hidden: false
     ignore: false
     name: DONE
-  - hidden: false
-    name: FIXME
 marked:
   gfm: true
   tables: true
