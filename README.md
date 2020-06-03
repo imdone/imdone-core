@@ -15,6 +15,7 @@ Imdone is text based kanban processor with a simple syntax that uses [comment ta
   - [Hash Style](#hash-style)
   - [Markdown Style](#markdown-style)
   - [Task syntax](#task-syntax)
+  - [Task Descriptions](#task-descriptions)
   - [todo.txt syntax examples](#todotxt-syntax-examples)
     - [Create date](#create-date)
     - [Completed date](#completed-date)
@@ -23,6 +24,13 @@ Imdone is text based kanban processor with a simple syntax that uses [comment ta
     - [Context](#context)
     - [Metadata](#metadata)
       - [Metadata links](#metadata-links)
+- [Node.js API](#nodejs-api)
+  - [Generated Docs](#generated-docs)
+  - [Examples](#examples)
+- [Contributing](#contributing)
+  - [Build and Test](#build-and-test)
+  - [FAQs and BUGs](#faqs-and-bugs)
+- [Events](#events)
 - [Resources](#resources)
 - [License](#license)
 
@@ -146,6 +154,26 @@ Imdone uses todo.txt +project/tag @context and meta:data
 ### FAQs and BUGs
 
 -->
+Events
+----
+- task.found
+- task.deleted
+- file.modified
+- initialized
+- file.processed
+- file.update
+- file.empty
+- file.read
+- file.reading
+- files.found
+- files.saved
+- config.update
+- list.found
+- list.modified
+- tasks.moved
+- tasks.updated
+- error
+- config.loaded
 
 Resources
 ----
