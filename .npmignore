@@ -1,1 +1,6 @@
 test
+notes
+coverage
+.nyc_output
+.imdone
+imdone-export.json
