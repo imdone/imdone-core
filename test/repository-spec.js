@@ -532,6 +532,20 @@ describe("Repository", function() {
     })
   })
 
+  describe('addTaskToFile', function(done) {
+    it('Adds a task to a file that doesn\'t exist with order = null', (done) => {
+      repo3.init(function(err, result) {
+        const content = "This is a new task\n- a description line\n- [ ] A task"
+        const filePath = path.join(repo3.path, 'addTaskTest.md')
+        repo3.addTaskToFile(filePath, 'DOING', content, null, (err, file) => {
+          debugger
+          expect(err).to.be(null)
+          done()
+        })
+      });
+    })
+  })
+
   describe("query", function(done) {
     it("Should filter tasks by modified time", function(done) {
       repo1.init(function(err, result) {
