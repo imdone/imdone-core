@@ -546,14 +546,36 @@ describe("Repository", function() {
     })
   })
 
-  describe("query", function(done) {
-    it("Should filter tasks by modified time", function(done) {
+  describe("query", function() {
+    it("Should filter tasks by modified time with rql", function(done) {
       repo1.init(function(err, result) {
-        const tasks = repo1.query('gt(source.modifiedTime,2019-11-01)')
-        expect(tasks.length).to.be(3)
+        const lists = repo1.query('list=DOING')
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(3)
         done()
       });
     });
+    it("Should filter tasks by modified time monquery", function(done) {
+      repo1.init(function(err, result) {
+        const lists = repo1.query('list = /DO/')
+        expect(lists.find(list => list.name ==='DOING').tasks.length).to.be(3)
+        expect(lists.find(list => list.name ==='TODO').tasks.length).to.be(3)
+        done()
+      });
+    })
+    it("Should filter tasks with a regex", function(done) {
+      repo1.init(function(err, result) {
+        const lists = repo1.query('DOING')
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(3)
+        done()
+      });
+    })
+    it("Should return a result with a bad query", function(done) {
+      repo1.init(function(err, result) {
+        const lists = repo1.query('^&%^')
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(0)
+        done()
+      });
+    })
   })
 
   describe("moveTasks", function(done) {
