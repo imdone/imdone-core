@@ -474,7 +474,6 @@ describe("Repository", function() {
         repo3.modifyTaskFromContent(taskToModify, content, function(err) {
           var todo = repo3.getTasksInList("TODO");
           var taskToModify = todo.find(task => task.meta.id && task.meta.id[0] === '2')
-          debugger
           expect(taskToModify.description.length).to.be(2)
           done();
         });
@@ -511,7 +510,6 @@ describe("Repository", function() {
         var trickyTasks = repo3.getFile('tricky.js').getTasks()
         const task_a1 = trickyTasks.find(task => task.meta.id && task.meta.id[0] === 'a1')
         const task_a3 = trickyTasks.find(task => task.meta.id && task.meta.id[0] === 'a3')
-        debugger
         expect(task_a1.description.length).to.be(1)
         expect(task_a3.description.length).to.be(2)
         done()
@@ -538,7 +536,6 @@ describe("Repository", function() {
         const content = "This is a new task\n- a description line\n- [ ] A task"
         const filePath = path.join(repo3.path, 'addTaskTest.md')
         repo3.addTaskToFile(filePath, 'DOING', content, null, (err, file) => {
-          debugger
           expect(err).to.be(null)
           done()
         })
@@ -573,6 +570,13 @@ describe("Repository", function() {
       repo1.init(function(err, result) {
         const lists = repo1.query('^&%^')
         expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(0)
+        done()
+      });
+    })
+    it("should query using dates", function(done) {
+      repo1.init(function(err, result) {
+        const lists = repo1.query('due=lt=2020-11-13T12:32:55.216Z&list=ne=DONE&sort(+due,+order)')
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(1)
         done()
       });
     })
