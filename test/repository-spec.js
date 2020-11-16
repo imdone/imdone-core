@@ -612,6 +612,86 @@ describe("Repository", function() {
     })
   })
 
+  describe('replaceDatesInQuery', function() {
+    it.only('Should replace dates in a query', function() {
+      let query = {
+        one: {
+          a: 1,
+          b: 2
+        },
+        two: {
+          c: [
+            {
+              four: '2021-12-05'
+            },
+            {
+              five: '2021'
+            }
+          ],
+          d: {
+            three: '2021-01-01'
+          },
+          e: null,
+          f: undefined,
+          g: 'string',
+          h: true
+        }
+      }
+      query = Repository.replaceDatesInQuery(query)
+      expect(query.one.a).to.be(1)
+      expect(query.one.b).to.be(2)
+      expect(query.two.c[0].four).to.be(Date.parse('2021-12-05'))
+      expect(query.two.c[1].five).to.be('2021')
+      expect(query.two.d.three).to.be(Date.parse('2021-01-01'))
+      expect(query.two.e).to.be(null)
+      expect(query.two.f).to.be(undefined)
+      expect(query.two.g).to.be('string')
+      expect(query.two.h).to.be(true)
+
+    })
+  })
+
+  describe('filterObjectValues', function() {
+    it('filters values', function() {
+      let object = {
+        one: {
+          a: 1,
+          b: 2
+        },
+        two: {
+          c: [
+            {
+              four: 4
+            },
+            {
+              five: 5
+            }
+          ],
+          d: {
+            three: 5
+          },
+          e: null,
+          f: undefined,
+          g: 'string',
+          h: true
+        }
+      }
+      object = Repository.filterObjectValues(object, (key, value) => {
+        if (Number.isInteger(value)) return 0
+        return value
+      })
+      expect(object.one.a).to.be(0)
+      expect(object.one.b).to.be(0)
+      expect(object.two.c[0].four).to.be(0)
+      expect(object.two.c[1].five).to.be(0)
+      expect(object.two.d.three).to.be(0)
+      expect(object.two.e).to.be(null)
+      expect(object.two.f).to.be(undefined)
+      expect(object.two.g).to.be('string')
+      expect(object.two.h).to.be(true)
+    })
+  })
+
   describe("moveTasks", function(done) {
     it("Should move a task to the requested location in the requested list", function(done) {
       repo1.init(function(err, result) {

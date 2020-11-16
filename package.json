@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.7.17",
+  "version": "1.7.18",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -54,6 +54,7 @@
     "ignore": "^3.2.0",
     "isbinaryfile": "^3.0.2",
     "js-yaml": "^3.13.1",
+    "json-fns": "^1.0.0",
     "lodash": "2.4.2",
     "lodash.get": "^4.4.2",
     "markdown-it": "^8.4.0",
