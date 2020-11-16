@@ -582,7 +582,7 @@ describe("Repository", function() {
     })
     it('should sort using +[attribute] for ascending in with', function(done) {
       repo1.init(function(err, result) {
-        let lists = repo1.query('due < "2020-11-13T12:32:55.216Z" AND list != DONE +due +order')
+        let lists = repo1.query('dueDate < "2020-11-13T12:32:55.216Z" AND list != DONE +dueDate +order')
         let doing = lists.find(list => list.name === 'DOING')
         expect(doing.tasks.length).to.be(2)
         expect(doing.tasks[0].order).to.be(100)
@@ -613,7 +613,7 @@ describe("Repository", function() {
   })
 
   describe('replaceDatesInQuery', function() {
-    it.only('Should replace dates in a query', function() {
+    it('Should replace dates in a query', function() {
       let query = {
         one: {
           a: 1,
