@@ -16,7 +16,7 @@ code:
     - BACKLOG
     - READY
 lists:
-  - hidden: false
+  - hidden: true
     name: FIXME
   - hidden: false
     name: BACKLOG
@@ -27,7 +27,7 @@ lists:
   - hidden: false
     name: READY
   - hidden: false
-    ignore: false
+    ignore: true
     name: DONE
 marked:
   gfm: true
@@ -40,7 +40,7 @@ settings:
   journalType: Folder
   journalPath: /notes
   taskPrefix: '#'
-  maxLines: 6
+  maxLines: 4
   addNewCardsToTop: true
   newCardSyntax: MARKDOWN
   cards:

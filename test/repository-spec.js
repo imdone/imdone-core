@@ -750,4 +750,23 @@ describe("Repository", function() {
       });
     });
   });
+
+  describe.skip('large project', function() {
+    it('should load correctly', function(done) {
+      this.timeout(10 * 1000)
+      const start = new Date()
+      const repo = fsStore(new Repository('../imdone copy'))
+      repo.init(function(err, result) {
+        const end = new Date()
+        const duration = end.getTime() - start.getTime()
+        if (err) done(err)
+        const tasks = repo.getTasks()
+        const files = repo.getFiles()
+        console.log(`tasks: ${tasks.length}`)
+        console.log(`files: ${files.length}`)
+        console.log(`duration: ${duration}`)
+        done()
+      })
+    })
+  })
 });
