@@ -208,9 +208,9 @@ describe('File', function() {
       var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
-      file.tasks[0].beforeText.should.equal('# ')
+      file.tasks.find(task => task.text === "Find tasks in markdown comments").beforeText.should.equal('# ')
     })
-    
+
     it('extracts tasks in a c sharp file', () => {
       var content = fs.readFileSync('test/repos/repo3/KillSurvivorCommandHandler.cs', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/repos/repo3/KillSurvivorCommandHandler.cs', content: content, languages:languages});
