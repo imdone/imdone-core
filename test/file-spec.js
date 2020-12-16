@@ -202,6 +202,15 @@ describe('File', function() {
       file.tasks[4].description.length.should.be.exactly(1)
       file.tasks[4].line.should.be.exactly(14)
     })
+
+    it('sets the correct beforeText', () => {
+      var content = fs.readFileSync('test/files/sample.md', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      file.tasks[0].beforeText.should.equal('# ')
+    })
+    
     it('extracts tasks in a c sharp file', () => {
       var content = fs.readFileSync('test/repos/repo3/KillSurvivorCommandHandler.cs', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/repos/repo3/KillSurvivorCommandHandler.cs', content: content, languages:languages});
