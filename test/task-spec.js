@@ -16,11 +16,17 @@ describe('task', function() {
     })
   })
 
-  describe.skip('getTextAndDescription', () => {
+  describe('getTextAndDescription', () => {
     it('should only detect metadata when it\'s not in back ticks', () => {
       let task = new Task({text: 'this ` expand:1` is a bit of a `test:1 for us` expand:1 @sure @thing `+one` ` @two`'})
       let wholeTask = task.getText({stripMeta: true, sanitize: true, stripTags: true, stripContext: true})
       expect(wholeTask).to.be('this ` expand:1` is a bit of a `test:1 for us` `+one` ` @two`');
+    })
+
+    it('should remove expand:1 from text', () => {
+      let task = new Task({})
+      let wholeTask = task.getText({stripMeta: true, sanitize: true, stripTags: true, stripContext: true}, 'A new task with expand:1')
+      expect(wholeTask).to.be('A new task with');
     })
   })
 
