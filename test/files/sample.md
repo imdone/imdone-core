@@ -10,3 +10,8 @@
 <!--
 # #DOING: Find tasks in markdown comments
  -->
+
+ Cost  SHORT <!-- #DONE:0 Cost Report -->
+<!-- due:2020-12-19T12:00:00.000Z  +reports -->
+<!-- completed:2020-12-15T14:09:10.550Z -->
+

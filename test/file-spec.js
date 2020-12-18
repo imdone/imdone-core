@@ -58,10 +58,10 @@ describe('File', function() {
 
       var expectation = sinon.mock();
       file.on("task.found", expectation);
-      expectation.exactly(6);
+      expectation.exactly(7);
       var config = new Config(constants.DEFAULT_CONFIG);
-      (file.extractTasks(config).getTasks().length).should.be.exactly(6);
-      (file.tasks[2].description.length).should.be.exactly(1)
+      (file.extractTasks(config).getTasks().length).should.be.exactly(7);
+      (file.tasks[2].description.length).should.be.exactly(2)
       expectation.verify();
     });
 
@@ -84,10 +84,10 @@ describe('File', function() {
       var content = fs.readFileSync('test/files/sample.md', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
-      (file.extractTasks(config).getTasks().length).should.be.exactly(6);
-      (file.tasks[2].description.length).should.be.exactly(1)
+      (file.extractTasks(config).getTasks().length).should.be.exactly(7);
+      (file.tasks[2].description.length).should.be.exactly(2)
       file.modifyTaskFromContent(file.tasks[2], 'task 1 +okay\n- A description line\n- [ ] a sub task\n', config)
-      // (file.tasks[2].description.length).should.be.exactly(2)
+      file.tasks[2].description.length.should.be.exactly(2)
     });
   });
 
