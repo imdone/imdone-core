@@ -282,6 +282,16 @@ describe("Repository", function() {
         });
       });
     });
+    it('should execute the callback with an error if the new list name is already in use', function(done) {
+      repo1.init(function(err, files) {
+        expect(err).to.be(null || undefined);
+        expect(repo1.getTasksInList('TODO').length).to.be(3);
+        repo1.renameList('TODO', 'DOING', function(err) {
+          expect(err).to.not.be.null;
+          done();
+        });
+      });
+    });
   });
 
   describe('deleteTasks', () => {
