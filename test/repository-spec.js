@@ -585,6 +585,17 @@ describe("Repository", function() {
     })
     it("should query using dates", function(done) {
       repo1.init(function(err, result) {
+        let lists = repo1.query('due < "2020-11-14" and list != DONE +due +order')
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(3)
+        lists = repo1.query('dueDate < "2020-11-13T12:32:55.216Z" and list != DONE +dueDate +order')
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(2)
+        lists = repo1.query('meta.due < "2020-11-13T12:32:55.216Z" and list != DONE +meta.due +order')
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(2)
+        done()
+      });
+    })
+    it("should query with rql using dates", function(done) {
+      repo1.init(function(err, result) {
         const lists = repo1.query('due=lt=2020-11-13T12:32:55.216Z&list=ne=DONE&sort(+due,+order)')
         expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(2)
         done()
@@ -592,7 +603,7 @@ describe("Repository", function() {
     })
     it('should sort using +[attribute] for ascending in with', function(done) {
       repo1.init(function(err, result) {
-        let lists = repo1.query('dueDate < "2020-11-13T12:32:55.216Z" AND list != DONE +dueDate +order')
+        let lists = repo1.query('due < "2020-11-13T12:32:55.216Z" AND list != DONE +dueDate +order')
         let doing = lists.find(list => list.name === 'DOING')
         expect(doing.tasks.length).to.be(2)
         expect(doing.tasks[0].order).to.be(100)
@@ -604,7 +615,7 @@ describe("Repository", function() {
       repo1.init(function(err, result) {
         let lists = repo1.query('due +due +order')
         let doing = lists.find(list => list.name === 'DOING')
-        expect(doing.tasks.length).to.be(2)
+        expect(doing.tasks.length).to.be(3)
         expect(doing.tasks[0].order).to.be(100)
         expect(doing.tasks[1].order).to.be(60)
         done()
