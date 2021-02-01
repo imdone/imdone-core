@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.8.19",
+  "version": "1.8.20",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
