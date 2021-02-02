@@ -58,12 +58,36 @@ describe('File', function() {
 
       var expectation = sinon.mock();
       file.on("task.found", expectation);
-      expectation.exactly(7);
+      expectation.exactly(8);
       var config = new Config(constants.DEFAULT_CONFIG);
-      (file.extractTasks(config).getTasks().length).should.be.exactly(7);
+      (file.extractTasks(config).getTasks().length).should.be.exactly(8);
       (file.tasks[2].description.length).should.be.exactly(2)
       expectation.verify();
     });
+
+    it("Should leave embeded [] alone in link style tasks", function() {
+      var content = fs.readFileSync('test/files/sample.md', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      const tasks = file.extractTasks(config).getTasks()
+      const task = tasks.find(task => task.order === 20)
+      task.text.should.equal('Create Placeholder for adding new cards with [space].')
+    })
+
+    it("Should not include content in brackets before a task", function() {
+      content = '[2021-12-01 12:00] #DOING:20 A new task'
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      let tasks = file.extractTasks(config).getTasks()
+      let task = tasks.find(task => task.order === 20)
+      task.text.should.equal('A new task')
+
+      content = '[2021-12-01 12:00] [A new task](#DOING:20)'
+      file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages});
+      tasks = file.extractTasks(config).getTasks()
+      task = tasks.find(task => task.order === 20)
+      task.text.should.equal('A new task')
+    })
 
     it("Should find all tasks in a code file", function() {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
@@ -84,7 +108,7 @@ describe('File', function() {
       var content = fs.readFileSync('test/files/sample.md', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
-      (file.extractTasks(config).getTasks().length).should.be.exactly(7);
+      (file.extractTasks(config).getTasks().length).should.be.exactly(8);
       (file.tasks[2].description.length).should.be.exactly(2)
       file.modifyTaskFromContent(file.tasks[2], 'task 1 +okay\n- A description line\n- [ ] a sub task\n', config)
       file.tasks[2].description.length.should.be.exactly(2)

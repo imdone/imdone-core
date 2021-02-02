@@ -15,7 +15,6 @@ myFunc: !<tag:yaml.org,2002:js/function> |-
     let dumpedYaml
     
     for (let i = 0; i < 10; i++) {
-      debugger
       dumpedYaml = YAML.dump(loadedYaml)
       console.log(dumpedYaml)
       loadedYaml = YAML.load(dumpedYaml)

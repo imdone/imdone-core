@@ -15,3 +15,7 @@
 <!-- due:2020-12-19T12:00:00.000Z  +reports -->
 <!-- completed:2020-12-15T14:09:10.550Z -->
 
+## [Create Placeholder for adding new cards with [space].](#TODO:20)
+<!-- +2.0.0 -->
+
+
