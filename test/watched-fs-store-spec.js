@@ -28,20 +28,4 @@ describe('WatchedFsStore', function () {
       repo.init()
     })
   })
-  describe('modifyTask', function () {
-    it('should successfuly modify the metaData', function(done) {
-      repo.on('initialized', ({ok, lists}) => {
-        let list = lists.find(list => list.name === 'DONE')
-        let task = list.tasks[0]
-        task.addMetaData('id', 22)
-        repo.on('file.saved', (file) => {
-          let task = file.getTask(22)
-          should(task).be.an.object
-          done()
-        })
-        repo.modifyTask(task, true)
-      })
-      repo.init()
-    })
-  })
 })
