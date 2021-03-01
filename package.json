@@ -78,6 +78,7 @@
     "lodash.without": "^4.4.0",
     "markdown-it": "^8.4.0",
     "markdown-it-checkbox": "^1.1.0",
+    "moment": "^2.29.1",
     "mongo-rql": "0.0.2",
     "monquery": "^0.2.0",
     "readdirp": "^2.2.1",
