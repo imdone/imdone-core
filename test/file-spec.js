@@ -1,3 +1,4 @@
+const { fail } = require('should');
 var should    = require('should'),
     expect    = require('expect.js'),
     sinon     = require('sinon'),
@@ -113,7 +114,50 @@ describe('File', function() {
       file.modifyTaskFromContent(file.tasks[2], 'task 1 +okay\n- A description line\n- [ ] a sub task\n', config)
       file.tasks[2].description.length.should.be.exactly(2)
     });
+
+    it('modifies a task that contains <code> tags', () => {
+      const filePath = 'test/files/preserve-blank-lines.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      const task = file.tasks.find(task => task.list === 'DOING')
+      task.description.length.should.be.exactly(16)
+      file.modifyTaskFromContent(task, 'This is \n  \n A multiline \n     \n comment', config)
+      task.preserveBlankLines.should.be.ok()
+      task.description.length.should.be.exactly(4)
+    })
+
+    it('replaces content in  a task without blank lines with content containing blank lines', () => {
+      const filePath = 'test/files/preserve-blank-lines.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      const task = file.tasks.find(task => task.list === 'TODO')
+      task.description.length.should.be.exactly(2)
+      file.modifyTaskFromContent(task, 'This is \n  \n A multiline \n     \n comment', config)
+      task.preserveBlankLines.should.be.ok()
+      task.description.length.should.be.exactly(4)
+    })
   });
+
+  describe('modifyTaskFromHtml', () => {
+    it('should modify a task that contains <code> tags', () => {
+      const filePath = 'test/files/preserve-blank-lines.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      const task = file.tasks.find(task => task.list === 'DOING')
+      task.description.length.should.be.exactly(16)
+      file.modifyTaskFromHtml(task, '<div class="task-description"><input type="checkbox" checked><input>', config)
+      const modifiedFile = new File({repoId: 'test', filePath, content: file.content, languages:languages});
+      modifiedFile.extractTasks(config)
+      const modifiedTask = modifiedFile.tasks.find(task => task.list === 'DOING')
+      modifiedTask.getProgress().completed.should.be.exactly(1)
+    })
+  })
 
   describe("getCodeCommentRegex", function() {
     it("Should return the regex for a given file type", function() {
@@ -260,7 +304,7 @@ describe('File', function() {
       var file = new File({repoId: 'test', filePath, content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
-      file.tasks[0].description.length.should.be.exactly(16)
+      file.tasks.find(task => task.list === 'DOING').description.length.should.be.exactly(16)
     })
   })
 });
