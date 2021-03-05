@@ -75,5 +75,4 @@ describe('task', function() {
       expect(task.hasListChanged(lists)).to.be(true)
     })
   })
-
 })
