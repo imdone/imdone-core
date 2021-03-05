@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.11.6",
+  "version": "1.12.0",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,8 @@
     "FIXME",
     "markdown",
     "issues",
-    "task-board"
+    "task-board",
+    "kanban"
   ],
   "author": "Jesse Piascik",
   "license": "MIT",

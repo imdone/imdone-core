@@ -62,7 +62,7 @@ describe("Repository", function() {
       }
     }, function(err, result) {
       expect(err).to.be(null);
-      expect(result.repo.length).to.be(5);
+      expect(result.repo.length).to.be(6);
       expect(result.repo1.length).to.be(4);
       done();
     });
@@ -102,7 +102,7 @@ describe("Repository", function() {
 
   it("Should serialize and deserialize successfully", function(done) {
     repo.init(function(err, files) {
-      (files.length).should.be.exactly(5);
+      (files.length).should.be.exactly(6);
       var sr = repo.serialize();
       Repository.deserialize(sr, function(err, newRepo) {
         newRepo = fsStore(newRepo);
@@ -319,6 +319,18 @@ describe("Repository", function() {
   })
 
   describe('deleteTask', () => {
+    it('deletes a task with blank lines', (done) => {
+      repo3.init(function(err, result) {
+        var todo = repo3.getTasksInList("DOING");
+        var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '7')
+        repo3.deleteTask(taskToDelete, function(err) {
+          var todo = repo3.getTasksInList("DOING");
+          var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '7')
+          expect(taskToDelete).to.be(undefined)
+          done();
+        });
+      });
+    })
     it('deletes a block comment task on a single line', (done) => {
       repo3.init(function(err, result) {
         var todo = repo3.getTasksInList("TODO");
