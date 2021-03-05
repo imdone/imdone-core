@@ -253,5 +253,14 @@ describe('File', function() {
       file.tasks[1].description.length.should.be.exactly(0)
       file.tasks[1].line.should.be.exactly(5)
     })
+
+    it('extracts tasks with blank lines preserved', () => {
+      const filePath = 'test/files/preserve-blank-lines.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      file.tasks[0].description.length.should.be.exactly(16)
+    })
   })
 });
