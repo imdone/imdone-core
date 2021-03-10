@@ -323,6 +323,7 @@ describe("Repository", function() {
       repo3.init(function(err, result) {
         var todo = repo3.getTasksInList("DOING");
         var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '7')
+        debugger
         repo3.deleteTask(taskToDelete, function(err) {
           var todo = repo3.getTasksInList("DOING");
           var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '7')
@@ -566,6 +567,13 @@ describe("Repository", function() {
   })
 
   describe("query", function() {
+    it("Should find tasks with tags=one", function(done) {
+      repo1.init(function(err, result) {
+        const lists = repo1.query('tags=one')
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(1)
+        done()
+      });
+    });
     it("Should filter tasks by modified time with rql", function(done) {
       repo1.init(function(err, result) {
         const lists = repo1.query('list=DOING')
