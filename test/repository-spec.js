@@ -567,6 +567,15 @@ describe("Repository", function() {
   })
 
   describe("query", function() {
+    it("Should find tasks with tags=/one\\/two/", function(done) {
+      repo1.init(function(err, result) {
+        const filter = "tags=/one\\/two/"
+        debugger
+        const lists = repo1.query(filter)
+        expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(1)
+        done()
+      });
+    });
     it("Should find tasks with tags=one", function(done) {
       repo1.init(function(err, result) {
         const lists = repo1.query('tags=one')
