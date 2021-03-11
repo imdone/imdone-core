@@ -52,6 +52,18 @@ describe('File', function() {
     });
   });
 
+  describe('updateMetaData', () => {
+    it('should update metadata', () => {
+      var config = new Config(constants.DEFAULT_CONFIG);
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
+      var content = fs.readFileSync('test/files/update-metadata.md', 'utf8');
+      var file = new File({repoId: 'test', filePath: 'test/files/update-metadata.md', content: content, languages:languages});
+      file.extractTasks(config)
+      file.updateMetaData(config)
+      file.content.should.not.equal(content)
+    })
+  })
+
   describe("extractTasks", function() {
     it("Should find markdown tasks in a markdown file", function() {
       var content = fs.readFileSync('test/files/sample.md', 'utf8');

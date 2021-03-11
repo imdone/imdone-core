@@ -62,7 +62,7 @@ describe("Repository", function() {
       }
     }, function(err, result) {
       expect(err).to.be(null);
-      expect(result.repo.length).to.be(6);
+      expect(result.repo.length).to.be(7);
       expect(result.repo1.length).to.be(4);
       done();
     });
@@ -102,7 +102,7 @@ describe("Repository", function() {
 
   it("Should serialize and deserialize successfully", function(done) {
     repo.init(function(err, files) {
-      (files.length).should.be.exactly(6);
+      (files.length).should.be.exactly(7);
       var sr = repo.serialize();
       Repository.deserialize(sr, function(err, newRepo) {
         newRepo = fsStore(newRepo);
