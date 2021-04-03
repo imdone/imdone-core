@@ -35,6 +35,11 @@ describe('task', function() {
       let task = new Task({text: '# should also use [formatDescription](src/utils/task-text-utils.js:33:1) +urgent'})
       should(task.hasMetaData('js', '33')).be.false();
     })
+
+    it('should find metadata in quotes', () => {
+      let task = new Task({text: '# should also use [formatDescription](src/utils/task-text-utils.js:33:1) +urgent epic:"My Epic"'})
+      should(task.hasMetaData('epic', 'My Epic')).be.true()
+    })
   })
 
   describe('removeMetaDataFromText', () => {
