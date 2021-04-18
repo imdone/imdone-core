@@ -9,6 +9,7 @@ var should    = require('should'),
     util      = require('util'),
     languages = require('../lib/languages'),
     fs        = require('fs');
+const Task = require('../lib/task');
 
 describe('File', function() {
 
@@ -114,6 +115,18 @@ describe('File', function() {
       expectation.verify();
     });
 
+    it("Should find all HASH_NO_ORDER tasks in a markdown file", function() {
+      const filePath = 'test/files/hash-no-order.md';
+      var content = fs.readFileSync(filePath, 'utf8');
+      var config = new Config(constants.DEFAULT_CONFIG);
+      var file = new File({repoId: 'test', filePath, content, languages});
+
+      const expectation = sinon.mock();
+      file.on("task.found", expectation);
+      expectation.exactly(3);
+      (file.extractTasks(config).getTasks().filter(task => task.getType() === Task.Types.HASH_NO_ORDER).length).should.be.exactly(2);
+      expectation.verify();
+    });
   });
 
   describe("modifyTaskFromContent", function() {
@@ -168,6 +181,34 @@ describe('File', function() {
       modifiedFile.extractTasks(config)
       const modifiedTask = modifiedFile.tasks.find(task => task.list === 'DOING')
       modifiedTask.getProgress().completed.should.be.exactly(1)
+    })
+  })
+
+  describe('modifyTask', () => {
+    it('should modify a HASH_NO_ORDER task that has no order metadata', () => {
+      const filePath = 'test/files/hash-no-order.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      const task = file.tasks.find(task => task.list === 'DONE')
+      task.order = 100
+      file.modifyTask(task, config, true)
+      task.meta.order[0].should.equal(100)
+      task.meta.order.length.should.be.exactly(1)
+    })
+
+    it('should modify a HASH_NO_ORDER task that has order metadata', () => {
+      const filePath = 'test/files/hash-no-order.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      const task = file.tasks.find(task => task.list === 'TODO')
+      task.order = 100
+      file.modifyTask(task, config, true)
+      task.meta.order[0].should.equal(100)
+      task.meta.order.length.should.be.exactly(1)
     })
   })
 
