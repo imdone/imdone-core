@@ -124,7 +124,8 @@ describe('File', function() {
       const expectation = sinon.mock();
       file.on("task.found", expectation);
       expectation.exactly(3);
-      (file.extractTasks(config).getTasks().filter(task => task.getType() === Task.Types.HASH_NO_ORDER).length).should.be.exactly(2);
+      debugger
+      (file.extractTasks(config).getTasks().filter(task => task.getType() === Task.Types.HASH_META_ORDER).length).should.be.exactly(2);
       expectation.verify();
     });
   });
