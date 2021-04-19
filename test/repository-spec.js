@@ -566,13 +566,12 @@ describe("Repository", function() {
 
     it('Adds a task to a file with HASH_META_ORDER', (done) => {
       repo3.init(function(err, result) {
-        const content = "This is a new task\n- a description line\n- [ ] A task"
+        const content = "This is a new task\n\n- a description line\n\n- [ ] A task"
         const filePath = path.join(repo3.path, 'addTaskTest.md')
         repo3.config.settings = {
           newCardSyntax: "HASH_META_ORDER"
         }
         repo3.addTaskToFile(filePath, 'DOING', content, -10, (err, file) => {
-          debugger
           expect(err).to.be(null)
           done()
         })
