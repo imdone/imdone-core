@@ -564,7 +564,7 @@ describe("Repository", function() {
       });
     })
 
-    it.only('Adds a task to a file with HASH_META_ORDER', (done) => {
+    it('Adds a task to a file with HASH_META_ORDER', (done) => {
       repo3.init(function(err, result) {
         const content = "This is a new task\n- a description line\n- [ ] A task"
         const filePath = path.join(repo3.path, 'addTaskTest.md')
