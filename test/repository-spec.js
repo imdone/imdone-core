@@ -323,7 +323,6 @@ describe("Repository", function() {
       repo3.init(function(err, result) {
         var todo = repo3.getTasksInList("DOING");
         var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '7')
-        debugger
         repo3.deleteTask(taskToDelete, function(err) {
           var todo = repo3.getTasksInList("DOING");
           var taskToDelete = todo.find(task => task.meta.id && task.meta.id[0] === '7')
@@ -564,13 +563,27 @@ describe("Repository", function() {
         })
       });
     })
+
+    it.only('Adds a task to a file with HASH_META_ORDER', (done) => {
+      repo3.init(function(err, result) {
+        const content = "This is a new task\n- a description line\n- [ ] A task"
+        const filePath = path.join(repo3.path, 'addTaskTest.md')
+        repo3.config.settings = {
+          newCardSyntax: "HASH_META_ORDER"
+        }
+        repo3.addTaskToFile(filePath, 'DOING', content, -10, (err, file) => {
+          debugger
+          expect(err).to.be(null)
+          done()
+        })
+      });
+    })
   })
 
   describe("query", function() {
     it("Should find tasks with tags=/one\\/two/", function(done) {
       repo1.init(function(err, result) {
         const filter = "tags=/one\\/two/"
-        debugger
         const lists = repo1.query(filter)
         expect(lists.find(list => list.name === 'DOING').tasks.length).to.be(1)
         done()
