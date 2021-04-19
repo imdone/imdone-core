@@ -14,7 +14,7 @@ var should = require('should'),
     languages = require('../lib/languages'),
     async  = require('async');
 
-describe("Repository", function() {
+describe.only("Repository", function() {
   var tmpDir      = path.join(process.cwd(), "tmp"),
       tmpReposDir = path.join(tmpDir, "repos"),
       repoSrc  = path.join(process.cwd(), "test", "repos"),
@@ -72,7 +72,7 @@ describe("Repository", function() {
     repo1.init(function(err, files) {
       (files.length).should.be.exactly(4);
       var file = new File({repoId: repo1.getId(), filePath: "test.md", content: "[Add some content](#DONE:0)", languages:languages});
-      repo1.writeFile(file, function(err, file) {
+      repo1.writeAndExtract(file, false, function(err, file) {
         expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
         repo1.deleteFile(file.path, function(err, file) {
@@ -88,7 +88,7 @@ describe("Repository", function() {
     repo1.init(function(err, files) {
       (files.length).should.be.exactly(4);
       var file = new File({repoId: repo1.getId(), filePath: "some-dir/some-dir2/test.md", content: "[Add some content](#DONE:0)", languages:languages});
-      repo1.writeFile(file, function(err, file) {
+      repo1.writeAndExtract(file, false, function(err, file) {
         expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
         repo1.deleteFile(file.path, function(err, file) {
@@ -139,7 +139,7 @@ describe("Repository", function() {
     it("Should return true if readme.md file exists", function(done) {
       var file = new File({repoId: repo.getId(), filePath: "reADmE.md", content: "[Add some content](#DONE:0)", languages:languages});
       repo.init(function(err, files) {
-        repo.writeFile(file, function(err, file) {
+        repo.writeAndExtract(file, false, function(err, file) {
           expect(repo.hasDefaultFile()).to.be(true);
 
           repo.deleteFile(file.path, function(err, file) {
@@ -152,7 +152,7 @@ describe("Repository", function() {
     it("Should return true if home.md file exists", function(done) {
       var file = new File({repoId: repo.getId(), filePath: "hOmE.Md" ,content: "[Add some content](#DONE:0)", languages:languages});
       repo.init(function(err, files) {
-        repo.writeFile(file, function(err, file) {
+        repo.writeAndExtract(file, false, function(err, file) {
           expect(repo.hasDefaultFile()).to.be(true);
 
           repo.deleteFile(file.path, function(err, file) {
@@ -175,7 +175,7 @@ describe("Repository", function() {
     it("should return readme.md if it exist", function(done) {
       repo.init(function(err, files) {
         var file = new File({repoId: repo.getId(), filePath: "reADmE.md", content: "[Add some content](#DONE:0)", languages:languages});
-        repo.writeFile(file, function(err, file) {
+        repo.writeAndExtract(file, false, function(err, file) {
           expect(repo.getDefaultFile()).to.be(file);
 
           repo.deleteFile(file.path, function(err, file) {
@@ -188,7 +188,7 @@ describe("Repository", function() {
     it("Should return home.md if it exists", function(done) {
       repo.init(function(err, files) {
         var file = new File({repoId: repo.getId(), filePath: "hOmE.Md", content: "[Add some content](#DONE:0)", languages:languages});
-        repo.writeFile(file, function(err, file) {
+        repo.writeAndExtract(file, false, function(err, file) {
           expect(repo.getDefaultFile()).to.be(file);
 
           repo.deleteFile(file.path, function(err, file) {
@@ -204,12 +204,12 @@ describe("Repository", function() {
         var readme = new File({repoId: repo.getId(), filePath: "reADmE.Md", content: "[Add some content](#DONE:0)", languages:languages});
         async.parallel([
           function(cb){
-            repo.writeFile(home, function(err, file) {
+            repo.writeAndExtract(home, false, function(err, file) {
               cb(null, file);
             });
           },
           function(cb){
-            repo.writeFile(readme, function(err, file) {
+            repo.writeAndExtract(readme, false, function(err, file) {
               cb(null, file);
             });
           }
