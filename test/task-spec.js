@@ -80,4 +80,23 @@ describe('task', function() {
       expect(task.hasListChanged(lists)).to.be(true)
     })
   })
+
+  describe('addToLastCommentInContent', () => {
+    it('should add content correctly when newline is false', () => {
+      const content = `A task
+<!--
+with:meta
+-->`
+      const afterAdd = Task.addToLastCommentInContent(content, 'order:10')
+      afterAdd.includes(' order:10')
+    })
+    it('should add content correctly when newline is true', () => {
+      const content = `A task
+<!--
+with:meta
+-->`
+      const afterAdd = Task.addToLastCommentInContent(content, 'order:10', true)
+      afterAdd.includes('\norder:10')
+    })
+  })
 })
