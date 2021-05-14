@@ -23,7 +23,8 @@ describe.only("Repository", function() {
       repo1Dir = path.join(tmpReposDir, "repo1"),
       repo2Dir = path.join(tmpReposDir, "repo2"),
       repo3Dir = path.join(tmpReposDir, 'repo3'),
-      repo, repo1, repo2, repo3, configDir;
+      noOrderRepoDir = path.join(tmpReposDir, 'no-order-repo'),
+      repo, repo1, repo2, repo3, noOrderRepo, configDir;
 
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
@@ -34,6 +35,7 @@ describe.only("Repository", function() {
     repo1 = fsStore(new Repository(repo1Dir));
     repo2 = fsStore(new Repository(repo2Dir));
     repo3 = fsStore(new Repository(repo3Dir))
+    noOrderRepo = fsStore(new Repository(noOrderRepoDir))
   });
 
   afterEach(function() {
@@ -41,6 +43,7 @@ describe.only("Repository", function() {
     repo2.destroy();
     repo3.destroy()
     repo.destroy();
+    noOrderRepo.destroy()
     wrench.rmdirSyncRecursive(tmpDir, true);
   });
 
@@ -754,7 +757,23 @@ describe.only("Repository", function() {
     })
   })
 
-  describe("moveTasks", function(done) {
+  describe('moveTask', () => {
+    it('should move a task to the proper location even if other tasks around it have the same order', (done) => {
+      const listName = "DOING"
+      noOrderRepo.init((err, result) => {
+        var list = noOrderRepo.getTasksInList(listName);
+        var task = list[5];
+        noOrderRepo.moveTasks([task], listName, 4, (err) => {
+          expect(err).to.be(undefined);
+          var list = noOrderRepo.getTasksInList(listName);
+          (task.equals(list[4])).should.be.true;
+          done();
+        });
+      })
+    })
+  })
+
+  describe("moveTasks", function() {
     it("Should move a task to the requested location in the requested list", function(done) {
       repo1.init(function(err, result) {
         var todo = repo1.getTasksInList("TODO");
