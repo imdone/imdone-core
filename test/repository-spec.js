@@ -14,7 +14,7 @@ var should = require('should'),
     languages = require('../lib/languages'),
     async  = require('async');
 
-describe.only("Repository", function() {
+describe("Repository", function() {
   var tmpDir      = path.join(process.cwd(), "tmp"),
       tmpReposDir = path.join(tmpDir, "repos"),
       repoSrc  = path.join(process.cwd(), "test", "repos"),

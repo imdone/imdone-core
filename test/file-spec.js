@@ -8,6 +8,7 @@ var should    = require('should'),
     Config    = require('../lib/config'),
     util      = require('util'),
     languages = require('../lib/languages'),
+    eol       = require('eol'),
     fs        = require('fs');
 const Task = require('../lib/task');
 
@@ -53,15 +54,38 @@ describe('File', function() {
     });
   });
 
-  describe('updateMetaData', () => {
+  describe('transformTasks', () => {
     it('should update metadata', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
       config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
       var content = fs.readFileSync('test/files/update-metadata.md', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/update-metadata.md', content: content, languages:languages});
       file.extractTasks(config)
-      file.updateMetaData(config)
       file.content.should.not.equal(content)
+    })
+
+    it('should complete a link style task with a checkbox beforeText in a md file', () => {
+      var config = new Config(constants.DEFAULT_CONFIG);
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
+      const filePath = 'test/files/update-metadata.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages});
+      file.extractTasks(config)
+      const lines = eol.split(file.content)
+      '- [x] [A card in a checklist](#DONE:)'.should.equal(lines[12])
+      '- [x] #DONE:0 make sure this is checked'.should.equal(lines[17])
+    })
+
+    it.skip('should complete a link style task with a checkbox beforeText in a code file', () => {
+      var config = new Config(constants.DEFAULT_CONFIG);
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
+      const filePath = 'test/files/sample.js'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages});
+      file.extractTasks(config)
+      const lines = eol.split(file.content)
+      '- [x] [A card in a checklist](#DONE:)'.should.equal(lines[12])
+      '- [x] #DONE:0 make sure this is checked'.should.equal(lines[17])
     })
   })
 
