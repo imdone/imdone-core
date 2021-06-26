@@ -54,7 +54,7 @@ describe('File', function() {
     });
   });
 
-  describe('transformTasks', () => {
+  describe.only('transformTasks', () => {
     it('should update metadata', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
       config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
@@ -64,28 +64,32 @@ describe('File', function() {
       file.content.should.not.equal(content)
     })
 
-    it('should complete a link style task with a checkbox beforeText in a md file', () => {
+    it('should complete tasks with checkbox beforeText in a md file', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
-      config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
+      // TODO: Test with changes to config
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true, trackChanges:true}}
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
       file.extractTasks(config)
       const lines = eol.split(file.content)
-      '- [x] [A card in a checklist](#DONE:)'.should.equal(lines[12])
-      '- [x] #DONE:0 make sure this is checked'.should.equal(lines[17])
+      lines[14].should.equal('- [x] [A card in a checklist](#DONE:)')
+      lines[19].should.equal('- [x] #DONE: make sure this is checked')
+      lines[24].should.equal('- [x] #DONE make sure this is checked 3')
     })
 
-    it.skip('should complete a link style task with a checkbox beforeText in a code file', () => {
+    it('should uncomplete tasks with checkbox beforeText in a md file', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
-      config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
-      const filePath = 'test/files/sample.js'
+      // TODO: Test with changes to config
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true, trackChanges:true}}
+      const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
       file.extractTasks(config)
       const lines = eol.split(file.content)
-      '- [x] [A card in a checklist](#DONE:)'.should.equal(lines[12])
-      '- [x] #DONE:0 make sure this is checked'.should.equal(lines[17])
+      lines[29].should.equal('- [ ] [Make sure this is unchecked](#TODO:)')
+      lines[33].should.equal('- [ ] #TODO: Make sure this is unchecked 2')
+      lines[37].should.equal('- [ ] #TODO Make sure this is unchecked 3')
     })
   })
 
@@ -348,12 +352,13 @@ describe('File', function() {
       file.tasks[4].line.should.be.exactly(14)
     })
 
-    it('sets the correct beforeText', () => {
+    it('sets the correct beforeText for hash and link style tasks', () => {
       var content = fs.readFileSync('test/files/sample.md', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
       file.tasks.find(task => task.text === "Find tasks in markdown comments").beforeText.should.equal('# ')
+      file.tasks.find(task => task.text === "Create Placeholder for adding new cards with [space].").beforeText.should.equal('## ')
     })
 
     it('extracts tasks in a c sharp file', () => {
