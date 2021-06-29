@@ -36,7 +36,7 @@ describe('File', function() {
     expect(someFile instanceof SomeFile).to.be(true);
     expect(someFile.getType()).to.be("SomeFile");
 
-    (someFile.extractTasks(config).tasks.length).should.be.exactly(7);
+    (someFile.extractTasks(config).tasks.length).should.be.exactly(8);
     expect(ok).to.be(true);
   });
 
@@ -54,13 +54,13 @@ describe('File', function() {
     });
   });
 
-  describe.only('transformTasks', () => {
+  describe('transformTasks', () => {
     it('should update metadata', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
       config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
       var content = fs.readFileSync('test/files/update-metadata.md', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/update-metadata.md', content: content, languages:languages});
-      file.extractTasks(config)
+      file.extractTasks(config, true)
       file.content.should.not.equal(content)
     })
 
@@ -71,7 +71,7 @@ describe('File', function() {
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
-      file.extractTasks(config)
+      file.extractTasks(config, true)
       const lines = eol.split(file.content)
       lines[14].should.equal('- [x] [A card in a checklist](#DONE:)')
       lines[19].should.equal('- [x] #DONE: make sure this is checked')
@@ -85,7 +85,7 @@ describe('File', function() {
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
-      file.extractTasks(config)
+      file.extractTasks(config, true)
       const lines = eol.split(file.content)
       lines[29].should.equal('- [ ] [Make sure this is unchecked](#TODO:)')
       lines[33].should.equal('- [ ] #TODO: Make sure this is unchecked 2')
@@ -137,9 +137,9 @@ describe('File', function() {
 
       var expectation = sinon.mock();
       file.on("task.found", expectation);
-      expectation.exactly(7);
+      expectation.exactly(8);
       var config = new Config(constants.DEFAULT_CONFIG);
-      (file.extractTasks(config).getTasks().length).should.be.exactly(7);
+      (file.extractTasks(config).getTasks().length).should.be.exactly(8);
       expectation.verify();
     });
 
