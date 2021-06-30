@@ -8,6 +8,7 @@ var should    = require('should'),
     Config    = require('../lib/config'),
     util      = require('util'),
     languages = require('../lib/languages'),
+    eol       = require('eol'),
     fs        = require('fs');
 const Task = require('../lib/task');
 
@@ -35,7 +36,7 @@ describe('File', function() {
     expect(someFile instanceof SomeFile).to.be(true);
     expect(someFile.getType()).to.be("SomeFile");
 
-    (someFile.extractTasks(config).tasks.length).should.be.exactly(7);
+    (someFile.extractTasks(config).tasks.length).should.be.exactly(8);
     expect(ok).to.be(true);
   });
 
@@ -53,15 +54,42 @@ describe('File', function() {
     });
   });
 
-  describe('updateMetaData', () => {
+  describe('transformTasks', () => {
     it('should update metadata', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
       config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
       var content = fs.readFileSync('test/files/update-metadata.md', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/update-metadata.md', content: content, languages:languages});
-      file.extractTasks(config)
-      file.updateMetaData(config)
+      file.extractTasks(config, true)
       file.content.should.not.equal(content)
+    })
+
+    it('should complete tasks with checkbox beforeText in a md file', () => {
+      var config = new Config(constants.DEFAULT_CONFIG);
+      // TODO: Test with changes to config
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true, trackChanges:true}}
+      const filePath = 'test/files/update-metadata.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages});
+      file.extractTasks(config, true)
+      const lines = eol.split(file.content)
+      lines[14].should.equal('- [x] [A card in a checklist](#DONE:)')
+      lines[19].should.equal('- [x] #DONE: make sure this is checked')
+      lines[24].should.equal('- [x] #DONE make sure this is checked 3')
+    })
+
+    it('should uncomplete tasks with checkbox beforeText in a md file', () => {
+      var config = new Config(constants.DEFAULT_CONFIG);
+      // TODO: Test with changes to config
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true, trackChanges:true}}
+      const filePath = 'test/files/update-metadata.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages});
+      file.extractTasks(config, true)
+      const lines = eol.split(file.content)
+      lines[29].should.equal('- [ ] [Make sure this is unchecked](#TODO:)')
+      lines[33].should.equal('- [ ] #TODO: Make sure this is unchecked 2')
+      lines[37].should.equal('- [ ] #TODO Make sure this is unchecked 3')
     })
   })
 
@@ -109,9 +137,9 @@ describe('File', function() {
 
       var expectation = sinon.mock();
       file.on("task.found", expectation);
-      expectation.exactly(7);
+      expectation.exactly(8);
       var config = new Config(constants.DEFAULT_CONFIG);
-      (file.extractTasks(config).getTasks().length).should.be.exactly(7);
+      (file.extractTasks(config).getTasks().length).should.be.exactly(8);
       expectation.verify();
     });
 
@@ -324,12 +352,13 @@ describe('File', function() {
       file.tasks[4].line.should.be.exactly(14)
     })
 
-    it('sets the correct beforeText', () => {
+    it('sets the correct beforeText for hash and link style tasks', () => {
       var content = fs.readFileSync('test/files/sample.md', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
       file.tasks.find(task => task.text === "Find tasks in markdown comments").beforeText.should.equal('# ')
+      file.tasks.find(task => task.text === "Create Placeholder for adding new cards with [space].").beforeText.should.equal('## ')
     })
 
     it('extracts tasks in a c sharp file', () => {

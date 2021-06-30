@@ -14,7 +14,7 @@ var should = require('should'),
     languages = require('../lib/languages'),
     async  = require('async');
 
-describe.only("Repository", function() {
+describe("Repository", function() {
   var tmpDir      = path.join(process.cwd(), "tmp"),
       tmpReposDir = path.join(tmpDir, "repos"),
       repoSrc  = path.join(process.cwd(), "test", "repos"),
@@ -65,7 +65,7 @@ describe.only("Repository", function() {
       }
     }, function(err, result) {
       expect(err).to.be(null);
-      expect(result.repo.length).to.be(8);
+      expect(result.repo.length).to.be(9);
       expect(result.repo1.length).to.be(4);
       done();
     });
@@ -105,7 +105,7 @@ describe.only("Repository", function() {
 
   it("Should serialize and deserialize successfully", function(done) {
     repo.init(function(err, files) {
-      (files.length).should.be.exactly(8);
+      (files.length).should.be.exactly(9);
       var sr = repo.serialize();
       Repository.deserialize(sr, function(err, newRepo) {
         newRepo = fsStore(newRepo);
@@ -275,7 +275,7 @@ describe.only("Repository", function() {
   describe("renameList", function(done) {
     it('should modify the list name in tasks with a given list name', function(done) {
       repo1.init(function(err, files) {
-        expect(err).to.be(null || undefined);
+        expect(err).to.be(null);
         expect(repo1.getTasksInList('TODO').length).to.be(3);
         repo1.renameList('TODO', 'PLANNING', function(err) {
           expect(err).to.be(null);
@@ -287,7 +287,7 @@ describe.only("Repository", function() {
     });
     it('should execute the callback with an error if the new list name is already in use', function(done) {
       repo1.init(function(err, files) {
-        expect(err).to.be(null || undefined);
+        expect(err).to.be(null);
         expect(repo1.getTasksInList('TODO').length).to.be(3);
         repo1.renameList('TODO', 'DOING', function(err) {
           expect(err).to.not.be.null;
@@ -771,6 +771,36 @@ describe.only("Repository", function() {
         });
       })
     })
+
+    it('should move two tasks in the same file and extract the latest tasks', done => {
+      var config = new Config(constants.DEFAULT_CONFIG);
+      // TODO: Test with changes to config
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true, trackChanges:true}}
+      repo.loadConfig = (cb) => {
+        cb(null, repo.newConfig(config))
+      }
+      repo.init((err, result) => {
+        const moveTasksFilePath = 'move-tasks.md'
+        repo.getFiles().forEach(file => {
+          if (file.path !== moveTasksFilePath) {
+            repo.removeFile(file)
+          }
+        })
+        const file = repo.getFile(moveTasksFilePath)
+        const tasks = file.getTasks()
+        const story2 = tasks.find(task => task.text === 'Story 2');
+        const story3 = tasks.find(task => task.text === 'Story 3');
+        (story2.line).should.equal(21);
+        (story3.line).should.equal(28);
+        const newPos = repo.getTasksInList('DOING').length
+        repo.moveTask({task:story2, newList:'DOING', newPos}, (err, task) => {
+          const file = repo.getFile(moveTasksFilePath)
+          const story3 = file.getTasks().find(task => task.text === 'Story 3');
+          (story3.line).should.equal(29);
+          done()
+        });
+      })
+    })
   })
 
   describe("moveTasks", function() {
@@ -814,7 +844,7 @@ describe.only("Repository", function() {
   });
 
 
-  describe('plugin', function(done) {
+  describe.skip('plugin', function(done) {
     it('should return the named plugin object', function(done) {
       var name = path.join(process.cwd(), "test", "test-plugin");
       repo1.config = new Config(constants.DEFAULT_CONFIG);

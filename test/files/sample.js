@@ -10,3 +10,4 @@
  var dog = {
   name: /* TODO: name the dog */ "Rover"
  };
+// - [ ] [A card with a checkbox in a code file](#DONE:0)
