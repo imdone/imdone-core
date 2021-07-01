@@ -54,13 +54,13 @@ describe('File', function() {
     });
   });
 
-  describe('transformTasks', () => {
+  describe('extractAndTransformTasks', () => {
     it('should update metadata', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
       config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
       var content = fs.readFileSync('test/files/update-metadata.md', 'utf8');
       var file = new File({repoId: 'test', filePath: 'test/files/update-metadata.md', content: content, languages:languages});
-      file.extractTasks(config, true)
+      file.extractAndTransformTasks(config)
       file.content.should.not.equal(content)
     })
 
@@ -71,7 +71,7 @@ describe('File', function() {
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
-      file.extractTasks(config, true)
+      file.extractAndTransformTasks(config)
       const lines = eol.split(file.content)
       lines[14].should.equal('- [x] [A card in a checklist](#DONE:)')
       lines[19].should.equal('- [x] #DONE: make sure this is checked')
@@ -85,7 +85,7 @@ describe('File', function() {
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
-      file.extractTasks(config, true)
+      file.extractAndTransformTasks(config)
       const lines = eol.split(file.content)
       lines[29].should.equal('- [ ] [Make sure this is unchecked](#TODO:)')
       lines[33].should.equal('- [ ] #TODO: Make sure this is unchecked 2')
