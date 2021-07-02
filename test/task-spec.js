@@ -87,7 +87,7 @@ describe('task', function() {
 <!--
 with:meta
 -->`
-      const afterAdd = Task.addToLastCommentInContent(content, 'order:10')
+      const afterAdd = new Task({}).addToLastCommentInContent(content, 'order:10')
       afterAdd.includes(' order:10')
     })
     it('should add content correctly when newline is true', () => {
@@ -95,7 +95,7 @@ with:meta
 <!--
 with:meta
 -->`
-      const afterAdd = Task.addToLastCommentInContent(content, 'order:10', true)
+      const afterAdd = new Task({}).addToLastCommentInContent(content, 'order:10', true)
       afterAdd.includes('\norder:10')
     })
   })
