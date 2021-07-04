@@ -91,6 +91,28 @@ describe('File', function() {
       lines[33].should.equal('- [ ] #TODO: Make sure this is unchecked 2')
       lines[37].should.equal('- [ ] #TODO Make sure this is unchecked 3')
     })
+
+    it(`should find checkbox tasks`, () => {
+      var config = new Config(constants.DEFAULT_CONFIG);
+      // TODO: Test with changes to config
+      config.settings = {
+        doneList: 'DONE', 
+        defaultList: 'TODO',
+        addCheckBoxTasks: true,
+        newCardSyntax: 'MARKDOWN',
+        cards: {
+          metaNewLine:true,
+          trackChanges:true
+        }
+      }
+      const filePath = 'test/files/checkbox-tasks.md'
+      var content = fs.readFileSync(filePath, 'utf8');
+      var file = new File({repoId: 'test', filePath, content, languages});
+      file.extractAndTransformTasks(config)
+      const lines = eol.split(file.content)
+      file.isModified().should.be.true()
+      lines[0].should.equal('- [ ] [A checkbox task without a list](#TODO:)')
+    })
   })
 
   describe("extractTasks", function() {

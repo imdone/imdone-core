@@ -1,0 +1,6 @@
+- [ ] A checkbox task without a list
+- [ ] #TODO: A checkbox task in TODO
+  - [ ] subtask a
+  - [ ] subtask b
+- [ ] A new checkbox task
+  - [ ] Another checkbox task

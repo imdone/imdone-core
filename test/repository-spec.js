@@ -65,7 +65,7 @@ describe("Repository", function() {
       }
     }, function(err, result) {
       expect(err).to.be(null);
-      expect(result.repo.length).to.be(9);
+      expect(result.repo.length).to.be(10);
       expect(result.repo1.length).to.be(4);
       done();
     });
@@ -105,7 +105,7 @@ describe("Repository", function() {
 
   it("Should serialize and deserialize successfully", function(done) {
     repo.init(function(err, files) {
-      (files.length).should.be.exactly(9);
+      (files.length).should.be.exactly(10);
       var sr = repo.serialize();
       Repository.deserialize(sr, function(err, newRepo) {
         newRepo = fsStore(newRepo);
@@ -118,6 +118,34 @@ describe("Repository", function() {
       });
     });
   });
+
+  it("Should find checkBox tasks", function(done) {
+    var config = new Config(constants.DEFAULT_CONFIG);
+    // TODO: Test with changes to config
+    config.settings = {
+      doneList: 'DONE', 
+      defaultList: 'TODO',
+      addCheckBoxTasks: true,
+      newCardSyntax: 'MARKDOWN',
+      cards: {
+        metaNewLine:true,
+        trackChanges:true
+      }
+    }
+    repo.loadConfig = (cb) => {
+      cb(null, repo.newConfig(config))
+    }
+    repo.init(function(err, files) {
+      if (err) return done(err);
+      log("files:", files);
+      const file = files.find(file => file.path === 'checkbox-tasks.md')
+      expect(file.tasks[1].rawTask).to.equal('[A checkbox task without a list](#TODO:)')
+      expect(err).to.be(null);
+      expect(repo.files.length).to.be(10);
+      done();
+    });
+  });
+
 
   // describe("getFileTree", function() {
   //   it("Should traverse a repo and return valid files and dirs in cb", function(done) {
@@ -164,7 +192,6 @@ describe("Repository", function() {
         });
       });
     });
-
   });
 
   describe("getDefaultFile", function(done) {
