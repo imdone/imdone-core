@@ -112,6 +112,8 @@ describe('File', function() {
       const lines = eol.split(file.content)
       file.isModified().should.be.true()
       lines[0].should.equal('- [ ] [A checkbox task without a list](#TODO:)')
+      lines[10].should.equal('- [ ] [A new checkbox task](#TODO:)')
+      lines[11].should.equal('  - [ ] Another checkbox task')
     })
   })
 
