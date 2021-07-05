@@ -1,6 +1,7 @@
 test
 notes
 docs
+tmp
 coverage
 .nyc_output
 .imdone
