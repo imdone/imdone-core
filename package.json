@@ -11,6 +11,7 @@
     "lint": "jshint ./lib",
     "mocha": "mocha",
     "release": "release-it",
+    "release-plan": "release-it --dry-run",
     "test": "export NODE_ENV=test && npm run coverage",
     "test-debug": "mocha debug"
   },
