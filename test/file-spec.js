@@ -71,8 +71,10 @@ describe('File', function() {
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
-      file.extractAndTransformTasks(config)
+      file.extractTasks(config)
+      file.transformTasks(config, true)
       const lines = eol.split(file.content)
+      debugger
       lines[14].should.equal('- [x] [A card in a checklist](#DONE:)')
       lines[19].should.equal('- [x] #DONE: make sure this is checked')
       lines[24].should.equal('- [x] #DONE make sure this is checked 3')
@@ -85,7 +87,8 @@ describe('File', function() {
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
-      file.extractAndTransformTasks(config)
+      file.extractTasks(config)
+      file.transformTasks(config, true)
       const lines = eol.split(file.content)
       lines[29].should.equal('- [ ] [Make sure this is unchecked](#TODO:)')
       lines[33].should.equal('- [ ] #TODO: Make sure this is unchecked 2')
