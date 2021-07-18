@@ -14,6 +14,7 @@ var should = require('should'),
     log    = require('debug')('imdone-core:repository-spec'),
     constants = require('../lib/constants'),
     languages = require('../lib/languages'),
+    eol = require('eol'),
     async  = require('async');
 
 describe("Repository", function() {
@@ -588,26 +589,44 @@ describe("Repository", function() {
 
   describe('addTaskToFile', function(done) {
     it('Adds a task to a file that doesn\'t exist with order = null', (done) => {
+      const content = "A task"
+      const testFilePath = 'addTaskTest.md'
+      const filePath = path.join(repo3.path, testFilePath)
+      const expectedLines = JSON.stringify([
+        '- [ ] #DOING A task',
+        '  <!--',
+        '  order:20',
+        '  -->' ])
       repo3.init(function(err, result) {
-        const content = "This is a new task\n- a description line\n- [ ] A task"
-        const filePath = path.join(repo3.path, 'addTaskTest.md')
-        repo3.addTaskToFile(filePath, 'DOING', content, null, (err, file) => {
-          expect(err).to.be(null)
-          done()
+        repo3.addTaskToFile(filePath, 'DOING', content, 20, (err, file) => {
+          repo3.readFileContent(file, (err, file) => {
+            const lines = eol.split(file.content)
+            JSON.stringify(lines.slice(5)).should.equal(expectedLines)
+            expect(err).to.be(null)
+            done()
+          })
         })
       });
     })
 
     it('Adds a task to a file with HASH_META_ORDER', (done) => {
       repo3.init(function(err, result) {
-        const content = "This is a new task\n\n- a description line\n\n- [ ] A task"
-        const filePath = path.join(repo3.path, 'addTaskTest.md')
-        repo3.config.settings = {
-          newCardSyntax: "HASH_META_ORDER"
-        }
+        const content = "A task\n<!-- order:40 -->\n"
+        const testFilePath = 'addTaskTest.md'
+        const filePath = path.join(repo3.path, testFilePath)
+        const expectedLines = JSON.stringify([
+          '- [ ] #DOING A task',
+          '  <!-- order:40 -->',
+          '  '
+        ])
         repo3.addTaskToFile(filePath, 'DOING', content, -10, (err, file) => {
-          expect(err).to.be(null)
-          done()
+          // TODO make sure the task is added correctly
+          repo3.readFileContent(file, (err, file) => {
+            const lines = eol.split(file.content)
+            JSON.stringify(lines.slice(5)).should.equal(expectedLines)
+            expect(err).to.be(null)
+            done()
+          })
         })
       });
     })
@@ -797,7 +816,6 @@ describe("Repository", function() {
         moveMetaOrderRepo.moveTasks([task], 'TODO', 2, (err) => {
           expect(err).to.be(undefined);
           var list = moveMetaOrderRepo.getTasksInList('TODO');
-          debugger
           (task.equals(list[2])).should.be.true;
           done();
         });
