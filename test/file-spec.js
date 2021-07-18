@@ -74,7 +74,6 @@ describe('File', function() {
       file.extractTasks(config)
       file.transformTasks(config, true)
       const lines = eol.split(file.content)
-      debugger
       lines[14].should.equal('- [x] [A card in a checklist](#DONE:)')
       lines[19].should.equal('- [x] #DONE: make sure this is checked')
       lines[24].should.equal('- [x] #DONE make sure this is checked 3')
