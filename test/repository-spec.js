@@ -1,3 +1,5 @@
+const { replaceDateLanguage } = require('../lib/tools');
+
 var should = require('should'),
     expect = require('expect.js'),
     sinon  = require('sinon'),
@@ -24,6 +26,7 @@ describe("Repository", function() {
       repo2Dir = path.join(tmpReposDir, "repo2"),
       repo3Dir = path.join(tmpReposDir, 'repo3'),
       noOrderRepoDir = path.join(tmpReposDir, 'no-order-repo'),
+      moveMetaOrderDir = path.join(tmpReposDir, 'move-meta-order'),
       repo, repo1, repo2, repo3, noOrderRepo, configDir;
 
   beforeEach(function() {
@@ -36,6 +39,7 @@ describe("Repository", function() {
     repo2 = fsStore(new Repository(repo2Dir));
     repo3 = fsStore(new Repository(repo3Dir))
     noOrderRepo = fsStore(new Repository(noOrderRepoDir))
+    moveMetaOrderRepo = fsStore(new Repository(moveMetaOrderDir))
   });
 
   afterEach(function() {
@@ -785,6 +789,21 @@ describe("Repository", function() {
   })
 
   describe('moveTask', () => {
+    it('Should move a task in a file with task-meta-order', done => {
+      const listName = "DOING"
+      moveMetaOrderRepo.init((err, result) => {
+        var list = moveMetaOrderRepo.getTasksInList(listName);
+        var task = list[0];
+        moveMetaOrderRepo.moveTasks([task], 'TODO', 2, (err) => {
+          expect(err).to.be(undefined);
+          var list = moveMetaOrderRepo.getTasksInList('TODO');
+          debugger
+          (task.equals(list[2])).should.be.true;
+          done();
+        });
+      })
+    })
+
     it('should move a task to the proper location even if other tasks around it have the same order', (done) => {
       const listName = "DOING"
       noOrderRepo.init((err, result) => {
