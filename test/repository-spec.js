@@ -26,9 +26,10 @@ describe("Repository", function() {
       repo1Dir = path.join(tmpReposDir, "repo1"),
       repo2Dir = path.join(tmpReposDir, "repo2"),
       repo3Dir = path.join(tmpReposDir, 'repo3'),
+      defaultCardsDir = path.join(tmpReposDir, 'default-cards'),
       noOrderRepoDir = path.join(tmpReposDir, 'no-order-repo'),
       moveMetaOrderDir = path.join(tmpReposDir, 'move-meta-order'),
-      repo, repo1, repo2, repo3, noOrderRepo, configDir;
+      repo, repo1, repo2, repo3, defaultCardsRepo, noOrderRepo, configDir;
 
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
@@ -39,6 +40,7 @@ describe("Repository", function() {
     repo1 = fsStore(new Repository(repo1Dir));
     repo2 = fsStore(new Repository(repo2Dir));
     repo3 = fsStore(new Repository(repo3Dir))
+    defaultCardsRepo = fsStore(new Repository(defaultCardsDir))
     noOrderRepo = fsStore(new Repository(noOrderRepoDir))
     moveMetaOrderRepo = fsStore(new Repository(moveMetaOrderDir))
   });
@@ -906,6 +908,34 @@ describe("Repository", function() {
       });
     });
   });
+
+  describe('getTasksByList', () => {
+    it.only('should return tasks in a filtered list', function(done) {
+      defaultCardsRepo.init(function(err, result) {
+        const lists = defaultCardsRepo.getTasksByList()
+        debugger
+        lists[0].tasks[0].order.should.be.exactly(10)
+        lists[0].tasks[1].order.should.be.exactly(8)
+        lists[0].tasks[2].order.should.be.exactly(7)
+        lists[0].tasks[3].order.should.be.exactly(6)
+        lists[0].tasks[4].order.should.be.exactly(5)
+        lists[0].tasks[5].order.should.be.exactly(4.5)
+        lists[0].tasks[6].order.should.be.exactly(4)
+        lists[0].tasks[7].order.should.be.exactly(3)
+        lists[0].tasks[8].order.should.be.exactly(2)
+        lists[0].tasks[9].order.should.be.exactly(1.5)
+        lists[0].tasks[10].order.should.be.exactly(1)
+        lists[0].tasks[11].order.should.be.exactly(0)
+        done()
+      })
+    })
+  })
+
+  describe('It should allow : or :: in config.settings.metaSep', function() {
+    it('should read metaData with a :: as sep', function(done) {
+      done("Implement tests")
+    })
+  })
 
 
   describe.skip('plugin', function(done) {
