@@ -29,7 +29,8 @@ describe("Repository", function() {
       defaultCardsDir = path.join(tmpReposDir, 'default-cards'),
       noOrderRepoDir = path.join(tmpReposDir, 'no-order-repo'),
       moveMetaOrderDir = path.join(tmpReposDir, 'move-meta-order'),
-      repo, repo1, repo2, repo3, defaultCardsRepo, noOrderRepo, configDir;
+      metaSepTestDir = path.join(tmpReposDir, 'meta-sep-test'),
+      repo, repo1, repo2, repo3, defaultCardsRepo, noOrderRepo, metaSepTestRepo, configDir;
 
   beforeEach(function() {
     wrench.mkdirSyncRecursive(tmpDir);
@@ -43,6 +44,7 @@ describe("Repository", function() {
     defaultCardsRepo = fsStore(new Repository(defaultCardsDir))
     noOrderRepo = fsStore(new Repository(noOrderRepoDir))
     moveMetaOrderRepo = fsStore(new Repository(moveMetaOrderDir))
+    metaSepTestRepo = fsStore(new Repository(metaSepTestDir))
   });
 
   afterEach(function() {
@@ -910,10 +912,9 @@ describe("Repository", function() {
   });
 
   describe('getTasksByList', () => {
-    it.only('should return tasks in a filtered list', function(done) {
+    it('should return tasks in a filtered list', function(done) {
       defaultCardsRepo.init(function(err, result) {
         const lists = defaultCardsRepo.getTasksByList()
-        debugger
         lists[0].tasks[0].order.should.be.exactly(10)
         lists[0].tasks[1].order.should.be.exactly(8)
         lists[0].tasks[2].order.should.be.exactly(7)
@@ -933,7 +934,17 @@ describe("Repository", function() {
 
   describe('It should allow : or :: in config.settings.metaSep', function() {
     it('should read metaData with a :: as sep', function(done) {
-      done("Implement tests")
+      metaSepTestRepo.init((err, result) => {
+        const files = metaSepTestRepo.files
+        const doneList = metaSepTestRepo.getTasksByList().find(({name}) => name === 'DONE')
+        const task = doneList.tasks[0]
+        const meta = task.meta
+        should.exist(meta.DONE[0])
+        should.exist(meta.completed[0])
+        task.content.includes(`DONE::${meta.DONE[0]}`).should.be.true()
+        task.content.includes(`completed::${meta.completed[0]}`).should.be.true()
+        done()
+      })
     })
   })
 
