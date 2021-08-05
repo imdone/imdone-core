@@ -52,7 +52,10 @@ describe("Repository", function() {
     repo2.destroy();
     repo3.destroy()
     repo.destroy();
+    defaultCardsRepo.destroy()
     noOrderRepo.destroy()
+    moveMetaOrderRepo.destroy()
+    metaSepTestRepo.destroy()
     wrench.rmdirSyncRecursive(tmpDir, true);
   });
 
@@ -74,7 +77,7 @@ describe("Repository", function() {
       }
     }, function(err, result) {
       expect(err).to.be(null);
-      expect(result.repo.length).to.be(10);
+      expect(result.repo.length).to.be(11);
       expect(result.repo1.length).to.be(4);
       done();
     });
@@ -114,7 +117,7 @@ describe("Repository", function() {
 
   it("Should serialize and deserialize successfully", function(done) {
     repo.init(function(err, files) {
-      (files.length).should.be.exactly(10);
+      (files.length).should.be.exactly(11);
       var sr = repo.serialize();
       Repository.deserialize(sr, function(err, newRepo) {
         newRepo = fsStore(newRepo);
@@ -142,7 +145,7 @@ describe("Repository", function() {
       }
     }
     repo.loadConfig = (cb) => {
-      cb(null, repo.newConfig(config))
+      repo.updateConfig(config, cb)
     }
     repo.init(function(err, files) {
       if (err) return done(err);
@@ -150,7 +153,7 @@ describe("Repository", function() {
       const file = files.find(file => file.path === 'checkbox-tasks.md')
       expect(file.tasks[1].rawTask).to.equal('[A checkbox task without a list](#TODO:)')
       expect(err).to.be(null);
-      expect(repo.files.length).to.be(10);
+      expect(repo.files.length).to.be(11);
       done();
     });
   });
@@ -845,7 +848,7 @@ describe("Repository", function() {
       // TODO: Test with changes to config
       config.settings = {doneList: "DONE", cards:{metaNewLine:true, trackChanges:true}}
       repo.loadConfig = (cb) => {
-        cb(null, repo.newConfig(config))
+        repo.updateConfig(config, cb)
       }
       repo.init((err, result) => {
         const moveTasksFilePath = 'move-tasks.md'

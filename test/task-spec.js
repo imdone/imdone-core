@@ -102,4 +102,20 @@ with:meta
       afterAdd.includes('\norder:10')
     })
   })
+
+  describe('replaceContent', function () {
+    it('replaces content in a task', function () {
+      const task = new Task(new Config(), {
+        text: 'A new task', 
+        description: [
+          'task description line 1',
+          'task description line 2'
+        ]
+      })
+      task.replaceContent(/task/g, 'card')
+      expect(task.text).to.be('A new card')
+      expect(task.description[0]).to.be('card description line 1')
+      expect(task.description[1]).to.be('card description line 2')
+    })
+  })
 })
