@@ -50,10 +50,29 @@ describe('WatchedFsStore', function () {
         writeFileSync(configPath, dump(config))
       })
       defaultCardsRepo.on('config.update', data => {
-        const resultContent = readFileSync(path.join(process.cwd(), 'test', 'files', 'imdone-readme-metaSep.md')).toString()
+        const expected = readFileSync(path.join(process.cwd(), 'test', 'files', 'imdone-readme-metaSep.md')).toString()
         const filePath = defaultCardsRepo.getFullPath(defaultCardsRepo.getFile('imdone-readme.md'))
         const content = readFileSync(filePath).toString()
-        expect(content).to.equal(resultContent)
+        expect(content).to.equal(expected)
+        done()
+      })
+      defaultCardsRepo.init()
+    })
+    it('should reload config and do nothing if metaSep is incorrect', function(done) {
+      let filePath
+      let expected
+      defaultCardsRepo.on('initialized', ({ok, lists}) => {
+        should(ok).be.true
+        filePath = defaultCardsRepo.getFullPath(defaultCardsRepo.getFile('imdone-readme.md'))
+        expected = readFileSync(filePath).toString()
+        const configPath = defaultCardsRepo.getFullPath(defaultCardsRepo.getFile('.imdone/config.yml'))
+        const config = load(readFileSync(configPath).toString())
+        config.settings.metaSep = ':test:'
+        writeFileSync(configPath, dump(config))
+      })
+      defaultCardsRepo.on('config.update', data => {
+        const content = readFileSync(filePath).toString()
+        expect(content).to.equal(expected)
         done()
       })
       defaultCardsRepo.init()
