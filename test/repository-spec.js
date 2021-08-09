@@ -9,6 +9,7 @@ var should = require('should'),
     util   = require('util'),
     path   = require('path'),
     fs     = require('fs'),
+    {existsSync} = fs,
     wrench = require('wrench'),
     fsStore = require('../lib/mixins/repo-fs-store'),
     log    = require('debug')('imdone-core:repository-spec'),
@@ -32,8 +33,16 @@ describe("Repository", function() {
       metaSepTestDir = path.join(tmpReposDir, 'meta-sep-test'),
       repo, repo1, repo2, repo3, defaultCardsRepo, noOrderRepo, metaSepTestRepo, configDir;
 
-  beforeEach(function() {
-    wrench.mkdirSyncRecursive(tmpDir);
+  beforeEach(function(done) {
+    try {
+      if (existsSync(tmpDir))  {
+        wrench.rmdirSyncRecursive(tmpDir)
+      }
+      wrench.mkdirSyncRecursive(tmpDir);
+    } catch (e) {
+      return done(e)
+    }
+
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, {forceDelete: true});
     wrench.copyDirSyncRecursive(filesSrc, repoDir, {forceDelete: true});
     repo = fsStore(new Repository(repoDir));
@@ -45,9 +54,10 @@ describe("Repository", function() {
     noOrderRepo = fsStore(new Repository(noOrderRepoDir))
     moveMetaOrderRepo = fsStore(new Repository(moveMetaOrderDir))
     metaSepTestRepo = fsStore(new Repository(metaSepTestDir))
+    done()
   });
 
-  afterEach(function() {
+  afterEach(function(done) {
     repo1.destroy();
     repo2.destroy();
     repo3.destroy()
@@ -57,6 +67,7 @@ describe("Repository", function() {
     moveMetaOrderRepo.destroy()
     metaSepTestRepo.destroy()
     wrench.rmdirSyncRecursive(tmpDir, true);
+    done()
   });
 
   it("Should init successfully", function(done) {
@@ -77,7 +88,7 @@ describe("Repository", function() {
       }
     }, function(err, result) {
       expect(err).to.be(null);
-      expect(result.repo.length).to.be(11);
+      expect(result.repo.length).to.be(12);
       expect(result.repo1.length).to.be(4);
       done();
     });
@@ -116,8 +127,8 @@ describe("Repository", function() {
   });
 
   it("Should serialize and deserialize successfully", function(done) {
+    console.log(`initializing repo at : ${repo.path}`)
     repo.init(function(err, files) {
-      (files.length).should.be.exactly(11);
       var sr = repo.serialize();
       Repository.deserialize(sr, function(err, newRepo) {
         newRepo = fsStore(newRepo);
@@ -151,9 +162,9 @@ describe("Repository", function() {
       if (err) return done(err);
       log("files:", files);
       const file = files.find(file => file.path === 'checkbox-tasks.md')
-      expect(file.tasks[1].rawTask).to.equal('[A checkbox task without a list](#TODO:)')
+      expect(file.tasks[1].rawTask).to.equal('[A checkbox task without a list](#TODO:0)')
       expect(err).to.be(null);
-      expect(repo.files.length).to.be(11);
+      expect(repo.files.length).to.be(12);
       done();
     });
   });
