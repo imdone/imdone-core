@@ -67,7 +67,7 @@ describe('File', function() {
     it('should complete tasks with checkbox beforeText in a md file', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
       // TODO: Test with changes to config
-      config.settings = {doneList: "DONE", cards:{metaNewLine:true, trackChanges:true}}
+      config.settings = {doneList: "DONE", cards:{addCompletedMeta: true, metaNewLine:true, trackChanges:true}}
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
@@ -82,7 +82,7 @@ describe('File', function() {
     it('should uncomplete tasks with checkbox beforeText in a md file', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
       // TODO: Test with changes to config
-      config.settings = {doneList: "DONE", cards:{metaNewLine:true, trackChanges:true}}
+      config.settings = {doneList: "DONE", cards:{addCompletedMeta: true, metaNewLine:true, trackChanges:true}}
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
       var file = new File({repoId: 'test', filePath, content, languages});
@@ -420,6 +420,32 @@ describe('File', function() {
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
       file.tasks.find(task => task.list === 'DOING').description.length.should.be.exactly(16)
+    })
+
+    it('should ignore tasks in files with kanban-plugin frontMatter', () =>{
+      var content = `---
+kanban-plugin: true
+---
+
+- [A task](#TODO:)
+`
+      var file = new File({repoId: 'test', filePath: 'test.md', content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      file.tasks.length.should.be.exactly(0)
+    })
+
+    it('should ignore tasks in files with imdone_ignore frontMatter', () =>{
+      var content = `---
+imdone_ignore: true
+---
+
+- [A task](#TODO:)
+`
+      var file = new File({repoId: 'test', filePath: 'test.md', content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      file.extractTasks(config);
+      file.tasks.length.should.be.exactly(0)
     })
   })
 });
