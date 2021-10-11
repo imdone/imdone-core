@@ -34,6 +34,7 @@ settings:
     colors: []
     metaNewLine: true
     trackChanges: true
+    addCompletedMeta: true
     computed:
       date: "${(new Date()).toDateString()}"
       time: "${(new Date()).toLocaleTimeString()}"
