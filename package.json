@@ -47,7 +47,7 @@
   "dependencies": {
     "async": "~1.5.0",
     "checksum": "^0.1.1",
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "^1.0.0-rc.10",
     "chrono-node": ">=2.2.4",
     "debug": "^2.2.0",
     "eol": "^0.9.1",
@@ -85,7 +85,7 @@
     "moment": "^2.29.1",
     "mongo-rql": "0.0.2",
     "monquery": "imdone/node-monquery",
-    "readdirp": "^2.2.1",
+    "readdirp": "^3.6.0",
     "sane": "^4.1.0",
     "sift": "^13.4.0"
   },

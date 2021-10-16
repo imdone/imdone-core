@@ -88,22 +88,22 @@ describe("Repository", function() {
       }
     }, function(err, result) {
       expect(err).to.be(null);
-      expect(result.repo.length).to.be(12);
-      expect(result.repo1.length).to.be(4);
+      expect(result.repo.length).to.be(11);
+      expect(result.repo1.length).to.be(3);
       done();
     });
   });
 
   it("Should write and delete a file successfully", function(done) {
     repo1.init(function(err, files) {
-      (files.length).should.be.exactly(4);
+      (files.length).should.be.exactly(3);
       var file = new File({repoId: repo1.getId(), filePath: "test.md", content: "[Add some content](#DONE:0)", languages:languages});
       repo1.writeAndExtract(file, false, function(err, file) {
         expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
         repo1.deleteFile(file.path, function(err, file) {
           expect(err).to.be(null);
-          (repo1.files.length).should.be.exactly(4);
+          (repo1.files.length).should.be.exactly(3);
           done();
         });
       });
@@ -112,14 +112,16 @@ describe("Repository", function() {
 
   it("Should write and delete a file in a sub-dir successfully", function(done) {
     repo1.init(function(err, files) {
-      (files.length).should.be.exactly(4);
+      debugger
+      (files.length).should.be.exactly(3);
       var file = new File({repoId: repo1.getId(), filePath: "some-dir/some-dir2/test.md", content: "[Add some content](#DONE:0)", languages:languages});
       repo1.writeAndExtract(file, false, function(err, file) {
         expect(err).to.be(null);
         (file.tasks.length).should.be.exactly(1);
         repo1.deleteFile(file.path, function(err, file) {
           expect(err).to.be(null);
-          (repo1.files.length).should.be.exactly(4);
+          debugger
+          (repo1.files.length).should.be.exactly(3);
           done();
         });
       });
@@ -164,7 +166,7 @@ describe("Repository", function() {
       const file = files.find(file => file.path === 'checkbox-tasks.md')
       expect(file.tasks[1].rawTask).to.equal('[A checkbox task without a list](#TODO:0)')
       expect(err).to.be(null);
-      expect(repo.files.length).to.be(12);
+      expect(repo.files.length).to.be(11);
       done();
     });
   });
