@@ -98,11 +98,11 @@ describe('File', function() {
       var config = new Config(constants.DEFAULT_CONFIG);
       // TODO: Test with changes to config
       config.settings = {
-        doneList: 'DONE', 
-        defaultList: 'TODO',
-        addCheckBoxTasks: true,
         newCardSyntax: 'MARKDOWN',
         cards: {
+          doneList: 'DONE', 
+          defaultList: 'TODO',
+          addCheckBoxTasks: true,
           metaNewLine:true,
           trackChanges:true
         }

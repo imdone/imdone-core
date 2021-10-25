@@ -82,12 +82,15 @@ settings:
 
 
 
+
       <!--
       created:${(new Date()).toISOString()}
       -->
-  doneList: DONE
-  defaultList: TODO
-  addCheckBoxTasks: false
+    doneList: DONE
+    defaultList: TODO
+    addCheckBoxTasks: false
+    maxLines: 6
+    taskPrefix: "#"
   filteredLists:
     - filter: 'dueDate < "${tomorrow at 6AM}" AND list != DONE +dueDate +order'
       name: What's Due?
@@ -95,7 +98,5 @@ settings:
       name: Recently Completed
   journalPath: imdone-tasks
   journalType: Folder
-  maxLines: 6
   newCardSyntax: MARKDOWN
-  taskPrefix: "#"
   journalTemplate:

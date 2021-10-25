@@ -24,13 +24,13 @@ lists:
     ignore: true
     name: DONE
 settings:
-  metaSep: "::"
   journalType: Folder
   journalPath: content
-  maxLines: 6
-  addNewCardsToTop: true
   newCardSyntax: HASH_META_ORDER
   cards:
+    maxLines: 6
+    addNewCardsToTop: true
+    metaSep: "::"
     colors: []
     metaNewLine: true
     trackChanges: true
@@ -78,10 +78,10 @@ settings:
           }
           return `<span style="font-size: 1.5em;">${emoji}</span>`
         }
-  doneList: DONE
-  defaultList: TODO
-  taskPrefix: "- [ ]"
-  addCheckBoxTasks: true
+    doneList: DONE
+    defaultList: TODO
+    taskPrefix: "- [ ]"
+    addCheckBoxTasks: true
   filteredLists: []
   journalTemplate: ""
   openIn: code

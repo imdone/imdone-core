@@ -87,7 +87,7 @@ describe('WatchedFsStore', function () {
         console.log(defaultCardsRepo.initializingWatcher)
         const configPath = defaultCardsRepo.getFullPath(defaultCardsRepo.getFile('.imdone/config.yml'))
         const config = load(readFileSync(configPath).toString())
-        config.settings.metaSep = '::'
+        config.settings.cards.metaSep = '::'
         config.keepEmptyPriority = true
         writeFileSync(configPath, dump(config))
       })
@@ -125,7 +125,7 @@ describe('WatchedFsStore', function () {
         expected = readFileSync(filePath).toString().split(eol.lf).filter((l, i) => i !== 23)
         const configPath = defaultCardsRepo.getFullPath(defaultCardsRepo.getFile('.imdone/config.yml'))
         const config = load(readFileSync(configPath).toString())
-        config.settings.metaSep = ':test:'
+        config.settings.cards.metaSep = ':test:'
         config.keepEmptyPriority = true
         writeFileSync(configPath, dump(config))
       })
