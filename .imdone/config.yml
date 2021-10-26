@@ -53,6 +53,7 @@ settings:
         filter: allTags=contains=urgent
       - color: red
         filter: ':bug:'
+    addCompletedMeta: true
   doneList: DONE
   filterHistory:
     - allMeta.id = "4"
@@ -75,3 +76,6 @@ settings:
         href: https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
     ---
       
+  tagPrefix: '#'
+  openIn: code
+  defaultList: FIXME
