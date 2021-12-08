@@ -95,7 +95,7 @@ describe('WatchedFsStore', function () {
     it('should reload config and do nothing if metaSep is incorrect', function(done) {
       let filePath
       let expected
-      defaultCardsRepo.on('config.update', data => {
+      defaultCardsRepo.once('config.update', data => {
         const expected = readFileSync(path.join(process.cwd(), 'test', 'files', 'imdone-readme-default-metaSep.md'))
           .toString()
           .split(eol.lf)
