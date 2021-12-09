@@ -57,7 +57,7 @@ describe('WatchedFsStore', function () {
     })
   })
   describe('watcher', function () {
-    it('should reload config and update metaSep', function(done) {
+    it.skip('should reload config and update metaSep', function(done) {
       defaultCardsRepo.once('config.update', ({file}) => {
         const expected = readFileSync(path.join(process.cwd(), 'test', 'files', 'imdone-readme-metaSep.md'))
           .toString()
