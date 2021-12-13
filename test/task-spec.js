@@ -27,7 +27,7 @@ describe('task', function() {
     })
 
     it('should remove expand:1 from text', () => {
-      let task = new Task(config, {})
+      let task = new Task(config, {}, true)
       let wholeTask = task.getText({stripMeta: true, sanitize: true, stripTags: true, stripContext: true}, 'A new task with expand:1')
       expect(wholeTask).to.be('A new task with');
     })
@@ -90,7 +90,7 @@ describe('task', function() {
 <!--
 with:meta
 -->`
-      const afterAdd = new Task(config, {}).addToLastCommentInContent(content, 'order:10')
+      const afterAdd = new Task(config, {}, true).addToLastCommentInContent(content, 'order:10')
       afterAdd.includes(' order:10')
     })
     it('should add content correctly when newline is true', () => {
@@ -98,7 +98,7 @@ with:meta
 <!--
 with:meta
 -->`
-      const afterAdd = new Task(config, {}).addToLastCommentInContent(content, 'order:10', true)
+      const afterAdd = new Task(config, {}, true).addToLastCommentInContent(content, 'order:10', true)
       afterAdd.includes('\norder:10')
     })
   })

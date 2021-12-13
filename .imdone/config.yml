@@ -18,7 +18,7 @@ code:
 lists:
   - hidden: true
     name: FIXME
-  - hidden: false
+  - hidden: true
     name: BACKLOG
   - hidden: false
     name: TODO
@@ -37,26 +37,14 @@ marked:
   smartLists: true
   langPrefix: language-
 settings:
+  openIn: code
+  customOpenIn: ''
+  editorTheme: blackboard
   journalType: Folder
   journalPath: /notes
-  taskPrefix: '#'
-  maxLines: 4
-  addNewCardsToTop: true
+  appendNewCardsTo: imdone-tasks.md
   newCardSyntax: MARKDOWN
-  cards:
-    colors:
-      - color: green
-        filter: 'contains(allTags,story)'
-      - color: black
-        filter: list=TODO
-      - color: red
-        filter: allTags=contains=urgent
-      - color: red
-        filter: ':bug:'
-    addCompletedMeta: true
-  doneList: DONE
-  filterHistory:
-    - allMeta.id = "4"
+  replaceSpacesWith: '-'
   filteredLists: []
   journalTemplate: |
     ---
@@ -76,6 +64,38 @@ settings:
         href: https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
     ---
       
-  tagPrefix: '#'
-  openIn: code
-  defaultList: FIXME
+  theme: dark
+  filterHistory:
+    - allMeta.id = "4"
+  cards:
+    colors:
+      - color: green
+        filter: 'contains(allTags,story)'
+      - color: black
+        filter: list=TODO
+      - color: red
+        filter: allTags=contains=urgent
+      - color: red
+        filter: ':bug:'
+    template: |
+
+      <!--
+      created:${(new Date()).toISOString()}
+      -->
+    links:
+      - href: >-
+          https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
+        icon: twitter
+        pack: fab
+        title: Tweet this card
+    trackChanges: false
+    metaNewLine: false
+    addCompletedMeta: true
+    addCheckBoxTasks: false
+    doneList: DONE
+    taskPrefix: '#'
+    tagPrefix: '#'
+    metaSep: ':'
+    maxLines: 4
+    addNewCardsToTop: true
+    defaultList: FIXME
