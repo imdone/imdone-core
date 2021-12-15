@@ -67,6 +67,9 @@ settings:
   theme: dark
   filterHistory:
     - allMeta.id = "4"
+  views:
+    - id: default
+      defaultFilter: ''
   cards:
     colors:
       - color: green
