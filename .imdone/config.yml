@@ -49,9 +49,9 @@ settings:
   journalTemplate: |
     ---
     computed:
-      date: (new Date()).toDateString()
-      time: (new Date()).toLocaleTimeString()
-      timestamp: (new Date()).toISOString()
+      date: ${(new Date()).toDateString()}
+      time: ${(new Date()).toLocaleTimeString()}
+      timestamp: ${(new Date()).toISOString()}
     template: | # This is the template for new cards that are created in imdone
       
       <!-- created:${timestamp} -->
@@ -63,7 +63,6 @@ settings:
         title: Tweet this card
         href: https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
     ---
-      
   theme: dark
   filterHistory:
     - allMeta.id = "4"
