@@ -30,7 +30,8 @@ describe('File', function() {
     };
     const filePath = path.join('test','files','sample.js')
     const content = fs.readFileSync('test/files/sample.js', 'utf8')
-    var someFile = new SomeFile({repoId: 'test', filePath, content, languages: languages});
+    const project = {path: '/', config}
+    var someFile = new SomeFile({repoId: 'test', filePath, content, languages: languages, project});
 
     expect(someFile instanceof File).to.be(true);
     expect(someFile instanceof SomeFile).to.be(true);
@@ -43,7 +44,8 @@ describe('File', function() {
   describe('getLinePos', function() {
     it('should give the correct line position for each line of a file', function() {
       var content = fs.readFileSync('test/files/test.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/test.js', content: content, languages:languages});
+      const project = {path: 'test/files'}
+      var file = new File({repoId: 'test', filePath: 'test/files/test.js', content: content, languages:languages, project});
 
       for (var i=1; i < 13;i++) {
         pos = file.getLinePos(i);
@@ -59,18 +61,20 @@ describe('File', function() {
       var config = new Config(constants.DEFAULT_CONFIG);
       config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
       var content = fs.readFileSync('test/files/update-metadata.md', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/update-metadata.md', content: content, languages:languages});
+      const project = {config, path: 'test/files'}
+      var file = new File({repoId: 'test', filePath: 'test/files/update-metadata.md', content: content, languages:languages, project});
       file.extractAndTransformTasks(config)
       file.content.should.not.equal(content)
     })
 
     it('should complete tasks with checkbox beforeText in a md file', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
-      // TODO: Test with changes to config
+      // BACKLOG:-50 Test with changes to config
       config.settings = {doneList: "DONE", cards:{addCompletedMeta: true, metaNewLine:true, trackChanges:true}}
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content, languages});
+      const project = {config, path: 'test/files'}
+      var file = new File({repoId: 'test', filePath, content, languages, project});
       file.extractTasks(config)
       file.transformTasks(config, true)
       const lines = eol.split(file.content)
@@ -81,11 +85,12 @@ describe('File', function() {
 
     it('should uncomplete tasks with checkbox beforeText in a md file', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
-      // TODO: Test with changes to config
+      // BACKLOG:-60 Test with changes to config
       config.settings = {doneList: "DONE", cards:{addCompletedMeta: true, metaNewLine:true, trackChanges:true}}
       const filePath = 'test/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content, languages});
+      const project = {config, path: 'test/files'}
+      var file = new File({repoId: 'test', filePath, content, languages, project});
       file.extractTasks(config)
       file.transformTasks(config, true)
       const lines = eol.split(file.content)
@@ -96,7 +101,7 @@ describe('File', function() {
 
     it(`should find checkbox tasks`, () => {
       var config = new Config(constants.DEFAULT_CONFIG);
-      // TODO: Test with changes to config
+      // BACKLOG:-70 Test with changes to config
       config.settings = {
         newCardSyntax: 'MARKDOWN',
         cards: {
@@ -109,7 +114,8 @@ describe('File', function() {
       }
       const filePath = 'test/files/checkbox-tasks.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content, languages});
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content, languages, project});
       file.extractAndTransformTasks(config)
       const lines = eol.split(file.content)
       file.isModified().should.be.true()
@@ -128,13 +134,14 @@ describe('File', function() {
 
   describe("extractTasks", function() {
     it("Should find markdown tasks in a markdown file", function() {
+      var config = new Config(constants.DEFAULT_CONFIG);
       var content = fs.readFileSync('test/files/sample.md', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages, project});
 
       var expectation = sinon.mock();
       file.on("task.found", expectation);
       expectation.exactly(8);
-      var config = new Config(constants.DEFAULT_CONFIG);
       (file.extractTasks(config).getTasks().length).should.be.exactly(8);
       (file.tasks[2].description.length).should.be.exactly(2)
       expectation.verify();
@@ -142,8 +149,9 @@ describe('File', function() {
 
     it("Should leave embeded [] alone in link style tasks", function() {
       var content = fs.readFileSync('test/files/sample.md', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages, project});
       const tasks = file.extractTasks(config).getTasks()
       const task = tasks.find(task => task.order === 20)
       task.text.should.equal('Create Placeholder for adding new cards with [space].')
@@ -151,14 +159,15 @@ describe('File', function() {
 
     it("Should not include content in brackets before a task", function() {
       content = '[2021-12-01 12:00] #DOING:20 A new task'
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages, project});
       let tasks = file.extractTasks(config).getTasks()
       let task = tasks.find(task => task.order === 20)
       task.text.should.equal('A new task')
 
       content = '[2021-12-01 12:00] [A new task](#DOING:20)'
-      file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages});
+      file = new File({repoId: 'test', filePath: 'test/files/sample.md', content, languages, project});
       tasks = file.extractTasks(config).getTasks()
       task = tasks.find(task => task.order === 20)
       task.text.should.equal('A new task')
@@ -166,12 +175,13 @@ describe('File', function() {
 
     it("Should find all tasks in a code file", function() {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages, project});
 
       var expectation = sinon.mock();
       file.on("task.found", expectation);
       expectation.exactly(8);
-      var config = new Config(constants.DEFAULT_CONFIG);
       (file.extractTasks(config).getTasks().length).should.be.exactly(8);
       expectation.verify();
     });
@@ -180,7 +190,8 @@ describe('File', function() {
       const filePath = 'test/files/hash-no-order.md';
       var content = fs.readFileSync(filePath, 'utf8');
       var config = new Config(constants.DEFAULT_CONFIG);
-      var file = new File({repoId: 'test', filePath, content, languages});
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content, languages, project});
 
       const expectation = sinon.mock();
       file.on("task.found", expectation);
@@ -192,9 +203,10 @@ describe('File', function() {
 
   describe("modifyTaskFromContent", function() {
     it("Should modfy a description from content", function() {
-      var content = fs.readFileSync('test/files/sample.md', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      var content = fs.readFileSync('test/files/sample.md', 'utf8');
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages, project});
       (file.extractTasks(config).getTasks().length).should.be.exactly(8);
       (file.tasks[2].description.length).should.be.exactly(2)
       file.modifyTaskFromContent(file.tasks[2], 'task 1 +okay\n- A description line\n- [ ] a sub task\n', config)
@@ -204,8 +216,9 @@ describe('File', function() {
     it('modifies a task that contains <code> tags', () => {
       const filePath = 'test/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content, languages:languages, project});
       file.extractTasks(config);
       const task = file.tasks.find(task => task.list === 'DOING')
       task.description.length.should.be.exactly(16)
@@ -217,8 +230,9 @@ describe('File', function() {
     it('replaces content in  a task without blank lines with content containing blank lines', () => {
       const filePath = 'test/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content, languages:languages, project});
       file.extractTasks(config);
       const task = file.tasks.find(task => task.list === 'TODO')
       task.description.length.should.be.exactly(2)
@@ -232,13 +246,14 @@ describe('File', function() {
     it('should modify a task that contains <code> tags', () => {
       const filePath = 'test/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content, languages:languages, project});
       file.extractTasks(config);
       const task = file.tasks.find(task => task.list === 'DOING')
       task.description.length.should.be.exactly(16)
       file.modifyTaskFromHtml(task, '<div class="task-description"><input type="checkbox" checked><input>', config)
-      const modifiedFile = new File({repoId: 'test', filePath, content: file.content, languages:languages});
+      const modifiedFile = new File({repoId: 'test', filePath, content: file.content, languages:languages, project});
       modifiedFile.extractTasks(config)
       const modifiedTask = modifiedFile.tasks.find(task => task.list === 'DOING')
       modifiedTask.getProgress().completed.should.be.exactly(1)
@@ -249,8 +264,9 @@ describe('File', function() {
     it('should modify a HASH_NO_ORDER task that has no order metadata', () => {
       const filePath = 'test/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content, languages:languages, project});
       file.extractTasks(config);
       const task = file.tasks.find(task => task.list === 'DONE')
       task.order = 100
@@ -262,8 +278,9 @@ describe('File', function() {
     it('should modify a HASH_NO_ORDER task that has order metadata', () => {
       const filePath = 'test/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content, languages:languages, project});
       file.extractTasks(config);
       const task = file.tasks.find(task => task.list === 'TODO')
       task.order = 100
@@ -275,7 +292,8 @@ describe('File', function() {
 
   describe("getCodeCommentRegex", function() {
     it("Should return the regex for a given file type", function() {
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: fs.readFileSync('test/files/sample.js', 'utf8'), languages:languages});
+      const project = {path: 'test/files'}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: fs.readFileSync('test/files/sample.js', 'utf8'), languages:languages, project});
       myRe = file.getCodeCommentRegex();
       console.log(myRe);
       str = file.getContent();
@@ -288,7 +306,9 @@ describe('File', function() {
 
   describe("extractTasksInCodeFile", function() {
     it("Should extract code style tasks from a code file", function() {
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: fs.readFileSync('test/files/sample.js', 'utf8'), languages:languages});
+      var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: fs.readFileSync('test/files/sample.js', 'utf8'), languages:languages, project});
       file.extractTasksInCodeFile(new Config(constants.DEFAULT_CONFIG));
       console.log(file.tasks);
     })
@@ -297,7 +317,8 @@ describe('File', function() {
   describe('trimCommentBlockStart', () => {
     it('should trim the code block start pattern from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      const project = {path: 'test/files'}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages, project});
       file.trimCommentBlockStart('/* This is a comment').should.equal('This is a comment');
       file.trimCommentBlockStart('/*This is a comment').should.equal('This is a comment');
       file.trimCommentBlockStart(' /*This is a comment').should.equal('This is a comment');
@@ -310,7 +331,8 @@ describe('File', function() {
   describe('trimCommentBlockIgnore', () => {
     it('should trim the code block ignore pattern from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      const project = {path: 'test/files'}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages, project});
       file.trimCommentBlockIgnore('* This is a comment').should.equal('This is a comment');
       file.trimCommentBlockIgnore('*This is a comment').should.equal('This is a comment');
       file.trimCommentBlockIgnore(' *This is a comment').should.equal('This is a comment');
@@ -321,7 +343,8 @@ describe('File', function() {
   describe('trimCommentBlockEnd', () => {
     it('should trim the code block end pattern from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      const project = {path: 'test/files'}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages, project});
       file.trimCommentBlockEnd('This is a comment */').should.equal('This is a comment');
       file.trimCommentBlockEnd('This is a comment*/').should.equal('This is a comment');
       file.trimCommentBlockEnd('*/').should.equal('');
@@ -334,7 +357,8 @@ describe('File', function() {
   describe('trimCommentStart', () => {
     it('should trim the comment start from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      const project = {path: 'test/files'}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages, project});
       file.trimCommentStart('//This is a comment').should.equal('This is a comment');
       file.trimCommentStart(' // This is a comment').should.equal('This is a comment');
       file.trimCommentStart('  // This is a comment').should.equal('This is a comment');
@@ -345,7 +369,8 @@ describe('File', function() {
   describe('trimCommentChars', () => {
     it('should trim the code block end pattern from a line of text', () => {
       var content = fs.readFileSync('test/files/sample.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages});
+      const project = {path: 'test/files'}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.js', content: content, languages:languages, project});
       file.trimCommentChars('This is a comment */').should.equal('This is a comment');
       file.trimCommentChars('This is a comment*/').should.equal('This is a comment');
       file.trimCommentChars('*/').should.equal('');
@@ -358,8 +383,9 @@ describe('File', function() {
     it('returns truthy if a line has a task', () => {
       const filePath = path.join('test','files','sample.js')
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content: content, languages:languages, project});
       file.extractTasks(config);
       should(file.hasTaskInText(config, 'TODO: a task')).be.ok()
       should(file.hasTaskInText(config, '[a task](#TODO:0)')).be.ok()
@@ -370,8 +396,9 @@ describe('File', function() {
   describe('extractTasks', () => {
     it('extracts tasks and descriptions', () => {
       var content = fs.readFileSync('test/files/descriptions.js', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/descriptions.js', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath: 'test/files/descriptions.js', content: content, languages:languages, project});
       file.extractTasks(config);
       file.tasks[0].description.length.should.be.exactly(2)
       file.tasks[0].line.should.be.exactly(2)
@@ -387,8 +414,9 @@ describe('File', function() {
 
     it('sets the correct beforeText for hash and link style tasks', () => {
       var content = fs.readFileSync('test/files/sample.md', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath: 'test/files/sample.md', content: content, languages:languages, project});
       file.extractTasks(config);
       file.tasks.find(task => task.text === "Find tasks in markdown comments").beforeText.should.equal('# ')
       file.tasks.find(task => task.text === "Create Placeholder for adding new cards with [space].").beforeText.should.equal('## ')
@@ -396,16 +424,18 @@ describe('File', function() {
 
     it('extracts tasks in a c sharp file', () => {
       var content = fs.readFileSync('test/repos/repo3/KillSurvivorCommandHandler.cs', 'utf8');
-      var file = new File({repoId: 'test', filePath: 'test/repos/repo3/KillSurvivorCommandHandler.cs', content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/repos/repo3', config}
+      var file = new File({repoId: 'test', filePath: 'test/repos/repo3/KillSurvivorCommandHandler.cs', content: content, languages:languages, project});
       file.extractTasks(config);
     })
 
     it('extracts tasks in markdown lists', () => {
       const filePath = 'test/repos/repo3/lists.md'
-      var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      var content = fs.readFileSync(filePath, 'utf8');
+      const project = {path: 'test/repos/repo3', config}
+      var file = new File({repoId: 'test', filePath, content: content, languages:languages, project});
       file.extractTasks(config);
       file.tasks[0].description.length.should.be.exactly(2)
       file.tasks[0].line.should.be.exactly(1)
@@ -416,8 +446,9 @@ describe('File', function() {
     it('extracts tasks with blank lines preserved', () => {
       const filePath = 'test/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8');
-      var file = new File({repoId: 'test', filePath, content: content, languages:languages});
       var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content: content, languages:languages, project});
       file.extractTasks(config);
       file.tasks.find(task => task.list === 'DOING').description.length.should.be.exactly(16)
     })
@@ -429,7 +460,8 @@ kanban-plugin: true
 
 - [A task](#TODO:)
 `
-      var file = new File({repoId: 'test', filePath: 'test.md', content: content, languages:languages});
+      const project = {path: 'test'}
+      var file = new File({repoId: 'test', filePath: 'test.md', content: content, languages:languages, project});
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
       file.tasks.length.should.be.exactly(0)
@@ -442,7 +474,8 @@ imdone_ignore: true
 
 - [A task](#TODO:)
 `
-      var file = new File({repoId: 'test', filePath: 'test.md', content: content, languages:languages});
+      const project = {path: 'test'}
+      var file = new File({repoId: 'test', filePath: 'test.md', content: content, languages:languages, project});
       var config = new Config(constants.DEFAULT_CONFIG);
       file.extractTasks(config);
       file.tasks.length.should.be.exactly(0)

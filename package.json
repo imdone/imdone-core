@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.23.1",
+  "version": "1.24.0",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
+    "@kwvanderlinde/markdown-it-wikilinks": "^1.0.2",
     "async": "~1.5.0",
     "checksum": "^0.1.1",
     "cheerio": "^1.0.0-rc.10",
@@ -56,6 +57,7 @@
     "function-regex": "^1.0.2",
     "gray-matter": "^4.0.2",
     "ignore": "^3.2.0",
+    "imdone-api": "^0.0.6",
     "isbinaryfile": "^3.0.2",
     "js-yaml": "^3.14.1",
     "json-fns": "^1.0.0",
@@ -64,6 +66,7 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",
+    "lodash.isempty": "^4.4.0",
     "lodash.isequal": "^4.5.0",
     "lodash.isfunction": "^3.0.9",
     "lodash.isnumber": "^3.0.3",
@@ -72,6 +75,7 @@
     "lodash.isundefined": "^3.0.1",
     "lodash.noop": "^3.0.1",
     "lodash.omit": "^4.5.0",
+    "lodash.pick": "^4.4.0",
     "lodash.reject": "^4.6.0",
     "lodash.remove": "^4.7.0",
     "lodash.some": "^4.6.0",
@@ -80,12 +84,17 @@
     "lodash.uniq": "^4.5.0",
     "lodash.where": "^3.1.0",
     "lodash.without": "^4.4.0",
-    "markdown-it": "^8.4.0",
+    "markdown-it": "^12.0.4",
     "markdown-it-checkbox": "^1.1.0",
+    "markdown-it-emoji": "^2.0.0",
+    "markdown-it-imsize": "^2.0.1",
+    "markdown-it-mark": "^3.0.1",
     "moment": "^2.29.1",
     "monquery": "imdone/node-monquery",
     "readdirp": "^3.6.0",
+    "remove-markdown": "^0.3.0",
     "sane": "^4.1.0",
+    "sanitize-filename": "^1.6.3",
     "sift": "^13.4.0"
   },
   "devDependencies": {
