@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.24.1",
+  "version": "1.24.2",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -57,7 +57,7 @@
     "function-regex": "^1.0.2",
     "gray-matter": "^4.0.2",
     "ignore": "^3.2.0",
-    "imdone-api": "^0.0.7",
+    "imdone-api": "^0.0.9",
     "isbinaryfile": "^3.0.2",
     "js-yaml": "^3.14.1",
     "json-fns": "^1.0.0",
