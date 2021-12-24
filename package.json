@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.24.2",
+  "version": "1.24.3",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -91,6 +91,7 @@
     "markdown-it-mark": "^3.0.1",
     "moment": "^2.29.1",
     "monquery": "imdone/node-monquery",
+    "npminstall": "^5.3.1",
     "readdirp": "^3.6.0",
     "remove-markdown": "^0.3.0",
     "sane": "^4.1.0",
