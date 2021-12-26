@@ -922,6 +922,8 @@ describe("Repository", function() {
     it('should return tasks in a filtered list', function(done) {
       defaultCardsProj.init(function(err, result) {
         const lists = defaultCardsRepo.getTasksByList()
+        // old.md in .stversions should be ignored
+        lists.find(list => list.name === 'DONE').tasks.length.should.be.exactly(0)
         lists[0].tasks[0].order.should.be.exactly(10)
         lists[0].tasks[1].order.should.be.exactly(8)
         lists[0].tasks[2].order.should.be.exactly(7)
