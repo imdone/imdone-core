@@ -59,7 +59,7 @@ describe('File', function() {
   describe('extractAndTransformTasks', () => {
     it('should update metadata', () => {
       var config = new Config(constants.DEFAULT_CONFIG);
-      config.settings = {doneList: "DONE", cards:{metaNewLine:true}}
+      config.settings = {doneList: "DONE", cards:{metaNewLine:true, addCompletedMeta: true, doneList: 'DONE'}}
       var content = fs.readFileSync('test/files/update-metadata.md', 'utf8');
       const project = {config, path: 'test/files'}
       var file = new File({repoId: 'test', filePath: 'test/files/update-metadata.md', content: content, languages:languages, project});
