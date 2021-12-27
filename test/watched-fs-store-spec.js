@@ -126,7 +126,8 @@ describe('WatchedFsStore', function () {
       defaultCardsProj.init(() => {
         filePath = defaultCardsRepo.getFullPath(defaultCardsRepo.getFile('imdone-readme.md'))
         expected = readFileSync(filePath).toString().split(eol.lf).filter((l, i) => i !== 23)
-        const configPath = defaultCardsRepo.getFullPath(defaultCardsRepo.getFile('.imdone/config.yml'))
+        const configFile = path.join('.imdone', 'config.yml')
+        const configPath = defaultCardsRepo.getFullPath(defaultCardsRepo.getFile(configFile))
         const config = load(readFileSync(configPath).toString())
         config.settings.cards.metaSep = ':test:'
         config.keepEmptyPriority = true
