@@ -64,6 +64,7 @@
     "lodash.assign": "^4.2.0",
     "lodash.clone": "^4.5.0",
     "lodash.clonedeep": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",
     "lodash.isempty": "^4.4.0",
