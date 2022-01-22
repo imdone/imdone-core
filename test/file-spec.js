@@ -199,6 +199,40 @@ describe('File', function() {
       (file.extractTasks(config).getTasks().filter(task => task.getType() === Task.Types.HASH_META_ORDER).length).should.be.exactly(2);
       expectation.verify();
     });
+
+    it("Should find all HASH_NO_ORDER tasks in a large markdown file", function() {
+      const filePath = 'test/files/BIG-FILE.md';
+
+      const addTask = (list, order) => {
+        const date = new Date()
+        const year = date.getFullYear()
+        const month = (date.getMonth()+1).toString().padStart(2,'0')
+        const day = date.getDate().toString().padStart(2,'0')
+        const hours = date.getHours().toString().padStart(2,'0')
+        const min = date.getMinutes().toString().padStart(2,'0')
+        const lf = String(eol.lf)
+        return `[${year}-${month}-${day} ${hours}:${min}] #${list} Another task at ${order}${lf}<!-- created::${date.toISOString()} order:${order} -->${lf}${lf}`
+      }
+      const lists = {
+        TODO: 20,
+        DOING: 10,
+        DONE: 600
+      }
+
+      let content = ''
+      Object.keys(lists).forEach(list => {
+        for (let n = 0; n < lists[list]; n++) {
+          content += addTask(list, n)
+        }
+      })
+      // fs.writeFileSync('test-big-file.md', content)
+      var config = new Config(constants.DEFAULT_CONFIG);
+      const project = {path: 'test/files', config}
+      var file = new File({repoId: 'test', filePath, content, languages, project});
+
+      (file.extractTasks(config).getTasks().filter(task => task.getType() === Task.Types.HASH_META_ORDER).length).should.be.exactly(630);
+    });
+
   });
 
   describe("modifyTaskFromContent", function() {
