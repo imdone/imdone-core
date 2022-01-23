@@ -211,7 +211,7 @@ describe('File', function() {
         const hours = date.getHours().toString().padStart(2,'0')
         const min = date.getMinutes().toString().padStart(2,'0')
         const lf = String(eol.lf)
-        return `[${year}-${month}-${day} ${hours}:${min}] #${list} Another task at ${order}${lf}<!-- created::${date.toISOString()} order:${order} -->${lf}${lf}`
+        return `[${year}-${month}-${day} ${hours}:${min}] #${list} Another task at ${order}${lf}<!-- created:${date.toISOString()} order:${order} -->${lf}${lf}`
       }
       const lists = {
         TODO: 20,
