@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.25.4",
+  "version": "1.25.5",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -85,7 +85,7 @@
     "lodash.uniq": "^4.5.0",
     "lodash.where": "^3.1.0",
     "lodash.without": "^4.4.0",
-    "markdown-it": "^12.0.4",
+    "markdown-it": "^12.3.2",
     "markdown-it-checkbox": "^1.1.0",
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-imsize": "^2.0.1",
