@@ -128,7 +128,6 @@ describe("Repository", function() {
         (file.tasks.length).should.be.exactly(1);
         repo1.deleteFile(file.path, function(err, file) {
           expect(err).to.be(null);
-          debugger
           (repo1.files.length).should.be.exactly(3);
           done();
         });
