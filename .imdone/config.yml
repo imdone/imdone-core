@@ -20,6 +20,9 @@ lists:
     name: FIXME
   - hidden: true
     name: BACKLOG
+  - name: HACK
+    hidden: false
+    ignore: false
   - hidden: false
     name: TODO
   - hidden: false
@@ -45,6 +48,8 @@ settings:
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: MARKDOWN
   replaceSpacesWith: '-'
+  plugins:
+    devMode: false
   filteredLists: []
   journalTemplate: |
     ---
