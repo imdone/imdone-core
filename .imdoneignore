@@ -1,5 +1,7 @@
+coverage
 test/repos
 test/files
 tmp
 imdone-export.json
 .imdone/templates
+test-big-file.md
