@@ -1,6 +1,6 @@
+coverage
 test/repos
 test/files
-coverage
 __tests__
 test-big-file.md
 tmp
