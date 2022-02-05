@@ -1,11 +1,11 @@
 {
   "name": "imdone-core",
-  "version": "1.25.5",
+  "version": "1.25.6",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
     "build": "doctoc --github --notitle README.md && npm test",
-    "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha",
+    "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha \"lib/**/__tests__/**/*.spec.js\" \"test/**/*spec.js\"",
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs",
     "lint": "jshint ./lib",
@@ -100,18 +100,39 @@
     "sift": "^13.4.0"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
     "colors": "^1.4.0",
-    "doctoc": "^1.3.0",
+    "doctoc": "^2.1.0",
     "expect.js": "~0.3.1",
-    "jsdiff": "^1.1.1",
     "jshint": "^2.9.4",
     "json-stringify-safe": "~5.0.0",
-    "mocha": "^5.2.0",
-    "nyc": "^11.9.0",
-    "release-it": "^14.10.0",
+    "mocha": "^9.2.0",
+    "nyc": "^15.1.0",
+    "release-it": "^14.12.4",
     "should": "13.1.3",
-    "sinon": "~1.9.0",
+    "sinon": "^13.0.0",
+    "sinon-chai": "^3.7.0",
     "vuepress": "^1.8.2",
     "wrench": "~1.5.8"
+  },
+  "mocha": {
+    "diff": true,
+    "extension": [
+      "js",
+      "cjs",
+      "mjs"
+    ],
+    "package": "./package.json",
+    "reporter": "spec",
+    "slow": "75",
+    "timeout": "2000",
+    "spec": [
+      "lib/**/__tests__/**/*.spec.js",
+      "test/**/*spec.js"
+    ],
+    "watch-files": [
+      "lib/**/__tests__/**/*.spec.js",
+      "test/**/*spec.js"
+    ]
   }
 }

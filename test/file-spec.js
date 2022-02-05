@@ -202,6 +202,7 @@ describe('File', function() {
 
     it("Should find all HASH_NO_ORDER tasks in a large markdown file", function() {
       const filePath = 'test/files/BIG-FILE.md';
+      console.time('build content')
 
       const addTask = (list, order) => {
         const date = new Date()
@@ -225,12 +226,13 @@ describe('File', function() {
           content += addTask(list, n)
         }
       })
-      // fs.writeFileSync('test-big-file.md', content)
       var config = new Config(constants.DEFAULT_CONFIG);
       const project = {path: 'test/files', config}
       var file = new File({repoId: 'test', filePath, content, languages, project});
 
-      (file.extractTasks(config).getTasks().filter(task => task.getType() === Task.Types.HASH_META_ORDER).length).should.be.exactly(630);
+      file.extractTasks(config).getTasks().length.should.be.exactly(630);
+      console.timeEnd('build content')
+
     });
 
   });
