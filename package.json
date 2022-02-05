@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "doctoc --github --notitle README.md && npm test",
-    "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha \"lib/_clean/**/__tests__/**/*.spec.js\" \"test/**/*spec.js\"",
+    "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha \"lib/**/__tests__/**/*.spec.js\" \"test/**/*spec.js\"",
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs",
     "lint": "jshint ./lib",
@@ -127,11 +127,11 @@
     "slow": "75",
     "timeout": "2000",
     "spec": [
-      "lib/_clean/**/__tests__/**/*.spec.js",
+      "lib/**/__tests__/**/*.spec.js",
       "test/**/*spec.js"
     ],
     "watch-files": [
-      "lib/_clean/**/__tests__/**/*.spec.js",
+      "lib/**/__tests__/**/*.spec.js",
       "test/**/*spec.js"
     ]
   }
