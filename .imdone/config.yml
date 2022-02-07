@@ -89,12 +89,6 @@ settings:
       <!--
       created:${(new Date()).toISOString()}
       -->
-    links:
-      - href: >-
-          https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
-        icon: twitter
-        pack: fab
-        title: Tweet this card
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: true
@@ -105,4 +99,11 @@ settings:
     metaSep: ':'
     maxLines: 4
     addNewCardsToTop: true
+    links:
+      - href: >-
+          https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
+        icon: twitter
+        pack: fab
+        title: Tweet this card
     defaultList: FIXME
+boardModuleActions: []
