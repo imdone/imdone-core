@@ -51,23 +51,7 @@ settings:
   plugins:
     devMode: false
   filteredLists: []
-  journalTemplate: |
-    ---
-    computed:
-      date: ${(new Date()).toDateString()}
-      time: ${(new Date()).toLocaleTimeString()}
-      timestamp: ${(new Date()).toISOString()}
-    template: | # This is the template for new cards that are created in imdone
-      
-      <!-- created:${timestamp} -->
-      <!--[[{{source.path}}:{{line}}]({{source.path}}:{{line}}) ]-->
-      <!-- expand:1 -->
-    links:
-      - pack: fab # Can be fab or fas https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use
-        icon: fa-twitter # The font-awesome icon to use
-        title: Tweet this card
-        href: https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
-    ---
+  journalTemplate: null
   theme: dark
   filterHistory:
     - allMeta.id = "4"
@@ -89,12 +73,6 @@ settings:
       <!--
       created:${(new Date()).toISOString()}
       -->
-    links:
-      - href: >-
-          https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
-        icon: twitter
-        pack: fab
-        title: Tweet this card
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: true
@@ -105,4 +83,10 @@ settings:
     metaSep: ':'
     maxLines: 4
     addNewCardsToTop: true
+    links:
+      - href: >-
+          https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
+        icon: twitter
+        pack: fab
+        title: Tweet this card
     defaultList: FIXME
