@@ -40,7 +40,7 @@ marked:
   smartLists: true
   langPrefix: language-
 settings:
-  openIn: code
+  openIn: custom
   customOpenIn: ''
   editorTheme: blackboard
   journalType: Folder
