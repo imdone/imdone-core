@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.26.2",
+  "version": "1.27.0",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -110,6 +110,7 @@
     "json-stringify-safe": "~5.0.0",
     "mocha": "^9.2.0",
     "nyc": "^15.1.0",
+    "prettier": "^2.5.1",
     "release-it": "^14.12.4",
     "should": "13.1.3",
     "sinon": "^13.0.0",
