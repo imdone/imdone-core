@@ -58,6 +58,7 @@ settings:
   views:
     - id: default
       defaultFilter: ''
+  name: imdone core
   cards:
     colors:
       - color: green
