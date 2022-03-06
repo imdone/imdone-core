@@ -208,9 +208,7 @@ describe('Repository', function () {
       if (err) return done(err)
       log('files:', files)
       const file = files.find((file) => file.path === 'checkbox-tasks.md')
-      expect(file.tasks[1].rawTask).to.equal(
-        '[A checkbox task without a list](#TODO:10)'
-      )
+      expect(file.tasks[1].text).to.equal('A checkbox task without a list')
       expect(err).to.be(null)
       expect(repo.files.length).to.be(11)
       done()
@@ -810,12 +808,12 @@ describe('Repository', function () {
       const expectedLines = JSON.stringify([
         '- [ ] #DOING A task',
         '  <!--',
-        '  order:20',
+        '  order:-21',
         '  -->',
       ])
       appContext.register(FileProjectContext, new ProjectContext(repo3))
       proj3.init(function (err, result) {
-        repo3.addTaskToFile(filePath, 'DOING', content, 20, (err, file) => {
+        repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)
@@ -837,7 +835,7 @@ describe('Repository', function () {
           '  <!-- order:40 -->',
           '  ',
         ])
-        repo3.addTaskToFile(filePath, 'DOING', content, -10, (err, file) => {
+        repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
           // BACKLOG:-110 make sure the task is added correctly
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
