@@ -40,7 +40,7 @@ marked:
   smartLists: true
   langPrefix: language-
 settings:
-  openIn: custom
+  openIn: code
   customOpenIn: ''
   editorTheme: blackboard
   journalType: Folder
@@ -58,6 +58,7 @@ settings:
   views:
     - id: default
       defaultFilter: ''
+  name: imdone core
   cards:
     colors:
       - color: green
