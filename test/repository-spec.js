@@ -616,7 +616,7 @@ describe('Repository', function () {
               repo3.readFile(file, function (err) {
                 if (err) return next(err)
                 var todo = repo3.getTasksInList(list)
-                expect(todo.length).to.be(todos.length)
+                expect(todo.length).to.be(todos.length - 1)
                 todos = repo3.getTasksInList(list)
                 next()
               })

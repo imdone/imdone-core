@@ -68,6 +68,42 @@ describe('File', function () {
     })
   })
 
+  describe('deleteTask', () => {
+    it('should delete a checkbox task with blank lines', () => {
+      const filePath = 'test/files/checkbox-deletions.md'
+      after = `
+- [ ] [A new card with space](#TODO:-10)
+  <card>
+    
+    space
+    
+    <!--
+    created:2022-03-23T18:49:36.583Z
+    -->
+  </card>`
+
+      var config = new Config(constants.DEFAULT_CONFIG)
+      config.settings = {
+        doneList: 'DONE',
+        cards: { metaNewLine: true, addCompletedMeta: true, doneList: 'DONE' },
+      }
+      var content = fs.readFileSync(filePath, 'utf8')
+      const project = { path: 'test/files', config }
+      var file = new File({
+        repoId: 'test',
+        filePath,
+        content: content,
+        languages: languages,
+        project,
+      })
+      file.extractAndTransformTasks(config)
+      file.getTasks().length.should.equal(2)
+      file.content.should.equal(content)
+      file.deleteTask(file.tasks[0], config)
+      file.content.should.equal(after)
+    })
+  })
+
   describe('extractAndTransformTasks', () => {
     it('should update metadata', () => {
       var config = new Config(constants.DEFAULT_CONFIG)
