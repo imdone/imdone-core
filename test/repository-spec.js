@@ -99,30 +99,11 @@ describe('Repository', function () {
 
   it('Should init successfully', function (done) {
     appContext.register(FileProjectContext, new ProjectContext(repo))
-    async.series(
-      {
-        repo: function (cb) {
-          proj.init(function (err, files) {
-            if (err) return cb(err)
-            // log("files:", files);
-            cb(null, files)
-          })
-        },
-        repo1: function (cb) {
-          proj1.init(function (err, files) {
-            if (err) return cb(err)
-            // log("files:", files);
-            cb(null, files)
-          })
-        },
-      },
-      function (err, result) {
-        expect(err).to.be(null)
-        expect(result.repo.length).to.be(11)
-        expect(result.repo1.length).to.be(3)
-        done()
-      }
-    )
+    proj.init(function (err, files) {
+      if (err) return done(err)
+      expect(files.length).to.be(12)
+      done()
+    })
   })
 
   it('Should write and delete a file successfully', function (done) {
@@ -210,7 +191,7 @@ describe('Repository', function () {
       const file = files.find((file) => file.path === 'checkbox-tasks.md')
       expect(file.tasks[1].text).to.equal('A checkbox task without a list')
       expect(err).to.be(null)
-      expect(repo.files.length).to.be(11)
+      expect(repo.files.length).to.be(12)
       done()
     })
   })
@@ -616,7 +597,7 @@ describe('Repository', function () {
               repo3.readFile(file, function (err) {
                 if (err) return next(err)
                 var todo = repo3.getTasksInList(list)
-                expect(todo.length).to.be(todos.length - 1)
+                expect(todo.length).to.be(todos.length)
                 todos = repo3.getTasksInList(list)
                 next()
               })
@@ -805,18 +786,14 @@ describe('Repository', function () {
       const content = 'A task'
       const testFilePath = 'addTaskTest.md'
       const filePath = path.join(repo3.path, testFilePath)
-      const expectedLines = JSON.stringify([
-        '- [ ] #DOING A task',
-        '  <!--',
-        '  order:-21',
-        '  -->',
-      ])
       appContext.register(FileProjectContext, new ProjectContext(repo3))
       proj3.init(function (err, result) {
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
-            JSON.stringify(lines.slice(5)).should.equal(expectedLines)
+            new RegExp(`\#DOING A task.* order:.*`)
+              .test(lines.slice(5))
+              .should.be.true()
             expect(err).to.be(null)
             done()
           })
