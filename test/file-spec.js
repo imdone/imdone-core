@@ -12,6 +12,7 @@ var should = require('should'),
   fs = require('fs')
 const Task = require('../lib/task')
 const appContext = require('../lib/context/ApplicationContext')
+const ProjectContext = require('../lib/ProjectContext')
 const FileProjectContext = require('../lib/domain/entities/FileProjectContext')
 appContext.register(FileProjectContext, new FileProjectContext())
 
@@ -111,6 +112,14 @@ describe('File', function () {
         doneList: 'DONE',
         cards: { metaNewLine: true, addCompletedMeta: true, doneList: 'DONE' },
       }
+      appContext.register(
+        FileProjectContext,
+        new ProjectContext({
+          config,
+          listExists: () => true,
+          getTasksInList: () => [],
+        })
+      )
       var content = fs.readFileSync('test/files/update-metadata.md', 'utf8')
       const project = { config, path: 'test/files' }
       var file = new File({
