@@ -157,9 +157,9 @@ describe('File', function () {
       file.extractTasks(config)
       file.transformTasks(config, true)
       const lines = eol.split(file.content)
-      expect(lines[14].startsWith('- [x]')).to.be(true)
-      expect(lines[19].startsWith('- [x]')).to.be(true)
-      expect(lines[24].startsWith('- [x]')).to.be(true)
+      expect(lines[15].startsWith('- [x]')).to.be(true)
+      expect(lines[20].startsWith('- [x]')).to.be(true)
+      expect(lines[25].startsWith('- [x]')).to.be(true)
     })
 
     it('should uncomplete tasks with checkbox beforeText in a md file', () => {
@@ -186,9 +186,9 @@ describe('File', function () {
       file.extractTasks(config)
       file.transformTasks(config, true)
       const lines = eol.split(file.content)
-      expect(lines[29].startsWith('- [ ]')).to.be(true)
-      expect(lines[33].startsWith('- [ ]')).to.be(true)
-      expect(lines[37].startsWith('- [ ]')).to.be(true)
+      expect(lines[30].startsWith('- [ ]')).to.be(true)
+      expect(lines[34].startsWith('- [ ]')).to.be(true)
+      expect(lines[38].startsWith('- [ ]')).to.be(true)
     })
 
     it(`should find checkbox tasks`, () => {
@@ -390,7 +390,7 @@ describe('File', function () {
         'task 1 +okay\n- A description line\n- [ ] a sub task\n',
         config
       )
-      file.tasks[2].description.length.should.be.exactly(2)
+      file.tasks[2].description.length.should.be.exactly(3)
     })
 
     it('modifies a task that contains <code> tags', () => {

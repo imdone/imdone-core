@@ -1186,21 +1186,39 @@ describe('Repository', function () {
     })
   })
 
-  describe.skip('plugin', function (done) {
-    it('should return the named plugin object', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
-      var name = path.join(process.cwd(), 'test', 'test-plugin')
-      repo1.config = new Config(constants.DEFAULT_CONFIG)
-      repo1.addPlugin(name, { foo: 'bar' })
-      repo1.saveConfig(function (err) {
-        expect(err).to.be(null)
-        proj1.init(function (err) {
-          expect(err).to.be(null || undefined)
-          var plugin = repo1.plugin(name)
-          expect(plugin.config).to.be(repo1.config.plugins[name])
-          expect(plugin.repo).to.be(repo1)
-          done()
-        })
+  describe('add and remove metadata', () => {
+    it('Removes metadata from a task with a checkbox prefix', (done) => {
+      appContext.register(
+        FileProjectContext,
+        new ProjectContext(metaSepTestRepo)
+      )
+      function getTask() {
+        return metaSepTestRepo
+          .getTasks()
+          .filter((task) => task.meta.id && task.meta.id[0] === 'arm123')
+          .pop()
+      }
+      metaSepTestProj.init((err, result) => {
+        const filePath = path.join(metaSepTestRepo.path, 'metadata-test.md')
+        const content = `A new task with space and expand meta
+
+
+space
+
+expand::1
+id::arm123`
+        metaSepTestRepo.addTaskToFile(
+          filePath,
+          'TODO',
+          content,
+          async (err) => {
+            if (err) return done(err)
+            getTask().metaKeys.includes('expand').should.be.true()
+            await metaSepTestProj.removeMetadata(getTask(), 'expand', '1')
+            getTask().metaKeys.includes('expand').should.be.false()
+            done()
+          }
+        )
       })
     })
   })
