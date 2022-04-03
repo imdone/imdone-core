@@ -1051,6 +1051,29 @@ describe('Repository', function () {
       })
     })
 
+    it('should move a task with blank lines, without adding more blank lines', (done) => {
+      const listName = 'DOING'
+      proj3.init((err, result) => {
+        const projectContext = new ProjectContext(repo3)
+        projectContext.config.settings.doneList = 'DONE'
+        projectContext.config.settings.cards.metaNewLine = true
+        projectContext.config.settings.cards.trackChanges = true
+        appContext.register(FileProjectContext, projectContext)
+        var list = repo3.getTasksInList(listName)
+        var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
+        const lastLine = task.lastLine
+        repo3.moveTask({ task, newList: 'TODO', newPos: 2 }, (err) => {
+          expect(err).to.be(null)
+          var list = repo3.getTasksInList('TODO')
+          var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
+          const file = repo3.getFile(task.source.path)
+          task.should.be.ok()
+          task.lastLine.should.equal(lastLine + 8)
+          done()
+        })
+      })
+    })
+
     it('should move two tasks in the same file and extract the latest tasks', (done) => {
       var config = new Config(constants.DEFAULT_CONFIG)
       // BACKLOG:-90 Test with changes to config
@@ -1186,21 +1209,39 @@ describe('Repository', function () {
     })
   })
 
-  describe.skip('plugin', function (done) {
-    it('should return the named plugin object', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
-      var name = path.join(process.cwd(), 'test', 'test-plugin')
-      repo1.config = new Config(constants.DEFAULT_CONFIG)
-      repo1.addPlugin(name, { foo: 'bar' })
-      repo1.saveConfig(function (err) {
-        expect(err).to.be(null)
-        proj1.init(function (err) {
-          expect(err).to.be(null || undefined)
-          var plugin = repo1.plugin(name)
-          expect(plugin.config).to.be(repo1.config.plugins[name])
-          expect(plugin.repo).to.be(repo1)
-          done()
-        })
+  describe('add and remove metadata', () => {
+    it('Removes metadata from a task with a checkbox prefix', (done) => {
+      appContext.register(
+        FileProjectContext,
+        new ProjectContext(metaSepTestRepo)
+      )
+      function getTask() {
+        return metaSepTestRepo
+          .getTasks()
+          .filter((task) => task.meta.id && task.meta.id[0] === 'arm123')
+          .pop()
+      }
+      metaSepTestProj.init((err, result) => {
+        const filePath = path.join(metaSepTestRepo.path, 'metadata-test.md')
+        const content = `A new task with space and expand meta
+
+
+space
+
+expand::1
+id::arm123`
+        metaSepTestRepo.addTaskToFile(
+          filePath,
+          'TODO',
+          content,
+          async (err) => {
+            if (err) return done(err)
+            getTask().metaKeys.includes('expand').should.be.true()
+            await metaSepTestProj.removeMetadata(getTask(), 'expand', '1')
+            getTask().metaKeys.includes('expand').should.be.false()
+            done()
+          }
+        )
       })
     })
   })

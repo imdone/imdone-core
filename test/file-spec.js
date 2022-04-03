@@ -387,10 +387,10 @@ describe('File', function () {
       file.tasks[2].description.length.should.be.exactly(2)
       file.modifyTaskFromContent(
         file.tasks[2],
-        'task 1 +okay\n- A description line\n- [ ] a sub task\n',
+        'task 1 +okay -->\n- A description line\n- [ ] a sub task\none more',
         config
       )
-      file.tasks[2].description.length.should.be.exactly(2)
+      file.tasks[2].description.length.should.be.exactly(3)
     })
 
     it('modifies a task that contains <code> tags', () => {
