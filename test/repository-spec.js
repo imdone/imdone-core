@@ -1051,6 +1051,29 @@ describe('Repository', function () {
       })
     })
 
+    it('should move a task with blank lines, without adding more blank lines', (done) => {
+      const listName = 'DOING'
+      proj3.init((err, result) => {
+        const projectContext = new ProjectContext(repo3)
+        projectContext.config.settings.doneList = 'DONE'
+        projectContext.config.settings.cards.metaNewLine = true
+        projectContext.config.settings.cards.trackChanges = true
+        appContext.register(FileProjectContext, projectContext)
+        var list = repo3.getTasksInList(listName)
+        var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
+        const lastLine = task.lastLine
+        repo3.moveTask({ task, newList: 'TODO', newPos: 2 }, (err) => {
+          expect(err).to.be(null)
+          var list = repo3.getTasksInList('TODO')
+          var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
+          const file = repo3.getFile(task.source.path)
+          task.should.be.ok()
+          task.lastLine.should.equal(lastLine + 8)
+          done()
+        })
+      })
+    })
+
     it('should move two tasks in the same file and extract the latest tasks', (done) => {
       var config = new Config(constants.DEFAULT_CONFIG)
       // BACKLOG:-90 Test with changes to config
