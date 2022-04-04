@@ -792,7 +792,7 @@ describe('Repository', function () {
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             new RegExp(`\#DOING A task.* order:.*`)
-              .test(lines.slice(5))
+              .test(lines.slice(5).join(' '))
               .should.be.true()
             expect(err).to.be(null)
             done()
