@@ -1229,7 +1229,7 @@ describe('Repository', function () {
 space
 
 expand::1
-id::arm123`
+id::arm123`.split(eol.lf).join(eol.auto)
         metaSepTestRepo.addTaskToFile(
           filePath,
           'TODO',

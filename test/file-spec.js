@@ -81,7 +81,7 @@ describe('File', function () {
     <!--
     created:2022-03-23T18:49:36.583Z
     -->
-  </card>`
+  </card>`.split(eol.lf).join(eol.auto)
 
       var config = new Config(constants.DEFAULT_CONFIG)
       config.settings = {
