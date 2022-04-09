@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.0",
+    "eol": "^0.9.1",
     "formstream": "^1.1.1",
+    "isomorphic-git": "^1.17.0",
     "node-fetch": "^3.2.3"
   }
 }
