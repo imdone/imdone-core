@@ -1,0 +1,19 @@
+{
+  "name": "imdone-sample-plugin",
+  "version": "0.1.0",
+  "author": "Jesse Piascik",
+  "description": "A sample imdone plugin",
+  "main": "bundle.js",
+  "scripts": {
+    "build": "rollup -c rollup.config.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "imdone-api": "^0.0.13"
+  },
+  "devDependencies": {
+    "rollup": "^2.63.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.3"
+  }
+}
