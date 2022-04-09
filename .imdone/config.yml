@@ -58,6 +58,8 @@ settings:
         - key: expand
           value: '1'
         - key: epic
+          value: Release 1.29.0
+        - key: epic
           value: Release 2.0
   filteredLists: []
   journalTemplate: null
