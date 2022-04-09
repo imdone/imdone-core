@@ -18,10 +18,13 @@ code:
 lists:
   - hidden: true
     name: FIXME
-  - name: HACK
+  - name: NOTE
     hidden: false
     ignore: false
-  - hidden: false
+  - name: HACK
+    hidden: true
+    ignore: false
+  - hidden: true
     name: BACKLOG
   - hidden: false
     name: TODO
