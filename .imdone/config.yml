@@ -18,11 +18,14 @@ code:
 lists:
   - hidden: true
     name: FIXME
-  - hidden: true
-    name: BACKLOG
-  - name: HACK
+  - name: NOTE
     hidden: false
     ignore: false
+  - name: HACK
+    hidden: true
+    ignore: false
+  - hidden: true
+    name: BACKLOG
   - hidden: false
     name: TODO
   - hidden: false
@@ -30,7 +33,7 @@ lists:
   - hidden: false
     name: READY
   - hidden: false
-    ignore: false
+    ignore: true
     name: DONE
 marked:
   gfm: true
@@ -41,7 +44,6 @@ marked:
   langPrefix: language-
 settings:
   openIn: code
-  customOpenIn: ''
   editorTheme: blackboard
   journalType: Folder
   journalPath: /notes
@@ -50,6 +52,13 @@ settings:
   replaceSpacesWith: '-'
   plugins:
     devMode: false
+    imdone-sample-plugin:
+      tags: []
+      meta:
+        - key: expand
+          value: '1'
+        - key: epic
+          value: Release 2.0
   filteredLists: []
   journalTemplate: null
   theme: dark
