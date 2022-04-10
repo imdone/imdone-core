@@ -8,8 +8,13 @@ module.exports = function () {
     {
       title: 'Start minor release',
       action: async function () {
-        await newRelease('main', 'minor')
-        project.toast({ message: 'Minor release created' })
+        try {
+          await newRelease('main', 'minor')
+          project.toast({ message: 'Minor release created' })
+        } catch (e) {
+          console.error('Failed to create new release:', e)
+          project.toast({ message: 'Minor release created', type: 'is-danger' })
+        }
       },
     },
     {
