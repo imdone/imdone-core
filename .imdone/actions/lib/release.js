@@ -1,11 +1,32 @@
 const fs = require('fs')
 const _path = require('path')
-const version = require('./version')
+
+const git = require('./git')
+const versionBuilder = require('./version')
 const fetch = require('./fetch')
+
 require('dotenv').config({ path: _path.join(__dirname, '..', '.env') })
+
 const insiderBuildsUrl = process.env.DISCORD_TEST_WEBHOOK
 
 module.exports = function (project) {
+  const version = versionBuilder(project)
+  // DOING:-30 ## Board actions for adding major, minor and patch releases
+  // **code:** [${relPath}:${line}](${relPath}:${line})
+  // - [x] switch to master
+  // - [ ] create new branch named for the correct increment (Based on current version in package.json)
+  // - [ ] Increment release in package.json
+  // - [ ] Add a card to TODO with is-epic meta "Release [version]"
+  // - [ ] Add card action configuration for setting release
+  // <!--
+  // created:2022-04-09T15:18:09.527Z epic:"Release 1.29.0" expand:1 -->
+
+  async function newRelease(increment) {
+    await git(project).checkout('master')
+    await version.update(increment)
+    await git(project).branch(version.get())
+  }
+
   function getChangeLog(withVersion) {
     const lists = project.lists.filter((list) => list.name === 'READY')
     const cards = lists[0].tasks.map((task) => {
@@ -21,14 +42,14 @@ module.exports = function (project) {
         .filter((line) => line.trim().length > 0)
         .join('\n')
     })
-    if (withVersion) cards.unshift(`## ${version()}`)
+    if (withVersion) cards.unshift(`## ${version.get()}`)
     return cards
   }
 
   function getReleasePost() {
     const changelog = getChangeLog()
     const content = [
-      `**imdone-core ${version()} is here!**\n`,
+      `**imdone-core ${version.get()} is here!**\n`,
       `**Here's what's in it...**\n`,
       ...changelog,
     ].join('\n')
@@ -59,5 +80,6 @@ module.exports = function (project) {
     postToDiscord,
     getChangeLog,
     getReleasePost,
+    newRelease,
   }
 }

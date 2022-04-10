@@ -1,8 +1,4 @@
-const release = require('./lib/release')
-const path = require('path')
-const git = require('isomorphic-git')
-const http = require('isomorphic-git/http/node')
-const fs = require('fs')
+const { newRelease } = require('./lib/release')
 
 module.exports = function () {
   const project = this.project
@@ -10,13 +6,9 @@ module.exports = function () {
 
   return [
     {
-      title: 'Start release',
+      title: 'Start minor release',
       action: async function () {
-        await git.checkout({
-          fs,
-          dir: project.path,
-          ref: 'master',
-        })
+        await newRelease('minor')
       },
     },
     {
