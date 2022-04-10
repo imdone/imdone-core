@@ -8,7 +8,7 @@ module.exports = function () {
     {
       title: 'Start minor release',
       action: async function () {
-        await newRelease('minor')
+        await newRelease('main', 'minor')
       },
     },
     {

@@ -21,8 +21,8 @@ module.exports = function (project) {
   // <!--
   // created:2022-04-09T15:18:09.527Z epic:"Release 1.29.0" expand:1 -->
 
-  async function newRelease(increment) {
-    await git(project).checkout('master')
+  async function newRelease(mainBranch, increment) {
+    await git(project).checkout(mainBranch)
     await version.update(increment)
     await git(project).branch(version.get())
   }
