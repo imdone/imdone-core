@@ -39,7 +39,7 @@ module.exports = function (project) {
     })
     await fs.promises.writeFile(
       releaseKanbanPath,
-      `## DOING: Release ${newVersion}\n<!--\nis-epic:"Release ${newVersion}"\nexpand:1\norder:0\n-->\n`
+      `## [Release ${newVersion}](#DOING:)\n<!--\nis-epic:"Release ${newVersion}"\nexpand:1\norder:0\n-->\n`
     )
   }
 
