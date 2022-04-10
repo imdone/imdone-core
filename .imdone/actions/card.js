@@ -2,7 +2,7 @@ const eol = require('eol')
 
 module.exports = function (task) {
   const project = this.project
-  return [
+  const actions = [
     {
       title: `Copy card for code`,
       action: () => {
@@ -33,4 +33,28 @@ module.exports = function (task) {
       icon: 'clone',
     },
   ]
+  const epic =
+    (task.meta['is-epic'] && task.meta['is-epic'][0]) ||
+    (task.meta.epic && task.meta.epic[0])
+  if (epic && task.source.path.endsWith('.md')) {
+    const template = `
+    <!--
+    epic:"${epic}"
+    created:${new Date().toISOString()}
+    -->`.replace(/  +/g, '')
+    actions.push({
+      title: `Add a card to ${epic}`,
+      action: () => {
+        project.newCard({
+          list: 'TODO',
+          path: task.source.path,
+          template,
+        })
+        return true
+      },
+      pack: 'fas',
+      icon: 'plus',
+    })
+  }
+  return actions
 }

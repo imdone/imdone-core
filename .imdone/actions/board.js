@@ -2,23 +2,25 @@ const release = require('./lib/release')
 
 module.exports = function () {
   const project = this.project
-  const { getChangeLog, newRelease } = release(project)
+  const { getChangeLog, startRelease, version } = release(project)
 
   return [
     {
-      title: 'Start minor release',
-      action: async function () {
-        project.toast({ message: 'Creating new minor release' })
-        try {
-          await newRelease('main', 'minor')
-          project.toast({ message: 'Minor release created' })
-        } catch (e) {
-          console.error('Failed to create new release:', e)
-          project.toast({
-            message: `Error creating release:${e.message}`,
-            type: 'is-danger',
-          })
-        }
+      title: `Start release ${version.update('patch')}`,
+      action: function () {
+        startRelease('master', 'patch')
+      },
+    },
+    {
+      title: `Start release ${version.update('minor')}`,
+      action: function () {
+        startRelease('master', 'minor')
+      },
+    },
+    {
+      title: `Start release ${version.update('major')}`,
+      action: function () {
+        startRelease('master', 'major')
       },
     },
     {

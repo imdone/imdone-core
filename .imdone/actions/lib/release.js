@@ -11,36 +11,51 @@ const insiderBuildsUrl = process.env.DISCORD_TEST_WEBHOOK
 
 module.exports = function (project) {
   const version = versionBuilder(project)
-  // DOING:-30 ## Board actions for adding major, minor and patch releases
+  // DOING:0 ## Board actions for adding major, minor and patch releases
   // **code:** [${relPath}:${line}](${relPath}:${line})
   // - [x] switch to master
   // - [x] create new branch named for the correct increment (Based on current version in package.json)
   // - [x] Increment release in package.json
-  // - [ ] Add a card to todo with is-epic meta "Release [version]"
-  // - [ ] Add card action configuration for setting release
+  // - [x] Add a card to todo with is-epic meta "Release [version]"
+  // - [ ] Add card action for setting epic meta to current release
+  // - [x] Add card action that adds a new card with epic meta to card source file
   // <!--
   // created:2022-04-09T15:18:09.527Z epic:"Release 1.29.0" expand:1 -->
 
-  async function newRelease(mainBranch, increment) {
-    await git(project).checkout(mainBranch)
-    const newVersion = version.update(increment)
-    await git(project).branch(newVersion)
-    await git(project).checkout(newVersion)
-    await version.save(newVersion)
-    const releaseNotesPath = _path.join(
-      project.path,
-      'notes',
-      'releases',
-      newVersion
-    )
-    const releaseKanbanPath = _path.join(releaseNotesPath, 'kanban.md')
-    await fs.promises.mkdir(releaseNotesPath, {
-      recursive: true,
-    })
-    await fs.promises.writeFile(
-      releaseKanbanPath,
-      `## [Release ${newVersion}](#DOING:)\n<!--\nis-epic:"Release ${newVersion}"\nexpand:1\norder:0\n-->\n`
-    )
+  async function startRelease(mainBranch, increment) {
+    try {
+      const newVersion = version.update(increment)
+      project.toast({
+        message: `Creating new ${increment} release: ${newVersion}`,
+      })
+      await git(project).checkout(mainBranch)
+      await git(project).branch(newVersion)
+      await git(project).checkout(newVersion)
+      await version.save(newVersion)
+      const releaseNotesPath = _path.join(
+        project.path,
+        'notes',
+        'releases',
+        newVersion
+      )
+      const releaseKanbanPath = _path.join(releaseNotesPath, 'kanban.md')
+      await fs.promises.mkdir(releaseNotesPath, {
+        recursive: true,
+      })
+      await fs.promises.writeFile(
+        releaseKanbanPath,
+        `## [Release ${newVersion}](#DOING:)\n<!--\nis-epic:"Release ${newVersion}"\nexpand:1\norder:0\n-->\n`
+      )
+      project.toast({
+        message: `New ${increment} release created: ${newVersion}`,
+      })
+    } catch (e) {
+      console.error('Failed to create new release:', e)
+      project.toast({
+        message: `Error creating release:${e.message}`,
+        type: 'is-danger',
+      })
+    }
   }
 
   function getChangeLog(withVersion) {
@@ -96,6 +111,7 @@ module.exports = function (project) {
     postToDiscord,
     getChangeLog,
     getReleasePost,
-    newRelease,
+    startRelease,
+    version,
   }
 }
