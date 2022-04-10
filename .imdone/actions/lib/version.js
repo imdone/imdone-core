@@ -22,7 +22,7 @@ module.exports = function (project) {
     const splitVersion = get().split('.')
     const index = VERSION_INDEX[increment]
 
-    const newVersion = splitVersion
+    const version = splitVersion
       .map((versionPart, i) => {
         if (i < index) return versionPart
         if (i > index) return '0'
@@ -30,7 +30,7 @@ module.exports = function (project) {
       })
       .join('.')
 
-    packageJson.version = newVersion
+    const packageJson = { ...package(), version }
 
     await fs.promises.writeFile(
       packagePath,
