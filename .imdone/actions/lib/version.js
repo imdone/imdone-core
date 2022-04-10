@@ -18,20 +18,21 @@ module.exports = function (project) {
     return package().version
   }
 
-  async function update(increment) {
+  function update(increment) {
     const splitVersion = get().split('.')
     const index = VERSION_INDEX[increment]
 
-    const version = splitVersion
+    return splitVersion
       .map((versionPart, i) => {
         if (i < index) return versionPart
         if (i > index) return '0'
         return `${parseInt(versionPart, 10) + 1}`
       })
       .join('.')
+  }
 
+  async function save(version) {
     const packageJson = { ...package(), version }
-
     await fs.promises.writeFile(
       packagePath,
       JSON.stringify(packageJson, null, 2)
@@ -41,5 +42,6 @@ module.exports = function (project) {
   return {
     get,
     update,
+    save,
   }
 }

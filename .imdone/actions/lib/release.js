@@ -23,8 +23,10 @@ module.exports = function (project) {
 
   async function newRelease(mainBranch, increment) {
     await git(project).checkout(mainBranch)
-    await version.update(increment)
-    await git(project).branch(version.get())
+    const newVersion = version.update(increment)
+    await git(project).branch(newVersion)
+    await git(project).checkout(newVersion)
+    await version.save(newVersion)
   }
 
   function getChangeLog(withVersion) {
