@@ -9,6 +9,7 @@ module.exports = function () {
       title: 'Start minor release',
       action: async function () {
         await newRelease('main', 'minor')
+        project.toast({ message: 'Minor release created' })
       },
     },
     {
