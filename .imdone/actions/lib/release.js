@@ -14,9 +14,9 @@ module.exports = function (project) {
   // DOING:-30 ## Board actions for adding major, minor and patch releases
   // **code:** [${relPath}:${line}](${relPath}:${line})
   // - [x] switch to master
-  // - [ ] create new branch named for the correct increment (Based on current version in package.json)
-  // - [ ] Increment release in package.json
-  // - [ ] Add a card to TODO with is-epic meta "Release [version]"
+  // - [x] create new branch named for the correct increment (Based on current version in package.json)
+  // - [x] Increment release in package.json
+  // - [ ] Add a card to todo with is-epic meta "Release [version]"
   // - [ ] Add card action configuration for setting release
   // <!--
   // created:2022-04-09T15:18:09.527Z epic:"Release 1.29.0" expand:1 -->
@@ -27,6 +27,19 @@ module.exports = function (project) {
     await git(project).branch(newVersion)
     await git(project).checkout(newVersion)
     await version.save(newVersion)
+    const releaseNotesPath = _path.join(
+      project.path,
+      'notes',
+      'releases',
+      newVersion
+    )
+    await fs.promises.mkdir(releaseNotesPath, {
+      recursive: true,
+    })
+    await fs.promises.writeFile(
+      releaseNotesPath,
+      `## DOING: Release ${newVersion}\n<!--\nis-epic:"Release ${newVersion}"\nexpand:1\n-->\n`
+    )
   }
 
   function getChangeLog(withVersion) {
