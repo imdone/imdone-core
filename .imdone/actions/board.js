@@ -1,8 +1,8 @@
-const { newRelease } = require('./lib/release')
+const release = require('./lib/release')
 
 module.exports = function () {
   const project = this.project
-  const { getChangeLog } = release(project)
+  const { getChangeLog, newRelease } = release(project)
 
   return [
     {
