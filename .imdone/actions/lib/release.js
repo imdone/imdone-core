@@ -17,7 +17,7 @@ module.exports = function (project) {
   // - [x] create new branch named for the correct increment (Based on current version in package.json)
   // - [x] Increment release in package.json
   // - [x] Add a card to todo with is-epic meta "Release [version]"
-  // - [ ] Add card action for setting epic meta to current release
+  // - [x] Add card action for setting epic meta to current release
   // - [x] Add card action that adds a new card with epic meta to card source file
   // <!--
   // created:2022-04-09T15:18:09.527Z epic:"Release 1.29.0" expand:1 -->
