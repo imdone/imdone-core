@@ -33,12 +33,13 @@ module.exports = function (project) {
       'releases',
       newVersion
     )
+    const releaseKanbanPath = _path.join(releaseNotesPath, 'kanban.md')
     await fs.promises.mkdir(releaseNotesPath, {
       recursive: true,
     })
     await fs.promises.writeFile(
-      releaseNotesPath,
-      `## DOING: Release ${newVersion}\n<!--\nis-epic:"Release ${newVersion}"\nexpand:1\n-->\n`
+      releaseKanbanPath,
+      `## DOING: Release ${newVersion}\n<!--\nis-epic:"Release ${newVersion}"\nexpand:1\norder:0\n-->\n`
     )
   }
 
