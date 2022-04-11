@@ -24,7 +24,7 @@ lists:
   - name: HACK
     hidden: true
     ignore: false
-  - hidden: false
+  - hidden: true
     name: BACKLOG
   - hidden: false
     name: TODO

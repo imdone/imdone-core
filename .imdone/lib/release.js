@@ -106,6 +106,10 @@ module.exports = function (project) {
     })
   }
 
+  async function currentBranch() {
+    return git(project).currentBranch()
+  }
+
   return {
     postInsiderBuildToDiscord,
     postToDiscord,
@@ -113,5 +117,6 @@ module.exports = function (project) {
     getReleasePost,
     startRelease,
     version,
+    currentBranch,
   }
 }

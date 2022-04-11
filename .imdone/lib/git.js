@@ -4,24 +4,33 @@ const git = require('isomorphic-git')
 const http = require('isomorphic-git/http/node')
 
 module.exports = function (project) {
-  async function checkout(ref) {
-    await git.checkout({
+  const dir = project.path
+  function opts(ext = {}) {
+    return {
       fs,
-      dir: project.path,
-      ref,
-    })
+      dir,
+      ...ext,
+    }
+  }
+  async function checkout(ref) {
+    await git.checkout(opts({ ref }))
   }
 
   async function branch(ref) {
-    await git.branch({
-      fs,
-      dir: project.path,
-      ref,
-    })
+    await git.branch(opts({ ref }))
+  }
+
+  async function currentBranch() {
+    return await git.currentBranch(
+      opts({
+        fullname: false,
+      })
+    )
   }
 
   return {
     checkout,
     branch,
+    currentBranch,
   }
 }
