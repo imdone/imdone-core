@@ -1,8 +1,9 @@
-module.exports = function ({ line, source, totals, allMeta }) {
-  const release =
-    allMeta.epic &&
-    allMeta.epic[0].includes('Release') &&
-    allMeta.epic[0].split(' ').pop()
+const release = require('../lib/release')
+
+module.exports = function ({ line, source, totals }) {
+  const project = this.project
+  const { version } = release(project)
+
   return {
     hashtags:
       '#100daysofcode #programmer #developer #hacking #markdown #Productivity #indiehackers #blogger',
@@ -13,7 +14,7 @@ module.exports = function ({ line, source, totals, allMeta }) {
     recentEmoji: recentEmoji(totals),
     wipEmoji: wipEmoji(totals),
     cardTotal: cardTotal(totals),
-    release,
+    release: version.get(),
   }
 }
 

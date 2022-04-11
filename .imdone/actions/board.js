@@ -1,4 +1,4 @@
-const release = require('./lib/release')
+const release = require('../lib/release')
 
 module.exports = function () {
   const project = this.project

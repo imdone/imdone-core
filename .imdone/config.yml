@@ -24,7 +24,7 @@ lists:
   - name: HACK
     hidden: true
     ignore: false
-  - hidden: true
+  - hidden: false
     name: BACKLOG
   - hidden: false
     name: TODO
@@ -47,7 +47,7 @@ settings:
   customOpenIn: ''
   editorTheme: blackboard
   journalType: Folder
-  journalPath: /notes
+  journalPath: notes
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: MARKDOWN
   replaceSpacesWith: '-'

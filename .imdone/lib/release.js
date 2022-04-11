@@ -11,7 +11,7 @@ const insiderBuildsUrl = process.env.DISCORD_TEST_WEBHOOK
 
 module.exports = function (project) {
   const version = versionBuilder(project)
-  // DOING:0 ## Board actions for adding major, minor and patch releases
+  // READY:0 ## Board actions for adding major, minor and patch releases
   // **code:** [${relPath}:${line}](${relPath}:${line})
   // - [x] switch to master
   // - [x] create new branch named for the correct increment (Based on current version in package.json)
@@ -34,7 +34,7 @@ module.exports = function (project) {
       await version.save(newVersion)
       const releaseNotesPath = _path.join(
         project.path,
-        'notes',
+        project.config.journalPath,
         'releases',
         newVersion
       )
