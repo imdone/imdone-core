@@ -33,7 +33,7 @@ lists:
   - hidden: false
     name: READY
   - hidden: false
-    ignore: true
+    ignore: false
     name: DONE
 marked:
   gfm: true
@@ -81,6 +81,8 @@ settings:
         filter: allTags=contains=urgent
       - color: red
         filter: ':bug:'
+      - color: green
+        filter: list=DOING
     template: |
 
       <!--

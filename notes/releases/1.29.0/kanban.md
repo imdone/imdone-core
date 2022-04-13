@@ -10,15 +10,16 @@ created:2022-04-09T15:04:38.154Z epic:"Release 1.29.0" -->
 - [ ] requires card properties to be async
 <!--
 created:2022-04-09T15:11:35.185Z epic:"Release 1.29.0" -->
-# [Automate release tasks with a card action](#DOING:-40)
-- [ ] only if is-epic meta has a value
-- [ ] update changelog
+# [Automate release tasks with a board action](#DOING:-40)
+- [ ] ~~Only if package version matches branch name (deffered)~~
 - [ ] run tests
+- [ ] update changelog
 - [ ] create a pr
   - [Open a Pull Request via the GitHub API | Pluralsight](https://www.pluralsight.com/guides/open-a-pull-request-via-the-github-api)
 - [ ] publish to npm
 - [ ] publish to social
-- [ ] Mark all READY items as DONE
+- [ ] Mark all READY items with same epic as DONE
+- [ ] Mark the task as done
 <!--
 created:2022-04-09T15:15:28.188Z
 epic:"Release 1.29.0"

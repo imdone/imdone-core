@@ -110,6 +110,10 @@ module.exports = function (project) {
     return git(project).currentBranch()
   }
 
+  async function isCurrentVersionBranch() {
+    return (await currentBranch) === version.get
+  }
+
   return {
     postInsiderBuildToDiscord,
     postToDiscord,
@@ -118,5 +122,6 @@ module.exports = function (project) {
     startRelease,
     version,
     currentBranch,
+    isCurrentVersionBranch,
   }
 }
