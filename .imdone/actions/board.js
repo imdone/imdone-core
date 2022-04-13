@@ -1,38 +1,22 @@
 const release = require('../lib/release')
-const { runTests } = require('../lib/test')
-const exec = require('child_process').exec
-
-async function runCommand(cmd, options = {}) {
-  return new Promise((resolve, reject) => {
-    exec(cmd, options, (error, stdout, stderr) => {
-      if (stderr) console.warn('cmd stderr:', stderr)
-      if (error) return reject(error)
-      resolve(stdout)
-    })
-  })
-}
 
 module.exports = function () {
   const project = this.project
-  const { getChangeLog, startRelease, isCurrentVersionBranch, version } =
+  const { getChangeLog, startRelease, prepareRelease, version } =
     release(project)
   const actions = ['patch', 'minor', 'major'].map((increment) => {
     return {
       title: `Start release ${version.update(increment)}`,
-      action: function () {
-        startRelease('master', increment)
+      action: async function () {
+        await startRelease('master', increment)
       },
     }
   })
 
   actions.push({
-    title: 'Run tests',
+    title: `Release ${project.name} ${version.get()}`,
     action: async function () {
-      project.toast({ message: `Running tests for ${project.name}` })
-      const result = await runTests(project)
-      const message = `Test results: passed:${result.pass} failed:${result.fail}`
-      console.log(message)
-      project.toast({ message })
+      await prepareRelease(project)
     },
   })
 

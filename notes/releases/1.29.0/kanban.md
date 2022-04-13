@@ -12,7 +12,7 @@ created:2022-04-09T15:04:38.154Z epic:"Release 1.29.0" -->
 created:2022-04-09T15:11:35.185Z epic:"Release 1.29.0" -->
 # [Automate release tasks with a board action](#DOING:-40)
 - [ ] ~~Only if package version matches branch name (deffered)~~
-- [ ] run tests
+- [x] run tests
 - [ ] update changelog
 - [ ] create a pr
   - [Open a Pull Request via the GitHub API | Pluralsight](https://www.pluralsight.com/guides/open-a-pull-request-via-the-github-api)

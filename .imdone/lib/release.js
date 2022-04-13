@@ -1,9 +1,11 @@
 const fs = require('fs')
 const _path = require('path')
+const eol = require('eol')
 
 const git = require('./git')
 const versionBuilder = require('./version')
 const fetch = require('./fetch')
+const { runTests } = require('./test')
 
 require('dotenv').config({ path: _path.join(__dirname, '..', '.env') })
 
@@ -61,9 +63,9 @@ module.exports = function (project) {
   function getChangeLog(withVersion) {
     const lists = project.lists.filter((list) => list.name === 'READY')
     const cards = lists[0].tasks.map((task) => {
-      const contentArray = task.description.map((line) =>
-        line.replace(/^/, '  ')
-      )
+      const contentArray = task.description
+        .map((line) => line.replace(/^/, '  '))
+        .filter((line) => !line.includes('${'))
       contentArray.unshift(task.text.replace(/^\#*\s*/, '').replace(/^/, '- '))
       return contentArray
         .filter((line) => !/^\s*- \[x\]/.test(line.trim()))
@@ -74,7 +76,61 @@ module.exports = function (project) {
         .join('\n')
     })
     if (withVersion) cards.unshift(`## ${version.get()}`)
+    cards.push('')
     return cards
+  }
+
+  async function prepareRelease(project) {
+    const currentVersion = version.get()
+    const releaseName = `${project.name} ${currentVersion}`
+    const duration = 10000
+    try {
+      await runTestsForRelease(project, releaseName, duration)
+      await updateChangeLog(project, releaseName, duration)
+    } catch (e) {
+      console.error(`Error preparing release ${releaseName}`, e)
+      project.snackBar({
+        message: e.message,
+        type: 'is-danger',
+        duration,
+      })
+    }
+  }
+
+  async function updateChangeLog(project, releaseName, duration) {
+    const changelogFile = 'CHANGELOG.md'
+    project.snackBar({
+      message: `Updating ${releaseName} ${changelogFile}`,
+      duration,
+    })
+    const changelogPath = _path.join(project.path, changelogFile)
+    const changelog = await fs.promises.readFile(changelogPath)
+    await fs.promises.writeFile(
+      changelogPath,
+      [getChangeLog(true).join(String(eol.auto)), changelog].join(
+        String(eol.auto)
+      )
+    )
+    project.snackBar({
+      message: `Changelog ${releaseName} ${changelogFile} updated`,
+      duration,
+    })
+  }
+
+  async function runTestsForRelease(project, releaseName, duration) {
+    project.snackBar({
+      message: `Running tests for ${releaseName}`,
+      duration,
+    })
+    const { pass, fail } = await runTests(project)
+    const type = fail > 0 ? 'is-danger' : 'is-success'
+    project.snackBar({
+      message: `${releaseName} test results: passed:${pass} failed:${fail}`,
+      type,
+      duration,
+    })
+    if (fail > 0)
+      throw new Error(`Failed tests! Aborting release ${releaseName}`)
   }
 
   function getReleasePost() {
@@ -94,7 +150,7 @@ module.exports = function (project) {
   }
 
   async function postToDiscord(url, content) {
-    return fetch(insiderBuildsUrl, {
+    return fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -123,5 +179,6 @@ module.exports = function (project) {
     version,
     currentBranch,
     isCurrentVersionBranch,
+    prepareRelease,
   }
 }
