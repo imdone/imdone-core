@@ -20,6 +20,10 @@ module.exports = function (project) {
     await git.branch(opts({ ref }))
   }
 
+  async function commit(ref, message, author) {
+    await git.commit(opts({ ref, message, author }))
+  }
+
   async function currentBranch() {
     return await git.currentBranch(
       opts({
@@ -32,5 +36,6 @@ module.exports = function (project) {
     checkout,
     branch,
     currentBranch,
+    commit,
   }
 }

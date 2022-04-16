@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@octokit/core": "^3.6.0",
     "dotenv": "^16.0.0",
     "eol": "^0.9.1",
     "formstream": "^1.1.1",

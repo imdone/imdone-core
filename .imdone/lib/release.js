@@ -10,6 +10,7 @@ const { runTests } = require('./test')
 require('dotenv').config({ path: _path.join(__dirname, '..', '.env') })
 
 const insiderBuildsUrl = process.env.DISCORD_TEST_WEBHOOK
+const { GITHUB_TOKEN } = process.env
 
 module.exports = function (project) {
   const version = versionBuilder(project)
@@ -60,6 +61,34 @@ module.exports = function (project) {
     }
   }
 
+  async function prepareRelease(project) {
+    const currentVersion = version.get()
+    const releaseName = `${project.name} ${currentVersion}`
+    const duration = 10000
+    try {
+      await runTestsForRelease(project, releaseName, duration)
+      await updateChangeLog(project, releaseName, duration)
+      await git(project).commit(
+        currentVersion,
+        'Update changelog pre-release',
+        { name: 'Jesse Piascik', email: 'jesse@piascik.net' }
+      )
+      // https://isomorphic-git.org/docs/en/push.html
+      // await git(project).push(
+      //   opts({
+      //     currentVersion
+      //   })
+      // )
+    } catch (e) {
+      console.error(`Error preparing release ${releaseName}`, e)
+      project.snackBar({
+        message: e.message,
+        type: 'is-danger',
+        duration,
+      })
+    }
+  }
+
   function getChangeLog(withVersion) {
     const lists = project.lists.filter((list) => list.name === 'READY')
     const cards = lists[0].tasks.map((task) => {
@@ -78,23 +107,6 @@ module.exports = function (project) {
     if (withVersion) cards.unshift(`## ${version.get()}`)
     cards.push('')
     return cards
-  }
-
-  async function prepareRelease(project) {
-    const currentVersion = version.get()
-    const releaseName = `${project.name} ${currentVersion}`
-    const duration = 10000
-    try {
-      await runTestsForRelease(project, releaseName, duration)
-      await updateChangeLog(project, releaseName, duration)
-    } catch (e) {
-      console.error(`Error preparing release ${releaseName}`, e)
-      project.snackBar({
-        message: e.message,
-        type: 'is-danger',
-        duration,
-      })
-    }
   }
 
   async function updateChangeLog(project, releaseName, duration) {

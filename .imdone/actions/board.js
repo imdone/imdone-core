@@ -2,8 +2,7 @@ const release = require('../lib/release')
 
 module.exports = function () {
   const project = this.project
-  const { getChangeLog, startRelease, prepareRelease, version } =
-    release(project)
+  const { startRelease, prepareRelease, version } = release(project)
   const actions = ['patch', 'minor', 'major'].map((increment) => {
     return {
       title: `Start release ${version.update(increment)}`,
@@ -14,16 +13,9 @@ module.exports = function () {
   })
 
   actions.push({
-    title: `Release ${project.name} ${version.get()}`,
+    title: `Prepare Pull Request ${project.name} ${version.get()}`,
     action: async function () {
       await prepareRelease(project)
-    },
-  })
-
-  actions.push({
-    title: 'Copy changelog',
-    action: function () {
-      project.copyToClipboard(getChangeLog(true).join('\n'), 'Changelog copied')
     },
   })
 
