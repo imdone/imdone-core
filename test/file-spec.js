@@ -61,11 +61,17 @@ describe('File', function () {
         project,
       })
 
-      for (var i = 1; i < 13; i++) {
-        pos = file.getLinePos(i)
-        console.log('line:%d pos:%d', i, pos)
-        console.log('pos:%d line:%d', pos, file.getLineNumber(pos))
-      }
+      file.getLinePos(1).should.equal(0)
+      file.getLinePos(2).should.equal(30)
+      file.getLinePos(3).should.equal(51)
+      file.getLinePos(4).should.equal(75)
+      file.getLinePos(5).should.equal(107)
+      file.getLinePos(6).should.equal(110)
+      file.getLinePos(7).should.equal(158)
+      file.getLinePos(8).should.equal(178)
+      file.getLinePos(9).should.equal(183)
+      file.getLinePos(10).should.equal(196)
+      file.getLinePos(11).should.equal(246)
     })
   })
 
@@ -81,7 +87,9 @@ describe('File', function () {
     <!--
     created:2022-03-23T18:49:36.583Z
     -->
-  </card>`.split(eol.lf).join(eol.auto)
+  </card>`
+        .split(eol.lf)
+        .join(eol.auto)
 
       var config = new Config(constants.DEFAULT_CONFIG)
       config.settings = {
@@ -557,7 +565,7 @@ describe('File', function () {
         project,
       })
       file.extractTasksInCodeFile(new Config(constants.DEFAULT_CONFIG))
-      console.log(file.tasks)
+      // console.log(file.tasks)
     })
   })
 
