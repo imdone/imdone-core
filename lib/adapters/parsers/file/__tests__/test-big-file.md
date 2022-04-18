@@ -1,13 +1,15 @@
 [2022-01-23 00:27] [Another task at 0](#TODO:0)
 <!-- created:2022-01-23T05:27:59.553Z order:0 -->
 
-[2022-01-23 00:27] #TODO:0 Another task at 1
+- [ ] [Another task at 1](#TODO:0)
 <!-- created:2022-01-23T05:27:59.553Z order:1 -->
 
 - [ ] Another task at 2
+  - [ ] With a checkbox
 <!-- created:2022-01-23T05:27:59.553Z order:2 -->
 
-[2022-01-23 00:27] #TODO Another task at 3
+- [ ] #TODO Another task at 3
+  - [ ] With a checkbox
 <!-- created:2022-01-23T05:27:59.553Z order:3 -->
 
 [2022-01-23 00:27] #TODO Another task at 4
