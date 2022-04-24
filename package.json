@@ -94,6 +94,7 @@
     "mkdirp": "^1.0.4",
     "moment": "^2.29.1",
     "monquery": "github:imdone/node-monquery#0.2.1",
+    "multilang-extract-comments": "^0.4.0",
     "readdirp": "^3.6.0",
     "remove-markdown": "^0.3.0",
     "rimraf": "^3.0.2",
