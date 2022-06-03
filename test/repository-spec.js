@@ -196,17 +196,23 @@ describe('Repository', function () {
     })
   })
 
-  // describe("getFileTree", function() {
-  //   it("Should traverse a repo and return valid files and dirs in cb", function(done) {
-  //     repo2.init(function(err) {
-  //       expect(err).to.be(null);
-  //       repo2.getFileTree(function(err, out) {
-  //         expect(err).to.be(null);
-  //         done();
-  //       });
-  //     });
-  //   });
-  // });
+  describe('Repository.query', function () {
+    it('Should should sort according to sort values', function (done) {
+      appContext.register(FileProjectContext, new ProjectContext(repo2))
+      proj2.init(function (err, files) {
+        expect(err).to.be(null)
+        const tasks = Repository.query(repo2.getTasks(), 'list != OKAY +list')
+        expect(tasks[0].list).to.be('DOING')
+        expect(tasks[1].list).to.be('DOING')
+        expect(tasks[2].list).to.be('DOING')
+        expect(tasks[3].list).to.be('DONE')
+        expect(tasks[4].list).to.be('TODO')
+        expect(tasks[5].list).to.be('TODO')
+        expect(tasks[6].list).to.be('TODO')
+        done()
+      })
+    })
+  })
 
   describe('hasDefaultFile', function (done) {
     it('Should return false if no default file exists', function (done) {
@@ -1229,7 +1235,9 @@ describe('Repository', function () {
 space
 
 expand::1
-id::arm123`.split(eol.lf).join(eol.auto)
+id::arm123`
+          .split(eol.lf)
+          .join(eol.auto)
         metaSepTestRepo.addTaskToFile(
           filePath,
           'TODO',

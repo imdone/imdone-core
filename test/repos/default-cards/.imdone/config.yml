@@ -32,6 +32,9 @@ lists:
     id: 1
     name: Recently Completed
 settings:
+  views:
+    - id: default
+      filter: (list != ABANDONED) +text
   addNewCardsToTop: true
   cards:
     colors: []
@@ -39,7 +42,7 @@ settings:
       date: ${(new Date()).toDateString()}
       time: ${(new Date()).toLocaleTimeString()}
       timestamp: ${(new Date()).toISOString()}
-      sourceLink: "[${source.path}:${line}](${source.path}:${line})"
+      sourceLink: '[${source.path}:${line}](${source.path}:${line})'
       dueEmoji: !<tag:yaml.org,2002:js/function> |-
         function anonymous(
         ) {
@@ -88,7 +91,7 @@ settings:
     defaultList: TODO
     addCheckBoxTasks: false
     maxLines: 6
-    taskPrefix: "#"
+    taskPrefix: '#'
   filteredLists:
     - filter: 'dueDate < "${tomorrow at 6AM}" AND list != DONE +dueDate +order'
       name: What's Due?
