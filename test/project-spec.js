@@ -5,6 +5,7 @@ const fs = require('fs')
 const fsStore = require('../lib/mixins/repo-fs-store')
 const Repository = require('../lib/repository')
 const Project = require('../lib/project')
+const expect = require('expect.js')
 describe('project', function () {
   const tmpDir = path.join(process.cwd(), 'tmp')
   const tmpReposDir = path.join(tmpDir, 'repos')
@@ -36,6 +37,7 @@ describe('project', function () {
 
   it('sorts according to due date when the default view filter has +list', function (done) {
     project.init((err, files) => {
+      if (err) done(err)
       const imdoneJson = project.toImdoneJSON()
       expect(imdoneJson.lists[2].tasks[0].text).to.be('Add and Edit Cards')
       expect(imdoneJson.lists[2].tasks[12].text).to.be('Read the documentation')
