@@ -16,6 +16,69 @@ const ProjectContext = require('../lib/ProjectContext')
 const FileProjectContext = require('../lib/domain/entities/FileProjectContext')
 appContext.register(FileProjectContext, new FileProjectContext())
 
+const generateTaskFromTemplate = (list, order, templateFunction) => {
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const day = date.getDate().toString().padStart(2, '0')
+  const hours = date.getHours().toString().padStart(2, '0')
+  const min = date.getMinutes().toString().padStart(2, '0')
+  const lf = String(eol.lf)
+  return templateFunction({
+    date,
+    list,
+    order,
+    year,
+    month,
+    day,
+    hours,
+    min,
+    lf,
+  })
+}
+
+const hashNoOrderTaskTemplate = ({
+  date,
+  list,
+  order,
+  year,
+  month,
+  day,
+  hours,
+  min,
+  lf,
+}) => {
+  return `[${year}-${month}-${day} ${hours}:${min}] #${list} Another task at ${order}${lf}<!-- created:${date.toISOString()} order:${order} -->${lf}${lf}`
+}
+
+const hashTaskTemplate = ({
+  date,
+  list,
+  order,
+  year,
+  month,
+  day,
+  hours,
+  min,
+  lf,
+}) => {
+  return `[${year}-${month}-${day} ${hours}:${min}] #${list}:${order} Another task at ${order}${lf}<!-- created:${date.toISOString()} -->${lf}${lf}`
+}
+
+const linkTaskTemplate = ({
+  date,
+  list,
+  order,
+  year,
+  month,
+  day,
+  hours,
+  min,
+  lf,
+}) => {
+  return `[${year}-${month}-${day} ${hours}:${min}]  [Another task at ${order}](#${list}:${order})${lf}<!-- created:${date.toISOString()} -->${lf}${lf}`
+}
+
 describe('File', function () {
   it('should enable subclassing', function () {
     function SomeFile() {
@@ -339,32 +402,22 @@ describe('File', function () {
     })
 
     it('Should find all HASH_NO_ORDER tasks in a large markdown file', function () {
-      const filePath = 'test/files/BIG-FILE.md'
-      console.time('build content')
-
-      const addTask = (list, order) => {
-        const date = new Date()
-        const year = date.getFullYear()
-        const month = (date.getMonth() + 1).toString().padStart(2, '0')
-        const day = date.getDate().toString().padStart(2, '0')
-        const hours = date.getHours().toString().padStart(2, '0')
-        const min = date.getMinutes().toString().padStart(2, '0')
-        const lf = String(eol.lf)
-        return `[${year}-${month}-${day} ${hours}:${min}] #${list} Another task at ${order}${lf}<!-- created:${date.toISOString()} order:${order} -->${lf}${lf}`
-      }
+      const filePath = 'test/files/BIG-FILE-DOES-NOT-EXIST.md'
       const lists = {
         TODO: 20,
         DOING: 10,
         DONE: 600,
+        PÅGÅENDE: 20,
       }
 
       let content = ''
       Object.keys(lists).forEach((list) => {
         for (let n = 0; n < lists[list]; n++) {
-          content += addTask(list, n)
+          content += generateTaskFromTemplate(list, n, hashNoOrderTaskTemplate)
         }
       })
       var config = new Config(constants.DEFAULT_CONFIG)
+      config.lists.push({ name: 'PÅGÅENDE' })
       const project = { path: 'test/files', config }
       var file = new File({
         repoId: 'test',
@@ -374,12 +427,69 @@ describe('File', function () {
         project,
       })
 
-      file.extractTasks(config).getTasks().length.should.be.exactly(630)
-      console.timeEnd('build content')
+      file.extractTasks(config).getTasks().length.should.be.exactly(650)
     })
   })
 
-  describe('modifyTaskFromContent', function () {
+  it('Should find all HASH_NO_ORDER tasks in a large markdown file', function () {
+    const filePath = 'test/files/BIG-FILE-DOES-NOT-EXIST.md'
+    const lists = {
+      TODO: 20,
+      DOING: 10,
+      DONE: 600,
+      PÅGÅENDE: 20,
+    }
+
+    let content = ''
+    Object.keys(lists).forEach((list) => {
+      for (let n = 0; n < lists[list]; n++) {
+        content += generateTaskFromTemplate(list, n, hashNoOrderTaskTemplate)
+      }
+    })
+    var config = new Config(constants.DEFAULT_CONFIG)
+    config.lists.push({ name: 'PÅGÅENDE' })
+    const project = { path: 'test/files', config }
+    var file = new File({
+      repoId: 'test',
+      filePath,
+      content,
+      languages,
+      project,
+    })
+
+    file.extractTasks(config).getTasks().length.should.be.exactly(650)
+  })
+
+  it('Should find all HASH tasks in a large markdown file', function () {
+    const filePath = 'test/files/BIG-FILE-DOES-NOT-EXIST.md'
+    const lists = {
+      TODO: 20,
+      DOING: 10,
+      DONE: 600,
+      PÅGÅENDE: 20,
+    }
+
+    let content = ''
+    Object.keys(lists).forEach((list) => {
+      for (let n = 0; n < lists[list]; n++) {
+        content += generateTaskFromTemplate(list, n, hashTaskTemplate)
+      }
+    })
+    var config = new Config(constants.DEFAULT_CONFIG)
+    config.lists.push({ name: 'PÅGÅENDE' })
+    const project = { path: 'test/files', config }
+    var file = new File({
+      repoId: 'test',
+      filePath,
+      content,
+      languages,
+      project,
+    })
+
+    file.extractTasks(config).getTasks().length.should.be.exactly(650)
+  })
+})
+describe('modifyTaskFromContent', function () {
     it('Should modfy a description from content', function () {
       var config = new Config(constants.DEFAULT_CONFIG)
       var content = fs.readFileSync('test/files/sample.md', 'utf8')
