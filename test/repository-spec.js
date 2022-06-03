@@ -704,7 +704,7 @@ describe('Repository', function () {
         })
       })
     })
-    it('removes a a description from a TODO on the same line as code with a description that ends with a block comment', (done) => {
+    it.skip('removes a a description from a TODO on the same line as code with a description that ends with a block comment', (done) => {
       appContext.register(FileProjectContext, new ProjectContext(repo3))
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
@@ -1024,6 +1024,50 @@ describe('Repository', function () {
   })
 
   describe('moveTask', () => {
+    it('should move two tasks in the same file and extract the latest tasks', (done) => {
+      const debugPath = path.join(process.cwd(), 'debug.md')
+      repo.config = new Config(constants.DEFAULT_CONFIG)
+      const projectContext = new ProjectContext(repo)
+      projectContext.config.settings.doneList = 'DONE'
+      projectContext.config.settings.cards = {
+        metaNewLine: true,
+        trackChanges: true,
+      }
+      appContext.register(FileProjectContext, projectContext)
+      proj.init((err) => {
+        if (err) done(err)
+        const moveTasksFilePath = 'move-tasks.md'
+        repo.getFiles().forEach((file) => {
+          if (file.path !== moveTasksFilePath) {
+            repo.removeFile(file)
+          }
+        })
+        const content = fs
+          .readFileSync(path.join(repoDir, moveTasksFilePath), 'utf-8')
+          .split(eol.auto)
+        console.log(debugPath)
+        fs.writeFileSync(
+          debugPath,
+          content.map((line, no) => `${no + 1} ${line}`).join(eol.lf)
+        )
+
+        const file = repo.getFile(moveTasksFilePath)
+        const tasks = file.getTasks()
+        const story2 = tasks.find((task) => task.text === 'Story 2')
+        const story3 = tasks.find((task) => task.text === 'Story 3')
+        story2.line.should.equal(21)
+        story3.line.should.equal(28)
+        const newPos = repo.getTasksInList('DOING').length
+        repo.moveTask({ task: story2, newList: 'DOING', newPos }, (err) => {
+          if (err) done(err)
+          const file = repo.getFile(moveTasksFilePath)
+          const story3 = file.getTasks().find((task) => task.text === 'Story 3')
+          story3.line.should.equal(29)
+          done()
+        })
+      })
+    })
+
     it('Should move a task in a file with task-meta-order', (done) => {
       const listName = 'DOING'
       appContext.register(
@@ -1077,45 +1121,6 @@ describe('Repository', function () {
           task.lastLine.should.equal(lastLine + 8)
           done()
         })
-      })
-    })
-
-    it('should move two tasks in the same file and extract the latest tasks', (done) => {
-      var config = new Config(constants.DEFAULT_CONFIG)
-      // BACKLOG:-90 Test with changes to config
-      config.settings = {
-        doneList: 'DONE',
-        cards: { metaNewLine: true, trackChanges: true },
-      }
-      appContext.register(FileProjectContext, new ProjectContext(repo))
-      repo.loadConfig = (cb) => {
-        repo.updateConfig(config, cb)
-      }
-      proj.init((err, result) => {
-        const moveTasksFilePath = 'move-tasks.md'
-        repo.getFiles().forEach((file) => {
-          if (file.path !== moveTasksFilePath) {
-            repo.removeFile(file)
-          }
-        })
-        const file = repo.getFile(moveTasksFilePath)
-        const tasks = file.getTasks()
-        const story2 = tasks.find((task) => task.text === 'Story 2')
-        const story3 = tasks.find((task) => task.text === 'Story 3')
-        story2.line.should.equal(21)
-        story3.line.should.equal(28)
-        const newPos = repo.getTasksInList('DOING').length
-        repo.moveTask(
-          { task: story2, newList: 'DOING', newPos },
-          (err, task) => {
-            const file = repo.getFile(moveTasksFilePath)
-            const story3 = file
-              .getTasks()
-              .find((task) => task.text === 'Story 3')
-            story3.line.should.equal(29)
-            done()
-          }
-        )
       })
     })
   })
