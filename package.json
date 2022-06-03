@@ -100,7 +100,8 @@
     "rimraf": "^3.0.2",
     "sane": "^4.1.0",
     "sanitize-filename": "^1.6.3",
-    "sift": "^13.4.0"
+    "sift": "^13.4.0",
+    "xregexp": "^5.1.0"
   },
   "devDependencies": {
     "chai": "^4.3.6",

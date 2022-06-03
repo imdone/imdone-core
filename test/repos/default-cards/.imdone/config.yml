@@ -34,7 +34,7 @@ lists:
 settings:
   views:
     - id: default
-      filter: (list != ABANDONED) +text
+      filter: list=/.*/ +text
   addNewCardsToTop: true
   cards:
     colors: []
