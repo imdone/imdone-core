@@ -1024,7 +1024,7 @@ describe('Repository', function () {
   })
 
   describe('moveTask', () => {
-    it('should move two tasks in the same file and extract the latest tasks', (done) => {
+    it.skip('should move two tasks in the same file and extract the latest tasks', (done) => {
       const debugPath = path.join(process.cwd(), 'debug.md')
       repo.config = new Config(constants.DEFAULT_CONFIG)
       const projectContext = new ProjectContext(repo)
