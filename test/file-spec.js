@@ -10,13 +10,95 @@ var should = require('should'),
   languages = require('../lib/languages'),
   eol = require('eol'),
   fs = require('fs')
+const wrench = require('wrench')
 const Task = require('../lib/task')
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const FileProjectContext = require('../lib/domain/entities/FileProjectContext')
 appContext.register(FileProjectContext, new FileProjectContext())
 
+const generateTaskFromTemplate = (list, order, templateFunction) => {
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const day = date.getDate().toString().padStart(2, '0')
+  const hours = date.getHours().toString().padStart(2, '0')
+  const min = date.getMinutes().toString().padStart(2, '0')
+  const lf = String(eol.lf)
+  return templateFunction({
+    date,
+    list,
+    order,
+    year,
+    month,
+    day,
+    hours,
+    min,
+    lf,
+  })
+}
+
+const hashNoOrderTaskTemplate = ({
+  date,
+  list,
+  order,
+  year,
+  month,
+  day,
+  hours,
+  min,
+  lf,
+}) => {
+  return `[${year}-${month}-${day} ${hours}:${min}] #${list} Another task at ${order}${lf}<!-- created:${date.toISOString()} order:${order} -->${lf}${lf}`
+}
+
+const hashTaskTemplate = ({
+  date,
+  list,
+  order,
+  year,
+  month,
+  day,
+  hours,
+  min,
+  lf,
+}) => {
+  return `[${year}-${month}-${day} ${hours}:${min}] #${list}:${order} Another task at ${order}${lf}<!-- created:${date.toISOString()} -->${lf}${lf}`
+}
+
+const linkTaskTemplate = ({
+  date,
+  list,
+  order,
+  year,
+  month,
+  day,
+  hours,
+  min,
+  lf,
+}) => {
+  return `[${year}-${month}-${day} ${hours}:${min}]  [Another task at ${order}](#${list}:${order})${lf}<!-- created:${date.toISOString()} -->${lf}${lf}`
+}
+
 describe('File', function () {
+  const tmpDir = path.join(process.cwd(), 'tmp', 'files')
+  const testFilesDir = path.join(process.cwd(), 'test', 'files')
+  this.beforeEach((done) => {
+    try {
+      if (fs.existsSync(tmpDir)) {
+        wrench.rmdirSyncRecursive(tmpDir)
+      }
+      wrench.mkdirSyncRecursive(tmpDir)
+      wrench.copyDirSyncRecursive(testFilesDir, tmpDir, { forceDelete: true })
+      done()
+    } catch (e) {
+      return done(e)
+    }
+  })
+
+  this.afterEach(() => {
+    wrench.rmdirSyncRecursive(tmpDir)
+  })
   it('should enable subclassing', function () {
     function SomeFile() {
       File.apply(this, arguments)
@@ -30,8 +112,8 @@ describe('File', function () {
       ok = true
       return SomeFile.super_.prototype.extractTasks.call(this, config)
     }
-    const filePath = path.join('test', 'files', 'sample.js')
-    const content = fs.readFileSync('test/files/sample.js', 'utf8')
+    const filePath = path.join('tmp', 'files', 'sample.js')
+    const content = fs.readFileSync('tmp/files/sample.js', 'utf8')
     const project = { path: '/', config }
     var someFile = new SomeFile({
       repoId: 'test',
@@ -51,27 +133,33 @@ describe('File', function () {
 
   describe('getLinePos', function () {
     it('should give the correct line position for each line of a file', function () {
-      var content = fs.readFileSync('test/files/test.js', 'utf8')
-      const project = { path: 'test/files' }
+      var content = fs.readFileSync('tmp/files/test.js', 'utf8')
+      const project = { path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/test.js',
+        filePath: 'tmp/files/test.js',
         content: content,
         languages: languages,
         project,
       })
 
-      for (var i = 1; i < 13; i++) {
-        pos = file.getLinePos(i)
-        console.log('line:%d pos:%d', i, pos)
-        console.log('pos:%d line:%d', pos, file.getLineNumber(pos))
-      }
+      file.getLinePos(1).should.equal(0)
+      file.getLinePos(2).should.equal(30)
+      file.getLinePos(3).should.equal(51)
+      file.getLinePos(4).should.equal(75)
+      file.getLinePos(5).should.equal(107)
+      file.getLinePos(6).should.equal(110)
+      file.getLinePos(7).should.equal(158)
+      file.getLinePos(8).should.equal(178)
+      file.getLinePos(9).should.equal(183)
+      file.getLinePos(10).should.equal(196)
+      file.getLinePos(11).should.equal(246)
     })
   })
 
   describe('deleteTask', () => {
     it('should delete a checkbox task with blank lines', () => {
-      const filePath = 'test/files/checkbox-deletions.md'
+      const filePath = 'tmp/files/checkbox-deletions.md'
       after = `
 - [ ] [A new card with space](#TODO:-10)
   <card>
@@ -81,7 +169,9 @@ describe('File', function () {
     <!--
     created:2022-03-23T18:49:36.583Z
     -->
-  </card>`.split(eol.lf).join(eol.auto)
+  </card>`
+        .split(eol.lf)
+        .join(eol.auto)
 
       var config = new Config(constants.DEFAULT_CONFIG)
       config.settings = {
@@ -89,7 +179,7 @@ describe('File', function () {
         cards: { metaNewLine: true, addCompletedMeta: true, doneList: 'DONE' },
       }
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -120,11 +210,11 @@ describe('File', function () {
           getTasksInList: () => [],
         })
       )
-      var content = fs.readFileSync('test/files/update-metadata.md', 'utf8')
-      const project = { config, path: 'test/files' }
+      var content = fs.readFileSync('tmp/files/update-metadata.md', 'utf8')
+      const project = { config, path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/update-metadata.md',
+        filePath: 'tmp/files/update-metadata.md',
         content: content,
         languages: languages,
         project,
@@ -144,9 +234,9 @@ describe('File', function () {
           trackChanges: true,
         },
       }
-      const filePath = 'test/files/update-metadata.md'
+      const filePath = 'tmp/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { config, path: 'test/files' }
+      const project = { config, path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -173,9 +263,9 @@ describe('File', function () {
           trackChanges: true,
         },
       }
-      const filePath = 'test/files/update-metadata.md'
+      const filePath = 'tmp/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { config, path: 'test/files' }
+      const project = { config, path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -204,9 +294,9 @@ describe('File', function () {
           trackChanges: true,
         },
       }
-      const filePath = 'test/files/checkbox-tasks.md'
+      const filePath = 'tmp/files/checkbox-tasks.md'
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -241,11 +331,11 @@ describe('File', function () {
   describe('extractTasks', function () {
     it('Should find markdown tasks in a markdown file', function () {
       var config = new Config(constants.DEFAULT_CONFIG)
-      var content = fs.readFileSync('test/files/sample.md', 'utf8')
-      const project = { path: 'test/files', config }
+      var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.md',
+        filePath: 'tmp/files/sample.md',
         content: content,
         languages: languages,
         project,
@@ -262,10 +352,10 @@ describe('File', function () {
     it('Should not include content in brackets before a task', function () {
       content = '[2021-12-01 12:00] #DOING:20 A new task'
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.md',
+        filePath: 'tmp/files/sample.md',
         content,
         languages,
         project,
@@ -277,7 +367,7 @@ describe('File', function () {
       content = '[2021-12-01 12:00] [A new task](#DOING:20)'
       file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.md',
+        filePath: 'tmp/files/sample.md',
         content,
         languages,
         project,
@@ -288,12 +378,12 @@ describe('File', function () {
     })
 
     it('Should find all tasks in a code file', function () {
-      var content = fs.readFileSync('test/files/sample.js', 'utf8')
+      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.js',
+        filePath: 'tmp/files/sample.js',
         content: content,
         languages: languages,
         project,
@@ -307,10 +397,10 @@ describe('File', function () {
     })
 
     it('Should find all HASH_NO_ORDER tasks in a markdown file', function () {
-      const filePath = 'test/files/hash-no-order.md'
+      const filePath = 'tmp/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -331,33 +421,23 @@ describe('File', function () {
     })
 
     it('Should find all HASH_NO_ORDER tasks in a large markdown file', function () {
-      const filePath = 'test/files/BIG-FILE.md'
-      console.time('build content')
-
-      const addTask = (list, order) => {
-        const date = new Date()
-        const year = date.getFullYear()
-        const month = (date.getMonth() + 1).toString().padStart(2, '0')
-        const day = date.getDate().toString().padStart(2, '0')
-        const hours = date.getHours().toString().padStart(2, '0')
-        const min = date.getMinutes().toString().padStart(2, '0')
-        const lf = String(eol.lf)
-        return `[${year}-${month}-${day} ${hours}:${min}] #${list} Another task at ${order}${lf}<!-- created:${date.toISOString()} order:${order} -->${lf}${lf}`
-      }
+      const filePath = 'tmp/files/BIG-FILE-DOES-NOT-EXIST.md'
       const lists = {
         TODO: 20,
         DOING: 10,
         DONE: 600,
+        PÅGÅENDE: 20,
       }
 
       let content = ''
       Object.keys(lists).forEach((list) => {
         for (let n = 0; n < lists[list]; n++) {
-          content += addTask(list, n)
+          content += generateTaskFromTemplate(list, n, hashNoOrderTaskTemplate)
         }
       })
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      config.lists.unshift({ name: 'PÅGÅENDE' })
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -366,19 +446,76 @@ describe('File', function () {
         project,
       })
 
-      file.extractTasks(config).getTasks().length.should.be.exactly(630)
-      console.timeEnd('build content')
+      file.extractTasks(config).getTasks().length.should.be.exactly(650)
+    })
+
+    it('Should find all HASH tasks in a large markdown file', function () {
+      const filePath = 'tmp/files/BIG-FILE-DOES-NOT-EXIST.md'
+      const lists = {
+        TODO: 20,
+        DOING: 10,
+        DONE: 600,
+        PÅGÅENDE: 20,
+      }
+
+      let content = ''
+      Object.keys(lists).forEach((list) => {
+        for (let n = 0; n < lists[list]; n++) {
+          content += generateTaskFromTemplate(list, n, hashTaskTemplate)
+        }
+      })
+      var config = new Config(constants.DEFAULT_CONFIG)
+      config.lists.push({ name: 'PÅGÅENDE' })
+      const project = { path: 'tmp/files', config }
+      var file = new File({
+        repoId: 'test',
+        filePath,
+        content,
+        languages,
+        project,
+      })
+
+      file.extractTasks(config).getTasks().length.should.be.exactly(650)
+    })
+
+    it('Should find all LINK tasks in a large markdown file', function () {
+      const filePath = 'tmp/files/BIG-FILE-DOES-NOT-EXIST.md'
+      const lists = {
+        TODO: 20,
+        DOING: 10,
+        DONE: 600,
+        PÅGÅENDE: 20,
+      }
+
+      let content = ''
+      Object.keys(lists).forEach((list) => {
+        for (let n = 0; n < lists[list]; n++) {
+          content += generateTaskFromTemplate(list, n, linkTaskTemplate)
+        }
+      })
+      var config = new Config(constants.DEFAULT_CONFIG)
+      config.lists.push({ name: 'PÅGÅENDE' })
+      const project = { path: 'tmp/files', config }
+      var file = new File({
+        repoId: 'test',
+        filePath,
+        content,
+        languages,
+        project,
+      })
+
+      file.extractTasks(config).getTasks().length.should.be.exactly(650)
     })
   })
 
   describe('modifyTaskFromContent', function () {
     it('Should modfy a description from content', function () {
       var config = new Config(constants.DEFAULT_CONFIG)
-      var content = fs.readFileSync('test/files/sample.md', 'utf8')
-      const project = { path: 'test/files', config }
+      var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.md',
+        filePath: 'tmp/files/sample.md',
         content: content,
         languages: languages,
         project,
@@ -394,10 +531,10 @@ describe('File', function () {
     })
 
     it('modifies a task that contains <code> tags', () => {
-      const filePath = 'test/files/preserve-blank-lines.md'
+      const filePath = 'tmp/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -418,10 +555,10 @@ describe('File', function () {
     })
 
     it('replaces content in  a task without blank lines with content containing blank lines', () => {
-      const filePath = 'test/files/preserve-blank-lines.md'
+      const filePath = 'tmp/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -444,10 +581,10 @@ describe('File', function () {
 
   describe('modifyTaskFromHtml', () => {
     it('should modify a task that contains <code> tags', () => {
-      const filePath = 'test/files/preserve-blank-lines.md'
+      const filePath = 'tmp/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -480,10 +617,10 @@ describe('File', function () {
 
   describe('modifyTask', () => {
     it('should modify a HASH_NO_ORDER task that has no order metadata', () => {
-      const filePath = 'test/files/hash-no-order.md'
+      const filePath = 'tmp/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -500,10 +637,10 @@ describe('File', function () {
     })
 
     it('should modify a HASH_NO_ORDER task that has order metadata', () => {
-      const filePath = 'test/files/hash-no-order.md'
+      const filePath = 'tmp/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -522,11 +659,11 @@ describe('File', function () {
 
   describe('getCodeCommentRegex', function () {
     it('Should return the regex for a given file type', function () {
-      const project = { path: 'test/files' }
+      const project = { path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.js',
-        content: fs.readFileSync('test/files/sample.js', 'utf8'),
+        filePath: 'tmp/files/sample.js',
+        content: fs.readFileSync('tmp/files/sample.js', 'utf8'),
         languages: languages,
         project,
       })
@@ -548,26 +685,26 @@ describe('File', function () {
   describe('extractTasksInCodeFile', function () {
     it('Should extract code style tasks from a code file', function () {
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.js',
-        content: fs.readFileSync('test/files/sample.js', 'utf8'),
+        filePath: 'tmp/files/sample.js',
+        content: fs.readFileSync('tmp/files/sample.js', 'utf8'),
         languages: languages,
         project,
       })
       file.extractTasksInCodeFile(new Config(constants.DEFAULT_CONFIG))
-      console.log(file.tasks)
+      // console.log(file.tasks)
     })
   })
 
   describe('trimCommentBlockStart', () => {
     it('should trim the code block start pattern from a line of text', () => {
-      var content = fs.readFileSync('test/files/sample.js', 'utf8')
-      const project = { path: 'test/files' }
+      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      const project = { path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.js',
+        filePath: 'tmp/files/sample.js',
         content: content,
         languages: languages,
         project,
@@ -595,11 +732,11 @@ describe('File', function () {
 
   describe('trimCommentBlockIgnore', () => {
     it('should trim the code block ignore pattern from a line of text', () => {
-      var content = fs.readFileSync('test/files/sample.js', 'utf8')
-      const project = { path: 'test/files' }
+      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      const project = { path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.js',
+        filePath: 'tmp/files/sample.js',
         content: content,
         languages: languages,
         project,
@@ -621,11 +758,11 @@ describe('File', function () {
 
   describe('trimCommentBlockEnd', () => {
     it('should trim the code block end pattern from a line of text', () => {
-      var content = fs.readFileSync('test/files/sample.js', 'utf8')
-      const project = { path: 'test/files' }
+      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      const project = { path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.js',
+        filePath: 'tmp/files/sample.js',
         content: content,
         languages: languages,
         project,
@@ -645,11 +782,11 @@ describe('File', function () {
 
   describe('trimCommentStart', () => {
     it('should trim the comment start from a line of text', () => {
-      var content = fs.readFileSync('test/files/sample.js', 'utf8')
-      const project = { path: 'test/files' }
+      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      const project = { path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.js',
+        filePath: 'tmp/files/sample.js',
         content: content,
         languages: languages,
         project,
@@ -671,11 +808,11 @@ describe('File', function () {
 
   describe('trimCommentChars', () => {
     it('should trim the code block end pattern from a line of text', () => {
-      var content = fs.readFileSync('test/files/sample.js', 'utf8')
-      const project = { path: 'test/files' }
+      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      const project = { path: 'tmp/files' }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.js',
+        filePath: 'tmp/files/sample.js',
         content: content,
         languages: languages,
         project,
@@ -697,7 +834,7 @@ describe('File', function () {
       const filePath = path.join('test', 'files', 'sample.js')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -714,12 +851,12 @@ describe('File', function () {
   })
   describe('extractTasks', () => {
     it('extracts tasks and descriptions', () => {
-      var content = fs.readFileSync('test/files/descriptions.js', 'utf8')
+      var content = fs.readFileSync('tmp/files/descriptions.js', 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/descriptions.js',
+        filePath: 'tmp/files/descriptions.js',
         content: content,
         languages: languages,
         project,
@@ -738,12 +875,12 @@ describe('File', function () {
     })
 
     it('sets the correct beforeText for hash and link style tasks', () => {
-      var content = fs.readFileSync('test/files/sample.md', 'utf8')
+      var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
-        filePath: 'test/files/sample.md',
+        filePath: 'tmp/files/sample.md',
         content: content,
         languages: languages,
         project,
@@ -798,10 +935,10 @@ describe('File', function () {
     })
 
     it('extracts tasks with blank lines preserved', () => {
-      const filePath = 'test/files/preserve-blank-lines.md'
+      const filePath = 'tmp/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
-      const project = { path: 'test/files', config }
+      const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
         filePath,

@@ -1,4 +1,5 @@
 coverage
+.nyc_output
 test/repos
 test/files
 __tests__
