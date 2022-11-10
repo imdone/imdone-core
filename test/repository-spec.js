@@ -794,10 +794,12 @@ describe('Repository', function () {
       const filePath = path.join(repo3.path, testFilePath)
       appContext.register(FileProjectContext, new ProjectContext(repo3))
       proj3.init(function (err, result) {
+        proj3.config.settings.cards.orderMeta = true
+        proj3.config.settings.newCardSyntax = 'HASHTAG'
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
-            new RegExp(`\#DOING A task.* order:.*`)
+            new RegExp(`\#DOING: A task.* order:.*`)
               .test(lines.slice(5).join(' '))
               .should.be.true()
             expect(err).to.be(null)

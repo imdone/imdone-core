@@ -49,7 +49,7 @@ const hashNoOrderTaskTemplate = ({
   min,
   lf,
 }) => {
-  return `[${year}-${month}-${day} ${hours}:${min}] #${list} Another task at ${order}${lf}<!-- created:${date.toISOString()} order:${order} -->${lf}${lf}`
+  return `[${year}-${month}-${day} ${hours}:${min}] #${list}: Another task at ${order}${lf}<!-- created:${date.toISOString()} -->${lf}${lf}`
 }
 
 const hashTaskTemplate = ({
@@ -196,6 +196,53 @@ describe('File', function () {
   })
 
   describe('extractAndTransformTasks', () => {
+    it('should add order to the correct location based on settings.orderMeta', () => {
+      const filePath = 'tmp/files/BIG-FILE-DOES-NOT-EXIST.md'
+      const lists = {
+        TODO: 20,
+        DOING: 10,
+        DONE: 600,
+        PÅGÅENDE: 20,
+      }
+
+      let content = ''
+      Object.keys(lists).forEach((list) => {
+        for (let n = 0; n < lists[list]; n++) {
+          content += generateTaskFromTemplate(list, n, hashNoOrderTaskTemplate)
+        }
+      })
+      var config = new Config(constants.DEFAULT_CONFIG)
+      config.settings = {
+        doneList: 'DONE',
+        cards: {
+          metaNewLine: true,
+          addCompletedMeta: true,
+          doneList: 'DONE',
+          orderMeta: true,
+        },
+      }
+      appContext.register(
+        FileProjectContext,
+        new ProjectContext({
+          config,
+          listExists: () => true,
+          getTasksInList: () => [],
+        })
+      )
+      const project = { path: 'tmp/files', config }
+      var file = new File({
+        repoId: 'test',
+        filePath,
+        content,
+        languages,
+        project,
+      })
+
+      file.extractAndTransformTasks(config)
+
+      file.content.should.not.equal(content)
+    })
+
     it('should update metadata', () => {
       var config = new Config(constants.DEFAULT_CONFIG)
       config.settings = {
@@ -446,7 +493,8 @@ describe('File', function () {
         project,
       })
 
-      file.extractTasks(config).getTasks().length.should.be.exactly(650)
+      const tasks = file.extractTasks(config).getTasks()
+      tasks.length.should.be.exactly(650)
     })
 
     it('Should find all HASH tasks in a large markdown file', function () {
@@ -620,6 +668,9 @@ describe('File', function () {
       const filePath = 'tmp/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
+      config.settings.cards = {
+        orderMeta: true,
+      }
       const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
@@ -640,6 +691,9 @@ describe('File', function () {
       const filePath = 'tmp/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = new Config(constants.DEFAULT_CONFIG)
+      config.settings.cards = {
+        orderMeta: true,
+      }
       const project = { path: 'tmp/files', config }
       var file = new File({
         repoId: 'test',
