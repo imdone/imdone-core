@@ -709,6 +709,29 @@ describe('File', function () {
       task.meta.order[0].should.equal(100)
       task.meta.order.length.should.be.exactly(1)
     })
+
+    it('should modify a MARKDOWN task that has order in the task text', () => {
+      const filePath = 'tmp/files/modify-tasks.md'
+      var content = fs.readFileSync(filePath, 'utf8')
+      var config = new Config(constants.DEFAULT_CONFIG)
+      config.settings.cards = {
+        orderMeta: true,
+      }
+      const project = { path: 'tmp/files', config }
+      var file = new File({
+        repoId: 'test',
+        filePath,
+        content,
+        languages: languages,
+        project,
+      })
+      file.extractTasks(config)
+      const task = file.tasks.find((task) => task.list === 'TODO')
+      task.order = 100
+      file.modifyTask(task, config, true)
+      task.meta.order[0].should.equal(100)
+      task.meta.order.length.should.be.exactly(1)
+    })
   })
 
   describe('getCodeCommentRegex', function () {

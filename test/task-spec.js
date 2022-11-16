@@ -163,4 +163,49 @@ with:meta
       expect(task.description[1]).to.be('card description line 2')
     })
   })
+
+  describe('parseMetaData', function () {
+    it('parses metadata in content', function () {
+      const config = new Config()
+      config.settings.cards = {
+        metaSep: '::',
+      }
+      const content = `- [5 Reasons Why Business Exceptions Are a Bad Idea](https://reflectoring.io/business-exceptions/)
+<!-- created::2020-03-06T19:24:33.121Z 
+TODO::2021-04-19T13:54:35.370Z
+BACKLOG::2022-08-14T16:52:08.298Z
+order::-19.9853515625
+one::two
+-->
+Created: {{(new Date(created)).toLocaleString()}}
+`
+      const meta = Task.parseMetaData(config, content)
+      expect(meta.order).to.be('-19.9853515625')
+    })
+  })
+
+  describe('updateOrderMeta', function () {
+    it('Updates order meta when config.orderMeta is falsy', function () {
+      const config = new Config()
+      config.settings.cards = {
+        metaSep: '::',
+      }
+      const description =
+        `- [5 Reasons Why Business Exceptions Are a Bad Idea](https://reflectoring.io/business-exceptions/)
+<!-- created::2020-03-06T19:24:33.121Z 
+TODO::2021-04-19T13:54:35.370Z
+BACKLOG::2022-08-14T16:52:08.298Z
+order::-19.9853515625
+one::two
+-->
+Created: {{(new Date(created)).toLocaleString()}}
+`.split('\n')
+      const task = new Task(config, {
+        text: 'A new task',
+        description,
+      })
+      task.updateOrderMeta(config)
+      expect(task.description[4]).to.be(description[5])
+    })
+  })
 })
