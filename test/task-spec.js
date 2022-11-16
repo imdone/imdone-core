@@ -180,7 +180,7 @@ one::two
 Created: {{(new Date(created)).toLocaleString()}}
 `
       const meta = Task.parseMetaData(config, content)
-      expect(meta.order).to.be('-19.9853515625')
+      expect(meta.order[0]).to.be('-19.9853515625')
     })
   })
 

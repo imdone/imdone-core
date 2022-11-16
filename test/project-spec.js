@@ -45,10 +45,10 @@ describe('project', function () {
     })
   })
 
-  it('moves all filtered tasks to the given list', function (done) {
-    project.init((err, files) => {
-      if (err) done(err)
-      done('Finish test')
-    })
-  })
+  // it('moves all filtered tasks to the given list', function (done) {
+  //   project.init((err, files) => {
+  //     if (err) done(err)
+  //     done('Finish test')
+  //   })
+  // })
 })
