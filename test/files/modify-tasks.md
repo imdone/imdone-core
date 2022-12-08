@@ -31,3 +31,11 @@ epic:epic
 <!--
 TODO:2021-06-25T18:05:52.111Z
 -->
+
+- [ ] [Story 4](#TODO:)
+We should be able to perform the following operations on a markdown task with no order
+- [ ] move task
+- [ ] modify task
+- [ ] modify task from content
+- [ ] modify task from html
+- [ ] switch between metaOrder true/false
