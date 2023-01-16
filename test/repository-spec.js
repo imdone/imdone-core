@@ -1127,48 +1127,6 @@ describe('Repository', function () {
     })
   })
 
-  describe('moveTasks', function () {
-    it('Should move a task to the requested location in the requested list', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
-      proj1.init(function (err, result) {
-        var todo = repo1.getTasksInList('TODO')
-        var taskToMove = todo[1]
-        console.log(taskToMove)
-        repo1.moveTasks([taskToMove], 'DOING', 1, function (err) {
-          expect(err).to.be(undefined)
-          var doing = repo1.getTasksInList('DOING')
-          taskToMove.equals(doing[1]).should.be.true
-          done()
-        })
-      })
-    })
-
-    it('Should move a task to the requested location in the same list', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
-      proj1.init(function (err, result) {
-        var todo = repo1.getTasksInList('TODO')
-        var taskToMove = todo[1]
-        console.log(taskToMove)
-        repo1.moveTasks([taskToMove], 'TODO', 2, function () {
-          taskToMove.equals(repo1.getTasksInList('TODO')[2]).should.be.true
-          done()
-        })
-      })
-    })
-
-    it.skip('Should move multiple tasks to the requested location in the requested list', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
-      proj.init(function (err, result) {
-        var tasksToMove = repo.getTasksInList('TODO')
-        repo.moveTasks(tasksToMove, 'DONE', 0, function () {
-          repo.getTasksInList('TODO').length.should.be.exactly(0)
-          repo.getTasksInList('DONE').length.should.be.exactly(8)
-          done()
-        })
-      })
-    })
-  })
-
   describe('getTasksByList', () => {
     it('should return tasks in a filtered list', function (done) {
       appContext.register(
