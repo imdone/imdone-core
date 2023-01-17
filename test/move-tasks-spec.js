@@ -133,4 +133,49 @@ describe('moveTasks', function () {
             })
         })
     })
+
+    it('Should move multiple tasks in a code file to the requested location in the requested list', function (done) {
+        const FILE_PATH = 'test.js'
+        appContext.register(FileProjectContext, new ProjectContext(repo))
+        var config = new Config(constants.DEFAULT_CONFIG)
+        config.settings = {
+            cards: {
+              defaultList: TODO,
+            },
+          }
+        repo.config = config
+        repo.loadConfig = (cb) => {
+          repo.updateConfig(config, cb)
+        }
+        proj.init(function (err, result) {
+            const fileTaskCounts = repo.getFiles().map(({path, tasks}) => {
+                return {
+                    path,
+                    taskCount: tasks.length
+                }
+            })
+            const tasksToMove = repo.getFile(FILE_PATH).getTasks().filter(({line}) => line === 4)
+            const listLengthTODO = repo.getTasksInList(TODO).length
+            const listLengthDONE = repo.getTasksInList(DONE).length
+            const allTasksLength = repo.getTasks().length
+            repo.moveTasks(tasksToMove, TODO, 0, function () {
+                const fileTaskCountsResult = repo.getFiles().map(({path, tasks}) => {
+                    return {
+                        path,
+                        taskCount: tasks.length
+                    }
+                })
+                fileTaskCounts.forEach(({path, taskCount}) => {
+                    const fileTaskCount = fileTaskCountsResult.find(a => a.path === path);
+                    console.log(path);
+                    should(`${path}:${taskCount}`).be.exactly(`${fileTaskCount.path}:${fileTaskCount.taskCount}`);
+                })
+                repo.getTasks().length.should.be.exactly(allTasksLength)
+                repo.getTasksInList(TODO).length.should.be.exactly(listLengthTODO + 1)
+                repo.getTasksInList(DONE).length.should.be.exactly(listLengthDONE - 1)
+                done()
+            })
+        })
+    })
+
 })
