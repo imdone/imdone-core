@@ -257,27 +257,72 @@ describe('moveTasks', function () {
             })
         })
         it('Move a markdown task after task with no order, orderMeta = false', (done) => {
-            done('Write test')
+            const filePath =  'modify-tasks.md'
+            const taskFilter = ({meta}) => meta.story && meta.story[0] === '3'
+            const taskWithNoOrderFilter = ({meta}) => meta.story && meta.story[0] === '4'
+            initProject({repo, cardsConfig: {orderMeta: false}}, (err) => {
+                const listLengthTODO = repo.getTasksInList(TODO).length
+                const listLengthDOING = repo.getTasksInList(DOING).length
+                const listLengthDONE = repo.getTasksInList(DONE).length
+    
+                const file = repo.getFile(filePath)
+                const task = file.getTasks().find(taskFilter)
+                const todoTasks = repo.getTasksInList(TODO);
+                const newPos = todoTasks.findIndex(taskWithNoOrderFilter) + 1
+                repo.moveTask({task, newList: TODO, newPos}, (err) => {
+                    const newTask = file.getTasks().find(taskFilter)
+                    const newTodoTasks = repo.getTasksInList(TODO)
+                    const taskAtNewPosition = newTodoTasks[newPos]
+                    expect(taskFilter(taskAtNewPosition)).to.be.true
+                    expect(newTask.order).to.be.a('number');
+                    expect(newTodoTasks.length).to.equal(listLengthTODO)
+                    expect(repo.getTasksInList(DOING).length).to.equal(listLengthDOING)
+                    expect(repo.getTasksInList(DONE).length).to.equal(listLengthDONE)
+                    done()
+                })
+            })
         })
 
         it('Modify a markdown task with no order, orderMeta = true', (done) => {
-            done('Write test')
+            const filePath =  'modify-tasks.md'
+            const taskFilter = ({meta}) => meta.story && meta.story[0] === '4'
+            initProject({repo, cardsConfig: {orderMeta: true}}, (err) => {
+                
+                const file = repo.getFile(filePath)
+                const task = file.getTasks().find(taskFilter)
+                task.text = 'Story 4 edited'
+                repo.modifyTask(task, true, (err, file) => {
+                    expect(file.getTasks().find(taskFilter).text).to.be('Story 4 edited')
+                    done()
+                })
+            })
         })
         it('Modify a markdown task with no order, orderMeta = false', (done) => {
+            const filePath =  'modify-tasks.md'
+            const taskFilter = ({meta}) => meta.story && meta.story[0] === '4'
+            initProject({repo, cardsConfig: {orderMeta: false}}, (err) => {
+                
+                const file = repo.getFile(filePath)
+                const task = file.getTasks().find(taskFilter)
+                task.text = 'Story 4 edited'
+                repo.modifyTask(task, true, (err, file) => {
+                    expect(file.getTasks().find(taskFilter).text).to.be('Story 4 edited')
+                    done()
+                })
+            })
+        })
+
+        it('Modify a markdown task from content with no order, orderMeta = true', (done) => {
+            done('Write test')
+        })
+        it('Modify a markdown task from content with no order, orderMeta = false', (done) => {
             done('Write test')
         })
 
-        it('Move a markdown task from content with no order, orderMeta = true', (done) => {
+        it('Modify a markdown task from html with no order, orderMeta = true', (done) => {
             done('Write test')
         })
-        it('Move a markdown task from content with no order, orderMeta = false', (done) => {
-            done('Write test')
-        })
-
-        it('Move a markdown task from html with no order, orderMeta = true', (done) => {
-            done('Write test')
-        })
-        it('Move a markdown task from html with no order, orderMeta = false', (done) => {
+        it('Modify a markdown task from html with no order, orderMeta = false', (done) => {
             done('Write test')
         })
     })    
