@@ -29,7 +29,7 @@ TODO:2021-06-27T01:49:16.460Z
 Then move this
 epic:epic
 <!--
-TODO:2021-06-25T18:05:52.111Z
+TODO:2021-06-25T18:05:52.111Z story:3
 -->
 
 - [ ] [Story 4](#TODO:)
@@ -39,3 +39,4 @@ We should be able to perform the following operations on a markdown task with no
 - [ ] modify task from content
 - [ ] modify task from html
 - [ ] switch between metaOrder true/false
+<!-- story:4 -->

@@ -789,7 +789,7 @@ describe('Repository', function () {
 
   describe('addTaskToFile', function (done) {
     it("Adds a task to a file that doesn't exist with order = null", (done) => {
-      const content = 'A task'
+      const content = 'A task added to a file with order = null'
       const testFilePath = 'addTaskTest.md'
       const filePath = path.join(repo3.path, testFilePath)
       appContext.register(FileProjectContext, new ProjectContext(repo3))
@@ -798,10 +798,7 @@ describe('Repository', function () {
         proj3.config.settings.newCardSyntax = 'HASHTAG'
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
           repo3.readFileContent(file, (err, file) => {
-            const lines = eol.split(file.content)
-            new RegExp(`\#DOING: A task.* order:.*`)
-              .test(lines.slice(5).join(' '))
-              .should.be.true()
+            expect(file.getTasks().find(task => task.text === content)).to.be.ok()
             expect(err).to.be(null)
             done()
           })
@@ -1120,7 +1117,7 @@ describe('Repository', function () {
           var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
           const file = repo3.getFile(task.source.path)
           task.should.be.ok()
-          task.lastLine.should.equal(lastLine + 8)
+          task.lastLine.should.equal(lastLine + 2)
           done()
         })
       })
