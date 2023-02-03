@@ -38,5 +38,5 @@ We should be able to perform the following operations on a markdown task with no
 - [ ] modify task
 - [ ] modify task from content
 - [ ] modify task from html
-- [ ] switch between metaOrder true/false
+- [ ] switch between orderMeta true/false
 <!-- story:4 -->

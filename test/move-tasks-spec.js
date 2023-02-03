@@ -15,46 +15,65 @@ const TODO = "TODO"
 const DOING = "DOING"
 const DONE = "DONE"
 
+var tmpDir = path.join(process.cwd(), 'tmp'),
+tmpReposDir = path.join(tmpDir, 'repos'),
+repoSrc = path.join(process.cwd(), 'test', 'repos'),
+filesSrc = path.join(process.cwd(), 'test', 'files'),
+repoDir = path.join(tmpReposDir, 'files'),
+repo1Dir = path.join(tmpReposDir, 'repo1'),
+repo,
+repo1,
+proj,
+proj1
+
+function _beforeEach(done) {
+    try {
+    if (existsSync(tmpDir)) {
+        wrench.rmdirSyncRecursive(tmpDir)
+    }
+    wrench.mkdirSyncRecursive(tmpDir)
+    } catch (e) {
+    return done(e)
+    }
+
+    wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
+    wrench.copyDirSyncRecursive(filesSrc, repoDir, { forceDelete: true })
+    repo = fsStore(new Repository(repoDir))
+    proj = new Project(repo)
+    repo1 = fsStore(new Repository(repo1Dir))
+    proj1 = new Project(repo1)
+    done()
+}
+
+function _afterEach(done) {
+    proj1.destroy()
+    proj.destroy()
+    wrench.rmdirSyncRecursive(tmpDir, true)
+    done()
+}
+
+function initProject({repo, cardsConfig = {}}, cb) {
+    appContext.register(FileProjectContext, new ProjectContext(repo))
+    var config = new Config(constants.DEFAULT_CONFIG)
+    config.settings = {
+        cards: {
+          defaultList: TODO,
+          orderMeta: true,
+          ...cardsConfig
+        },
+      }
+    repo.config = config
+    repo.loadConfig = (cb) => {
+      repo.updateConfig(config, cb)
+    }
+    proj.init(cb)
+}
 
 describe('moveTasks', function () {
-    var tmpDir = path.join(process.cwd(), 'tmp'),
-    tmpReposDir = path.join(tmpDir, 'repos'),
-    repoSrc = path.join(process.cwd(), 'test', 'repos'),
-    filesSrc = path.join(process.cwd(), 'test', 'files'),
-    repoDir = path.join(tmpReposDir, 'files'),
-    repo1Dir = path.join(tmpReposDir, 'repo1'),
-    repo,
-    repo1,
-    proj,
-    proj1
 
-    beforeEach(function (done) {
-        try {
-        if (existsSync(tmpDir)) {
-            wrench.rmdirSyncRecursive(tmpDir)
-        }
-        wrench.mkdirSyncRecursive(tmpDir)
-        } catch (e) {
-        return done(e)
-        }
+    beforeEach(_beforeEach)
 
-        wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
-        wrench.copyDirSyncRecursive(filesSrc, repoDir, { forceDelete: true })
-        repo = fsStore(new Repository(repoDir))
-        proj = new Project(repo)
-        repo1 = fsStore(new Repository(repo1Dir))
-        proj1 = new Project(repo1)
-        done()
-    })
-
-    afterEach(function (done) {
-        proj1.destroy()
-        proj.destroy()
-        wrench.rmdirSyncRecursive(tmpDir, true)
-        done()
-    })
-
-
+    afterEach(_afterEach)
 
     it('Should move a task to the requested location in the same list', function (done) {
         appContext.register(FileProjectContext, new ProjectContext(repo1))
@@ -85,19 +104,9 @@ describe('moveTasks', function () {
     })
 
     it('Should move multiple tasks to the requested location in the requested list', function (done) {
-        appContext.register(FileProjectContext, new ProjectContext(repo))
-        var config = new Config(constants.DEFAULT_CONFIG)
-        config.settings = {
-            cards: {
-              defaultList: TODO,
-            },
-          }
-        // BACKLOG:-80 Test with changes to config
-        repo.config = config
-        repo.loadConfig = (cb) => {
-          repo.updateConfig(config, cb)
-        }
-        proj.init(function (err, result) {
+        initProject({repo, cardsConfig: {
+            defaultList: TODO,
+          }}, (err, result) => {
             const fileTaskCounts = repo.getFiles().map(({path, tasks}) => {
                 return {
                     path,
@@ -130,18 +139,9 @@ describe('moveTasks', function () {
 
     it('Should move multiple tasks in a code file to the requested location in the requested list', function (done) {
         const FILE_PATH = 'test.js'
-        appContext.register(FileProjectContext, new ProjectContext(repo))
-        var config = new Config(constants.DEFAULT_CONFIG)
-        config.settings = {
-            cards: {
-              defaultList: TODO,
-            },
-          }
-        repo.config = config
-        repo.loadConfig = (cb) => {
-          repo.updateConfig(config, cb)
-        }
-        proj.init(function (err, result) {
+        initProject({repo, cardsConfig: {
+            defaultList: TODO,
+          }}, (err, result) => {
             const fileTaskCounts = repo.getFiles().map(({path, tasks}) => {
                 return {
                     path,
@@ -172,23 +172,6 @@ describe('moveTasks', function () {
         })
     })
 
-    function initProject({repo, cardsConfig = {}}, cb) {
-        appContext.register(FileProjectContext, new ProjectContext(repo))
-        var config = new Config(constants.DEFAULT_CONFIG)
-        config.settings = {
-            cards: {
-              defaultList: TODO,
-              orderMeta: true,
-              ...cardsConfig
-            },
-          }
-        repo.config = config
-        repo.loadConfig = (cb) => {
-          repo.updateConfig(config, cb)
-        }
-        proj.init(cb)
-    }
-
     // Test modifying markdown tasks and order meta switch
     // We should be able to perform the following operations on a markdown task with no order
     // - [ ] move task
@@ -197,7 +180,11 @@ describe('moveTasks', function () {
     // - [ ] modify task from content
     // - [ ] modify task from html
     // - [ ] switch between orderMeta true/false
-    describe('Modify markdown tasks and order meta switch', () => {
+    // describe('Modify markdown tasks and order meta switch', () => {
+    //     beforeEach(_beforeEach)
+
+    //     afterEach(_afterEach)
+    
         it('Move a markdown task with no order, orderMeta = true', (done) => {
             const filePath =  'modify-tasks.md'
             const taskFilter = ({line}) => line === 35
@@ -325,5 +312,5 @@ describe('moveTasks', function () {
         it('Modify a markdown task from html with no order, orderMeta = false', (done) => {
             done('Write test')
         })
-    })    
+    // })    
 })

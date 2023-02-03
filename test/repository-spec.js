@@ -2,11 +2,9 @@ const Project = require('../lib/project')
 
 var should = require('should'),
   expect = require('expect.js'),
-  sinon = require('sinon'),
   Repository = require('../lib/repository'),
   Config = require('../lib/config'),
   File = require('../lib/file'),
-  util = require('util'),
   path = require('path'),
   fs = require('fs'),
   { existsSync } = fs,
@@ -806,7 +804,7 @@ describe('Repository', function () {
       })
     })
 
-    it('Adds a task to a file with HASH_META_ORDER', (done) => {
+    it('Adds a HASH_TAG task to a file with orderMeta', (done) => {
       appContext.register(FileProjectContext, new ProjectContext(repo3))
       proj3.init(function (err, result) {
         const content = 'A task\n<!-- order:40 -->\n'
@@ -815,7 +813,92 @@ describe('Repository', function () {
         const expectedLines = JSON.stringify([
           '- [ ] #DOING A task',
           '  <!-- order:40 -->',
-          '  ',
+          '',
+        ])
+        repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
+          // BACKLOG:-110 make sure the task is added correctly
+          repo3.readFileContent(file, (err, file) => {
+            const lines = eol.split(file.content)
+            JSON.stringify(lines.slice(5)).should.equal(expectedLines)
+            expect(err).to.be(null)
+            done()
+          })
+        })
+      })
+    })
+
+    it('Adds a MARKDOWN task to a file with orderMeta', (done) => {
+      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      proj3.init(function (err, result) {
+        const content = 'A task\n<!-- order:40 -->\n'
+        const testFilePath = 'addTaskTest.md'
+        const filePath = path.join(repo3.path, testFilePath)
+        const expectedLines = JSON.stringify([
+          '- [ ] #DOING A task',
+          '  <!-- order:40 -->',
+          '',
+        ])
+        repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
+          // BACKLOG:-110 make sure the task is added correctly
+          repo3.readFileContent(file, (err, file) => {
+            const lines = eol.split(file.content)
+            JSON.stringify(lines.slice(5)).should.equal(expectedLines)
+            expect(err).to.be(null)
+            done()
+          })
+        })
+      })
+    })
+
+    it('Adds a MARKDOWN task to a file with orderMeta: false and no order', (done) => {
+      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      var config = new Config(constants.DEFAULT_CONFIG)
+      // BACKLOG:-80 Test with changes to config
+      config.settings = {
+        newCardSyntax: 'MARKDOWN',
+        cards: {
+          orderMeta: false,
+          doneList: 'DONE',
+          defaultList: 'TODO',
+          addCheckBoxTasks: true,
+          // metaNewLine: true,
+          // trackChanges: true,
+        },
+      }
+      repo3.loadConfig = (cb) => {
+        repo3.updateConfig(config, cb)
+      }
+      proj3.init(function (err, result) {
+        const content = 'A task\n- with a bullet\n'
+        const testFilePath = 'addTaskTest.md'
+        const filePath = path.join(repo3.path, testFilePath)
+        const expectedLines = JSON.stringify([
+          '[A task](#DOING:)',
+          '- with a bullet',
+          ''
+        ])
+        repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
+          // BACKLOG:-110 make sure the task is added correctly
+          repo3.readFileContent(file, (err, file) => {
+            const lines = eol.split(file.content)
+            JSON.stringify(lines.slice(5)).should.equal(expectedLines)
+            expect(err).to.be(null)
+            done()
+          })
+        })
+      })
+    })
+
+    it('Adds a HASHTAG task to a file with metaOrder: true and no order', (done) => {
+      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      proj3.init(function (err, result) {
+        const content = 'A task\n- with a bullet\n'
+        const testFilePath = 'addTaskTest.md'
+        const filePath = path.join(repo3.path, testFilePath)
+        const expectedLines = JSON.stringify([
+          '- [ ] #DOING A task',
+          '  - with a bullet',
+          ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
           // BACKLOG:-110 make sure the task is added correctly
