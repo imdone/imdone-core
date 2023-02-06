@@ -15,8 +15,7 @@ var should = require('should'),
   languages = require('../lib/languages'),
   eol = require('eol'),
   async = require('async')
-const appContext = require('../lib/context/ApplicationContext')
-const FileProjectContext = require('../lib/domain/entities/FileProjectContext')
+const ApplicationContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 
 describe('Repository', function () {
@@ -96,7 +95,7 @@ describe('Repository', function () {
   })
 
   it('Should init successfully', function (done) {
-    appContext.register(FileProjectContext, new ProjectContext(repo))
+    ApplicationContext.projectContext = new ProjectContext(repo)
     proj.init(function (err, files) {
       if (err) return done(err)
       expect(files.length).to.be(13)
@@ -105,7 +104,7 @@ describe('Repository', function () {
   })
 
   it('Should write and delete a file successfully', function (done) {
-    appContext.register(FileProjectContext, new ProjectContext(repo1))
+    ApplicationContext.projectContext = new ProjectContext(repo1)
     proj1.init(function (err, files) {
       files.length.should.be.exactly(3)
       var file = new File({
@@ -128,7 +127,7 @@ describe('Repository', function () {
   })
 
   it('Should write and delete a file in a sub-dir successfully', function (done) {
-    appContext.register(FileProjectContext, new ProjectContext(repo1))
+    ApplicationContext.projectContext = new ProjectContext(repo1)
     proj1.init(function (err, files) {
       files.length.should.be.exactly(3)
       var file = new File({
@@ -167,8 +166,8 @@ describe('Repository', function () {
   })
 
   it('Should find checkBox tasks', function (done) {
-    appContext.register(FileProjectContext, new ProjectContext(repo))
-    var config = new Config(constants.DEFAULT_CONFIG)
+    ApplicationContext.projectContext = new ProjectContext(repo)
+    var config = Config.newDefaultConfig()
     // BACKLOG:-80 Test with changes to config
     config.settings = {
       newCardSyntax: 'MARKDOWN',
@@ -196,7 +195,7 @@ describe('Repository', function () {
 
   describe('Repository.query', function () {
     it('Should should sort according to sort values', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo2))
+      ApplicationContext.projectContext = new ProjectContext(repo2)
       proj2.init(function (err, files) {
         expect(err).to.be(null)
         const tasks = Repository.query(repo2.getTasks(), 'list != OKAY +list')
@@ -214,7 +213,7 @@ describe('Repository', function () {
 
   describe('hasDefaultFile', function (done) {
     it('Should return false if no default file exists', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         expect(repo.hasDefaultFile()).to.be(false)
         done()
@@ -222,7 +221,7 @@ describe('Repository', function () {
     })
 
     it('Should return true if readme.md file exists', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var file = new File({
           repoId: repo.getId(),
@@ -242,7 +241,7 @@ describe('Repository', function () {
     })
 
     it('Should return true if home.md file exists', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var file = new File({
           repoId: repo.getId(),
@@ -264,7 +263,7 @@ describe('Repository', function () {
 
   describe('getDefaultFile', function (done) {
     it("should return undefined if a default file doesn't exist", function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         expect(repo.getDefaultFile()).to.be(undefined)
         done()
@@ -272,7 +271,7 @@ describe('Repository', function () {
     })
 
     it('should return readme.md if it exist', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var file = new File({
           repoId: repo.getId(),
@@ -292,7 +291,7 @@ describe('Repository', function () {
     })
 
     it('Should return home.md if it exists', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var file = new File({
           repoId: repo.getId(),
@@ -312,7 +311,7 @@ describe('Repository', function () {
     })
 
     it('Should return readme.md if both home.md and readme.md exist', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var home = new File({
           repoId: repo.getId(),
@@ -370,7 +369,7 @@ describe('Repository', function () {
 
   describe('saveConfig', function () {
     it('Should save the config file', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       repo.saveConfig(function (err) {
         expect(err).to.be(null)
         expect(fs.existsSync(configDir)).to.be(true)
@@ -383,8 +382,8 @@ describe('Repository', function () {
 
   describe('loadConfig', function (done) {
     it('Should load the config file', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo))
-      repo.config = new Config(constants.DEFAULT_CONFIG)
+      ApplicationContext.projectContext = new ProjectContext(repo)
+      repo.config = Config.newDefaultConfig()
       repo.config.foo = 'bar'
       repo.saveConfig(function (err) {
         expect(fs.existsSync(configDir)).to.be(true)
@@ -400,7 +399,7 @@ describe('Repository', function () {
 
   describe('renameList', function (done) {
     it('should modify the list name in tasks with a given list name', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, files) {
         expect(err).to.be(null)
         expect(repo1.getTasksInList('TODO').length).to.be(3)
@@ -413,7 +412,7 @@ describe('Repository', function () {
       })
     })
     it('should execute the callback with an error if the new list name is already in use', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, files) {
         expect(err).to.be(null)
         expect(repo1.getTasksInList('TODO').length).to.be(3)
@@ -427,7 +426,7 @@ describe('Repository', function () {
 
   describe('deleteTasks', () => {
     it('deletes all tasks', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var tasks = repo3.getTasks()
         repo3.deleteTasks(tasks, function (err) {
@@ -439,7 +438,7 @@ describe('Repository', function () {
     })
 
     it('deletes all tasks in a list', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todos = repo3.getTasksInList('TODO')
         repo3.deleteTasks(todos, function (err) {
@@ -453,7 +452,7 @@ describe('Repository', function () {
 
   describe('deleteTask', () => {
     it('deletes a task with blank lines', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('DOING')
         var taskToDelete = todo.find(
@@ -470,7 +469,7 @@ describe('Repository', function () {
       })
     })
     it('deletes a block comment task on a single line', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -487,7 +486,7 @@ describe('Repository', function () {
       })
     })
     it('deletes a TODO that starts on the same line as code', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -504,7 +503,7 @@ describe('Repository', function () {
       })
     })
     it('deletes a TODO in a block comment', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -521,7 +520,7 @@ describe('Repository', function () {
       })
     })
     it('deletes a TODO in a block comment on the same lines', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -538,7 +537,7 @@ describe('Repository', function () {
       })
     })
     it('deletes a TODO with single line comments', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -555,7 +554,7 @@ describe('Repository', function () {
       })
     })
     it('deletes all TODOs in a file', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todos = repo3.getTasksInList('TODO')
 
@@ -585,7 +584,7 @@ describe('Repository', function () {
     })
     it('deletes all TODOs in a file', (done) => {
       const list = 'DOING'
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         let todos = repo3.getTasksInList(list)
 
@@ -617,7 +616,7 @@ describe('Repository', function () {
 
   describe('modifyFromContent', () => {
     it('modifies a description on a single line block comment', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -638,7 +637,7 @@ describe('Repository', function () {
       })
     })
     it('removes a description from a TODO that starts on the same line as code', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -660,7 +659,7 @@ describe('Repository', function () {
       })
     })
     it('removes a a description from a TODO in a block comment', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -682,7 +681,7 @@ describe('Repository', function () {
       })
     })
     it('modifies a a description for a TODO in a block comment', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -703,7 +702,7 @@ describe('Repository', function () {
       })
     })
     it.skip('removes a a description from a TODO on the same line as code with a description that ends with a block comment', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -725,7 +724,7 @@ describe('Repository', function () {
       })
     })
     it('removes a a description from a TODO with two lines of comments following', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -747,7 +746,7 @@ describe('Repository', function () {
       })
     })
     it('ends the description on blank comment lines', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var trickyTasks = repo3.getFile('tricky.js').getTasks()
         const task_a1 = trickyTasks.find(
@@ -762,7 +761,7 @@ describe('Repository', function () {
       })
     })
     it('removes a description from a TODO with a description in a yaml file', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -790,7 +789,7 @@ describe('Repository', function () {
       const content = 'A task added to a file with order = null'
       const testFilePath = 'addTaskTest.md'
       const filePath = path.join(repo3.path, testFilePath)
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         proj3.config.settings.cards.orderMeta = true
         proj3.config.settings.newCardSyntax = 'HASHTAG'
@@ -805,7 +804,7 @@ describe('Repository', function () {
     })
 
     it('Adds a HASH_TAG task to a file with orderMeta', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         const content = 'A task\n<!-- order:40 -->\n'
         const testFilePath = 'addTaskTest.md'
@@ -828,7 +827,7 @@ describe('Repository', function () {
     })
 
     it('Adds a MARKDOWN task to a file with orderMeta', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         const content = 'A task\n<!-- order:40 -->\n'
         const testFilePath = 'addTaskTest.md'
@@ -851,8 +850,8 @@ describe('Repository', function () {
     })
 
     it('Adds a MARKDOWN task to a file with orderMeta: false and no order', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
-      var config = new Config(constants.DEFAULT_CONFIG)
+      ApplicationContext.projectContext = new ProjectContext(repo3)
+      var config = Config.newDefaultConfig()
       // BACKLOG:-80 Test with changes to config
       config.settings = {
         newCardSyntax: 'MARKDOWN',
@@ -890,7 +889,7 @@ describe('Repository', function () {
     })
 
     it('Adds a HASHTAG task to a file with metaOrder: true and no order', (done) => {
-      appContext.register(FileProjectContext, new ProjectContext(repo3))
+      ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         const content = 'A task\n- with a bullet\n'
         const testFilePath = 'addTaskTest.md'
@@ -915,7 +914,7 @@ describe('Repository', function () {
 
   describe('query', function () {
     it('Should find tasks with tags=/one\\/two/', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const filter = 'tags=/one\\/two/'
         const lists = repo1.query(filter)
@@ -926,7 +925,7 @@ describe('Repository', function () {
       })
     })
     it('Should find tasks with tags=one', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('tags=one')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -936,7 +935,7 @@ describe('Repository', function () {
       })
     })
     it('Should filter tasks by modified time with rql', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('list=DOING')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -946,7 +945,7 @@ describe('Repository', function () {
       })
     })
     it('Should filter tasks by modified time monquery', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('list = /DO/')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -957,7 +956,7 @@ describe('Repository', function () {
       })
     })
     it('Should filter tasks with a regex', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('DOING')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -967,7 +966,7 @@ describe('Repository', function () {
       })
     })
     it('Should return a result with a bad query', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('^&%^')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -977,7 +976,7 @@ describe('Repository', function () {
       })
     })
     it('should query using dates', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         let lists = repo1.query(
           'due < "2020-11-14" and list != DONE +due +order'
@@ -1001,7 +1000,7 @@ describe('Repository', function () {
       })
     })
     it('should sort using +[attribute] for ascending in with', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         let lists = repo1.query(
           'due < "2020-11-13T12:32:55.216Z" AND list != DONE +dueDate +order'
@@ -1014,7 +1013,7 @@ describe('Repository', function () {
       })
     })
     it('should sort using +[attribute] for ascending with regex', function (done) {
-      appContext.register(FileProjectContext, new ProjectContext(repo1))
+      ApplicationContext.projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         let lists = repo1.query('due +due +order')
         let doing = lists.find((list) => list.name === 'DOING')
@@ -1108,14 +1107,14 @@ describe('Repository', function () {
   describe('moveTask', () => {
     it.skip('should move two tasks in the same file and extract the latest tasks', (done) => {
       const debugPath = path.join(process.cwd(), 'debug.md')
-      repo.config = new Config(constants.DEFAULT_CONFIG)
+      repo.config = Config.newDefaultConfig()
       const projectContext = new ProjectContext(repo)
       projectContext.config.settings.doneList = 'DONE'
       projectContext.config.settings.cards = {
         metaNewLine: true,
         trackChanges: true,
       }
-      appContext.register(FileProjectContext, projectContext)
+      ApplicationContext.projectContext = projectContext
       proj.init((err) => {
         if (err) done(err)
         const moveTasksFilePath = 'move-tasks.md'
@@ -1127,7 +1126,6 @@ describe('Repository', function () {
         const content = fs
           .readFileSync(path.join(repoDir, moveTasksFilePath), 'utf-8')
           .split(eol.auto)
-        console.log(debugPath)
         fs.writeFileSync(
           debugPath,
           content.map((line, no) => `${no + 1} ${line}`).join(eol.lf)
@@ -1152,10 +1150,8 @@ describe('Repository', function () {
 
     it('Should move a task in a file with task-meta-order', (done) => {
       const listName = 'DOING'
-      appContext.register(
-        FileProjectContext,
+      ApplicationContext.projectContext =
         new ProjectContext(moveMetaOrderRepo)
-      )
       moveMetaOrderProj.init((err, result) => {
         var list = moveMetaOrderRepo.getTasksInList(listName)
         var task = list[0]
@@ -1170,7 +1166,7 @@ describe('Repository', function () {
 
     it('should move a task to the proper location even if other tasks around it have the same order', (done) => {
       const listName = 'DOING'
-      appContext.register(FileProjectContext, new ProjectContext(noOrderRepo))
+      ApplicationContext.projectContext = new ProjectContext(noOrderRepo)
       noOrderProj.init((err, result) => {
         var list = noOrderRepo.getTasksInList(listName)
         var task = list[5]
@@ -1190,7 +1186,7 @@ describe('Repository', function () {
         projectContext.config.settings.doneList = 'DONE'
         projectContext.config.settings.cards.metaNewLine = true
         projectContext.config.settings.cards.trackChanges = true
-        appContext.register(FileProjectContext, projectContext)
+        ApplicationContext.projectContext = projectContext
         var list = repo3.getTasksInList(listName)
         var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
         const lastLine = task.lastLine
@@ -1209,11 +1205,12 @@ describe('Repository', function () {
 
   describe('getTasksByList', () => {
     it('should return tasks in a filtered list', function (done) {
-      appContext.register(
-        FileProjectContext,
-        new ProjectContext(defaultCardsRepo)
-      )
+      defaultCardsRepo = fsStore(new Repository(defaultCardsDir))
+      ApplicationContext.projectContext =
+        new ProjectContext(defaultCardsRepo);
+      defaultCardsProj = new Project(defaultCardsRepo)
       defaultCardsProj.init(function (err, result) {
+        if (err) return done(err)
         const lists = defaultCardsRepo.getTasksByList()
         // old.md in .stversions should be ignored
         lists
@@ -1224,13 +1221,13 @@ describe('Repository', function () {
         lists[0].tasks[2].order.should.be.exactly(7)
         lists[0].tasks[3].order.should.be.exactly(6)
         lists[0].tasks[4].order.should.be.exactly(5)
-        lists[0].tasks[5].order.should.be.exactly(4.5)
+        lists[0].tasks[5].order.should.be.exactly(4)
         lists[0].tasks[6].order.should.be.exactly(4)
         lists[0].tasks[7].order.should.be.exactly(3)
         lists[0].tasks[8].order.should.be.exactly(2)
-        lists[0].tasks[9].order.should.be.exactly(1.5)
+        lists[0].tasks[9].order.should.be.exactly(1)
         lists[0].tasks[10].order.should.be.exactly(1)
-        lists[0].tasks[11].order.should.be.exactly(0)
+        should(lists[0].tasks[11].order).equal(undefined)
         done()
       })
     })
@@ -1238,10 +1235,8 @@ describe('Repository', function () {
 
   describe('It should allow : or :: in config.settings.metaSep', function () {
     it('should read metaData with a :: as sep', function (done) {
-      appContext.register(
-        FileProjectContext,
+      ApplicationContext.projectContext =
         new ProjectContext(metaSepTestRepo)
-      )
       metaSepTestProj.init((err, result) => {
         const files = metaSepTestRepo.files
         const doneList = metaSepTestRepo
@@ -1262,10 +1257,8 @@ describe('Repository', function () {
 
   describe('add and remove metadata', () => {
     it('Removes metadata from a task with a checkbox prefix', (done) => {
-      appContext.register(
-        FileProjectContext,
+      ApplicationContext.projectContext = 
         new ProjectContext(metaSepTestRepo)
-      )
       function getTask() {
         return metaSepTestRepo
           .getTasks()
@@ -1287,12 +1280,15 @@ id::arm123`
           filePath,
           'TODO',
           content,
-          async (err) => {
-            if (err) return done(err)
+          (err) => {
+            if (err) return done(err);
             getTask().metaKeys.includes('expand').should.be.true()
-            await metaSepTestProj.removeMetadata(getTask(), 'expand', '1')
-            getTask().metaKeys.includes('expand').should.be.false()
-            done()
+            metaSepTestProj.removeMetadata(getTask(), 'expand', '1')
+            .then(() => {
+              getTask().metaKeys.includes('expand').should.be.false()
+              done()
+            })
+            .catch(done)
           }
         )
       })
@@ -1304,7 +1300,7 @@ id::arm123`
       this.timeout(10 * 1000)
       const start = new Date()
       const repo = fsStore(new Repository('../imdone copy'))
-      appContext.register(FileProjectContext, new ProjectContext(repo))
+      ApplicationContext.projectContext = new ProjectContext(repo)
       proj.init(function (err, result) {
         const end = new Date()
         const duration = end.getTime() - start.getTime()
