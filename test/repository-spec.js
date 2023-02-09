@@ -787,14 +787,17 @@ describe('Repository', function () {
   describe('addTaskToFile', function (done) {
     it("Adds a task to a file that doesn't exist with order = null", (done) => {
       const content = 'A task added to a file with order = null'
-      const testFilePath = 'addTaskTest.md'
+      const testFilePath = 'addTaskTestNew.md'
       const filePath = path.join(repo3.path, testFilePath)
       ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
+        proj3.config.settings.jounalType = "New File"
         proj3.config.settings.cards.orderMeta = true
-        proj3.config.settings.newCardSyntax = 'HASHTAG'
-        repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
+        proj3.config.settings.newCardSyntax = 'MARKDOWN'
+        const list = "DOING"
+        repo3.addTaskToFile(filePath, list, content, (err, file) => {
           repo3.readFileContent(file, (err, file) => {
+            expect(file.getContent().trim()).to.equal(`- [ ] [${content}](#${list}:)`)
             expect(file.getTasks().find(task => task.text === content)).to.be.ok()
             expect(err).to.be(null)
             done()
@@ -888,7 +891,7 @@ describe('Repository', function () {
       })
     })
 
-    it('Adds a HASHTAG task to a file with metaOrder: true and no order', (done) => {
+    it('Adds a HASHTAG task to a file with orderMeta: true and no order', (done) => {
       ApplicationContext.projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         const content = 'A task\n- with a bullet\n'

@@ -64,7 +64,7 @@ function createTmpRepo(name, files = []) {
     return  fsStore(new Repository(repoDir))
 }
 
-function initProject({repo, config = {}}, cb) {
+function createProject({repo, config = {}}) {
     const _config = Config.newDefaultConfig(config)
     ApplicationContext.config = _config
     ApplicationContext.projectContext = new ProjectContext(repo)
@@ -73,7 +73,11 @@ function initProject({repo, config = {}}, cb) {
     repo.loadConfig = (cb) => {
       repo.updateConfig(_config, cb)
     }
-    proj.init(cb)
+    return proj
+}
+
+function initProject({repo, config = {}}, cb = () => {}) {
+    createProject({repo, config}).init(cb)
 }
 
 describe('moveTasks', function () {
@@ -300,12 +304,10 @@ describe('moveTasks', function () {
                 content: "## [Task c with no order](#TODO:)\ntask:c\n"
             },
         ])
-        
-        
         const taskAFilter = ({meta}) => meta.task && meta.task[0] === 'a'
         const taskBFilter = ({meta}) => meta.task && meta.task[0] === 'b'
         const taskCFilter = ({meta}) => meta.task && meta.task[0] === 'c'
-        initProject({repo, config: {
+        const proj = createProject({repo, init: false, config: {
             settings: {
                 journalType: "New File",
                 cards: {
@@ -313,7 +315,9 @@ describe('moveTasks', function () {
                     defaultList: TODO
                 }
             }
-          }}, (err) => {
+          }
+        })
+        proj.init((err) => {
             if (err) return done(err)
             const task = repo.getTasks().find(taskAFilter)
             const newPos = 1
@@ -326,6 +330,53 @@ describe('moveTasks', function () {
                 expect(taskB.order).to.be.a('number')
                 expect(taskB.order < taskA.order && taskA.order < taskC.order).to.be.true
                 done()
+                proj.destroy()
+            })
+        })
+    })
+
+    it('Moves a markdown task from position 0 to position 1 in a list with 3 tasks all with no order orderMeta=true', (done) => {
+        const repo = createTmpRepo("tmp-repo-3", [
+            {
+                name: "fileA.md",
+                content: "## [Task a with no order](#TODO:)\ntask:a\n"
+            },
+            {
+                name: "fileB.md",
+                content: "## [Task b with no order](#TODO:)\ntask:b\n"
+            },
+            {
+                name: "fileC.md",
+                content: "## [Task c with no order](#TODO:)\ntask:c\n"
+            },
+        ])
+        const taskAFilter = ({meta}) => meta.task && meta.task[0] === 'a'
+        const taskBFilter = ({meta}) => meta.task && meta.task[0] === 'b'
+        const taskCFilter = ({meta}) => meta.task && meta.task[0] === 'c'
+        const proj = createProject({repo, init: false, config: {
+            settings: {
+                journalType: "New File",
+                cards: {
+                    orderMeta: true,
+                    defaultList: TODO
+                }
+            }
+          }
+        })
+        proj.init((err) => {
+            if (err) return done(err)
+            const task = repo.getTasks().find(taskAFilter)
+            const newPos = 1
+            repo.moveTask({task, newList: TODO, newPos}, (err) => {
+                if (err) return done(err)
+                const taskA = repo.getTasks().find(taskAFilter)
+                const taskB = repo.getTasks().find(taskBFilter)
+                const taskC = repo.getTasks().find(taskCFilter)
+                expect(taskA.order).to.be.a('number')
+                expect(taskB.order).to.be.a('number')
+                expect(taskB.order < taskA.order && taskA.order < taskC.order).to.be.true
+                done()
+                proj.destroy()
             })
         })
     })
@@ -345,7 +396,7 @@ describe('moveTasks', function () {
         
         const taskFilter = ({meta}) => meta.story && meta.story[0] === '3'
         const taskWithNoOrderFilter = ({meta}) => meta.story && meta.story[0] === '4'
-        initProject({repo, config: {
+        const proj = createProject({repo, config: {
             settings: {
                 journalType: "New File",
                 cards: {
@@ -353,7 +404,8 @@ describe('moveTasks', function () {
                     defaultList: TODO
                 }
             }
-          }}, (err) => {
+          }})
+        proj.init((err) => {
             if (err) return done(err)
             const listLengthTODO = repo.getTasksInList(TODO).length
             const listLengthDOING = repo.getTasksInList(DOING).length
@@ -374,8 +426,8 @@ describe('moveTasks', function () {
                 expect(newTodoTasks.length).to.equal(listLengthTODO)
                 expect(repo.getTasksInList(DOING).length).to.equal(listLengthDOING)
                 expect(repo.getTasksInList(DONE).length).to.equal(listLengthDONE)
+                proj.destroy()
                 done()
-                // done("This isn't working on the front end")
             })
         })
     })
