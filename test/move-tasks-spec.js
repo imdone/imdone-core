@@ -7,7 +7,7 @@ const fs = require('fs')
 const { existsSync } = fs
 const wrench = require('wrench')
 const fsStore = require('../lib/mixins/repo-fs-store')
-const ApplicationContext = require('../lib/context/ApplicationContext')
+const appContext = () => require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const constants = require('../lib/constants')
 const TODO = "TODO"
@@ -66,8 +66,8 @@ function createTmpRepo(name, files = []) {
 
 function createProject({repo, config = {}}) {
     const _config = Config.newDefaultConfig(config)
-    ApplicationContext.config = _config
-    ApplicationContext.projectContext = new ProjectContext(repo)
+    appContext().config = _config
+    appContext().projectContext = new ProjectContext(repo)
     const proj = new Project(repo)
     repo.config = _config
     repo.loadConfig = (cb) => {
@@ -87,7 +87,7 @@ describe('moveTasks', function () {
     afterEach(_afterEach)
 
     it('Should move a task to the requested location in the same list', function (done) {
-        ApplicationContext.projectContext = new ProjectContext(repo1)
+        appContext().projectContext = new ProjectContext(repo1)
         proj1.init(function (err, result) {
             var todo = repo1.getTasksInList(TODO)
             var taskToMove = todo[1]
@@ -99,7 +99,7 @@ describe('moveTasks', function () {
     })
 
     it('Should move a task to the requested location in a different list', function (done) {
-        ApplicationContext.projectContext = new ProjectContext(repo1)
+        appContext().projectContext = new ProjectContext(repo1)
         proj1.init(function (err, result) {
             var todo = repo1.getTasksInList(TODO)
             var taskToMove = todo[1]
@@ -227,6 +227,38 @@ describe('moveTasks', function () {
         })
     })
 
+    it('Move a markdown task with no order up one from the bottom, orderMeta = true', (done) => {
+        const filePath =  'modify-tasks.md'
+        initProject({repo, config: {
+            keepEmptyPriority: true,
+            settings: {
+                cards: {
+                    orderMeta: true,
+                    defaultList: TODO
+                }
+            }
+          }}, (err) => {
+            const todoTasks = repo.getTasksInList(TODO)
+            console.log(todoTasks.length)
+            console.log(todoTasks.map(({order}) => order))
+            const lastPosition = todoTasks.length - 1
+            const task = todoTasks[lastPosition]
+            const taskFilter = (({path, line}) => path === task.path && line === task.line)
+            const newPos = lastPosition - 1
+            const nextTaskOrder = todoTasks[newPos].order
+            const prevTaskOrder = todoTasks[newPos - 1].order
+            repo.moveTask({task, newList: TODO, newPos}, (err) => {
+                console.log(repo.getTasksInList(TODO).length)
+                console.log(repo.getTasksInList(TODO).map(({order}) => order))
+                if (err) return done(err)
+                const newTask = repo.getTasks().find(taskFilter)
+                should(newTask.meta.order[0]).equal('172')
+                should(newTask.order).equal(172)
+                done()
+            })
+        })
+    })
+
     it('Move a markdown task with no order, orderMeta = false', (done) => {
         const filePath =  'modify-tasks.md'
         const taskFilter = ({line}) => line === 35
@@ -277,7 +309,7 @@ describe('moveTasks', function () {
                 const newTask = file.getTasks().find(taskFilter)
                 const newTodoTasks = repo.getTasksInList(TODO)
                 const taskAtNewPosition = newTodoTasks[newPos]
-                expect(ApplicationContext.config.orderMeta).to.be.true
+                expect(appContext().config.orderMeta).to.be.true
                 expect(taskFilter(taskAtNewPosition)).to.be.true
                 expect(newTask.meta.order[0]).to.be(`${newTask.order}`)
                 expect(newTask.order).to.be.a('number');

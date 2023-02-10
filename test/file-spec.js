@@ -412,7 +412,7 @@ describe('File', function () {
       content = '[2021-12-01 12:00] [A new task](#DOING:20)'
       file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.md',
+        filePath: 'tmp/files/sample2.md',
         content,
         languages,
         project,
