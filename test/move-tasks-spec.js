@@ -241,13 +241,37 @@ describe('moveTasks', function () {
         [4, 2, 7, 0, 0, false, true],
         [4, 2, 7, 0, 0, true, false],
         [4, 2, 7, 0, 0, false, false],
-        [6, 9, 4, 2, 6, true, true]
+        // Move from end with null order to group with same order
+        [6, 9, 4, 2, 6, true, true],
+        [6, 9, 4, 2, 6, true, false],
+        [6, 9, 4, 2, 6, false, true],
+        [6, 9, 4, 2, 6, false, false],
+        // Move from after with different order to group with same order
+        [9, 7, 3, 2, 6, true, true],
+        [9, 7, 3, 2, 6, true, false],
+        [9, 7, 3, 2, 6, false, true],
+        [9, 7, 3, 2, 6, false, false],
+        // Move from after with same order to group with same order
+        [6, 5, 3, 2, 6, true, true],
+        [6, 5, 3, 2, 6, true, false],
+        [6, 5, 3, 2, 6, false, true],
+        [6, 5, 3, 2, 6, false, false],
+        // Move from before with different order to group with same order
+        [12, 2, 5, 3, 7, true, true],
+        [12, 2, 5, 3, 7, true, false],
+        [12, 2, 5, 3, 7, false, true],
+        [12, 2, 5, 3, 7, false, false],
+        // Move from before with same order to group with same order
+        [12, 4, 6, 3, 8, true, true],
+        [12, 4, 6, 3, 8, true, false],
+        [12, 4, 6, 3, 8, false, true],
+        [12, 4, 6, 3, 8, false, false],
     ]).
     it('Move a markdown task in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, orderMeta = %j, keepEmptyPriority = %j', 
         (tasksWithOrder, fromPos, toPos, sameOrderFrom, sameOrderTo, orderMeta, keepEmptyPriority, done) => {
         
         let sameOrder
-        const repoFiles = "ABCDEFGHIJ".split("").map((letter, i) => {
+        const repoFiles = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter, i) => {
             let order = i < tasksWithOrder ? i*10 : ''
             if (i === sameOrderFrom) sameOrder = order
             if (i > sameOrderFrom && i <= sameOrderTo) order = sameOrder
