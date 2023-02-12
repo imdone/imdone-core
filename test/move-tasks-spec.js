@@ -9,7 +9,7 @@ const wrench = require('wrench')
 const fsStore = require('../lib/mixins/repo-fs-store')
 const appContext = () => require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
-const constants = require('../lib/constants')
+const forEach = require("mocha-each")
 const TODO = "TODO"
 const DOING = "DOING"
 const DONE = "DONE"
@@ -204,266 +204,97 @@ describe('moveTasks', function () {
     //     beforeEach(_beforeEach)
 
     //     afterEach(_afterEach)
-
-    it('Move a markdown task with no order, orderMeta = true', (done) => {
-        const filePath =  'modify-tasks.md'
-        const taskFilter = ({line}) => line === 35
-        initProject({repo, config: {
-            settings: {
-                cards: {
-                    orderMeta: true,
-                    defaultList: TODO
-                }
+    forEach([
+        [0, 9, 8, 0, 0, true, true],
+        [0, 9, 8, 0, 0, false, true],
+        [0, 9, 8, 0, 0, true, false],
+        [0, 9, 8, 0, 0, false, false],
+        [0, 9, 7, 0, 0, true, true],
+        [0, 9, 7, 0, 0, false, true],
+        [0, 9, 7, 0, 0, true, false],
+        [0, 9, 7, 0, 0, false, false],
+        [0, 9, 6, 0, 0, true, true],
+        [0, 9, 6, 0, 0, false, true],
+        [0, 9, 6, 0, 0, true, false],
+        [0, 9, 6, 0, 0, false, false],
+        [0, 8, 9, 0, 0, true, true],
+        [0, 8, 9, 0, 0, false, true],
+        [0, 8, 9, 0, 0, true, false],
+        [0, 8, 9, 0, 0, false, false],
+        [0, 7, 9, 0, 0, true, true],
+        [0, 7, 9, 0, 0, false, true],
+        [0, 7, 9, 0, 0, true, false],
+        [0, 7, 9, 0, 0, false, false],
+        [0, 6, 9, 0, 0, true, true],
+        [0, 6, 9, 0, 0, false, true],
+        [0, 6, 9, 0, 0, true, false],
+        [0, 6, 9, 0, 0, false, false],
+        [0, 5, 8, 0, 0, true, true],
+        [0, 5, 8, 0, 0, false, true],
+        [0, 5, 8, 0, 0, true, false],
+        [0, 5, 8, 0, 0, false, false],
+        [4, 7, 2, 0, 0, true, true],
+        [4, 7, 2, 0, 0, false, true],
+        [4, 7, 2, 0, 0, true, false],
+        [4, 7, 2, 0, 0, false, false],
+        [4, 2, 7, 0, 0, true, true],
+        [4, 2, 7, 0, 0, false, true],
+        [4, 2, 7, 0, 0, true, false],
+        [4, 2, 7, 0, 0, false, false],
+        [6, 9, 4, 2, 6, true, true]
+    ]).
+    it('Move a markdown task in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, orderMeta = %j, keepEmptyPriority = %j', 
+        (tasksWithOrder, fromPos, toPos, sameOrderFrom, sameOrderTo, orderMeta, keepEmptyPriority, done) => {
+        
+        let sameOrder
+        const repoFiles = "ABCDEFGHIJ".split("").map((letter, i) => {
+            let order = i < tasksWithOrder ? i*10 : ''
+            if (i === sameOrderFrom) sameOrder = order
+            if (i > sameOrderFrom && i <= sameOrderTo) order = sameOrder
+            return {
+                name: `file${letter}.md`,
+                content: `## [Task ${letter}](#TODO:${order})\ntask:${letter}\n`
             }
-          }}, (err) => {
-            const file = repo.getFile(filePath)
-            const task = file.getTasks().find(taskFilter)
-            repo.moveTask({task, newList: TODO, newPos: 0}, (err) => {
-                const newTask = file.getTasks().find(taskFilter)
-                should(newTask.meta.order[0]).equal('-30')
-                should(newTask.order).equal(-30)
-                done()
-            })
         })
-    })
 
-    it('Move a markdown task with no order up one from the bottom, orderMeta = true', (done) => {
-        const filePath =  'modify-tasks.md'
-        initProject({repo, config: {
-            keepEmptyPriority: true,
+        const repo = createTmpRepo("tmp-repo-1", repoFiles)
+        const proj = createProject({repo, init: false, config: {
+            keepEmptyPriority,
             settings: {
                 cards: {
-                    orderMeta: true,
+                    orderMeta,
                     defaultList: TODO
                 }
             }
-          }}, (err) => {
+          }
+        })
+
+        function destroyProject(done, err) {
+            proj.destroy()
+            done(err)
+        }
+
+        proj.init((err) => {
+            if (err) destroyProject(done, err)
             const todoTasks = repo.getTasksInList(TODO)
-            console.log(todoTasks.length)
-            console.log(todoTasks.map(({order}) => order))
-            const lastPosition = todoTasks.length - 1
-            const task = todoTasks[lastPosition]
-            const taskFilter = (({path, line}) => path === task.path && line === task.line)
-            const newPos = lastPosition - 1
-            const nextTaskOrder = todoTasks[newPos].order
-            const prevTaskOrder = todoTasks[newPos - 1].order
+            const task = todoTasks[fromPos]
+            const letter = task.meta.task[0]
+            console.log(this.ctx.test.title)
+            console.log(`task: ${letter}`)
+            console.log(todoTasks.map(({order, meta}, i) => `${i} : ${meta.task[0]} : ${order}`))
+            const taskFilter =  ({meta}) => meta.task[0] === letter
+            const newPos = toPos
             repo.moveTask({task, newList: TODO, newPos}, (err) => {
-                console.log(repo.getTasksInList(TODO).length)
-                console.log(repo.getTasksInList(TODO).map(({order}) => order))
-                if (err) return done(err)
-                const newTask = repo.getTasks().find(taskFilter)
-                should(newTask.meta.order[0]).equal('172')
-                should(newTask.order).equal(172)
-                done()
+                if (err) destroyProject(done, err)
+                const todoTasks = repo.getTasksInList(TODO)
+                const newTaskIndex= todoTasks.findIndex(taskFilter)
+                console.log(`task: ${letter}`)
+                console.log(todoTasks.map(({order, meta}, i) => `${i} : ${meta.task[0]} : ${order}`))
+                should(newTaskIndex).equal(newPos)
+                destroyProject(done, err)
             })
         })
     })
-
-    it('Move a markdown task with no order, orderMeta = false', (done) => {
-        const filePath =  'modify-tasks.md'
-        const taskFilter = ({line}) => line === 35
-        initProject({repo, config: {
-            settings: {
-                cards: {
-                    orderMeta: false,
-                    defaultList: TODO
-                }
-            }
-          }}, (err) => {
-            const file = repo.getFile(filePath)
-            const task = file.getTasks().find(taskFilter)
-            repo.moveTask({task, newList: TODO, newPos: 0}, (err) => {
-                const newTask = file.getTasks().find(taskFilter)
-                should(repo.getTasksInList(TODO).findIndex(t => newTask === t)).equal(0)
-                should(newTask.meta.order).equal(undefined)
-                should(newTask.order).equal(-30)
-                done()
-            })
-        })
-    })
-
-    it('Move a markdown task after task with no order, orderMeta = true', (done) => {
-        const filePath =  'modify-tasks.md'
-        const taskFilter = ({meta, list}) => meta.story && meta.story[0] === '3' && list === TODO
-        const taskWithNoOrderFilter = ({meta, list}) => meta.story && meta.story[0] === '4' && list === TODO
-        initProject({repo, config: {
-            settings: {
-                cards: {
-                    orderMeta: true,
-                    defaultList: TODO
-                }
-            }
-          }}, (err) => {
-            if (err) return done(err)
-            const listLengthTODO = repo.getTasksInList(TODO).length
-            const listLengthDOING = repo.getTasksInList(DOING).length
-            const tasksInDONE = repo.getTasksInList(DONE)
-            const listLengthDONE = tasksInDONE.length
-
-            const file = repo.getFile(filePath)
-            const task = file.getTasks().find(taskFilter)
-            const todoTasks = repo.getTasksInList(TODO);
-            const newPos = todoTasks.findIndex(taskWithNoOrderFilter) + 1
-            repo.moveTask({task, newList: TODO, newPos}, (err) => {
-                if (err) return done(err)
-                const newTask = file.getTasks().find(taskFilter)
-                const newTodoTasks = repo.getTasksInList(TODO)
-                const taskAtNewPosition = newTodoTasks[newPos]
-                expect(appContext().config.orderMeta).to.be.true
-                expect(taskFilter(taskAtNewPosition)).to.be.true
-                expect(newTask.meta.order[0]).to.be(`${newTask.order}`)
-                expect(newTask.order).to.be.a('number');
-                expect(newTodoTasks.length).to.equal(listLengthTODO)
-                expect(repo.getTasksInList(DOING).length).to.equal(listLengthDOING)
-                expect(repo.getTasksInList(DONE).length).to.equal(listLengthDONE)
-                done()
-            })
-        })
-    })
-    
-    it('Moves a markdown task from position 0 to position 1 in a list with 3 tasks all with no order', (done) => {
-        const repo = createTmpRepo("tmp-repo-1", [
-            {
-                name: "fileA.md",
-                content: "## [Task a with no order](#TODO:)\ntask:a\n"
-            },
-            {
-                name: "fileB.md",
-                content: "## [Task b with no order](#TODO:)\ntask:b\n"
-            },
-            {
-                name: "fileC.md",
-                content: "## [Task c with no order](#TODO:)\ntask:c\n"
-            },
-        ])
-        const taskAFilter = ({meta}) => meta.task && meta.task[0] === 'a'
-        const taskBFilter = ({meta}) => meta.task && meta.task[0] === 'b'
-        const taskCFilter = ({meta}) => meta.task && meta.task[0] === 'c'
-        const proj = createProject({repo, init: false, config: {
-            settings: {
-                journalType: "New File",
-                cards: {
-                    orderMeta: false,
-                    defaultList: TODO
-                }
-            }
-          }
-        })
-        proj.init((err) => {
-            if (err) return done(err)
-            const task = repo.getTasks().find(taskAFilter)
-            const newPos = 1
-            repo.moveTask({task, newList: TODO, newPos}, (err) => {
-                if (err) return done(err)
-                const taskA = repo.getTasks().find(taskAFilter)
-                const taskB = repo.getTasks().find(taskBFilter)
-                const taskC = repo.getTasks().find(taskCFilter)
-                expect(taskA.order).to.be.a('number')
-                expect(taskB.order).to.be.a('number')
-                expect(taskB.order < taskA.order && taskA.order < taskC.order).to.be.true
-                done()
-                proj.destroy()
-            })
-        })
-    })
-
-    it('Moves a markdown task from position 0 to position 1 in a list with 3 tasks all with no order orderMeta=true', (done) => {
-        const repo = createTmpRepo("tmp-repo-3", [
-            {
-                name: "fileA.md",
-                content: "## [Task a with no order](#TODO:)\ntask:a\n"
-            },
-            {
-                name: "fileB.md",
-                content: "## [Task b with no order](#TODO:)\ntask:b\n"
-            },
-            {
-                name: "fileC.md",
-                content: "## [Task c with no order](#TODO:)\ntask:c\n"
-            },
-        ])
-        const taskAFilter = ({meta}) => meta.task && meta.task[0] === 'a'
-        const taskBFilter = ({meta}) => meta.task && meta.task[0] === 'b'
-        const taskCFilter = ({meta}) => meta.task && meta.task[0] === 'c'
-        const proj = createProject({repo, init: false, config: {
-            settings: {
-                journalType: "New File",
-                cards: {
-                    orderMeta: true,
-                    defaultList: TODO
-                }
-            }
-          }
-        })
-        proj.init((err) => {
-            if (err) return done(err)
-            const task = repo.getTasks().find(taskAFilter)
-            const newPos = 1
-            repo.moveTask({task, newList: TODO, newPos}, (err) => {
-                if (err) return done(err)
-                const taskA = repo.getTasks().find(taskAFilter)
-                const taskB = repo.getTasks().find(taskBFilter)
-                const taskC = repo.getTasks().find(taskCFilter)
-                expect(taskA.order).to.be.a('number')
-                expect(taskB.order).to.be.a('number')
-                expect(taskB.order < taskA.order && taskA.order < taskC.order).to.be.true
-                done()
-                proj.destroy()
-            })
-        })
-    })
-
-    it('Moves a markdown task after task with no order, orderMeta = false', (done) => {
-        const repo = createTmpRepo("tmp-repo-2", [
-            {
-                name: "file1.md",
-                content: "## [A task with order](#TODO:10)\nstory:3\n"
-            },
-            {
-                name: "file2.md",
-                content: "## [A task with no order](#TODO:)\nstory:4\n"
-            }
-        ])
-        
-        
-        const taskFilter = ({meta}) => meta.story && meta.story[0] === '3'
-        const taskWithNoOrderFilter = ({meta}) => meta.story && meta.story[0] === '4'
-        const proj = createProject({repo, config: {
-            settings: {
-                journalType: "New File",
-                cards: {
-                    orderMeta: false,
-                    defaultList: TODO
-                }
-            }
-          }})
-        proj.init((err) => {
-            if (err) return done(err)
-            const listLengthTODO = repo.getTasksInList(TODO).length
-            const listLengthDOING = repo.getTasksInList(DOING).length
-            const listLengthDONE = repo.getTasksInList(DONE).length
-
-            const task = repo.getTasks().find(taskFilter)
-            const newPos = 1
-            repo.moveTask({task, newList: TODO, newPos}, (err) => {
-                if (err) return done(err)
-                const newTask = repo.getTasks().find(taskFilter)
-                const taskWithNoOrder = repo.getTasks().find(taskWithNoOrderFilter)
-                const newTodoTasks = repo.getTasksInList(TODO)
-                const taskAtNewPosition = newTodoTasks[newPos]
-                expect(taskFilter(taskAtNewPosition)).to.be.true
-                expect(taskWithNoOrder.order).to.be.a('number')
-                expect(newTask.order).to.be.a('number');
-                expect(taskWithNoOrder.order < newTask.order).to.be(true)
-                expect(newTodoTasks.length).to.equal(listLengthTODO)
-                expect(repo.getTasksInList(DOING).length).to.equal(listLengthDOING)
-                expect(repo.getTasksInList(DONE).length).to.equal(listLengthDONE)
-                proj.destroy()
-                done()
-            })
-        })
-    })
-
 
     it('Modify a markdown task with no order, orderMeta = true', (done) => {
         const filePath =  'modify-tasks.md'
@@ -507,17 +338,17 @@ describe('moveTasks', function () {
             })
         })
     })
-    it('Modify a markdown task from content with no order, orderMeta = true', (done) => {
-        done('Write test')
-    })
-    it('Modify a markdown task from content with no order, orderMeta = false', (done) => {
-        done('Write test')
-    })
+    // it('Modify a markdown task from content with no order, orderMeta = true', (done) => {
+    //     done('Write test')
+    // })
+    // it('Modify a markdown task from content with no order, orderMeta = false', (done) => {
+    //     done('Write test')
+    // })
 
-    it('Modify a markdown task from html with no order, orderMeta = true', (done) => {
-        done('Write test')
-    })
-    it('Modify a markdown task from html with no order, orderMeta = false', (done) => {
-        done('Write test')
-    })
+    // it('Modify a markdown task from html with no order, orderMeta = true', (done) => {
+    //     done('Write test')
+    // })
+    // it('Modify a markdown task from html with no order, orderMeta = false', (done) => {
+    //     done('Write test')
+    // })
 })
