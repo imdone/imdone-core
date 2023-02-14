@@ -1,3 +1,4 @@
+const forEach = require('mocha-each')
 const Project = require('../lib/project')
 
 var should = require('should'),
@@ -1319,3 +1320,41 @@ id::arm123`
     })
   })
 })
+
+describe("getNextIndexWithDifferentOrder", () => {
+  forEach([
+    [[0, 0, 0, 0, 1, 2, 3, 4, null, null], 0, 4],
+    [[0, 0, 0, 0, 1, 2, 3, 4, null, null], 1, 4],
+    [[0, 0, 0, 0, 1, 2, 3, 4, null, null], 2, 4],
+    [[0, 0, 0, 0, 1, 2, 3, 4, null, null], 3, 4],
+    [[null, null, null, null], 0, -1],
+    [[null, null, null, null], 1, -1],
+    [[null, null, null, null], 2, -1],
+    [[null, null, null, null], 3, -1],
+    [[], 0, -1]
+  ]).it("Given tasks with order: %j and index: %j should get the index: %j with a different order", (order, pos, expected) => {
+    const tasks = order.map(order => ({order}))
+    const result = Repository.getNextIndexWithDifferentOrder(tasks, pos)
+    expect(result).to.equal(expected)
+  })
+})
+
+describe("getPreviousIndexWithDifferentOrder", () => {
+  forEach([
+    [[1, 2, 3, 3, 3, 4, null, null], 2, 1],
+    [[1, 2, 3, 3, 3, 4, null, null], 3, 1],
+    [[1, 2, 3, 3, 3, 4, null, null], 4, 1],
+    [[1, 2, 3, 3, 3, 4, null, null], 6, 5],
+    [[1, 2, 3, 3, 3, 4, null, null], 7, 5],
+    [[0, 0, 0, 0, 1, 2, 3], 0, -1],
+    [[0, 0, 0, 0, 1, 2, 3], 1, -1],
+    [[0, 0, 0, 0, 1, 2, 3], 2, -1],
+    [[0, 0, 0, 0, 1, 2, 3], 3, -1],
+    [[], 0, -1]
+  ]).it("Given tasks with order: %j and index: %j should get the index: %j with a different order", (order, pos, expected) => {
+    const tasks = order.map(order => ({order}))
+    const result = Repository.getPreviousIndexWithDifferentOrder(tasks, pos)
+    expect(result).to.equal(expected)
+  })
+})
+

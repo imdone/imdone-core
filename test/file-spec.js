@@ -1,10 +1,8 @@
-const { fail } = require('should')
 var should = require('should'),
   expect = require('expect.js'),
   sinon = require('sinon'),
   File = require('../lib/file'),
   path = require('path'),
-  constants = require('../lib/constants'),
   Config = require('../lib/config'),
   util = require('util'),
   languages = require('../lib/languages'),

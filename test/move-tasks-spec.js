@@ -200,35 +200,112 @@ describe('moveTasks', function () {
     // - [ ] modify task from content
     // - [ ] modify task from html
     // - [ ] switch between orderMeta true/false
-    // describe('Modify markdown tasks and order meta switch', () => {
-    //     beforeEach(_beforeEach)
-
-    //     afterEach(_afterEach)
     forEach([
-        [0, 9, 8, 0, 0, true, true],
-        [0, 9, 8, 0, 0, false, true],
-        [0, 9, 8, 0, 0, true, false],
-        [0, 9, 8, 0, 0, false, false],
-        [0, 9, 7, 0, 0, true, true],
-        [0, 9, 7, 0, 0, false, true],
-        [0, 9, 7, 0, 0, true, false],
-        [0, 9, 7, 0, 0, false, false],
         [0, 9, 6, 0, 0, true, true],
         [0, 9, 6, 0, 0, false, true],
         [0, 9, 6, 0, 0, true, false],
         [0, 9, 6, 0, 0, false, false],
-        [0, 8, 9, 0, 0, true, true],
-        [0, 8, 9, 0, 0, false, true],
-        [0, 8, 9, 0, 0, true, false],
-        [0, 8, 9, 0, 0, false, false],
-        [0, 7, 9, 0, 0, true, true],
-        [0, 7, 9, 0, 0, false, true],
-        [0, 7, 9, 0, 0, true, false],
-        [0, 7, 9, 0, 0, false, false],
-        [0, 6, 9, 0, 0, true, true],
-        [0, 6, 9, 0, 0, false, true],
-        [0, 6, 9, 0, 0, true, false],
-        [0, 6, 9, 0, 0, false, false],
+        [0, 5, 8, 0, 0, true, true],
+        [0, 5, 8, 0, 0, false, true],
+        [0, 5, 8, 0, 0, true, false],
+        [0, 5, 8, 0, 0, false, false],
+        [4, 7, 2, 0, 0, true, true],
+        [4, 7, 2, 0, 0, false, true],
+        [4, 7, 2, 0, 0, true, false],
+        [4, 7, 2, 0, 0, false, false],
+        [4, 2, 7, 0, 0, true, true],
+        [4, 2, 7, 0, 0, false, true],
+        [4, 2, 7, 0, 0, true, false],
+        [4, 2, 7, 0, 0, false, false],
+        // Move from end with null order to group with same order
+        [6, 9, 4, 2, 6, true, true],
+        [6, 9, 4, 2, 6, true, false],
+        [6, 9, 4, 2, 6, false, true],
+        [6, 9, 4, 2, 6, false, false],
+        // Move from after with different order to group with same order
+        [9, 7, 3, 2, 6, true, true],
+        [9, 7, 3, 2, 6, true, false],
+        [9, 7, 3, 2, 6, false, true],
+        [9, 7, 3, 2, 6, false, false],
+        // Move from after with same order to group with same order
+        [6, 5, 3, 2, 6, true, true],
+        [6, 5, 3, 2, 6, true, false],
+        [6, 5, 3, 2, 6, false, true],
+        [6, 5, 3, 2, 6, false, false],
+        // Move from before with different order to group with same order
+        [12, 2, 5, 3, 7, true, true],
+        [12, 2, 5, 3, 7, true, false],
+        [12, 2, 5, 3, 7, false, true],
+        [12, 2, 5, 3, 7, false, false],
+        // Move from before with same order to group with same order
+        [12, 4, 6, 3, 8, true, true],
+        [12, 4, 6, 3, 8, true, false],
+        [12, 4, 6, 3, 8, false, true],
+        [12, 4, 6, 3, 8, false, false],
+        // Move to top of list when first three cards have 0 order
+        [12, 2, 0, 0, 2, true, true],
+        [12, 2, 0, 0, 2, true, false],
+        [12, 2, 0, 0, 2, false, true],
+        [12, 2, 0, 0, 2, false, false],
+    ]).
+    it('Move a markdown task in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, orderMeta = %j, keepEmptyPriority = %j', 
+        (tasksWithOrder, fromPos, toPos, sameOrderFrom, sameOrderTo, orderMeta, keepEmptyPriority, done) => {
+        
+        let sameOrder
+        const repoFiles = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter, i) => {
+            let order = i < tasksWithOrder ? i*10 : ''
+            if (i === sameOrderFrom) sameOrder = order
+            if (i > sameOrderFrom && i <= sameOrderTo) order = sameOrder
+            return {
+                name: `file${letter}.md`,
+                content: `## [Task ${letter}](#TODO:${order})\ntask:${letter}\n`
+            }
+        })
+
+        const repo = createTmpRepo("tmp-repo-1", repoFiles)
+        const proj = createProject({repo, init: false, config: {
+            keepEmptyPriority,
+            settings: {
+                cards: {
+                    orderMeta,
+                    defaultList: TODO
+                }
+            }
+          }
+        })
+
+        function destroyProject(done, err) {
+            proj.destroy()
+            done(err)
+        }
+
+        proj.init((err) => {
+            if (err) destroyProject(done, err)
+            const todoTasks = repo.getTasksInList(TODO)
+            const task = todoTasks[fromPos]
+            const letter = task.meta.task[0]
+            console.log(this.ctx.test.title)
+            console.log(`task: ${letter}`)
+            console.log(todoTasks.map(({order, meta}, i) => `${i} : ${meta.task[0]} : ${order}`))
+            const taskFilter =  ({meta}) => meta.task[0] === letter
+            const newPos = toPos
+            repo.moveTask({task, newList: TODO, newPos}, (err) => {
+                if (err) destroyProject(done, err)
+                const todoTasks = repo.getTasksInList(TODO)
+                const newTaskIndex= todoTasks.findIndex(taskFilter)
+                console.log(`task: ${letter}`)
+                console.log(todoTasks.map(({order, meta}, i) => `${i} : ${meta.task[0]} : ${order}`))
+                should(newTaskIndex).equal(newPos)
+                destroyProject(done, err)
+            })
+        })
+    })
+
+    forEach([
+        [0, 9, 6, 0, 0, true, true],
+        [0, 9, 6, 0, 0, false, true],
+        [0, 9, 6, 0, 0, true, false],
+        [0, 9, 6, 0, 0, false, false],
         [0, 5, 8, 0, 0, true, true],
         [0, 5, 8, 0, 0, false, true],
         [0, 5, 8, 0, 0, true, false],
@@ -267,20 +344,22 @@ describe('moveTasks', function () {
         [12, 4, 6, 3, 8, false, true],
         [12, 4, 6, 3, 8, false, false],
     ]).
-    it('Move a markdown task in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, orderMeta = %j, keepEmptyPriority = %j', 
+    it('Same File - Move a markdown task with blank lines in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, orderMeta = %j, keepEmptyPriority = %j', 
         (tasksWithOrder, fromPos, toPos, sameOrderFrom, sameOrderTo, orderMeta, keepEmptyPriority, done) => {
         
         let sameOrder
-        const repoFiles = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter, i) => {
+        const content = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter, i) => {
             let order = i < tasksWithOrder ? i*10 : ''
             if (i === sameOrderFrom) sameOrder = order
             if (i > sameOrderFrom && i <= sameOrderTo) order = sameOrder
-            return {
-                name: `file${letter}.md`,
-                content: `## [Task ${letter}](#TODO:${order})\ntask:${letter}\n`
-            }
-        })
+            return `## [Task ${letter}](#TODO:${order})\n<card>\nSome content\n\nMore content\n\n<!--\ntask:${letter}\n-->\n</card>\n`
+        }).join("\n")
 
+        const repoFiles = [{
+            name: "test-file.md",
+            content
+        }]
+        
         const repo = createTmpRepo("tmp-repo-1", repoFiles)
         const proj = createProject({repo, init: false, config: {
             keepEmptyPriority,
