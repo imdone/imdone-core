@@ -17,6 +17,7 @@ var should = require('should'),
   async = require('async')
 const appContext = () => require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
+const Task = require('../lib/task')
 
 describe('Repository', function () {
   var tmpDir = path.join(process.cwd(), 'tmp'),
@@ -807,15 +808,21 @@ describe('Repository', function () {
       })
     })
 
-    it('Adds a HASH_TAG task to a file with orderMeta', (done) => {
+    it('Adds a HASHTAG task to a file with orderMeta', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
+      repo3.loadConfig = (cb) => {
+        const config = appContext().config
+        config.settings.cards = { orderMeta : true, taskPrefix: '- [ ]'}
+        config.settings.newCardSyntax = Task.Types.HASHTAG
+        repo3.updateConfig(config, cb)
+      }
       proj3.init(function (err, result) {
-        const content = 'A task\n<!-- order:40 -->\n'
+        const content = 'A task\n<!-- order:40 newTask:true -->\n'
         const testFilePath = 'addTaskTest.md'
         const filePath = path.join(repo3.path, testFilePath)
         const expectedLines = JSON.stringify([
-          '- [ ] #DOING A task',
-          '  <!-- order:40 -->',
+          '- [ ] #DOING: A task',
+          '  <!-- order:40 newTask:true -->',
           '',
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
@@ -833,11 +840,11 @@ describe('Repository', function () {
     it('Adds a MARKDOWN task to a file with orderMeta', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
-        const content = 'A task\n<!-- order:40 -->\n'
+        const content = 'A task!\n<!-- newTask:true -->\n'
         const testFilePath = 'addTaskTest.md'
         const filePath = path.join(repo3.path, testFilePath)
         const expectedLines = JSON.stringify([
-          '- [ ] #DOING A task',
+          '- [ ] [A task](#DOING:)',
           '  <!-- order:40 -->',
           '',
         ])
