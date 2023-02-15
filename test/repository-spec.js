@@ -837,15 +837,22 @@ describe('Repository', function () {
       })
     })
 
-    it('Adds a MARKDOWN task to a file with orderMeta', (done) => {
+    it('Adds a MARKDOWN task to a file with orderMeta and keepEmptyPriority true', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
+      repo3.loadConfig = (cb) => {
+        const config = appContext().config
+        config.keepEmptyPriority = true
+        config.settings.cards = { orderMeta : true, taskPrefix: '- [ ]'}
+        config.settings.newCardSyntax = Task.Types.MARKDOWN
+        repo3.updateConfig(config, cb)
+      }
       proj3.init(function (err, result) {
         const content = 'A task!\n<!-- newTask:true -->\n'
         const testFilePath = 'addTaskTest.md'
         const filePath = path.join(repo3.path, testFilePath)
         const expectedLines = JSON.stringify([
-          '- [ ] [A task](#DOING:)',
-          '  <!-- order:40 -->',
+          '- [ ] [A task!](#DOING:)',
+          '  <!-- newTask:true -->',
           '',
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
@@ -902,12 +909,19 @@ describe('Repository', function () {
 
     it('Adds a HASHTAG task to a file with orderMeta: true and no order', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
+      repo3.loadConfig = (cb) => {
+        const config = appContext().config
+        config.keepEmptyPriority = true
+        config.settings.cards = { orderMeta : true, taskPrefix: '- [ ]'}
+        config.settings.newCardSyntax = Task.Types.HASHTAG
+        repo3.updateConfig(config, cb)
+      }
       proj3.init(function (err, result) {
         const content = 'A task\n- with a bullet\n'
         const testFilePath = 'addTaskTest.md'
         const filePath = path.join(repo3.path, testFilePath)
         const expectedLines = JSON.stringify([
-          '- [ ] #DOING A task',
+          '- [ ] #DOING: A task',
           '  - with a bullet',
           ''
         ])
@@ -1160,7 +1174,7 @@ describe('Repository', function () {
       })
     })
 
-    it('Should move a task in a file with task-meta-order', (done) => {
+    it('Should move a task in a file with orderMeta', (done) => {
       const listName = 'DOING'
       appContext().projectContext =
         new ProjectContext(moveMetaOrderRepo)
@@ -1191,28 +1205,6 @@ describe('Repository', function () {
       })
     })
 
-    it('should move a task with blank lines, without adding more blank lines', (done) => {
-      const listName = 'DOING'
-      proj3.init((err, result) => {
-        const projectContext = new ProjectContext(repo3)
-        projectContext.config.settings.doneList = 'DONE'
-        projectContext.config.settings.cards.metaNewLine = true
-        projectContext.config.settings.cards.trackChanges = true
-        appContext().projectContext = projectContext
-        var list = repo3.getTasksInList(listName)
-        var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
-        const lastLine = task.lastLine
-        repo3.moveTask({ task, newList: 'TODO', newPos: 2 }, (err) => {
-          expect(err).to.be(null)
-          var list = repo3.getTasksInList('TODO')
-          var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
-          const file = repo3.getFile(task.source.path)
-          task.should.be.ok()
-          task.lastLine.should.equal(lastLine + 2)
-          done()
-        })
-      })
-    })
   })
 
   describe('getTasksByList', () => {

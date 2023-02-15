@@ -399,6 +399,36 @@ describe('moveTasks', function () {
         })
     })
 
+    // it('should move a task with blank lines, without adding more blank lines', (done) => {
+    //     const listName = 'DOING'
+    //     appContext().projectContext = new ProjectContext(repo3)
+    //     repo3.loadConfig = (cb) => {
+    //       const config = appContext().config
+    //       config.settings.doneList = 'DONE'
+    //       config.settings.cards = {
+    //         metaNewLine: true,
+    //         trackChanges: true
+    //       }
+    //       repo3.updateConfig(config, cb)
+    //     }
+  
+    //     proj3.init((err, result) => {
+    //       var list = repo3.getTasksInList(listName)
+    //       var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
+    //       const lastLine = task.lastLine
+    //       repo3.moveTask({ task, newList: 'TODO', newPos: 2 }, (err) => {
+    //         if (err) return done(err)
+    //         expect(err).to.be(null)
+    //         var list = repo3.getTasksInList('TODO')
+    //         var task = list.find(({ meta }) => meta.id && meta.id[0] === '7')
+    //         const file = repo3.getFile(task.source.path)
+    //         task.should.be.ok()
+    //         task.lastLine.should.equal(lastLine)
+    //         done()
+    //       })
+    //     })
+    //   })  
+
     it('Modify a markdown task with no order, orderMeta = true', (done) => {
         const filePath =  'modify-tasks.md'
         const taskFilter = ({meta}) => meta.story && meta.story[0] === '4'

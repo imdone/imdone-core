@@ -439,7 +439,7 @@ describe('File', function () {
       expectation.verify()
     })
 
-    it('Should find all HASH_NO_ORDER tasks in a markdown file', function () {
+    it('Should find all HASHTAG tasks in a markdown file', function () {
       const filePath = 'tmp/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
@@ -455,11 +455,10 @@ describe('File', function () {
       const expectation = sinon.mock()
       file.on('task.found', expectation)
       expectation.exactly(3)
-      file
-        .extractTasks(config)
-        .getTasks()
-        .filter((task) => task.getType() === Task.Types.HASH_META_ORDER)
-        .length.should.be.exactly(2)
+      file.extractTasks(config)
+      file.getTasks()
+        .filter((task) => task.getType() === Task.Types.HASHTAG)
+        .length.should.be.exactly(3)
       expectation.verify()
     })
 
