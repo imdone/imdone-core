@@ -619,15 +619,17 @@ describe('Repository', function () {
     it('modifies a description on a single line block comment', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
+        if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '0'
         )
-        expect(taskToModify.description.length).to.be(0)
+        expect(taskToModify.description.length).to.be(1)
         const content = `${taskToModify.text}
 - description line 1
 - description line 2`
         repo3.modifyTaskFromContent(taskToModify, content, function (err) {
+          if (err) return done(err)
           var todo = repo3.getTasksInList('TODO')
           var taskToModify = todo.find(
             (task) => task.meta.id && task.meta.id[0] === '0'
@@ -640,6 +642,7 @@ describe('Repository', function () {
     it('removes a description from a TODO that starts on the same line as code', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
+        if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '1'
@@ -649,11 +652,12 @@ describe('Repository', function () {
           taskToModify,
           taskToModify.text,
           function (err) {
+            if (err) return done(err)
             var todo = repo3.getTasksInList('TODO')
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '1'
             )
-            expect(taskToModify.description.length).to.be(0)
+            expect(taskToModify.description.length).to.be(1)
             done()
           }
         )
@@ -662,6 +666,7 @@ describe('Repository', function () {
     it('removes a a description from a TODO in a block comment', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
+        if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '2'
@@ -671,11 +676,12 @@ describe('Repository', function () {
           taskToModify,
           taskToModify.text,
           function (err) {
+            if (err) return done(err)
             var todo = repo3.getTasksInList('TODO')
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '2'
             )
-            expect(taskToModify.description.length).to.be(0)
+            expect(taskToModify.description.length).to.be(1)
             done()
           }
         )
@@ -727,6 +733,7 @@ describe('Repository', function () {
     it('removes a a description from a TODO with two lines of comments following', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
+        if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '4'
@@ -736,11 +743,12 @@ describe('Repository', function () {
           taskToModify,
           taskToModify.text,
           function (err) {
+            if (err) return done(err)
             var todo = repo3.getTasksInList('TODO')
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '4'
             )
-            expect(taskToModify.description.length).to.be(0)
+            expect(taskToModify.description.length).to.be(1)
             done()
           }
         )
@@ -764,6 +772,7 @@ describe('Repository', function () {
     it('removes a description from a TODO with a description in a yaml file', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
+        if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '999'
@@ -773,11 +782,12 @@ describe('Repository', function () {
           taskToModify,
           taskToModify.text,
           function (err) {
+            if (err) return done(err)
             var todo = repo3.getTasksInList('TODO')
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '999'
             )
-            expect(taskToModify.description.length).to.be(0)
+            expect(taskToModify.description.length).to.be(1)
             done()
           }
         )

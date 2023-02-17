@@ -429,7 +429,7 @@ describe('moveTasks', function () {
             console.log(this.ctx.test.title)
             console.log(`task: ${letter}`)
             console.log(todoTasks.map(({order, meta}, i) => `${i} : ${meta.task[0]} : ${order}`))
-            const taskFilter =  ({meta}) => meta.task[0] === letter
+            const taskFilter =  ({meta}) => meta.task[0] === letter 
             const newPos = toPos
             repo.moveTask({task, newList: TODO, newPos}, (err) => {
                 if (err) destroyProject(done, err)

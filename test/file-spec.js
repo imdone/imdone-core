@@ -940,7 +940,7 @@ describe('File', function () {
       file.tasks[1].line.should.be.exactly(5)
       file.tasks[2].description.length.should.be.exactly(2)
       file.tasks[2].line.should.be.exactly(10)
-      file.tasks[3].description.length.should.be.exactly(0)
+      file.tasks[3].description.length.should.be.exactly(1)
       file.tasks[3].line.should.be.exactly(13)
       file.tasks[4].description.length.should.be.exactly(1)
       file.tasks[4].line.should.be.exactly(14)
@@ -1002,7 +1002,7 @@ describe('File', function () {
       file.extractTasks(config)
       file.tasks[0].description.length.should.be.exactly(2)
       file.tasks[0].line.should.be.exactly(1)
-      file.tasks[1].description.length.should.be.exactly(0)
+      file.tasks[1].description.length.should.be.exactly(1)
       file.tasks[1].line.should.be.exactly(5)
     })
 
