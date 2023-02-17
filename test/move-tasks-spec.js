@@ -192,6 +192,46 @@ describe('moveTasks', function () {
         })
     })
 
+    it('Extracts a task with inline order and switches to orderMeta when the task is moved', (done) => {
+        const content = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter, i) => {
+            const order = i * 10
+            return `## #TODO:${order} Task ${letter}\ntask:${letter}\n`
+        }).join('\n')
+        const repoFiles = [
+            {
+                name: `file.md`,
+                content
+            }
+        ]
+        const repo = createTmpRepo("order-integrity", repoFiles)
+        const proj = createProject({repo, init: false, config: {
+            keepEmptyPriority: true,
+            settings: {
+                cards: {
+                    orderMeta: true,
+                    defaultList: TODO
+                }
+            }
+          }
+        })
+        function destroyProject(done, err) {
+            proj.destroy()
+            done(err)
+        }
+
+        const getTask = () => repo.getTasksInList(TODO).find(({meta}) => meta.task[0] === 'A')
+
+        proj.init((err) => {
+            const task = getTask()
+            if (err) destroyProject(done, err)
+            repo.moveTask({ task, newList: DOING, newPos: 0 }, (err, task) => {
+                task.content.should.equal("Task A\ntask:A\n<!-- order:0 -->")
+                if (err) destroyProject(done, err)
+                destroyProject(done, err)
+            })
+        })
+    })
+
     // Test modifying markdown tasks and order meta switch
     // We should be able to perform the following operations on a markdown task with no order
     // - [ ] move task
@@ -201,59 +241,61 @@ describe('moveTasks', function () {
     // - [ ] modify task from html
     // - [ ] switch between orderMeta true/false
     forEach([
-        [0, 9, 6, 0, 0, true, true],
-        [0, 9, 6, 0, 0, false, true],
-        [0, 9, 6, 0, 0, true, false],
-        [0, 9, 6, 0, 0, false, false],
-        [0, 5, 8, 0, 0, true, true],
-        [0, 5, 8, 0, 0, false, true],
-        [0, 5, 8, 0, 0, true, false],
-        [0, 5, 8, 0, 0, false, false],
-        [4, 7, 2, 0, 0, true, true],
-        [4, 7, 2, 0, 0, false, true],
-        [4, 7, 2, 0, 0, true, false],
-        [4, 7, 2, 0, 0, false, false],
-        [4, 2, 7, 0, 0, true, true],
-        [4, 2, 7, 0, 0, false, true],
-        [4, 2, 7, 0, 0, true, false],
-        [4, 2, 7, 0, 0, false, false],
+        [0, 9, 6, 0, 0, 10, true, true],
+        [0, 9, 6, 0, 0, 10, false, true],
+        [0, 9, 6, 0, 0, 10, true, false],
+        [0, 9, 6, 0, 0, 10, false, false],
+        [0, 5, 8, 0, 0, 10, true, true],
+        [0, 5, 8, 0, 0, 10, false, true],
+        [0, 5, 8, 0, 0, 10, true, false],
+        [0, 5, 8, 0, 0, 10, false, false],
+        [4, 7, 2, 0, 0, 10, true, true],
+        [4, 7, 2, 0, 0, 10, false, true],
+        [4, 7, 2, 0, 0, 10, true, false],
+        [4, 7, 2, 0, 0, 10, false, false],
+        [4, 2, 7, 0, 0, 10, true, true],
+        [4, 2, 7, 0, 0, 10, false, true],
+        [4, 2, 7, 0, 0, 10, true, false],
+        [4, 2, 7, 0, 0, 10, false, false],
         // Move from end with null order to group with same order
-        [6, 9, 4, 2, 6, true, true],
-        [6, 9, 4, 2, 6, true, false],
-        [6, 9, 4, 2, 6, false, true],
-        [6, 9, 4, 2, 6, false, false],
+        [6, 9, 4, 2, 6, 10, true, true],
+        [6, 9, 4, 2, 6, 10, true, false],
+        [6, 9, 4, 2, 6, 10, false, true],
+        [6, 9, 4, 2, 6, 10, false, false],
         // Move from after with different order to group with same order
-        [9, 7, 3, 2, 6, true, true],
-        [9, 7, 3, 2, 6, true, false],
-        [9, 7, 3, 2, 6, false, true],
-        [9, 7, 3, 2, 6, false, false],
+        [9, 7, 3, 2, 6, 10, true, true],
+        [9, 7, 3, 2, 6, 10, true, false],
+        [9, 7, 3, 2, 6, 10, false, true],
+        [9, 7, 3, 2, 6, 10, false, false],
         // Move from after with same order to group with same order
-        [6, 5, 3, 2, 6, true, true],
-        [6, 5, 3, 2, 6, true, false],
-        [6, 5, 3, 2, 6, false, true],
-        [6, 5, 3, 2, 6, false, false],
+        [6, 5, 3, 2, 6, 10, true, true],
+        [6, 5, 3, 2, 6, 10, true, false],
+        [6, 5, 3, 2, 6, 10, false, true],
+        [6, 5, 3, 2, 6, 10, false, false],
         // Move from before with different order to group with same order
-        [12, 2, 5, 3, 7, true, true],
-        [12, 2, 5, 3, 7, true, false],
-        [12, 2, 5, 3, 7, false, true],
-        [12, 2, 5, 3, 7, false, false],
+        [12, 2, 5, 3, 7, 10, true, true],
+        [12, 2, 5, 3, 7, 10, true, false],
+        [12, 2, 5, 3, 7, 10, false, true],
+        [12, 2, 5, 3, 7, 10, false, false],
         // Move from before with same order to group with same order
-        [12, 4, 6, 3, 8, true, true],
-        [12, 4, 6, 3, 8, true, false],
-        [12, 4, 6, 3, 8, false, true],
-        [12, 4, 6, 3, 8, false, false],
+        [12, 4, 6, 3, 8, 10, true, true],
+        [12, 4, 6, 3, 8, 10, true, false],
+        [12, 4, 6, 3, 8, 10, false, true],
+        [12, 4, 6, 3, 8, 10, false, false],
         // Move to top of list when first three cards have 0 order
-        [12, 2, 0, 0, 2, true, true],
-        [12, 2, 0, 0, 2, true, false],
-        [12, 2, 0, 0, 2, false, true],
-        [12, 2, 0, 0, 2, false, false],
+        [12, 2, 0, 0, 2, 10, true, true],
+        [12, 2, 0, 0, 2, 10, true, false],
+        [12, 2, 0, 0, 2, 10, false, true],
+        [12, 2, 0, 0, 2, 10, false, false],
+        // Negative order
+        [12, 0, 25, 3, 4, -10, true, true],
     ]).
-    it('Move a markdown task in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, orderMeta = %j, keepEmptyPriority = %j', 
-        (tasksWithOrder, fromPos, toPos, sameOrderFrom, sameOrderTo, orderMeta, keepEmptyPriority, done) => {
+    it('Move a markdown task in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, order is index * %j, orderMeta = %j, keepEmptyPriority = %j', 
+        (tasksWithOrder, fromPos, toPos, sameOrderFrom, sameOrderTo, orderMulti, orderMeta, keepEmptyPriority, done) => {
         
         let sameOrder
         const repoFiles = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter, i) => {
-            let order = i < tasksWithOrder ? i*10 : ''
+            let order = i < tasksWithOrder ? i*orderMulti : ''
             if (i === sameOrderFrom) sameOrder = order
             if (i > sameOrderFrom && i <= sameOrderTo) order = sameOrder
             return {
@@ -292,9 +334,11 @@ describe('moveTasks', function () {
             repo.moveTask({task, newList: TODO, newPos}, (err) => {
                 if (err) destroyProject(done, err)
                 const todoTasks = repo.getTasksInList(TODO)
+                const task = todoTasks.find(taskFilter)
                 const newTaskIndex= todoTasks.findIndex(taskFilter)
                 console.log(`task: ${letter}`)
                 console.log(todoTasks.map(({order, meta}, i) => `${i} : ${meta.task[0]} : ${order}`))
+                should(task.meta.task[0]).equal(letter)
                 should(newTaskIndex).equal(newPos)
                 destroyProject(done, err)
             })

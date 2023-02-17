@@ -1330,9 +1330,10 @@ describe("getNextIndexWithDifferentOrder", () => {
     [[null, null, null, null], 1, -1],
     [[null, null, null, null], 2, -1],
     [[null, null, null, null], 3, -1],
-    [[], 0, -1]
-  ]).it("Given tasks with order: %j and index: %j should get the index: %j with a different order", (order, pos, expected) => {
-    const tasks = order.map(order => ({order}))
+    [[], 0, -1],
+    [[0, 1, 2, 3, 4, 5, 6, 7], 8, -1 ]
+  ]).it("Given tasks with order: %j and index: %j should get the index: %j with a different order", (orders, pos, expected) => {
+    const tasks = orders.map(order => ({order}))
     const result = Repository.getNextIndexWithDifferentOrder(tasks, pos)
     expect(result).to.equal(expected)
   })
@@ -1349,11 +1350,29 @@ describe("getPreviousIndexWithDifferentOrder", () => {
     [[0, 0, 0, 0, 1, 2, 3], 1, -1],
     [[0, 0, 0, 0, 1, 2, 3], 2, -1],
     [[0, 0, 0, 0, 1, 2, 3], 3, -1],
-    [[], 0, -1]
-  ]).it("Given tasks with order: %j and index: %j should get the index: %j with a different order", (order, pos, expected) => {
+    [[], 0, -1],
+    [[-10, -9, -8, -7, -6, -5, -4, null, null, null], 10, 6],
+    [[-10, -9, -8, -7, -6, -5, -4, null, null, null], 9, 6],
+  ]).it("Given tasks with order: %j, newPos: %j should return %j", (order, pos, expected) => {
     const tasks = order.map(order => ({order}))
     const result = Repository.getPreviousIndexWithDifferentOrder(tasks, pos)
     expect(result).to.equal(expected)
   })
 })
 
+describe('getTasksToModify', () => {
+  forEach([
+    [[4], [-10, -9, -8, -7, -6, null], 5],
+    [[-20], [-10, -9, -8, -7, -6], 0],
+    [[15], [-10, 0, 10, 20, 30, 40, 50], 3],
+    [[5, 10, 15, 20, 25], [-10, 0, 10, 10, 10, 10, 30, 40, 50], 4],
+    [[5, 10, 15, 20, 25], [-10, 0, 10, 10, 10, 10, 30, 40, 50], 5]
+  ]).it('Gets %j tasks to modify from task list %j when moving task to new position %j', (expected, taskList, newPos) => {
+    const task = {}
+    const tasksToModify = Repository.getTasksToModify(task, taskList.map((order, index) => ({order})), newPos);
+    const tasksToModifyString = JSON.stringify(tasksToModify)
+    const expectedString = JSON.stringify(expected.map(order => ({order})))
+    tasksToModifyString.should.equal(expectedString)
+  })
+
+})
