@@ -885,7 +885,7 @@ describe('Repository', function () {
       config.settings = {
         newCardSyntax: 'MARKDOWN',
         cards: {
-          orderMeta: false,
+          orderMeta: true,
           doneList: 'DONE',
           defaultList: 'TODO',
           addCheckBoxTasks: true,
@@ -931,7 +931,7 @@ describe('Repository', function () {
         const testFilePath = 'addTaskTest.md'
         const filePath = path.join(repo3.path, testFilePath)
         const expectedLines = JSON.stringify([
-          '- [ ] #DOING: A task',
+          '- [ ] #DOING A task',
           '  - with a bullet',
           ''
         ])
