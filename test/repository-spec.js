@@ -831,7 +831,7 @@ describe('Repository', function () {
         const testFilePath = 'addTaskTest.md'
         const filePath = path.join(repo3.path, testFilePath)
         const expectedLines = JSON.stringify([
-          '- [ ] #DOING: A task',
+          '- [ ] #DOING A task',
           '  <!-- order:40 newTask:true -->',
           '',
         ])
