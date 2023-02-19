@@ -1,6 +1,6 @@
 [![npm version](https://badge.fury.io/js/imdone-core.svg)](https://badge.fury.io/js/imdone-core)
 [![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
-[![Build Status](https://travis-ci.org/imdone/imdone-core.png?branch=master)](https://travis-ci.org/imdone/imdone-core)
+[![Build Status](https://github.com/imdone/imdone-core/actions/workflows/ci.yml/badge.svg)
 
 Imdone is text based kanban processor with a simple syntax that uses [comment tags like TODO and FIXME](https://en.wikipedia.org/wiki/Comment_%28computer_programming%29#Tags) and [todo.txt format](https://github.com/todotxt/todo.txt#todotxt-format). This model allows the user to create and modify tasks using the keyboard and automatically establishes a link between their tasks and work.  Get [imdone](https://imdone.io) to see your projects board and this library in action.
 
@@ -15,7 +15,6 @@ Imdone is text based kanban processor with a simple syntax that uses [comment ta
   - [Hash Style](#hash-style)
   - [Markdown Style](#markdown-style)
   - [Task syntax](#task-syntax)
-  - [Task Descriptions](#task-descriptions)
   - [todo.txt syntax examples](#todotxt-syntax-examples)
     - [Create date](#create-date)
     - [Completed date](#completed-date)
@@ -24,12 +23,6 @@ Imdone is text based kanban processor with a simple syntax that uses [comment ta
     - [Context](#context)
     - [Metadata](#metadata)
       - [Metadata links](#metadata-links)
-- [Node.js API](#nodejs-api)
-  - [Generated Docs](#generated-docs)
-  - [Examples](#examples)
-- [Contributing](#contributing)
-  - [Build and Test](#build-and-test)
-  - [FAQs and BUGs](#faqs-and-bugs)
 - [Events](#events)
 - [Resources](#resources)
 - [License](#license)
