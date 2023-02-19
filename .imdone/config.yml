@@ -24,7 +24,7 @@ lists:
   - name: HACK
     hidden: true
     ignore: false
-  - hidden: true
+  - hidden: false
     name: BACKLOG
   - hidden: false
     name: TODO
@@ -96,6 +96,7 @@ settings:
     taskPrefix: '#'
     tagPrefix: '#'
     metaSep: ':'
+    orderMeta: true
     maxLines: 4
     addNewCardsToTop: true
     links:
