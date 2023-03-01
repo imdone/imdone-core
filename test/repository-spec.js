@@ -15,7 +15,7 @@ var should = require('should'),
   languages = require('../lib/languages'),
   eol = require('eol'),
   async = require('async')
-const appContext = () => require('../lib/context/ApplicationContext')
+const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const Task = require('../lib/task')
 

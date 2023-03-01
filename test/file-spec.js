@@ -13,7 +13,7 @@ const Task = require('../lib/task')
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const FileProjectContext = require('../lib/domain/entities/FileProjectContext')
-appContext.projectContext = new FileProjectContext()
+appContext().projectContext = new FileProjectContext()
 
 const generateTaskFromTemplate = (list, order, templateFunction) => {
   const date = new Date()
@@ -219,7 +219,7 @@ describe('File', function () {
           orderMeta: true,
         },
       }
-      appContext.projectContext =
+      appContext().projectContext =
         new ProjectContext({
           config,
           listExists: () => true,
@@ -246,7 +246,7 @@ describe('File', function () {
         doneList: 'DONE',
         cards: { metaNewLine: true, addCompletedMeta: true, doneList: 'DONE' },
       }
-      appContext.projectContext,
+      appContext().projectContext,
         new ProjectContext({
           config,
           listExists: () => true,
