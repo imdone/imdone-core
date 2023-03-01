@@ -7,7 +7,7 @@ const fs = require('fs')
 const { existsSync } = fs
 const wrench = require('wrench')
 const fsStore = require('../lib/mixins/repo-fs-store')
-const appContext = () => require('../lib/context/ApplicationContext')
+const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const forEach = require("mocha-each")
 const TODO = "TODO"
