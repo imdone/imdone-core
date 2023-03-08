@@ -498,6 +498,7 @@ describe('moveTasks', function () {
         const filePath =  'modify-tasks.md'
         const taskFilter = ({meta}) => meta.story && meta.story[0] === '4'
         initProject({repo, config: {
+            keepEmptyPriority: false,
             settings: {
                 cards: {
                     orderMeta: false,

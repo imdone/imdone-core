@@ -180,6 +180,7 @@ describe('Repository', function () {
         trackChanges: true,
       },
     }
+    config.keepEmptyPriority = false
     repo.loadConfig = (cb) => {
       repo.updateConfig(config, cb)
     }
