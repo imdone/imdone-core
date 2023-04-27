@@ -23,7 +23,7 @@ describe('project', function () {
     }
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
     
-    project = createFileSystemProject(defaultCardsDir)
+    project = createFileSystemProject({path: defaultCardsDir})
     repo = project.repo
     done()
   })

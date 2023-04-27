@@ -18,6 +18,7 @@ var should = require('should'),
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const Task = require('../lib/task')
+const { createFileSystemProject } = require('../lib/project-factory')
 
 describe('Repository', function () {
   var tmpDir = path.join(process.cwd(), 'tmp'),
@@ -29,6 +30,7 @@ describe('Repository', function () {
     repo2Dir = path.join(tmpReposDir, 'repo2'),
     repo3Dir = path.join(tmpReposDir, 'repo3'),
     defaultCardsDir = path.join(tmpReposDir, 'default-cards'),
+    defaultCards2Dir = path.join(tmpReposDir, 'default-cards-2'),
     noOrderRepoDir = path.join(tmpReposDir, 'no-order-repo'),
     moveMetaOrderDir = path.join(tmpReposDir, 'move-meta-order'),
     metaSepTestDir = path.join(tmpReposDir, 'meta-sep-test'),
@@ -446,6 +448,20 @@ describe('Repository', function () {
         repo3.deleteTasks(todos, function (err) {
           var todosNow = repo3.getTasksInList('TODO')
           expect(todosNow.length).to.be(0)
+          done()
+        })
+      })
+    })
+
+    it('deletes all tasks that match a filter', (done) => {
+      const project = createFileSystemProject({path: defaultCards2Dir})
+      const repo = appContext().repo
+      project.init(function (err, result) {
+        const cards = project.getCards('cards')
+        repo.deleteTasks(cards, function (err) {
+          var cardsNow = project.getCards('cards')
+          expect(cardsNow.length).to.be(0)
+          expect(project.getCards().length).to.be(8)
           done()
         })
       })
