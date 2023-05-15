@@ -1393,7 +1393,8 @@ describe('getTasksToModify', () => {
     [[-20], [-10, -9, -8, -7, -6], 0],
     [[15], [-10, 0, 10, 20, 30, 40, 50], 3],
     [[5, 10, 15, 20, 25], [-10, 0, 10, 10, 10, 10, 30, 40, 50], 4],
-    [[5, 10, 15, 20, 25], [-10, 0, 10, 10, 10, 10, 30, 40, 50], 5]
+    [[5, 10, 15, 20, 25], [-10, 0, 10, 10, 10, 10, 30, 40, 50], 5],
+    [[-10], [null, null, null, 30, 40], 0]
   ]).it('Gets %j tasks to modify from task list %j when moving task to new position %j', (expected, taskList, newPos) => {
     const task = {}
     const tasksToModify = Repository.getTasksToModify(task, taskList.map((order, index) => ({order})), newPos);
