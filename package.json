@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "doctoc --github --notitle README.md && npm test",
-    "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha",
+    "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha --exit",
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs",
     "lint": "jshint ./lib",
-    "mocha": "mocha",
+    "mocha": "mocha --exit",
     "release": "release-it",
     "release-plan": "release-it --dry-run",
     "test": "export NODE_ENV=test && npm run coverage",
