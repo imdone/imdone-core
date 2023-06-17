@@ -95,13 +95,13 @@
     "moment": "^2.29.1",
     "monquery": "github:imdone/node-monquery#0.2.1",
     "multilang-extract-comments": "^0.4.0",
-    "nanoid": "^4.0.1",
     "readdirp": "^3.6.0",
     "remove-markdown": "^0.3.0",
     "rimraf": "^3.0.2",
     "sane": "^4.1.0",
     "sanitize-filename": "^1.6.3",
     "sift": "^13.4.0",
+    "uniqid": "^5.4.0",
     "xregexp": "^5.1.0"
   },
   "devDependencies": {

@@ -641,7 +641,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '0'
         )
-        expect(taskToModify.description.length).to.be(1)
+        expect(taskToModify.description.length).to.be(3)
         const content = `${taskToModify.text}
 - description line 1
 - description line 2`
@@ -651,7 +651,7 @@ describe('Repository', function () {
           var taskToModify = todo.find(
             (task) => task.meta.id && task.meta.id[0] === '0'
           )
-          expect(taskToModify.description.length).to.be(2)
+          expect(taskToModify.description.length).to.be(5)
           done()
         })
       })
@@ -664,7 +664,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '1'
         )
-        expect(taskToModify.description.length).to.be(1)
+        expect(taskToModify.description.length).to.be(4)
         repo3.modifyTaskFromContent(
           taskToModify,
           taskToModify.text,
@@ -674,7 +674,7 @@ describe('Repository', function () {
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '1'
             )
-            expect(taskToModify.description.length).to.be(1)
+            expect(taskToModify.description.length).to.be(3)
             done()
           }
         )
@@ -688,7 +688,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '2'
         )
-        expect(taskToModify.description.length).to.be(3)
+        expect(taskToModify.description.length).to.be(6)
         repo3.modifyTaskFromContent(
           taskToModify,
           taskToModify.text,
@@ -698,7 +698,7 @@ describe('Repository', function () {
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '2'
             )
-            expect(taskToModify.description.length).to.be(1)
+            expect(taskToModify.description.length).to.be(3)
             done()
           }
         )
@@ -711,7 +711,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '2'
         )
-        expect(taskToModify.description.length).to.be(3)
+        expect(taskToModify.description.length).to.be(6)
         const content = `${taskToModify.text}
 - description line 1
 - description line 2`
@@ -720,7 +720,7 @@ describe('Repository', function () {
           var taskToModify = todo.find(
             (task) => task.meta.id && task.meta.id[0] === '2'
           )
-          expect(taskToModify.description.length).to.be(2)
+          expect(taskToModify.description.length).to.be(5)
           done()
         })
       })
@@ -755,7 +755,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '4'
         )
-        expect(taskToModify.description.length).to.be(2)
+        expect(taskToModify.description.length).to.be(5)
         repo3.modifyTaskFromContent(
           taskToModify,
           taskToModify.text,
@@ -765,7 +765,7 @@ describe('Repository', function () {
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '4'
             )
-            expect(taskToModify.description.length).to.be(1)
+            expect(taskToModify.description.length).to.be(3)
             done()
           }
         )
@@ -781,8 +781,8 @@ describe('Repository', function () {
         const task_a3 = trickyTasks.find(
           (task) => task.meta.id && task.meta.id[0] === 'a3'
         )
-        expect(task_a1.description.length).to.be(1)
-        expect(task_a3.description.length).to.be(2)
+        expect(task_a1.description.length).to.be(4)
+        expect(task_a3.description.length).to.be(5)
         done()
       })
     })
@@ -794,7 +794,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '999'
         )
-        expect(taskToModify.description.length).to.be(1)
+        expect(taskToModify.description.length).to.be(4)
         repo3.modifyTaskFromContent(
           taskToModify,
           taskToModify.text,
@@ -804,7 +804,7 @@ describe('Repository', function () {
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '999'
             )
-            expect(taskToModify.description.length).to.be(1)
+            expect(taskToModify.description.length).to.be(3)
             done()
           }
         )
