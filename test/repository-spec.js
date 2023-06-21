@@ -1,5 +1,6 @@
 const forEach = require('mocha-each')
 const Project = require('../lib/project')
+const List = require('../lib/list')
 
 var should = require('should'),
   expect = require('expect.js'),
@@ -401,29 +402,40 @@ describe('Repository', function () {
     })
   })
 
-  describe('renameList', function (done) {
-    it('should modify the list name in tasks with a given list name', function (done) {
+  describe('updateList', function () {
+    it('should modify the list name', function (done) {
       appContext().projectContext = new ProjectContext(repo1)
-      proj1.init(function (err, files) {
-        expect(err).to.be(null)
+      proj1.init(function (err) {
+        const todo = repo1.getList("TODO")
+        const updatedList = {...todo, name: "PLANNING"}
+        expect(err).to.be(null)        
         expect(repo1.getTasksInList('TODO').length).to.be(3)
-        repo1.renameList('TODO', 'PLANNING', function (err) {
-          expect(err).to.be(null)
+        repo1.updateList(updatedList.id, updatedList)
+        .then(() => {
           expect(repo1.getTasksInList('PLANNING').length).to.be(3)
           expect(repo1.getTasksInList('TODO').length).to.be(0)
           done()
         })
+        .catch(done)
       })
     })
-    it('should execute the callback with an error if the new list name is already in use', function (done) {
+
+    it('should modify the list filter', function (done) {
       appContext().projectContext = new ProjectContext(repo1)
-      proj1.init(function (err, files) {
+      proj1.init(function (err) {
         expect(err).to.be(null)
-        expect(repo1.getTasksInList('TODO').length).to.be(3)
-        repo1.renameList('TODO', 'DOING', function (err) {
-          expect(err).to.not.be.null
+        const bareList = {name: "Filtered", filter: "text = /task/"}     
+        const filtered = new List(bareList)
+        repo1.addList(filtered)
+        const lists = proj1.toImdoneJSON().lists
+        expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(6)
+        repo1.updateList(filtered.id, {...bareList, filter: "text = /tasks/"})
+        .then(() => {
+          const lists = proj1.toImdoneJSON().lists
+          expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(0)
           done()
         })
+        .catch(done)
       })
     })
   })
