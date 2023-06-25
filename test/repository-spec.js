@@ -1,5 +1,6 @@
 const forEach = require('mocha-each')
 const Project = require('../lib/project')
+const List = require('../lib/list')
 
 var should = require('should'),
   expect = require('expect.js'),
@@ -18,6 +19,7 @@ var should = require('should'),
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const Task = require('../lib/task')
+const { createFileSystemProject } = require('../lib/project-factory')
 
 describe('Repository', function () {
   var tmpDir = path.join(process.cwd(), 'tmp'),
@@ -29,6 +31,7 @@ describe('Repository', function () {
     repo2Dir = path.join(tmpReposDir, 'repo2'),
     repo3Dir = path.join(tmpReposDir, 'repo3'),
     defaultCardsDir = path.join(tmpReposDir, 'default-cards'),
+    defaultCards2Dir = path.join(tmpReposDir, 'default-cards-2'),
     noOrderRepoDir = path.join(tmpReposDir, 'no-order-repo'),
     moveMetaOrderDir = path.join(tmpReposDir, 'move-meta-order'),
     metaSepTestDir = path.join(tmpReposDir, 'meta-sep-test'),
@@ -180,6 +183,7 @@ describe('Repository', function () {
         trackChanges: true,
       },
     }
+    config.keepEmptyPriority = false
     repo.loadConfig = (cb) => {
       repo.updateConfig(config, cb)
     }
@@ -398,29 +402,40 @@ describe('Repository', function () {
     })
   })
 
-  describe('renameList', function (done) {
-    it('should modify the list name in tasks with a given list name', function (done) {
+  describe('updateList', function () {
+    it('should modify the list name', function (done) {
       appContext().projectContext = new ProjectContext(repo1)
-      proj1.init(function (err, files) {
-        expect(err).to.be(null)
+      proj1.init(function (err) {
+        const todo = repo1.getList("TODO")
+        const updatedList = {...todo, name: "PLANNING"}
+        expect(err).to.be(null)        
         expect(repo1.getTasksInList('TODO').length).to.be(3)
-        repo1.renameList('TODO', 'PLANNING', function (err) {
-          expect(err).to.be(null)
+        repo1.updateList(updatedList.id, updatedList)
+        .then(() => {
           expect(repo1.getTasksInList('PLANNING').length).to.be(3)
           expect(repo1.getTasksInList('TODO').length).to.be(0)
           done()
         })
+        .catch(done)
       })
     })
-    it('should execute the callback with an error if the new list name is already in use', function (done) {
+
+    it('should modify the list filter', function (done) {
       appContext().projectContext = new ProjectContext(repo1)
-      proj1.init(function (err, files) {
+      proj1.init(function (err) {
         expect(err).to.be(null)
-        expect(repo1.getTasksInList('TODO').length).to.be(3)
-        repo1.renameList('TODO', 'DOING', function (err) {
-          expect(err).to.not.be.null
+        const bareList = {name: "Filtered", filter: "text = /task/"}     
+        const filtered = new List(bareList)
+        repo1.addList(filtered)
+        const lists = proj1.toImdoneJSON().lists
+        expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(6)
+        repo1.updateList(filtered.id, {...bareList, filter: "text = /tasks/"})
+        .then(() => {
+          const lists = proj1.toImdoneJSON().lists
+          expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(0)
           done()
         })
+        .catch(done)
       })
     })
   })
@@ -445,6 +460,20 @@ describe('Repository', function () {
         repo3.deleteTasks(todos, function (err) {
           var todosNow = repo3.getTasksInList('TODO')
           expect(todosNow.length).to.be(0)
+          done()
+        })
+      })
+    })
+
+    it('deletes all tasks that match a filter', (done) => {
+      const project = createFileSystemProject({path: defaultCards2Dir})
+      const repo = appContext().repo
+      project.init(function (err, result) {
+        const cards = project.getCards('cards')
+        repo.deleteTasks(cards, function (err) {
+          var cardsNow = project.getCards('cards')
+          expect(cardsNow.length).to.be(0)
+          expect(project.getCards().length).to.be(8)
           done()
         })
       })
@@ -624,7 +653,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '0'
         )
-        expect(taskToModify.description.length).to.be(1)
+        expect(taskToModify.description.length).to.be(3)
         const content = `${taskToModify.text}
 - description line 1
 - description line 2`
@@ -634,7 +663,7 @@ describe('Repository', function () {
           var taskToModify = todo.find(
             (task) => task.meta.id && task.meta.id[0] === '0'
           )
-          expect(taskToModify.description.length).to.be(2)
+          expect(taskToModify.description.length).to.be(5)
           done()
         })
       })
@@ -647,7 +676,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '1'
         )
-        expect(taskToModify.description.length).to.be(1)
+        expect(taskToModify.description.length).to.be(4)
         repo3.modifyTaskFromContent(
           taskToModify,
           taskToModify.text,
@@ -657,7 +686,7 @@ describe('Repository', function () {
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '1'
             )
-            expect(taskToModify.description.length).to.be(1)
+            expect(taskToModify.description.length).to.be(3)
             done()
           }
         )
@@ -671,7 +700,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '2'
         )
-        expect(taskToModify.description.length).to.be(3)
+        expect(taskToModify.description.length).to.be(6)
         repo3.modifyTaskFromContent(
           taskToModify,
           taskToModify.text,
@@ -681,7 +710,7 @@ describe('Repository', function () {
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '2'
             )
-            expect(taskToModify.description.length).to.be(1)
+            expect(taskToModify.description.length).to.be(3)
             done()
           }
         )
@@ -694,7 +723,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '2'
         )
-        expect(taskToModify.description.length).to.be(3)
+        expect(taskToModify.description.length).to.be(6)
         const content = `${taskToModify.text}
 - description line 1
 - description line 2`
@@ -703,7 +732,7 @@ describe('Repository', function () {
           var taskToModify = todo.find(
             (task) => task.meta.id && task.meta.id[0] === '2'
           )
-          expect(taskToModify.description.length).to.be(2)
+          expect(taskToModify.description.length).to.be(5)
           done()
         })
       })
@@ -738,7 +767,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '4'
         )
-        expect(taskToModify.description.length).to.be(2)
+        expect(taskToModify.description.length).to.be(5)
         repo3.modifyTaskFromContent(
           taskToModify,
           taskToModify.text,
@@ -748,7 +777,7 @@ describe('Repository', function () {
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '4'
             )
-            expect(taskToModify.description.length).to.be(1)
+            expect(taskToModify.description.length).to.be(3)
             done()
           }
         )
@@ -764,8 +793,8 @@ describe('Repository', function () {
         const task_a3 = trickyTasks.find(
           (task) => task.meta.id && task.meta.id[0] === 'a3'
         )
-        expect(task_a1.description.length).to.be(1)
-        expect(task_a3.description.length).to.be(2)
+        expect(task_a1.description.length).to.be(4)
+        expect(task_a3.description.length).to.be(5)
         done()
       })
     })
@@ -777,7 +806,7 @@ describe('Repository', function () {
         var taskToModify = todo.find(
           (task) => task.meta.id && task.meta.id[0] === '999'
         )
-        expect(taskToModify.description.length).to.be(1)
+        expect(taskToModify.description.length).to.be(4)
         repo3.modifyTaskFromContent(
           taskToModify,
           taskToModify.text,
@@ -787,7 +816,7 @@ describe('Repository', function () {
             var taskToModify = todo.find(
               (task) => task.meta.id && task.meta.id[0] === '999'
             )
-            expect(taskToModify.description.length).to.be(1)
+            expect(taskToModify.description.length).to.be(3)
             done()
           }
         )
@@ -1376,7 +1405,8 @@ describe('getTasksToModify', () => {
     [[-20], [-10, -9, -8, -7, -6], 0],
     [[15], [-10, 0, 10, 20, 30, 40, 50], 3],
     [[5, 10, 15, 20, 25], [-10, 0, 10, 10, 10, 10, 30, 40, 50], 4],
-    [[5, 10, 15, 20, 25], [-10, 0, 10, 10, 10, 10, 30, 40, 50], 5]
+    [[5, 10, 15, 20, 25], [-10, 0, 10, 10, 10, 10, 30, 40, 50], 5],
+    [[-10], [null, null, null, 30, 40], 0]
   ]).it('Gets %j tasks to modify from task list %j when moving task to new position %j', (expected, taskList, newPos) => {
     const task = {}
     const tasksToModify = Repository.getTasksToModify(task, taskList.map((order, index) => ({order})), newPos);

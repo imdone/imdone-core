@@ -232,6 +232,49 @@ describe('moveTasks', function () {
         })
     })
 
+    forEach([
+        [[null, null, null, null], 2, 1, [10, 20, 30, null]]
+    ]).
+    it('moves a task in %j from position %j to position %j and updates order', (tasks, fromPosition, toPosition, expected, done) => {
+        const content = tasks.map((order, i) => {
+            return `## #TODO:${order || ''} Task ${i}\ntask:${i}\n`
+        }).join('\n')
+        const repoFiles = [
+            {
+                name: `file.md`,
+                content
+            }
+        ]
+        const repo = createTmpRepo("order-integrity", repoFiles)
+        const proj = createProject({repo, init: false, config: {
+            keepEmptyPriority: true,
+            settings: {
+                cards: {
+                    orderMeta: true,
+                    defaultList: TODO
+                }
+            }
+          }
+        })
+        function destroyProject(done, err) {
+            proj.destroy()
+            done(err)
+        }
+
+        const getTask = () => repo.getTasksInList(TODO).find(({meta}) => meta.task[0] === fromPosition + "")
+
+        proj.init((err) => {
+            const task = getTask()
+            if (err) destroyProject(done, err)
+            repo.moveTask({ task, newList: TODO, newPos: toPosition }, (err, task) => {
+                const expectedOrder = expected[toPosition]
+                task.content.should.equal(`Task ${fromPosition}\ntask:${fromPosition}\n<!-- order:${expectedOrder} -->`)
+                if (err) destroyProject(done, err)
+                destroyProject(done, err)
+            })
+        })
+    })
+
     // Test modifying markdown tasks and order meta switch
     // We should be able to perform the following operations on a markdown task with no order
     // - [ ] move task
@@ -290,7 +333,7 @@ describe('moveTasks', function () {
         // Negative order
         [12, 0, 25, 3, 4, -10, true, true],
     ]).
-    it('Move a markdown task in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, order is index * %j, orderMeta = %j, keepEmptyPriority = %j', 
+    it('Moves a markdown task in a list with %j tasks with order from pos %j to pos %j, where pos %j - %j have same order, order is index * %j, orderMeta = %j, keepEmptyPriority = %j', 
         (tasksWithOrder, fromPos, toPos, sameOrderFrom, sameOrderTo, orderMulti, orderMeta, keepEmptyPriority, done) => {
         
         let sameOrder
@@ -498,6 +541,7 @@ describe('moveTasks', function () {
         const filePath =  'modify-tasks.md'
         const taskFilter = ({meta}) => meta.story && meta.story[0] === '4'
         initProject({repo, config: {
+            keepEmptyPriority: false,
             settings: {
                 cards: {
                     orderMeta: false,

@@ -2,9 +2,7 @@ const { afterEach } = require('mocha')
 const path = require('path')
 const wrench = require('wrench')
 const fs = require('fs')
-const fsStore = require('../lib/mixins/repo-fs-store')
-const Repository = require('../lib/repository')
-const Project = require('../lib/project')
+const { createFileSystemProject } = require('../lib/project-factory')
 const expect = require('expect.js')
 describe('project', function () {
   const tmpDir = path.join(process.cwd(), 'tmp')
@@ -24,8 +22,9 @@ describe('project', function () {
       return done(e)
     }
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
-    repo = fsStore(new Repository(defaultCardsDir))
-    project = new Project(repo)
+    
+    project = createFileSystemProject({path: defaultCardsDir})
+    repo = project.repo
     done()
   })
 
@@ -35,20 +34,11 @@ describe('project', function () {
     done()
   })
 
-  it('sorts according to due date when the default view filter has +list', function (done) {
-    project.init((err, files) => {
-      if (err) done(err)
-      const imdoneJson = project.toImdoneJSON()
-      expect(imdoneJson.lists[2].tasks[0].text).to.be('Add and Edit Cards')
-      expect(imdoneJson.lists[2].tasks[12].text).to.be('Read the documentation')
-      done()
-    })
+  it('sorts according to due date when the default view filter has +list', async function () {
+    await project.init()
+    console.log(project.config)
+    const imdoneJson = project.toImdoneJSON()
+    expect(imdoneJson.lists[2].tasks[0].text).to.be('Add and Edit Cards')
+    expect(imdoneJson.lists[2].tasks[12].text).to.be('Read the documentation')
   })
-
-  // it('moves all filtered tasks to the given list', function (done) {
-  //   project.init((err, files) => {
-  //     if (err) done(err)
-  //     done('Finish test')
-  //   })
-  // })
 })
