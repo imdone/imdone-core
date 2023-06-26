@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.32.0",
+  "version": "1.32.1",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -49,7 +49,7 @@
     "async": "~1.5.0",
     "checksum": "^0.1.1",
     "cheerio": "^1.0.0-rc.10",
-    "chrono-node": ">=2.5.0",
+    "chrono-node": "^2.4.2",
     "debug": ">=4.3.4",
     "download": "^8.0.0",
     "eol": "^0.9.1",
