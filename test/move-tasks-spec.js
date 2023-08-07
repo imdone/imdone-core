@@ -111,8 +111,8 @@ describe('moveTasks', function () {
             })
         })
     })
-
-    it('Should move multiple tasks to the requested location in the requested list', function (done) {
+    
+    it('moveTasksAsync Should move multiple tasks to the requested location in the requested list', function (done) {
         initProject({repo, config: {
             settings: {
                 cards: {
@@ -132,7 +132,8 @@ describe('moveTasks', function () {
             const listLengthDOING = tasksToMove.length
             const listLengthDONE = repo.getTasksInList(DONE).length
             const allTasksLength = repo.getTasks().length
-            repo.moveTasks(tasksToMove, DONE, 0, function () {
+            repo.moveTasksAsync(tasksToMove, DONE, 0)
+            .then(() => {
                 const fileTaskCountsResult = repo.getFiles().map(({path, tasks}) => {
                     return {
                         path,
@@ -151,6 +152,45 @@ describe('moveTasks', function () {
             })
         })
     })
+    // it('Should move multiple tasks to the requested location in the requested list', function (done) {
+    //     initProject({repo, config: {
+    //         settings: {
+    //             cards: {
+    //                 orderMeta: true,
+    //                 defaultList: TODO
+    //             }
+    //         }
+    //       }
+    //     }, (err, result) => {
+    //         const fileTaskCounts = repo.getFiles().map(({path, tasks}) => {
+    //             return {
+    //                 path,
+    //                 taskCount: tasks.length
+    //             }
+    //         })
+    //         const tasksToMove = repo.getTasksInList(DOING)
+    //         const listLengthDOING = tasksToMove.length
+    //         const listLengthDONE = repo.getTasksInList(DONE).length
+    //         const allTasksLength = repo.getTasks().length
+    //         repo.moveTasks(tasksToMove, DONE, 0, function () {
+    //             const fileTaskCountsResult = repo.getFiles().map(({path, tasks}) => {
+    //                 return {
+    //                     path,
+    //                     taskCount: tasks.length
+    //                 }
+    //             })
+    //             fileTaskCounts.forEach(({path, taskCount}) => {
+    //                 const fileTaskCount = fileTaskCountsResult.find(a => a.path === path);
+    //                 console.log(path);
+    //                 should(taskCount).be.exactly(fileTaskCount && fileTaskCount.taskCount);
+    //             })
+    //             repo.getTasks().length.should.be.exactly(allTasksLength)
+    //             repo.getTasksInList(DOING).length.should.be.exactly(0)
+    //             repo.getTasksInList(DONE).length.should.be.exactly(listLengthDONE + listLengthDOING)
+    //             done()
+    //         })
+    //     })
+    // })
 
     it('Should move multiple tasks in a code file to the requested location in the requested list', function (done) {
         const FILE_PATH = 'test.js'
