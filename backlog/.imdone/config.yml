@@ -21,6 +21,7 @@ lists:
     name: DOING
     id: jea6phpllxpsj7k
   - hidden: false
+    ignore: true
     name: DONE
     id: jea6phpllxpsj7l
 settings:
