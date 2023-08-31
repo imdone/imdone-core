@@ -6,6 +6,7 @@ const { createFileSystemProject } = require('./lib/project-factory')
 const { loadYAML } = require('./lib/tools')
 const { readFile } = require('fs/promises')
 const Config = require('./lib/config')
+const package = require('./package.json')
 
 newConfigFromFile = async (configPath) => {
   const config = await readFile(configPath, 'utf8')
@@ -23,8 +24,9 @@ Object.keys(logQueue).forEach((key) => {
 })
 
 program
+.version(package.version, '-v, --version', 'output the current version')
 .command('init')
-.description('Initialize imdone project')
+.description('initialize imdone project')
 .option('-p, --project-path <path>', 'The path to the imdone project')
 .option('-c, --config-path <path>', 'The path to the imdone config file')
 .action(async function () {
@@ -41,20 +43,21 @@ program
 
 program
 .command('add <task>')
-.description('Add a task')
+.description('add a task')
 .option('-p, --project-path <path>', 'The path to the imdone project')
 .option('-l, --list <list>', 'The task list to use')
+.option('-t, --tags <tags...>', 'The tags to use')
 .action(async function () {
-  let { projectPath = process.env.PWD, list } = this.opts()
+  let { projectPath = process.env.PWD, list, tags } = this.opts()
   projectPath = resolve(projectPath)
   const project = createFileSystemProject({path: projectPath})
   await project.init()
-  const data = await project.addTaskToFile({list, content: this.args[0]})
+  const data = await project.addTaskToFile({list, content: this.args[0], tags})
 })
 
 program
 .command('ls')
-.description('List tasks')
+.description('list tasks')
 .option('-p, --project-path <path>', 'The path to the imdone project')
 .option('-f, --filter <filter>', 'The filter to use')
 .option('-j, --json', 'Output as json')
