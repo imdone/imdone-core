@@ -18,23 +18,31 @@ code:
 lists:
   - hidden: true
     name: FIXME
+    id: jea6nx7llx85j9j
   - name: NOTE
-    hidden: false
+    hidden: true
     ignore: false
+    id: jea6nx7llx85j9k
   - name: HACK
     hidden: true
     ignore: false
-  - hidden: false
+    id: jea6nx7llx85j9l
+  - hidden: true
     name: BACKLOG
+    id: jea6nx7llx85j9m
   - hidden: false
     name: TODO
+    id: jea6nx7llx85j9n
   - hidden: false
     name: DOING
+    id: jea6nx7llx85j9o
   - hidden: false
     name: READY
+    id: jea6nx7llx85j9p
   - hidden: false
-    ignore: false
+    ignore: true
     name: DONE
+    id: jea6nx7llx85j9q
 marked:
   gfm: true
   tables: true
@@ -62,15 +70,14 @@ settings:
           value: Release 1.29.0
         - key: epic
           value: Release 2.0
-  filteredLists: []
   journalTemplate: null
   theme: dark
+  filteredLists: []
   filterHistory:
     - allMeta.id = "4"
-  views:
-    - id: default
-      defaultFilter: ''
+  views: []
   name: imdone core
+  defaultFilter: !<tag:yaml.org,2002:js/undefined> ''
   cards:
     colors:
       - color: green
