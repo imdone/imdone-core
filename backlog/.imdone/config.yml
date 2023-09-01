@@ -43,7 +43,7 @@ settings:
     colors: []
     template: |
 
-      <!-- created:${(new Date()).toISOString()} -->
+      <!-- created:${(new Date()).toISOString()} sid:${id} -->
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: false

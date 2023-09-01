@@ -47,12 +47,13 @@ program
 .option('-p, --project-path <path>', 'The path to the imdone project')
 .option('-l, --list <list>', 'The task list to use')
 .option('-t, --tags <tags...>', 'The tags to use')
+.option('-c, --contexts <contexts...>', 'The contexts to use')
 .action(async function () {
-  let { projectPath = process.env.PWD, list, tags } = this.opts()
+  let { projectPath = process.env.PWD, list, tags, contexts } = this.opts()
   projectPath = resolve(projectPath)
   const project = createFileSystemProject({path: projectPath})
   await project.init()
-  const data = await project.addTaskToFile({list, content: this.args[0], tags})
+  const data = await project.addTaskToFile({list, content: this.args[0], tags, contexts})
 })
 
 program
@@ -72,13 +73,18 @@ program
   if (json) return log(JSON.stringify(lists, null, 2))
 
   lists.forEach((list) => {
+    const doneMark = (list.name === project.config.getDoneList()) ? 'x' : ' '
     const tasks = list.tasks
     if (tasks.length > 0) {
       log('')
       log(list.name)
-      log('====================\n')
+      log('====')
+      log('')
       tasks.forEach((task) => {
-        log(`- ${task.text}`)
+        log(`- [${doneMark}] ${task.text}`)
+        task.description.forEach((line) => {
+          log(`  ${line}`)
+        })
       })
       log('')
     }
