@@ -1,17 +1,8 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { resolve } = require('path')
-const { createFileSystemProject } = require('./lib/project-factory')
-const { loadYAML } = require('./lib/tools')
-const { readFile } = require('fs/promises')
-const Config = require('./lib/config')
+const { imdoneInit, addTask, listTasks } = require('./lib/controlers/CliControler')
 const package = require('./package.json')
-
-newConfigFromFile = async (configPath) => {
-  const config = await readFile(configPath, 'utf8')
-  return new Config(loadYAML(config))
-}
 
 const log = console.log
 const info = console.info
@@ -31,14 +22,7 @@ program
 .option('-c, --config-path <path>', 'The path to the imdone config file')
 .action(async function () {
   let { projectPath = process.env.PWD, configPath } = this.opts()
-  projectPath = resolve(projectPath)
-  let config
-  if (configPath) {
-    configPath = resolve(configPath)
-    config = await newConfigFromFile(configPath)
-  }
-  const project = createFileSystemProject({path: projectPath, config})
-  await project.init()
+  await imdoneInit(projectPath, configPath)
 })
 
 program
@@ -50,10 +34,7 @@ program
 .option('-c, --contexts <contexts...>', 'The contexts to use')
 .action(async function () {
   let { projectPath = process.env.PWD, list, tags, contexts } = this.opts()
-  projectPath = resolve(projectPath)
-  const project = createFileSystemProject({path: projectPath})
-  await project.init()
-  const data = await project.addTaskToFile({list, content: this.args[0], tags, contexts})
+  await addTask(this.args[0], projectPath, list, tags, contexts)
 })
 
 program
@@ -64,30 +45,6 @@ program
 .option('-j, --json', 'Output as json')
 .action(async function () {
   let { projectPath = process.env.PWD, filter, json } = this.opts()
-  projectPath = resolve(projectPath)
-  const project = createFileSystemProject({path: projectPath})
-  await project.init()
-  const tasks = project.getCards(filter)
-  const lists = project.getLists({tasks})
-
-  if (json) return log(JSON.stringify(lists, null, 2))
-
-  lists.forEach((list) => {
-    const doneMark = (list.name === project.config.getDoneList()) ? 'x' : ' '
-    const tasks = list.tasks
-    if (tasks.length > 0) {
-      log('')
-      log(list.name)
-      log('====')
-      log('')
-      tasks.forEach((task) => {
-        log(`- [${doneMark}] ${task.text}`)
-        task.description.forEach((line) => {
-          log(`  ${line}`)
-        })
-      })
-      log('')
-    }
-  })
+  await listTasks(projectPath, filter, json, log)
 })
 program.parse();
