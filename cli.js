@@ -4,16 +4,9 @@ const { program } = require('commander');
 const { imdoneInit, addTask, listTasks } = require('./lib/controlers/CliControler')
 const package = require('./package.json')
 
-const log = console.log
-const info = console.info
-const warn = console.warn
-const logQueue = {warn: [], info: [], log: []}
-Object.keys(logQueue).forEach((key) => {
-  console[key] = function(...args) {
-    logQueue[key].push(args)
-  }
-})
+const { log, info, warn, logQueue } = hideLogs()
 
+// TODO ## Add an option to add properties/card.js
 program
 .version(package.version, '-v, --version', 'output the current version')
 .command('init')
@@ -48,3 +41,16 @@ program
   await listTasks(projectPath, filter, json, log)
 })
 program.parse();
+
+function hideLogs() {
+  const log = console.log
+  const info = console.info
+  const warn = console.warn
+  const logQueue = {warn: [], info: [], log: []}
+  Object.keys(logQueue).forEach((key) => {
+    console[key] = function(...args) {
+      logQueue[key].push(args)
+    }
+  })
+  return {log, info, warn, logQueue}
+}
