@@ -1,0 +1,58 @@
+keepEmptyPriority: true
+code:
+  include_lists:
+    - TODO
+    - DOING
+    - DONE
+    - PLANNING
+    - FIXME
+    - ARCHIVE
+    - HACK
+    - CHANGED
+    - XXX
+    - IDEA
+    - NOTE
+    - REVIEW
+lists:
+  - hidden: false
+    name: TODO
+    id: jea6phpllxpsj7j
+  - hidden: false
+    name: DOING
+    id: jea6phpllxpsj7k
+  - hidden: false
+    ignore: true
+    name: DONE
+    id: jea6phpllxpsj7l
+settings:
+  openIn: default
+  customOpenIn: ''
+  editorTheme: blackboard
+  journalType: New File
+  journalPath: .
+  appendNewCardsTo: imdone-tasks.md
+  newCardSyntax: HASHTAG
+  replaceSpacesWith: '-'
+  plugins:
+    devMode: false
+  journalTemplate: null
+  theme: dark
+  views: []
+  name: backlog
+  cards:
+    colors: []
+    template: |
+
+      <!-- created:${(new Date()).toISOString()} sid:${sid} -->
+    trackChanges: false
+    metaNewLine: false
+    addCompletedMeta: false
+    addCheckBoxTasks: false
+    doneList: DONE
+    taskPrefix: '##'
+    tagPrefix: +
+    metaSep: ':'
+    orderMeta: true
+    maxLines: 6
+    addNewCardsToTop: true
+    defaultList: TODO

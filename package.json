@@ -1,8 +1,11 @@
 {
   "name": "imdone-core",
-  "version": "1.32.4",
+  "version": "1.33.0",
   "description": "imdone-core",
   "main": "index.js",
+  "bin": {
+    "imdone": "cli.js"
+  },
   "scripts": {
     "build": "doctoc --github --notitle README.md && npm test",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha --exit",
@@ -46,6 +49,7 @@
     "checksum": "^0.1.1",
     "cheerio": "^1.0.0-rc.10",
     "chrono-node": "^2.6.4",
+    "commander": "^11.0.0",
     "debug": ">=4.3.4",
     "download": "^8.0.0",
     "eol": "^0.9.1",
