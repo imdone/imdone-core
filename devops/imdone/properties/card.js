@@ -12,6 +12,6 @@ const generateRandomString = (length) => {
 module.exports = function (task) {
   const project = this.project
   return {
-    sid: generateRandomString(8)
+    sid: generateRandomString(5)
   }
 }
