@@ -13,7 +13,12 @@ code:
     - IDEA
     - NOTE
     - REVIEW
+    - BACKLOG
 lists:
+  - name: BACKLOG
+    hidden: false
+    ignore: false
+    id: jea67colm3nm22s
   - hidden: false
     name: TODO
     id: jea6phpllxpsj7j

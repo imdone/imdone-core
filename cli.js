@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { imdoneInit, addTask, listTasks } = require('./lib/controlers/CliControler')
+const { imdoneInit, addTask, listTasks } = require('./lib/cli/CliControler')
 const package = require('./package.json')
 
 const { log, info, warn, logQueue } = hideLogs()
@@ -27,7 +27,7 @@ program
 .option('-c, --contexts <contexts...>', 'The contexts to use')
 .action(async function () {
   let { projectPath = process.env.PWD, list, tags, contexts } = this.opts()
-  await addTask(this.args[0], projectPath, list, tags, contexts)
+  await addTask({task: this.args[0], projectPath, list, tags, contexts, log})
 })
 
 program
