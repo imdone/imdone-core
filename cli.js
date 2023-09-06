@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { imdoneInit, addTask, listTasks } = require('./lib/cli/CliControler')
+const { imdoneInit, importMarkdown, addTask, listTasks } = require('./lib/cli/CliControler')
 const package = require('./package.json')
+const path = require('path')
 
 const { log, info, warn, logQueue } = hideLogs()
-
+const defaultProjectPath = path.join(process.env.PWD, 'backlog')
 // TODO ## Add an option to add properties/card.js
 program
 .version(package.version, '-v, --version', 'output the current version')
@@ -14,9 +15,35 @@ program
 .option('-p, --project-path <path>', 'The path to the imdone project')
 .option('-c, --config-path <path>', 'The path to the imdone config file')
 .action(async function () {
-  let { projectPath = process.env.PWD, configPath } = this.opts()
+  let { projectPath = defaultProjectPath, configPath } = this.opts()
   await imdoneInit(projectPath, configPath)
 })
+
+program
+.command('import')
+.description('import markdown from STDIN')
+.option('-p, --project-path <path>', 'The path to the imdone project')
+.option('-c, --config-path <path>', 'The path to the imdone config file')
+.action(async function () {
+  let { projectPath = defaultProjectPath, configPath } = this.opts()
+  log(process.stdin.isTTY)
+  const isTTY = process.stdin.isTTY;
+  const stdin = process.stdin;
+  if (isTTY) return console.error('Markdown must be provided as stdin')
+
+  var data = '';
+  
+  stdin.on('readable', function() {
+      var chuck = stdin.read();
+      if(chuck !== null){
+          data += chuck;
+      }
+  });
+  stdin.on('end', async function() {
+    await importMarkdown(projectPath, configPath, data, log)
+  });
+})
+
 
 program
 .command('add <task>')
@@ -26,7 +53,7 @@ program
 .option('-t, --tags <tags...>', 'The tags to use')
 .option('-c, --contexts <contexts...>', 'The contexts to use')
 .action(async function () {
-  let { projectPath = process.env.PWD, list, tags, contexts } = this.opts()
+  let { projectPath = defaultProjectPath, list, tags, contexts } = this.opts()
   await addTask({task: this.args[0], projectPath, list, tags, contexts, log})
 })
 
@@ -37,7 +64,7 @@ program
 .option('-f, --filter <filter>', 'The filter to use')
 .option('-j, --json', 'Output as json')
 .action(async function () {
-  let { projectPath = process.env.PWD, filter, json } = this.opts()
+  let { projectPath = defaultProjectPath, filter, json } = this.opts()
   await listTasks(projectPath, filter, json, log)
 })
 program.parse();

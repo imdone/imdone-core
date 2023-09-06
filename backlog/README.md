@@ -12,8 +12,40 @@ npx imdone import story < <story markdown file>
 - [ ] Initialize imdone in the backlog folder
 - [ ] `<story-id>` should be the markdown title
 - [ ] On import always remove the contents of the `backlog/story/<story-id>`
+- [ ] Shold handle a file with the following format
+```markdown
+# <story-id>
+
+This is the story summary
+
+## Tasks
+- [ ] An ungrouped task
+
+### <group>
+- [ ] A task in a group
+
+### <group>
+- [ ] A task in a group
+```
+- [ ] use `markdown-it.parse` to create AST
 
 ### Day to day work after collaborative story design
+
+#### Start a task
+```bash
+npx imdone start -p backlog <task-id>
+```
+- [ ] This should find the task and create a branch off of main named `story/<sid>/<group>/<task id>/<task filname>`
+- [ ] If the branch exists, check it out
+
+#### Add breadcrumbs for the next developer or ensemble
+1. Open the file with the same name as the branch under backlog and add content!!!
+2. commit and push the branch or run `mob done`
+
+#### Complete a task
+```bash
+npx imdone done
+```
 
 #### List tasks in a story
 ```bash
@@ -33,26 +65,12 @@ npx imdone ls -p backlog -s <story-id> -g <group>
 - [ ] Can also use the filter option
 
 #### Update task
+
+##### With the CLI
 ```bash
 npx imdone update task -p backlog -g <new group> <task-id> <new text>
 ```
 - [ ] This should move a task to a different group and/or change it's text
-
-#### Start a task
-```bash
-npx imdone start -p backlog <task-id>
-```
-- [ ] This should find the task and create a branch off of main named `story/<sid>/<group>/<task id>/<task filname>`
-- [ ] If the branch exists, check it out
-
-#### Add breadcrumbs for the next developer or ensemble
-1. Open the file with the same name as the branch under backlog and add content!!!
-2. commit and push the branch or run `mob done`
-
-#### Complete a task
-```bash
-npx imdone done
-```
 
 ## Adding tasks without import
 
@@ -91,3 +109,8 @@ npx imdone add task -p backlog -s <story sid> -g "<task group>" -l TODO "Add a s
 - [ ] `./backlog` is the default project folder
 - [ ] This should initialize a new imdone project in `backlog/story/<story sid>/<task group>`, containing a task with `story-id:<story-id>`, `group:<task group>` and `task-id:<random 5 char string>` meta and return the <task-id>
 - [ ] use default list if no list is present
+
+#### With the UI
+- Open the story folder as a project in imdone
+- Under board actions select the **Create task in <group>** from the menu
+
