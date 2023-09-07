@@ -8,10 +8,10 @@ This directory contains folders for each backlog item.
 ```bash
 npx imdone import story < <story markdown file>
 ```
-- [ ] `./backlog` is the default project folder
-- [ ] Initialize imdone in the backlog folder
-- [ ] `<story-id>` should be the markdown title
-- [ ] On import always remove the contents of the `backlog/story/<story-id>`
+- [x] `./backlog` is the default project folder
+- [x] Initialize imdone in the backlog folder
+- [x] `<story-id>` should be the markdown title
+- [x] On import always remove the contents of the `backlog/story/<story-id>`
 - [ ] Shold handle a file with the following format
 ```markdown
 # <story-id>
@@ -27,7 +27,8 @@ This is the story summary
 ### <group>
 - [ ] A task in a group
 ```
-- [ ] use `markdown-it.parse` to create AST
+- [x] use `markdown-it.parse` to create AST
+- [ ] Save story-id project path so it's available for starting a task, after a task is started, save the task-id
 
 ### Day to day work after collaborative story design
 
@@ -87,7 +88,8 @@ Run this from the root of the project to add a story
 npx imdone add story -p backlog -s <story id> -l BACKLOG "Add a story from the command line" 
 ```
 - [ ] `./backlog` is the default project folder
-- [ ] This should initialize a new imdone project in `backlog/<story-id>` and return the meta sid
+- [ ] This should initialize a new imdone project in `backlog/<story-id>`
+- [ ] Create a task for the story and return the meta sid
 - [ ] The task should be in `backlog/story/<story-id>/README.md`
 - [ ] The task should have `task-id:<random 5 char string>` meta and `story` tag
 
@@ -96,7 +98,7 @@ npx imdone add story -p backlog -s <story id> -l BACKLOG "Add a story from the c
 npx imdone add task -p backlog -s <story-id> -l TODO "Add a story task from the command line"
 ```
 - [ ] `./backlog` is the default project folder
-- [ ] This should initialize a new imdone project in `backlog/story/<story-id>/ungrouped`, containing a task with `task-id:<random 5 char string>` and `story-id:<story-id` meta and return the <task-id>
+- [ ] This should initialize a new imdone project in `backlog/story/<story-id>/ungrouped`, containing a task with `task-id:<random 5 char string>` and `story-id:<story-id>` meta and return the <task-id>
 - [ ] use default list if no list is present
 
 ### List task groups for a story

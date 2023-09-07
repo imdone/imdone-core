@@ -1,6 +1,7 @@
 keepEmptyPriority: true
 code:
   include_lists:
+    - NOTE
     - TODO
     - DOING
     - DONE
@@ -15,6 +16,10 @@ code:
     - REVIEW
     - BACKLOG
 lists:
+  - hidden: false
+    ignore: false
+    name: NOTE
+    id: jea6phpllxpsj7m
   - name: BACKLOG
     hidden: false
     ignore: false

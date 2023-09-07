@@ -16,31 +16,29 @@ program
 .option('-c, --config-path <path>', 'The path to the imdone config file')
 .action(async function () {
   let { projectPath = defaultProjectPath, configPath } = this.opts()
-  await imdoneInit(projectPath, configPath)
+  await imdoneInit({projectPath, configPath})
 })
 
 program
 .command('import')
 .description('import markdown from STDIN')
 .option('-p, --project-path <path>', 'The path to the imdone project')
-.option('-c, --config-path <path>', 'The path to the imdone config file')
 .action(async function () {
-  let { projectPath = defaultProjectPath, configPath } = this.opts()
-  log(process.stdin.isTTY)
+  let { projectPath = defaultProjectPath } = this.opts()
   const isTTY = process.stdin.isTTY;
   const stdin = process.stdin;
   if (isTTY) return console.error('Markdown must be provided as stdin')
 
-  var data = '';
+  var markdown = '';
   
   stdin.on('readable', function() {
-      var chuck = stdin.read();
-      if(chuck !== null){
-          data += chuck;
+      var chunk = stdin.read();
+      if(chunk !== null){
+          markdown += chunk;
       }
   });
   stdin.on('end', async function() {
-    await importMarkdown(projectPath, configPath, data, log)
+    await importMarkdown(projectPath, markdown, log)
   });
 })
 
