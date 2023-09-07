@@ -6,13 +6,30 @@ This directory contains folders for each backlog item.
 ## Work on a story
 ### After collaborative design, import a story and story tasks from markdown
 ```bash
-npx imdone import story < <story markdown file>
+npx imdone import <<EOF                                                                    ─╯
+# story-id
+
+This is the story description.
+
+## Tasks
+- [ ] An unfinished task 
+
+### Phase one (Interfaces)
+- [x] A task in phase one
+- [ ] Another task in phase one
+    - [ ] A sub task in phase one
+    Some more data about the task
+
+### Phase two (Implementation)
+- [ ] A task in phase two
+EOF
 ```
 - [x] `./backlog` is the default project folder
 - [x] Initialize imdone in the backlog folder
 - [x] `<story-id>` should be the markdown title
 - [x] On import always remove the contents of the `backlog/story/<story-id>`
-- [ ] Shold handle a file with the following format
+- [x] Shold handle a file with the following format
+- [ ] Make sure checked items are put in DONE list
 ```markdown
 # <story-id>
 
@@ -28,16 +45,18 @@ This is the story summary
 - [ ] A task in a group
 ```
 - [x] use `markdown-it.parse` to create AST
-- [ ] Save story-id project path so it's available for starting a task, after a task is started, save the task-id
+- [x] Save story-id project path so it's available for starting a task
 
 ### Day to day work after collaborative story design
 
 #### Start a task
 ```bash
-npx imdone start -p backlog <task-id>
+npx imdone start <task-id>
 ```
 - [ ] This should find the task and create a branch off of main named `story/<sid>/<group>/<task id>/<task filname>`
 - [ ] If the branch exists, check it out
+- [ ] Set the task id in session so we know what to close
+- [ ] Save the branch name in session so we can check it out again
 
 #### Add breadcrumbs for the next developer or ensemble
 1. Open the file with the same name as the branch under backlog and add content!!!
