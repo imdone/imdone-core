@@ -1,28 +1,35 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { imdoneInit, importMarkdown, addTask, listTasks } = require('./lib/cli/CliControler')
+const { DEFAULT_CONFIG_PATH, imdoneInit, importMarkdown, addTask, listTasks } = require('./lib/cli/CliControler')
 const package = require('./package.json')
 const path = require('path')
 
 const { log, info, warn, logQueue } = hideLogs()
+const DEFAULT_PROJECT_DIR = 'backlog'
+const PROJECT_OPTION = '-p, --project-path <path>'
+const PROJECT_OPTION_DESCRIPTION = 'The path to the imdone project'
+const CONFIG_OPTION = '-c, --config-path <path>'
+const CONFIG_OPTION_DESCRIPTION = 'The path to the imdone config file'
+
 const defaultProjectPath = path.join(process.env.PWD, 'backlog')
-// TODO ## Add an option to add properties/card.js
+
+// TODO ## Add an option to add properties and actions
 program
 .version(package.version, '-v, --version', 'output the current version')
 .command('init')
 .description('initialize imdone project')
-.option('-p, --project-path <path>', 'The path to the imdone project')
-.option('-c, --config-path <path>', 'The path to the imdone config file')
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION, DEFAULT_PROJECT_DIR)
+.option(CONFIG_OPTION, CONFIG_OPTION_DESCRIPTION, DEFAULT_CONFIG_PATH)
 .action(async function () {
-  let { projectPath = defaultProjectPath, configPath } = this.opts()
+  let { projectPath, configPath } = this.opts()
   await imdoneInit({projectPath, configPath})
 })
 
 program
 .command('import')
 .description('import markdown from STDIN')
-.option('-p, --project-path <path>', 'The path to the imdone project')
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION, DEFAULT_PROJECT_DIR)
 .action(async function () {
   let { projectPath = defaultProjectPath } = this.opts()
   const isTTY = process.stdin.isTTY;
@@ -46,23 +53,23 @@ program
 program
 .command('add <task>')
 .description('add a task')
-.option('-p, --project-path <path>', 'The path to the imdone project')
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION, DEFAULT_PROJECT_DIR)
 .option('-l, --list <list>', 'The task list to use')
 .option('-t, --tags <tags...>', 'The tags to use')
 .option('-c, --contexts <contexts...>', 'The contexts to use')
 .action(async function () {
-  let { projectPath = defaultProjectPath, list, tags, contexts } = this.opts()
+  let { projectPath, list, tags, contexts } = this.opts()
   await addTask({task: this.args[0], projectPath, list, tags, contexts, log})
 })
 
 program
 .command('ls')
 .description('list tasks')
-.option('-p, --project-path <path>', 'The path to the imdone project')
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION, DEFAULT_PROJECT_DIR)
 .option('-f, --filter <filter>', 'The filter to use')
 .option('-j, --json', 'Output as json')
 .action(async function () {
-  let { projectPath = defaultProjectPath, filter, json } = this.opts()
+  let { projectPath, filter, json } = this.opts()
   await listTasks(projectPath, filter, json, log)
 })
 program.parse();
