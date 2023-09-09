@@ -1,25 +1,28 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { DEFAULT_CONFIG_PATH, imdoneInit, importMarkdown, addTask, listTasks } = require('./lib/cli/CliControler')
+const { 
+  DEFAULT_CONFIG_PATH, 
+  imdoneInit, 
+  importMarkdown,
+  startTask,
+  addTask, 
+  listTasks 
+} = require('./lib/cli/CliControler')
 const package = require('./package.json')
 const path = require('path')
 
 const { log, info, warn, logQueue } = hideLogs()
-const DEFAULT_PROJECT_DIR = 'backlog'
 const PROJECT_OPTION = '-p, --project-path <path>'
 const PROJECT_OPTION_DESCRIPTION = 'The path to the imdone project'
 const CONFIG_OPTION = '-c, --config-path <path>'
 const CONFIG_OPTION_DESCRIPTION = 'The path to the imdone config file'
 
-const defaultProjectPath = path.join(process.env.PWD, 'backlog')
-
-// TODO ## Add an option to add properties and actions
 program
 .version(package.version, '-v, --version', 'output the current version')
 .command('init')
 .description('initialize imdone project')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION, DEFAULT_PROJECT_DIR)
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
 .option(CONFIG_OPTION, CONFIG_OPTION_DESCRIPTION, DEFAULT_CONFIG_PATH)
 .action(async function () {
   let { projectPath, configPath } = this.opts()
@@ -29,9 +32,9 @@ program
 program
 .command('import')
 .description('import markdown from STDIN')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION, DEFAULT_PROJECT_DIR)
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
 .action(async function () {
-  let { projectPath = defaultProjectPath } = this.opts()
+  let { projectPath } = this.opts()
   const isTTY = process.stdin.isTTY;
   const stdin = process.stdin;
   if (isTTY) return console.error('Markdown must be provided as stdin')
@@ -49,11 +52,20 @@ program
   });
 })
 
+program
+.command('start <task-id>')
+.description('start a task by id')
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
+.action(async function () {
+  const taskId = this.args[0]
+  let { projectPath } = this.opts()
+  await startTask(projectPath, taskId, log)
+})
 
 program
 .command('add <task>')
 .description('add a task')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION, DEFAULT_PROJECT_DIR)
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
 .option('-l, --list <list>', 'The task list to use')
 .option('-t, --tags <tags...>', 'The tags to use')
 .option('-c, --contexts <contexts...>', 'The contexts to use')
@@ -65,7 +77,7 @@ program
 program
 .command('ls')
 .description('list tasks')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION, DEFAULT_PROJECT_DIR)
+.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
 .option('-f, --filter <filter>', 'The filter to use')
 .option('-j, --json', 'Output as json')
 .action(async function () {

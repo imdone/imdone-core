@@ -31,7 +31,7 @@ lists:
     name: DOING
     id: jea6phpllxpsj7k
   - hidden: false
-    ignore: true
+    ignore: false
     name: DONE
     id: jea6phpllxpsj7l
 settings:
@@ -53,7 +53,7 @@ settings:
     colors: []
     template: |
 
-      <!-- created:${(new Date()).toISOString()} sid:${sid} -->
+      <!-- created:${(new Date()).toISOString()} task-id:${sid} -->
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: false

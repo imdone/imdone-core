@@ -29,7 +29,7 @@ EOF
 - [x] `<story-id>` should be the markdown title
 - [x] On import always remove the contents of the `backlog/story/<story-id>`
 - [x] Shold handle a file with the following format
-- [ ] Make sure checked items are put in DONE list
+- [x] Make sure checked items are put in DONE list
 ```markdown
 # <story-id>
 
@@ -53,7 +53,8 @@ This is the story summary
 ```bash
 npx imdone start <task-id>
 ```
-- [ ] This should find the task and create a branch off of main named `story/<sid>/<group>/<task id>/<task filname>`
+- [ ] This should find the task and create a branch named `story/<sid>/<group>/<task id>/<task filname>`
+- [ ] Move the task to the `DOING` list
 - [ ] If the branch exists, check it out
 - [ ] Set the task id in session so we know what to close
 - [ ] Save the branch name in session so we can check it out again
@@ -73,6 +74,7 @@ npx imdone ls -p backlog -s <story-id>
 ``` 
 - [ ] `./backlog` is the default project folder
 - [ ] If the current branch starts with `story/`, parse the story id from the branch name
+- [ ] If story from branch name isn't found and If the storyId is in the session use it
 - [ ] Can also pass in the story id with the `-s <story-id> option
 - [ ] Can also use the filter option
 
