@@ -101,6 +101,7 @@
     "sane": "^4.1.0",
     "sanitize-filename": "^1.6.3",
     "sift": "^13.4.0",
+    "simple-git": "^3.19.1",
     "uniqid": "^5.4.0",
     "xregexp": "^5.1.0"
   },
