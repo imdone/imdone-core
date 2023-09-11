@@ -21,6 +21,3 @@ tmp
 .env
 .DS_Store
 debug.md
-
-backlog/.imdone
-backlog/stories
