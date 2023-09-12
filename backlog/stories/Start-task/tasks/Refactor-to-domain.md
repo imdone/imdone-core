@@ -1,3 +1,3 @@
-## #DOING Refactor to domain
+## #TODO Refactor to domain
 <!--  +task -->
-<!-- created:2023-09-11T20:12:52.602Z task-id:xHQLE group:"Ungrouped Tasks" story-id:Start-task order:0 -->
+<!-- created:2023-09-12T02:08:13.792Z task-id:GZsXM group:"Ungrouped Tasks" story-id:Start-task order:90 -->
