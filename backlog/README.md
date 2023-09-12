@@ -100,8 +100,10 @@ npx imdone update task -p backlog -g <new group> <task-id> <new text>
 ```bash
 npx imdone init -p backlog
 ```
-- [ ] `./backlog` is the default project folder
-- [ ] Make `devops/imdone` the defaults for init
+- [x] `./backlog` is the default project folder
+- [x] Make `devops/imdone` the defaults for init
+- [ ] Use [prompts - npm](https://www.npmjs.com/package/prompts) and options to configure
+    - [ ] Include remote
 
 ### Add a story
 Run this from the root of the project to add a story
