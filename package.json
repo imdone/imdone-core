@@ -95,6 +95,7 @@
     "moment": "^2.29.1",
     "monquery": "github:imdone/node-monquery#0.2.1",
     "multilang-extract-comments": "^0.4.0",
+    "ora": "^5.4.1",
     "prompts": "^2.4.2",
     "readdirp": "^3.6.0",
     "remove-markdown": "^0.3.0",

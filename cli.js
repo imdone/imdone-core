@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
+const ora = require('ora')
 const { 
   DEFAULT_CONFIG_PATH, 
   imdoneInit, 
@@ -10,13 +11,19 @@ const {
   listTasks 
 } = require('./lib/cli/CliControler')
 const package = require('./package.json')
-const path = require('path')
 
 const { log, info, warn, logQueue } = hideLogs()
 const PROJECT_OPTION = '-p, --project-path <path>'
 const PROJECT_OPTION_DESCRIPTION = 'The path to the imdone project'
 const CONFIG_OPTION = '-c, --config-path <path>'
 const CONFIG_OPTION_DESCRIPTION = 'The path to the imdone config file'
+
+const spinner = ora('Loading unicorns').start();
+
+setTimeout(() => {
+	spinner.color = 'yellow';
+	spinner.text = 'Loading rainbows';
+}, 1000);
 
 program
 .version(package.version, '-v, --version', 'output the current version')
@@ -27,6 +34,7 @@ program
 .action(async function () {
   let { projectPath, configPath } = this.opts()
   await imdoneInit({projectPath, configPath})
+  spinner.stop()
 })
 
 program
@@ -49,6 +57,7 @@ program
   });
   stdin.on('end', async function() {
     await importMarkdown(projectPath, markdown, log)
+    spinner.stop()
   });
 })
 
@@ -60,6 +69,7 @@ program
   const taskId = this.args[0]
   let { projectPath } = this.opts()
   await startTask(projectPath, taskId, log)
+  spinner.stop()
 })
 
 program
