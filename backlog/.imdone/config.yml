@@ -38,6 +38,7 @@ lists:
     id: jea6phpllxpsj7l
 settings:
   openIn: default
+  customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
   journalPath: stories
