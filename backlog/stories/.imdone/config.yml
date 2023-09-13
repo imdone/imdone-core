@@ -1,7 +1,6 @@
 keepEmptyPriority: true
 code:
   include_lists:
-    - NOTE
     - TODO
     - DOING
     - DONE
@@ -10,19 +9,20 @@ code:
     - ARCHIVE
     - HACK
     - CHANGED
-    - CURRENT
     - XXX
     - IDEA
     - NOTE
     - REVIEW
     - BACKLOG
 lists:
+  - hidden: false
+    ignore: false
+    name: NOTE
+    id: jea6phpllxpsj7m
   - name: BACKLOG
     hidden: false
+    ignore: false
     id: jea67colm3nm22s
-  - hidden: false
-    name: CURRENT
-    id: jea6phpllxpsj7m
   - hidden: false
     name: TODO
     id: jea6phpllxpsj7j
@@ -30,6 +30,7 @@ lists:
     name: DOING
     id: jea6phpllxpsj7k
   - hidden: false
+    ignore: false
     name: DONE
     id: jea6phpllxpsj7l
 settings:
@@ -37,7 +38,7 @@ settings:
   customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
-  journalPath: .
+  journalPath: tasks
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
@@ -46,7 +47,7 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: backlog
+  name: stories
   cards:
     colors: []
     template: |
@@ -58,7 +59,7 @@ settings:
     addCheckBoxTasks: false
     doneList: DONE
     taskPrefix: '##'
-    tagPrefix: '#'
+    tagPrefix: +
     metaSep: ':'
     orderMeta: true
     maxLines: 6

@@ -1,7 +1,6 @@
 keepEmptyPriority: true
 code:
   include_lists:
-    - NOTE
     - TODO
     - DOING
     - DONE
@@ -10,34 +9,35 @@ code:
     - ARCHIVE
     - HACK
     - CHANGED
-    - CURRENT
     - XXX
     - IDEA
     - NOTE
     - REVIEW
+    - CURRENT
     - BACKLOG
 lists:
-  - name: BACKLOG
+  - name: CURRENT
     hidden: false
-    id: jea67colm3nm22s
-  - hidden: false
-    name: CURRENT
+    ignore: false
     id: jea6phpllxpsj7m
-  - hidden: false
-    name: TODO
+  - name: TODO
+    hidden: false
+    ignore: false
     id: jea6phpllxpsj7j
-  - hidden: false
-    name: DOING
+  - name: DOING
+    hidden: false
+    ignore: false
     id: jea6phpllxpsj7k
-  - hidden: false
-    name: DONE
+  - name: DONE
+    hidden: false
+    ignore: false
     id: jea6phpllxpsj7l
 settings:
   openIn: default
   customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
-  journalPath: .
+  journalPath: tasks
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
@@ -46,7 +46,7 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: backlog
+  name: List-tasks-in-a-story
   cards:
     colors: []
     template: |

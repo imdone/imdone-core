@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
+const ora = require('ora')
 const { 
-  DEFAULT_CONFIG_PATH, 
   imdoneInit, 
   importMarkdown,
   startTask,
@@ -10,31 +10,30 @@ const {
   listTasks 
 } = require('./lib/cli/CliControler')
 const package = require('./package.json')
-const path = require('path')
 
-const { log, info, warn, logQueue } = hideLogs()
-const PROJECT_OPTION = '-p, --project-path <path>'
-const PROJECT_OPTION_DESCRIPTION = 'The path to the imdone project'
-const CONFIG_OPTION = '-c, --config-path <path>'
-const CONFIG_OPTION_DESCRIPTION = 'The path to the imdone config file'
+const { log } = hideLogs()
+const spinner = ora('Loading unicorns')
+
+setTimeout(() => {
+	spinner.color = 'yellow';
+	spinner.text = 'Loading rainbows';
+}, 1000);
 
 program
 .version(package.version, '-v, --version', 'output the current version')
 .command('init')
-.description('initialize imdone project')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
-.option(CONFIG_OPTION, CONFIG_OPTION_DESCRIPTION, DEFAULT_CONFIG_PATH)
+.description('initialize backlog')
 .action(async function () {
-  let { projectPath, configPath } = this.opts()
-  await imdoneInit({projectPath, configPath})
+  spinner.start()
+  await imdoneInit()
+  spinner.stop()
 })
 
 program
 .command('import')
 .description('import markdown from STDIN')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
 .action(async function () {
-  let { projectPath } = this.opts()
+  spinner.start()
   const isTTY = process.stdin.isTTY;
   const stdin = process.stdin;
   if (isTTY) return console.error('Markdown must be provided as stdin')
@@ -48,41 +47,44 @@ program
       }
   });
   stdin.on('end', async function() {
-    await importMarkdown(projectPath, markdown, log)
+    await importMarkdown(markdown, log)
+    spinner.stop()
   });
 })
 
 program
 .command('start <task-id>')
 .description('start a task by id')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
 .action(async function () {
+  spinner.start()
   const taskId = this.args[0]
-  let { projectPath } = this.opts()
-  await startTask(projectPath, taskId, log)
+  await startTask(taskId, log)
+  spinner.stop()
 })
 
 program
 .command('add <task>')
 .description('add a task')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
-.option('-l, --list <list>', 'The task list to use')
-.option('-t, --tags <tags...>', 'The tags to use')
-.option('-c, --contexts <contexts...>', 'The contexts to use')
+.option('-s, --story-id <story-id>', 'The story to add this task to')
+.option('-g, --group <group>', 'The group to add this task to')
+.option('-t, --tags <tags...>', 'The tags to add to this task')
+.option('-c, --contexts <contexts...>', 'The contexts to add to this task')
 .action(async function () {
-  let { projectPath, list, tags, contexts } = this.opts()
+  // TODO: This should ask for a story to add a task to
+  // TODO: This should ask for a group to add a task to
+  let { storyId, group, tags, contexts } = this.opts()
   await addTask({task: this.args[0], projectPath, list, tags, contexts, log})
 })
 
 program
 .command('ls')
 .description('list tasks')
-.option(PROJECT_OPTION, PROJECT_OPTION_DESCRIPTION)
+.option('-s, --story-id <story-id>', 'List tasks for this story')
 .option('-f, --filter <filter>', 'The filter to use')
 .option('-j, --json', 'Output as json')
 .action(async function () {
-  let { projectPath, filter, json } = this.opts()
-  await listTasks(projectPath, filter, json, log)
+  let {storyId, filter, json } = this.opts()
+  await listTasks(storyId, filter, json, log)
 })
 program.parse();
 
