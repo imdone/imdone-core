@@ -1,3 +1,3 @@
-## #NOTE After collaborative design, import a story and story tasks from markdown
-<!--  +story -->
-<!-- created:2023-09-12T13:05:36.035Z task-id:g4ihW order:0 story-id:Import-tasks -->
+## #CURRENT After collaborative design, import a story and story tasks from markdown
+<!-- #story -->
+<!-- created:2023-09-12T13:05:36.035Z task-id:g4ihW order:-10 story-id:Import-tasks -->

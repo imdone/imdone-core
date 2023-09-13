@@ -1,3 +1,3 @@
 ## #DONE Make sure checked items are put in DONE list
-<!--  +task -->
+<!-- #task -->
 <!-- created:2023-09-12T13:05:36.064Z task-id:DCM3w group:"Ungrouped Tasks" story-id:Import-tasks order:60 -->
