@@ -53,15 +53,15 @@ This is the story summary
 ```bash
 npx imdone start <task-id>
 ```
-- [ ] This should find the task and create a branch named `story/<sid>/<group>/<task id>/<task filname>`
-- [ ] Move the task to the `DOING` list
-- [ ] If the branch exists, check it out
-- [ ] Set the task id in session so we know what to close
-- [ ] Save the branch name in session so we can check it out again
+- [x] This should find the task and create a branch named `story/<sid>/<group>/<task id>/<task filname>`
+- [x] Move the task to the `DOING` list
+- [x] If the branch exists, check it out
+- [x] Set the task id in session so we know what to close
+- [x] Save the branch name in session so we can check it out again
 
 #### Add breadcrumbs for the next developer or ensemble
 1. Open the file with the same name as the branch under backlog and add content!!!
-2. commit and push the branch or run `mob done`
+2. commit and push the branch
 
 #### Complete a task
 ```bash

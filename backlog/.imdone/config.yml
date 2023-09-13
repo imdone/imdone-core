@@ -13,6 +13,7 @@ code:
     - IDEA
     - NOTE
     - REVIEW
+    - CURRENT
     - BACKLOG
 lists:
   - hidden: false
