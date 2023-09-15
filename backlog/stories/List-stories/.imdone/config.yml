@@ -13,14 +13,10 @@ code:
     - IDEA
     - NOTE
     - REVIEW
-    - BACKLOG
     - CURRENT
+    - BACKLOG
 lists:
   - name: CURRENT
-    hidden: false
-    ignore: false
-    id: jea6tjflmkkujcr
-  - name: NOTE
     hidden: false
     ignore: false
     id: jea6phpllxpsj7m
@@ -50,7 +46,7 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: Start-task
+  name: List-stories
   cards:
     colors: []
     template: |
