@@ -19,6 +19,8 @@ setTimeout(() => {
 	spinner.text = 'Loading rainbows';
 }, 1000);
 
+const DEFAULTS_OPTION = ['-d, --defaults', 'Use defaults in ~/.imdone/session.json for all prompts']
+const STORY_OPTION = ['-s, --story-id <story-id>', 'The story to add this task to'] 
 program
 .version(package.version, '-v, --version', 'output the current version')
 .command('init')
@@ -65,26 +67,26 @@ program
 program
 .command('add <task>')
 .description('add a task')
-.option('-s, --story-id <story-id>', 'The story to add this task to')
+.option(...STORY_OPTION)
 .option('-g, --group <group>', 'The group to add this task to')
 .option('-t, --tags <tags...>', 'The tags to add to this task')
 .option('-c, --contexts <contexts...>', 'The contexts to add to this task')
+.option(...DEFAULTS_OPTION)
 .action(async function () {
-  // TODO: This should ask for a story to add a task to
-  // TODO: This should ask for a group to add a task to
-  let { storyId, group, tags, contexts } = this.opts()
-  await addTask({task: this.args[0], projectPath, list, tags, contexts, log})
+  let { storyId, group, tags, contexts, defaults } = this.opts()
+  await addTask({task: this.args[0], projectPath, list, tags, contexts, defaults, log})
 })
 
 program
 .command('ls')
 .description('list tasks')
-.option('-s, --story-id <story-id>', 'List tasks for this story')
+.option(...STORY_OPTION)
 .option('-f, --filter <filter>', 'The filter to use')
 .option('-j, --json', 'Output as json')
+.option(...DEFAULTS_OPTION)
 .action(async function () {
-  let {storyId, filter, json } = this.opts()
-  await listTasks(storyId, filter, json, log)
+  let {storyId, filter, json, defaults } = this.opts()
+  await listTasks({storyId, filter, json, defaults, log})
 })
 program.parse();
 
