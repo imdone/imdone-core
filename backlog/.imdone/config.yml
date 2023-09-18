@@ -17,7 +17,7 @@ code:
     - BACKLOG
 lists:
   - name: BACKLOG
-    hidden: false
+    hidden: true
     ignore: false
     id: jea67colm3nm22s
   - name: CURRENT

@@ -65,16 +65,14 @@ program
 })
 
 program
-.command('add-task <task content>')
+.command('add-task <task-content>')
 .description('add a task')
 .option(...STORY_OPTION)
 .option('-g, --group <group>', 'The group to add this task to')
-.option('-t, --tags <tags...>', 'The tags to add to this task')
-.option('-c, --contexts <contexts...>', 'The contexts to add to this task')
 .option(...DEFAULTS_OPTION)
 .action(async function () {
-  let { storyId, group, tags, contexts, defaults } = this.opts()
-  await addTask({task: this.args[0], projectPath, storyId, group, list, tags, contexts, defaults, log})
+  let { storyId, group, defaults } = this.opts()
+  await addTask({content: this.args[0], storyId, group, defaults, log})
 })
 
 program
