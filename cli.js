@@ -65,7 +65,7 @@ program
 })
 
 program
-.command('add <task>')
+.command('add-task <task content>')
 .description('add a task')
 .option(...STORY_OPTION)
 .option('-g, --group <group>', 'The group to add this task to')
@@ -74,7 +74,7 @@ program
 .option(...DEFAULTS_OPTION)
 .action(async function () {
   let { storyId, group, tags, contexts, defaults } = this.opts()
-  await addTask({task: this.args[0], projectPath, list, tags, contexts, defaults, log})
+  await addTask({task: this.args[0], projectPath, storyId, group, list, tags, contexts, defaults, log})
 })
 
 program
