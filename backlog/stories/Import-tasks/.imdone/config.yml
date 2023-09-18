@@ -14,8 +14,9 @@ code:
     - NOTE
     - REVIEW
     - BACKLOG
+    - CURRENT
 lists:
-  - name: NOTE
+  - name: CURRENT
     hidden: false
     ignore: false
     id: jea6phpllxpsj7m
@@ -57,7 +58,7 @@ settings:
     addCheckBoxTasks: false
     doneList: DONE
     taskPrefix: '##'
-    tagPrefix: +
+    tagPrefix: '#'
     metaSep: ':'
     orderMeta: true
     maxLines: 6
