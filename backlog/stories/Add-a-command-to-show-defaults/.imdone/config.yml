@@ -16,14 +16,10 @@ code:
     - CURRENT
     - BACKLOG
 lists:
-  - name: BACKLOG
-    hidden: true
-    ignore: false
-    id: jea67colm3nm22s
   - name: CURRENT
     hidden: false
     ignore: false
-    id: jea6n0olmh5lhcn
+    id: jea6phpllxpsj7m
   - name: TODO
     hidden: false
     ignore: false
@@ -41,7 +37,7 @@ settings:
   customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
-  journalPath: stories
+  journalPath: tasks
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
@@ -50,7 +46,7 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: backlog
+  name: Add-a-command-to-show-defaults
   cards:
     colors: []
     template: |
