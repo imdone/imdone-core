@@ -7,7 +7,8 @@ const {
   importMarkdown,
   startTask,
   addTask, 
-  listTasks 
+  listTasks ,
+  completeTask
 } = require('./lib/cli/CliControler')
 const package = require('./package.json')
 
@@ -61,6 +62,15 @@ program
   spinner.start()
   const taskId = this.args[0]
   await startTask(taskId, log)
+  spinner.stop()
+})
+
+program
+.command('done')
+.description('Mark the current task as done')
+.action(async function () {
+  spinner.start()
+  await completeTask(log)
   spinner.stop()
 })
 
