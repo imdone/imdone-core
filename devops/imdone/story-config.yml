@@ -52,6 +52,8 @@ settings:
       <!-- 
         #task
         created:${(new Date()).toISOString()}
+        group:"${ungroupedTasks}"
+        story-id:${projectName}
         task-id:${sid}
       -->
     trackChanges: false
