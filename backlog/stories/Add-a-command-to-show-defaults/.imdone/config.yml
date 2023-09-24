@@ -17,7 +17,7 @@ code:
     - BACKLOG
 lists:
   - name: CURRENT
-    hidden: false
+    hidden: true
     ignore: false
     id: jea6phpllxpsj7m
   - name: TODO
