@@ -1,7 +1,6 @@
 keepEmptyPriority: true
 code:
   include_lists:
-    - NOTE
     - TODO
     - DOING
     - DONE
@@ -10,40 +9,47 @@ code:
     - ARCHIVE
     - HACK
     - CHANGED
-    - CURRENT
     - XXX
     - IDEA
     - NOTE
     - REVIEW
+    - CURRENT
     - BACKLOG
 lists:
   - name: BACKLOG
-    hidden: false
+    hidden: true
+    ignore: false
     id: jea67colm3nm22s
-  - hidden: false
-    name: CURRENT
-    id: jea6phpllxpsj7m
-  - hidden: false
-    name: TODO
+  - name: CURRENT
+    hidden: false
+    ignore: false
+    id: jea6n0olmh5lhcn
+  - name: TODO
+    hidden: true
+    ignore: false
     id: jea6phpllxpsj7j
-  - hidden: false
-    name: DOING
+  - name: DOING
+    hidden: false
+    ignore: false
     id: jea6phpllxpsj7k
-  - hidden: false
-    name: DONE
+  - name: DONE
+    hidden: false
+    ignore: false
     id: jea6phpllxpsj7l
 settings:
   openIn: default
   customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
-  journalPath: .
+  journalPath: stories
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
   plugins:
     devMode: false
-  journalTemplate: null
+    CliBacklogPlugin:
+      projectType: BACKLOG_PROJECT
+  journalTemplate: ''
   theme: dark
   views: []
   name: backlog
@@ -51,7 +57,11 @@ settings:
     colors: []
     template: |
 
-      <!-- created:${(new Date()).toISOString()} task-id:${sid} -->
+      <!--
+        #story
+        created:${(new Date()).toISOString()}
+        task-id:${sid}
+      -->
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: false

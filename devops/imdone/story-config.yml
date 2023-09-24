@@ -13,25 +13,24 @@ code:
     - IDEA
     - NOTE
     - REVIEW
+    - CURRENT
     - BACKLOG
 lists:
-  - hidden: false
-    ignore: false
-    name: NOTE
-    id: jea6phpllxpsj7m
-  - name: BACKLOG
+  - name: CURRENT
     hidden: false
     ignore: false
-    id: jea67colm3nm22s
-  - hidden: false
-    name: TODO
-    id: jea6phpllxpsj7j
-  - hidden: false
-    name: DOING
-    id: jea6phpllxpsj7k
-  - hidden: false
+    id: jea6phpllxpsj7m
+  - name: TODO
+    hidden: false
     ignore: false
-    name: DONE
+    id: jea6phpllxpsj7j
+  - name: DOING
+    hidden: false
+    ignore: false
+    id: jea6phpllxpsj7k
+  - name: DONE
+    hidden: false
+    ignore: false
     id: jea6phpllxpsj7l
 settings:
   openIn: default
@@ -44,22 +43,28 @@ settings:
   replaceSpacesWith: '-'
   plugins:
     devMode: false
+    CliBacklogPlugin:
+      projectType: STORY_PROJECT
   journalTemplate: null
   theme: dark
   views: []
-  name: stories
+  name: Add-a-command-to-show-defaults
   cards:
     colors: []
     template: |
 
-      <!-- created:${(new Date()).toISOString()} task-id:${sid} -->
+      <!-- 
+        #task
+        created:${(new Date()).toISOString()}
+        task-id:${sid}
+      -->
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: false
     addCheckBoxTasks: false
     doneList: DONE
     taskPrefix: '##'
-    tagPrefix: +
+    tagPrefix: '#'
     metaSep: ':'
     orderMeta: true
     maxLines: 6

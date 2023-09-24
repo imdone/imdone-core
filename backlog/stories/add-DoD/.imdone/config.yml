@@ -43,6 +43,8 @@ settings:
   replaceSpacesWith: '-'
   plugins:
     devMode: false
+    CliBacklogPlugin:
+      projectType: STORY_PROJECT
   journalTemplate: null
   theme: dark
   views: []
@@ -51,7 +53,11 @@ settings:
     colors: []
     template: |
 
-      <!-- created:${(new Date()).toISOString()} task-id:${sid} -->
+      <!-- 
+        #task
+        created:${(new Date()).toISOString()}
+        task-id:${sid}
+      -->
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: false

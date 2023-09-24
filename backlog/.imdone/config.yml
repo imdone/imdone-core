@@ -25,7 +25,7 @@ lists:
     ignore: false
     id: jea6n0olmh5lhcn
   - name: TODO
-    hidden: false
+    hidden: true
     ignore: false
     id: jea6phpllxpsj7j
   - name: DOING
@@ -47,7 +47,9 @@ settings:
   replaceSpacesWith: '-'
   plugins:
     devMode: false
-  journalTemplate: null
+    CliBacklogPlugin:
+      projectType: BACKLOG_PROJECT
+  journalTemplate: ''
   theme: dark
   views: []
   name: backlog
@@ -55,7 +57,11 @@ settings:
     colors: []
     template: |
 
-      <!-- created:${(new Date()).toISOString()} task-id:${sid} -->
+      <!--
+        #story
+        created:${(new Date()).toISOString()}
+        task-id:${sid}
+      -->
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: false
