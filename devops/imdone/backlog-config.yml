@@ -13,53 +13,62 @@ code:
     - IDEA
     - NOTE
     - REVIEW
+    - CURRENT
     - BACKLOG
 lists:
-  - hidden: false
-    ignore: false
-    name: NOTE
-    id: jea6phpllxpsj7m
   - name: BACKLOG
-    hidden: false
+    hidden: true
     ignore: false
     id: jea67colm3nm22s
-  - hidden: false
-    name: TODO
-    id: jea6phpllxpsj7j
-  - hidden: false
-    name: DOING
-    id: jea6phpllxpsj7k
-  - hidden: false
+  - name: CURRENT
+    hidden: false
     ignore: false
-    name: DONE
+    id: jea6n0olmh5lhcn
+  - name: TODO
+    hidden: true
+    ignore: false
+    id: jea6phpllxpsj7j
+  - name: DOING
+    hidden: false
+    ignore: false
+    id: jea6phpllxpsj7k
+  - name: DONE
+    hidden: false
+    ignore: false
     id: jea6phpllxpsj7l
 settings:
   openIn: default
   customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
-  journalPath: tasks
+  journalPath: stories
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
   plugins:
     devMode: false
-  journalTemplate: null
+    CliBacklogPlugin:
+      projectType: BACKLOG_PROJECT
+  journalTemplate: ''
   theme: dark
   views: []
-  name: stories
+  name: backlog
   cards:
     colors: []
     template: |
 
-      <!-- created:${(new Date()).toISOString()} task-id:${sid} -->
+      <!--
+        #story
+        created:${(new Date()).toISOString()}
+        task-id:${sid}
+      -->
     trackChanges: false
     metaNewLine: false
     addCompletedMeta: false
     addCheckBoxTasks: false
     doneList: DONE
     taskPrefix: '##'
-    tagPrefix: +
+    tagPrefix: '#'
     metaSep: ':'
     orderMeta: true
     maxLines: 6
