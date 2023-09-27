@@ -17,15 +17,11 @@ code:
     - BACKLOG
 lists:
   - name: BACKLOG
-    hidden: true
-    ignore: false
-    id: jea67colm3nm22s
-  - name: CURRENT
     hidden: false
     ignore: false
-    id: jea6n0olmh5lhcn
+    id: jea67colm3nm22s
   - name: TODO
-    hidden: true
+    hidden: false
     ignore: false
     id: jea6phpllxpsj7j
   - name: DOING
@@ -58,12 +54,12 @@ settings:
     template: |
 
       <!--
-        #story
-        created:${(new Date()).toISOString()}
-        task-id:${sid}
+      #story
+      created:${(new Date()).toISOString()}
+      task-id:${sid}
       -->
     trackChanges: false
-    metaNewLine: false
+    metaNewLine: true
     addCompletedMeta: false
     addCheckBoxTasks: false
     doneList: DONE
@@ -74,3 +70,4 @@ settings:
     maxLines: 6
     addNewCardsToTop: true
     defaultList: TODO
+  defaultFilter: allTags = "story"
