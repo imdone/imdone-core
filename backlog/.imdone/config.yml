@@ -49,6 +49,7 @@ settings:
   theme: dark
   views: []
   name: backlog
+  defaultFilter: ''
   cards:
     colors: []
     template: |
@@ -70,4 +71,3 @@ settings:
     maxLines: 6
     addNewCardsToTop: true
     defaultList: TODO
-  defaultFilter: allTags = "story"

@@ -68,3 +68,4 @@ settings:
     maxLines: 6
     addNewCardsToTop: true
     defaultList: TODO
+  defaultFilter: allTags = "task"
