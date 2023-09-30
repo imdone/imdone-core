@@ -21,7 +21,7 @@ lists:
     ignore: false
     id: jea67colm3nm22s
   - name: TODO
-    hidden: true
+    hidden: false
     ignore: false
     id: jea6phpllxpsj7j
   - name: DOING
