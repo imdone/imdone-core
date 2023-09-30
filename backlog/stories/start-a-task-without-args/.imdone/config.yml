@@ -45,6 +45,7 @@ settings:
   theme: dark
   views: []
   name: start-a-task-without-args
+  defaultFilter: allTags = "task"
   cards:
     colors: []
     template: |
