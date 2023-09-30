@@ -49,6 +49,7 @@ settings:
   theme: dark
   views: []
   name: Add-a-command-to-show-defaults
+  defaultFilter: allTags = "task"
   cards:
     colors: []
     template: |

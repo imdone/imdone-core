@@ -1,6 +1,8 @@
-## #CURRENT Add definition of done
-<!-- #story  -->
-<!-- 
-  #task
-  created:2023-09-24T16:51:04.937Z
-  task-id:xA3fW order:0 story-id:add-DoD -->
+## #TODO add-DoD
+Add definition of done
+<!--
+#story
+created:2023-09-29T04:11:55.166Z
+task-id:3wPv7
+story-id:add-DoD order:0
+-->

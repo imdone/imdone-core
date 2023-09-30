@@ -16,10 +16,6 @@ code:
     - CURRENT
     - BACKLOG
 lists:
-  - name: CURRENT
-    hidden: false
-    ignore: false
-    id: jea6phpllxpsj7m
   - name: TODO
     hidden: false
     ignore: false
@@ -49,17 +45,20 @@ settings:
   theme: dark
   views: []
   name: add-DoD
+  defaultFilter: allTags = "task"
   cards:
     colors: []
     template: |
 
       <!-- 
-        #task
-        created:${(new Date()).toISOString()}
-        task-id:${sid}
+      #task
+      created:${(new Date()).toISOString()}
+      group:"${ungroupedTasks}"
+      story-id:${projectName}
+      task-id:${sid}
       -->
     trackChanges: false
-    metaNewLine: false
+    metaNewLine: true
     addCompletedMeta: false
     addCheckBoxTasks: false
     doneList: DONE

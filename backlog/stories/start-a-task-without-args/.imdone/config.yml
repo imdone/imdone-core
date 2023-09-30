@@ -44,8 +44,7 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: Add-a-command-to-show-defaults
-  defaultFilter: allTags = "task"
+  name: start-a-task-without-args
   cards:
     colors: []
     template: |
