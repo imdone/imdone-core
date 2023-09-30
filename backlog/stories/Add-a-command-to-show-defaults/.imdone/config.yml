@@ -49,6 +49,7 @@ settings:
   theme: dark
   views: []
   name: Add-a-command-to-show-defaults
+  defaultFilter: allTags = "task"
   cards:
     colors: []
     template: |
@@ -72,4 +73,3 @@ settings:
     maxLines: 6
     addNewCardsToTop: true
     defaultList: TODO
-  defaultFilter: allTags = "task"
