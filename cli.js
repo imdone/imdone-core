@@ -56,11 +56,11 @@ program
 })
 
 program
-.command('start <task-id>')
+.command('start [task-id]')
 .description('start a task by id')
 .action(async function () {
   spinner.start()
-  const taskId = this.args[0]
+  const taskId = this.args.length > 0 ? this.args[0]: null
   await startTask(taskId, log)
   spinner.stop()
 })
