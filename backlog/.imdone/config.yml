@@ -48,7 +48,7 @@ settings:
   journalTemplate: ''
   theme: dark
   views: []
-  name: backlog
+  name: imdone-core backlog
   defaultFilter: allTags = "story"
   cards:
     colors: []
