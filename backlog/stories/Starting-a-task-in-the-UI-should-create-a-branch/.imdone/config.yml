@@ -16,10 +16,6 @@ code:
     - CURRENT
     - BACKLOG
 lists:
-  - name: BACKLOG
-    hidden: true
-    ignore: false
-    id: jea67colm3nm22s
   - name: TODO
     hidden: false
     ignore: false
@@ -37,25 +33,28 @@ settings:
   customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
-  journalPath: stories
+  journalPath: tasks
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
   plugins:
     devMode: false
     CliBacklogPlugin:
-      projectType: BACKLOG_PROJECT
-  journalTemplate: ''
+      projectType: STORY_PROJECT
+  journalTemplate: null
   theme: dark
   views: []
-  name: backlog
+  name: stories tasks
+  defaultFilter: allTags = "task"
   cards:
     colors: []
     template: |
 
-      <!--
-      #story
+      <!-- 
+      #task
       created:${(new Date()).toISOString()}
+      group:"${ungroupedTasks}"
+      story-id:${projectName}
       task-id:${sid}
       -->
     trackChanges: false
@@ -70,4 +69,3 @@ settings:
     maxLines: 6
     addNewCardsToTop: true
     defaultList: TODO
-  defaultFilter: allTags = "story"
