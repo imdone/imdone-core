@@ -4,4 +4,4 @@
   created:2023-09-28T02:10:15.349Z
   group:"Ungrouped Tasks"
   story-id:Add-a-command-to-show-defaults
-  task-id:QcnMq order:-20 -->
+  task-id:QcnMq order:-20 completed:2023-10-01T17:34:03.844Z -->
