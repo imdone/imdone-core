@@ -16,10 +16,6 @@ code:
     - CURRENT
     - BACKLOG
 lists:
-  - name: CURRENT
-    hidden: true
-    ignore: false
-    id: jea6phpllxpsj7m
   - name: TODO
     hidden: false
     ignore: false
@@ -34,6 +30,7 @@ lists:
     id: jea6phpllxpsj7l
 settings:
   openIn: default
+  customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
   journalPath: tasks
@@ -47,21 +44,21 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: Add-a-command-to-show-defaults
+  name: stories tasks
   defaultFilter: allTags = "task"
   cards:
     colors: []
     template: |
 
       <!-- 
-        #task
-        created:${(new Date()).toISOString()}
-        group:"${ungroupedTasks}"
-        story-id:${projectName}
-        task-id:${sid}
+      #task
+      created:${(new Date()).toISOString()}
+      group:"${ungroupedTasks}"
+      story-id:${projectName}
+      task-id:${sid}
       -->
     trackChanges: false
-    metaNewLine: false
+    metaNewLine: true
     addCompletedMeta: true
     addCheckBoxTasks: false
     doneList: DONE
