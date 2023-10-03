@@ -8,7 +8,8 @@ const {
   startTask,
   addTask, 
   listTasks ,
-  completeTask
+  completeTask,
+  showCurrentTask
 } = require('./lib/cli/CliControler')
 const package = require('./package.json')
 
@@ -20,7 +21,6 @@ setTimeout(() => {
 	spinner.text = 'Loading rainbows';
 }, 1000);
 
-const DEFAULTS_OPTION = ['-d, --defaults', 'Use defaults in ~/.imdone/session.json for all prompts']
 const STORY_OPTION = ['-s, --story-id <story-id>', 'The story to add this task to'] 
 program
 .version(package.version, '-v, --version', 'output the current version')
@@ -56,6 +56,15 @@ program
 })
 
 program
+.command('task')
+.description('Show the current task')
+.action(async function () {
+  spinner.start()
+  await showCurrentTask(log)
+  spinner.stop()
+})
+
+program
 .command('start [task-id]')
 .description('start a task by id')
 .action(async function () {
@@ -79,10 +88,9 @@ program
 .description('add a task')
 .option(...STORY_OPTION)
 .option('-g, --group <group>', 'The group to add this task to')
-.option(...DEFAULTS_OPTION)
 .action(async function () {
-  let { storyId, group, defaults } = this.opts()
-  await addTask({content: this.args[0], storyId, group, defaults, log})
+  let { storyId, group } = this.opts()
+  await addTask({content: this.args[0], storyId, group, log})
 })
 
 program
@@ -91,10 +99,9 @@ program
 .option(...STORY_OPTION)
 .option('-f, --filter <filter>', 'The filter to use')
 .option('-j, --json', 'Output as json')
-.option(...DEFAULTS_OPTION)
 .action(async function () {
-  let {storyId, filter, json, defaults } = this.opts()
-  await listTasks({storyId, filter, json, defaults, log})
+  let {storyId, filter, json } = this.opts()
+  await listTasks({storyId, filter, json, log})
 })
 program.parse();
 
