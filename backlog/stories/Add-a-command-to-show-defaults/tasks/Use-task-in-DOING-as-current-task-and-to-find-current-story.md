@@ -2,7 +2,7 @@
 - [ ] Eliminate session file
 - [ ] Store branch in metadata
 <!-- 
-  #task
+  #task #now
   created:2023-10-01T04:14:09.085Z
   group:"Ungrouped Tasks"
   story-id:Add-a-command-to-show-defaults

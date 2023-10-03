@@ -34,6 +34,7 @@ lists:
     id: jea6phpllxpsj7l
 settings:
   openIn: default
+  customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
   journalPath: tasks
@@ -47,7 +48,7 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: Add-a-command-to-show-defaults
+  name: Add-a-command-to-show-defaults tasks
   defaultFilter: allTags = "task"
   cards:
     colors: []
