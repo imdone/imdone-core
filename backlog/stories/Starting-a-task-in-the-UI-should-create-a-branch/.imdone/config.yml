@@ -44,7 +44,7 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: stories tasks
+  name: Starting-a-task-in-the-UI-should-create-a-branch tasks
   defaultFilter: allTags = "task"
   cards:
     colors: []

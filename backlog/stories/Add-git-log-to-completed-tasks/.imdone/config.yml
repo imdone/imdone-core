@@ -30,7 +30,6 @@ lists:
     id: jea6phpllxpsj7l
 settings:
   openIn: default
-  customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
   journalPath: tasks
@@ -44,7 +43,7 @@ settings:
   journalTemplate: null
   theme: dark
   views: []
-  name: stories tasks
+  name: Add-git-log-to-completed-tasks tasks
   defaultFilter: allTags = "task"
   cards:
     colors: []

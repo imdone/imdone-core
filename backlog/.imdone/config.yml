@@ -61,7 +61,7 @@ settings:
       -->
     trackChanges: false
     metaNewLine: true
-    addCompletedMeta: false
+    addCompletedMeta: true
     addCheckBoxTasks: false
     doneList: DONE
     taskPrefix: '##'
