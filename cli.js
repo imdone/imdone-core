@@ -2,6 +2,7 @@
 
 const { program } = require('commander');
 const ora = require('ora')
+const chalk = require('chalk')
 const { 
   imdoneInit, 
   importMarkdown,
@@ -20,6 +21,10 @@ setTimeout(() => {
 	spinner.color = 'yellow';
 	spinner.text = 'Loading rainbows';
 }, 1000);
+
+function actionCancelled() {
+  log(chalk.bgRed('Action canceled'))
+}
 
 const STORY_OPTION = ['-s, --story-id <story-id>', 'The story to add this task to'] 
 program
@@ -59,28 +64,30 @@ program
 .command('task')
 .description('Show the current task')
 .action(async function () {
-  spinner.start()
   await showCurrentTask(log)
-  spinner.stop()
 })
 
 program
 .command('start [task-id]')
 .description('start a task by id')
 .action(async function () {
-  spinner.start()
   const taskId = this.args.length > 0 ? this.args[0]: null
-  await startTask(taskId, log)
-  spinner.stop()
+  try {
+    await startTask(taskId, log)
+  } catch (e) {
+    actionCancelled()
+  }
 })
 
 program
 .command('done')
 .description('Mark the current task as done')
 .action(async function () {
-  spinner.start()
-  await completeTask(log)
-  spinner.stop()
+  try {
+    await completeTask(log)
+  } catch (e) {
+    actionCancelled()
+  }
 })
 
 program
@@ -90,7 +97,11 @@ program
 .option('-g, --group <group>', 'The group to add this task to')
 .action(async function () {
   let { storyId, group } = this.opts()
-  await addTask({content: this.args[0], storyId, group, log})
+  try {
+    await addTask({content: this.args[0], storyId, group, log})
+  } catch (e) {
+    actionCancelled()
+  }
 })
 
 program
@@ -101,7 +112,11 @@ program
 .option('-j, --json', 'Output as json')
 .action(async function () {
   let {storyId, filter, json } = this.opts()
-  await listTasks({storyId, filter, json, log})
+  try {
+    await listTasks({storyId, filter, json, log})
+  } catch (e) {
+    actionCancelled()
+  }
 })
 program.parse();
 
