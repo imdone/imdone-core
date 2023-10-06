@@ -10,7 +10,8 @@ const {
   addTask, 
   listTasks ,
   completeTask,
-  showCurrentTask
+  showCurrentTask,
+  openBacklog
 } = require('./lib/cli/CliControler')
 const package = require('./package.json')
 
@@ -58,6 +59,15 @@ program
     await importMarkdown(markdown, log)
     spinner.stop()
   });
+})
+
+program
+.command('open')
+.description('open backlog in imdone')
+.action(async function () {
+  spinner.start()
+  await openBacklog(log)
+  spinner.stop()
 })
 
 program
