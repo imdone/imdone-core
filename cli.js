@@ -85,6 +85,7 @@ program
   try {
     await startTask(taskId, log)
   } catch (e) {
+    console.error(e)
     actionCancelled()
   }
 })
