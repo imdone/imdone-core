@@ -11,7 +11,8 @@ const {
   listTasks ,
   completeTask,
   showCurrentTask,
-  openBoard
+  openBoard,
+  openTaskFile
 } = require('./lib/cli/CliControler')
 const package = require('./package.json')
 
@@ -62,8 +63,17 @@ program
 })
 
 program
+.command('open')
+.description('open the current or selected task in the default markdown editor')
+.action(async function () {
+  spinner.start()
+  await openTaskFile(log)
+  spinner.stop()
+})
+
+program
 .command('board')
-.description('open the current or selected task in imdone')
+.description('open the current task in imdone')
 .action(async function () {
   spinner.start()
   await openBoard(log)
@@ -85,6 +95,7 @@ program
   try {
     await startTask(taskId, log)
   } catch (e) {
+    console.error(e)
     actionCancelled()
   }
 })
