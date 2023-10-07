@@ -11,7 +11,7 @@ const {
   listTasks ,
   completeTask,
   showCurrentTask,
-  openBacklog
+  openBoard
 } = require('./lib/cli/CliControler')
 const package = require('./package.json')
 
@@ -62,11 +62,11 @@ program
 })
 
 program
-.command('open')
-.description('open backlog in imdone')
+.command('board')
+.description('open the current or selected task in imdone')
 .action(async function () {
   spinner.start()
-  await openBacklog(log)
+  await openBoard(log)
   spinner.stop()
 })
 
