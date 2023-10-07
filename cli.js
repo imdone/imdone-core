@@ -10,7 +10,8 @@ const {
   addTask, 
   listTasks ,
   completeTask,
-  showCurrentTask
+  showCurrentTask,
+  openBoard
 } = require('./lib/cli/CliControler')
 const package = require('./package.json')
 
@@ -58,6 +59,15 @@ program
     await importMarkdown(markdown, log)
     spinner.stop()
   });
+})
+
+program
+.command('board')
+.description('open the current or selected task in imdone')
+.action(async function () {
+  spinner.start()
+  await openBoard(log)
+  spinner.stop()
 })
 
 program
