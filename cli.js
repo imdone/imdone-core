@@ -66,9 +66,7 @@ program
 .command('open')
 .description('open the current or selected task in the default markdown editor')
 .action(async function () {
-  spinner.start()
   await openTaskFile(log)
-  spinner.stop()
 })
 
 program
