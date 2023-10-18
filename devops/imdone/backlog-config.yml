@@ -45,6 +45,35 @@ settings:
     devMode: false
     CliBacklogPlugin:
       projectType: BACKLOG_PROJECT
+      storyTemplate: |
+        # Story id
+
+        As a <role>, I want <feature>, so that <benefit>.
+
+        ## Acceptance Criteria
+
+        - [ ] Criteria 1
+        - [ ] Criteria 2
+
+        ## Tasks
+
+        ### Phase One Tasks
+
+        - [ ] Task 1
+
+        ### DoD
+
+        - [ ] Acceptance criteria are met
+        - [ ] Refactoring is complete
+        - [ ] Code builds with no error
+        - [ ] Unit tests are written and pass
+        - [ ] Existing Unit Tests pass
+        - [ ] Sufficient diagnostics/telemetry are logged
+        - [ ] Code review is complete
+        - [ ] UX review is complete (if applicable)
+        - [ ] Documentation is updated
+        - [ ] The feature is merged into the develop branch
+        - [ ] The feature is signed off by the product owner
   journalTemplate: ''
   theme: dark
   views: []
