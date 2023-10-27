@@ -1,5 +1,13 @@
-## #DOING Plan a story
+# #DOING Plan a story
+<card>
+
 As a developer I would like to plan a story and make it visible by adding tasks to a story markdown in my repo
+
+## Tasks
+- [ ] Should be able to do this from a card with tasks
+  - [ ] `task.text` is storyId if `story-id` meta is not set
+  - [ ] First paragraph is story content
+  - [ ] Process tasks in the same way as command line
 - [x] Set default branch (Ask on init)
 - [x] Set working remote (Ask on init)
 - [x] Rename `import` to `plan`
@@ -25,6 +33,7 @@ created:2023-10-08T15:06:13.331Z
 task-id:BSgB3
 story-id:Plan-a-story order:0
 -->
+</card>
 
 ## Plan a story
 ```mermaid
@@ -57,10 +66,13 @@ gitGraph
 ## Plan a story flow
 ```mermaid
 flowchart
-  start((Plan a story))
+  start((Plan a story CLI))
     --> askForStoryId(Prompt for storyId)
     --> changesExist{Are there local changes?}
   
+  startUI((Plan a story UI))
+    --> changesExist{Are there local changes?}
+
   checkoutDefaultBranch(Checkout default branch)
     --> fetch(Fetch --all)
     --> pullDefaultBranch(Pull default branch with force)
@@ -69,7 +81,7 @@ flowchart
   mergeDefaultBranch(Merge default branch)
     --> createStoryProject(Create story project)
     --> moveStoryToDOING(Move story to DOING)
-    --> promptForStoryTasks(Prompt for story tasks)
+    --> promptForStoryTasks(Prompt for story tasks 'CLI only')
     --> addTaskFilesToStory(Add task and DoD files to story)
     --> addTasksAndDoDToReadme(Add imdone tasks and DoD in story project \n to `tasks/README.md` reporting file)
     --> commitAndPushStoryBranch(Commit and push story branch with force)
@@ -91,4 +103,39 @@ flowchart
     -- no -->
       createAndCheckoutStoryBranch(Create and checkout story branch)
       --> mergeDefaultBranch
+```
+
+## Convert a card with tasks to a story with tasks
+
+- `task.text` becomes story title
+  - if `story-id` meta is not set, the `task.text` is used as `story-id`
+- First paragraph is story content
+- Process tasks in the same way as command line
+- Regenerate tasks from files in `tasks` every time one changes
+- disable check in UI
+
+```markdown
+This is the story title
+
+This is the story description
+
+## Tasks
+
+- [ ] Ungrouped task a
+- [ ] Ungrouped task b
+- [ ] Ungrouped task c
+
+### Group 1
+
+- [ ] Group 1 task a
+- [ ] Group 1 task b
+- [ ] Group 1 task c
+
+### Group 2
+
+- [ ] Group 2 task a
+- [ ] Group 2 task b
+- [ ] Group 2 task c
+
+<!-- use title as story-id if it's falsy -->
 ```
