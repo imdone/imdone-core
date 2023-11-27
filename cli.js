@@ -5,7 +5,7 @@ const ora = require('ora')
 const chalk = require('chalk')
 const { 
   imdoneInit, 
-  importMarkdown,
+  planStory,
   startTask,
   addTask, 
   listTasks ,
@@ -34,21 +34,20 @@ program
 .command('init')
 .description('initialize backlog')
 .action(async function () {
-  spinner.start()
   await imdoneInit()
-  spinner.stop()
 })
 
 program
-.command('import')
-.description('import markdown from STDIN')
+.command('plan')
+.description('Plan a story with tasks and DoD')
 .action(async function () {
-  spinner.start()
-  const isTTY = process.stdin.isTTY;
-  const stdin = process.stdin;
-  if (isTTY) return console.error('Markdown must be provided as stdin')
+  let markdown
+  if (process.stdin.isTTY) return (await planStory(markdown, log))
 
-  var markdown = '';
+  const stdin = process.stdin;
+  spinner.start()
+
+  markdown = ''
   
   stdin.on('readable', function() {
       var chunk = stdin.read();
@@ -57,7 +56,7 @@ program
       }
   });
   stdin.on('end', async function() {
-    await importMarkdown(markdown, log)
+    await planStory(markdown, log)
     spinner.stop()
   });
 })

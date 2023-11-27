@@ -30,7 +30,7 @@ lists:
     id: jea6phpllxpsj7k
   - name: DONE
     hidden: false
-    ignore: false
+    ignore: true
     id: jea6phpllxpsj7l
 settings:
   openIn: default
