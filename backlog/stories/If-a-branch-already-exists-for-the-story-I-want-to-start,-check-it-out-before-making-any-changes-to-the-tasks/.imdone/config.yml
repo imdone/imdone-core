@@ -43,6 +43,7 @@ settings:
       projectType: STORY_PROJECT
   journalTemplate: null
   theme: dark
+  markdownOnly: false
   views: []
   name: >-
     If-a-branch-already-exists-for-the-story-I-want-to-start,-check-it-out-before-making-any-changes-to-the-tasks

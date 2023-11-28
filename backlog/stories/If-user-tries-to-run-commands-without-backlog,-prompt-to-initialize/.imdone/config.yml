@@ -43,6 +43,7 @@ settings:
       projectType: STORY_PROJECT
   journalTemplate: null
   theme: dark
+  markdownOnly: false
   views: []
   name: 'If-user-tries-to-run-commands-without-backlog,-prompt-to-initialize tasks'
   defaultFilter: allTags = "task"

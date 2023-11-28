@@ -43,6 +43,7 @@ settings:
       projectType: STORY_PROJECT
   journalTemplate: null
   theme: dark
+  markdownOnly: false
   views: []
   name: Plan-a-story tasks
   defaultFilter: allTags = "task"

@@ -47,6 +47,7 @@ settings:
       projectType: STORY_PROJECT
   journalTemplate: null
   theme: dark
+  markdownOnly: false
   views: []
   name: Add-a-command-to-show-defaults tasks
   defaultFilter: allTags = "task"
