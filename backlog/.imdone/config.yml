@@ -34,7 +34,6 @@ lists:
     id: jea6phpllxpsj7l
 settings:
   openIn: default
-  customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
   journalPath: stories
@@ -48,6 +47,7 @@ settings:
   journalTemplate: ''
   theme: dark
   markdownOnly: false
+  customOpenIn: ''
   views: []
   name: imdone-core backlog
   defaultFilter: allTags = "story"

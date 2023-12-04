@@ -43,6 +43,7 @@ settings:
       projectType: STORY_PROJECT
   journalTemplate: null
   theme: dark
+  markdownOnly: false
   views: []
   name: >-
     Move-all-stories-in-DONE-from-`backlogstories`-to-`backlogcompleted`-from-the-cli
