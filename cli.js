@@ -35,7 +35,13 @@ program
 .command('init')
 .description('initialize backlog')
 .action(async function () {
-  await imdoneInit()
+  try {
+    await imdoneInit()
+  } catch (e) {
+    log(chalk.yellowBright(e.message))
+  } finally {
+    process.exit(0)
+  }
 })
 
 program
