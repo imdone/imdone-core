@@ -30,7 +30,6 @@ lists:
     id: jea6phpllxpsj7l
 settings:
   openIn: default
-  customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
   journalPath: tasks
@@ -44,6 +43,7 @@ settings:
   journalTemplate: null
   theme: dark
   markdownOnly: false
+  customOpenIn: ''
   views: []
   name: add-DoD
   defaultFilter: allTags = "task"
