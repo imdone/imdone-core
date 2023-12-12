@@ -2,6 +2,8 @@
 
 var crypto = require('crypto');
 
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
 function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 }
@@ -9,6 +11,15 @@ function getDefaultExportFromCjs (x) {
 var plugin = {exports: {}};
 
 (function (module, exports) {
+var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Plugin = void 0;
 class Plugin {
@@ -17,6 +28,13 @@ class Plugin {
         this.unimplWarning = {};
     }
     destroy() { }
+    onBeforeAddTask(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.unimplemented('onBeforeAddTask()');
+            const { path, list, content, meta, tags, contexts } = request;
+            return { path, content, meta, tags, contexts };
+        });
+    }
     onBeforeBoardUpdate() {
         this.unimplemented('onBeforeBoardUpdate()');
     }
@@ -25,6 +43,9 @@ class Plugin {
     }
     onTaskUpdate(task) {
         this.unimplemented('onTaskUpdate(task: Task)');
+    }
+    onAfterDeleteTask(task) {
+        this.unimplemented('onAfterDeleteTask(task: Task)');
     }
     getCardProperties(task) {
         this.unimplemented('getCardProperties(task: Task)');
@@ -93,7 +114,7 @@ class CardLinkPlugin extends Plugin {
     const project = this.project;
     const actions = [
       {
-        title: 'Copy task markdown link to clipboard',
+        title: 'Copy card markdown link to clipboard',
         action: () => {
           let sid = task.meta.sid && task.meta.sid[0];
           if (!sid) {
@@ -104,7 +125,7 @@ class CardLinkPlugin extends Plugin {
           const link = `[${task.text}](${url})`;
           return project.copyToClipboard(
             link,
-            `Task markdown link copied to clipboard`
+            `Card markdown link copied to clipboard`
           )
         },
         icon: 'clone',

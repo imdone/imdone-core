@@ -41,11 +41,16 @@ settings:
   newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
   plugins:
-    devMode: true
     CliBacklogPlugin:
       projectType: BACKLOG_PROJECT
       defaultBranch: master
       remote: origin
+    HeaderFooterPlugin: {}
+    SamplePlugin:
+      tags:
+        - name: important
+      meta: []
+    devMode: true
   journalTemplate: ''
   theme: dark
   markdownOnly: false
