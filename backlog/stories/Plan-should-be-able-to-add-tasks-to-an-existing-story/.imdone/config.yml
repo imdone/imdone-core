@@ -40,12 +40,14 @@ settings:
     devMode: false
     CliBacklogPlugin:
       projectType: STORY_PROJECT
+      defaultBranch: !<tag:yaml.org,2002:js/undefined> ''
+      remote: !<tag:yaml.org,2002:js/undefined> ''
   journalTemplate: null
   theme: dark
   markdownOnly: false
   customOpenIn: ''
   views: []
-  name: add-DoD
+  name: Plan-should-be-able-to-add-tasks-to-an-existing-story tasks
   defaultFilter: allTags = "task"
   cards:
     colors: []

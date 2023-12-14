@@ -3,6 +3,7 @@
 const { program } = require('commander');
 const ora = require('ora')
 const chalk = require('chalk')
+const { ChangesExistError } = require('./lib/cli/adapters/Errors')
 const { 
   imdoneInit, 
   planStory,
@@ -34,7 +35,13 @@ program
 .command('init')
 .description('initialize backlog')
 .action(async function () {
-  await imdoneInit()
+  try {
+    await imdoneInit()
+  } catch (e) {
+    log(chalk.yellowBright(e.message))
+  } finally {
+    process.exit(0)
+  }
 })
 
 program
@@ -42,23 +49,28 @@ program
 .description('Plan a story with tasks and DoD')
 .action(async function () {
   let markdown
-  if (process.stdin.isTTY) return (await planStory(markdown, log))
+  if (process.stdin.isTTY) {
+    await planAStory(markdown, log)
+    process.exit(0)
+  } else {
 
-  const stdin = process.stdin;
-  spinner.start()
+    const stdin = process.stdin;
+    spinner.start()
 
-  markdown = ''
-  
-  stdin.on('readable', function() {
-      var chunk = stdin.read();
-      if(chunk !== null){
-          markdown += chunk;
-      }
-  });
-  stdin.on('end', async function() {
-    await planStory(markdown, log)
-    spinner.stop()
-  });
+    markdown = ''
+    
+    stdin.on('readable', function() {
+        var chunk = stdin.read();
+        if(chunk !== null){
+            markdown += chunk;
+        }
+    });
+    stdin.on('end', async function() {
+      await planAStory(markdown, log)
+      spinner.stop()
+      process.exit(0)
+    });
+  }
 })
 
 program
@@ -72,16 +84,26 @@ program
 .command('board')
 .description('open the current task in imdone')
 .action(async function () {
-  spinner.start()
-  await openBoard(log)
-  spinner.stop()
+  try {
+    spinner.start()
+    await openBoard(log)
+    spinner.stop()  
+  } catch (e) {
+    log(chalk.yellowBright(e.message))
+  } finally {
+    process.exit(0)
+  }
 })
 
 program
 .command('task')
 .description('Show the current task')
 .action(async function () {
-  await showCurrentTask(log)
+  try {
+    await showCurrentTask(log)
+  } finally {
+    process.exit(0)
+  }
 })
 
 program
@@ -92,8 +114,13 @@ program
   try {
     await startTask(taskId, log)
   } catch (e) {
-    console.error(e)
-    actionCancelled()
+    if (e instanceof ChangesExistError) {
+      log(chalk.yellowBright(e.message))
+    } else {
+      actionCancelled()
+    }
+  } finally {
+    process.exit(0)
   }
 })
 
@@ -105,6 +132,8 @@ program
     await completeTask(log)
   } catch (e) {
     actionCancelled()
+  } finally {
+    process.exit(0)
   }
 })
 
@@ -119,6 +148,8 @@ program
     await addTask({content: this.args[0], storyId, group, log})
   } catch (e) {
     actionCancelled()
+  } finally {
+    process.exit(0)
   }
 })
 
@@ -134,6 +165,8 @@ program
     await listTasks({storyId, filter, json, log})
   } catch (e) {
     actionCancelled()
+  } finally {
+    process.exit(0)
   }
 })
 program.parse();
@@ -149,4 +182,13 @@ function hideLogs() {
     }
   })
   return {log, info, warn, logQueue}
+}
+
+
+async function planAStory(markdown, log) {
+  try {
+    await planStory(markdown, log)
+  } catch (e) {
+    log(chalk.yellowBright(e.message))
+  }
 }

@@ -30,6 +30,7 @@ lists:
     id: jea6phpllxpsj7l
 settings:
   openIn: default
+  customOpenIn: ''
   editorTheme: blackboard
   journalType: New File
   journalPath: tasks
@@ -40,12 +41,12 @@ settings:
     devMode: false
     CliBacklogPlugin:
       projectType: STORY_PROJECT
+      defaultBranch: !<tag:yaml.org,2002:js/undefined> ''
+      remote: !<tag:yaml.org,2002:js/undefined> ''
   journalTemplate: null
   theme: dark
-  markdownOnly: false
-  customOpenIn: ''
   views: []
-  name: add-DoD
+  name: Test-all-commands tasks
   defaultFilter: allTags = "task"
   cards:
     colors: []
