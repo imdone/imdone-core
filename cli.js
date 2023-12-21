@@ -11,10 +11,12 @@ const {
   addTask, 
   listTasks ,
   completeTask,
-  showCurrentTask,
   openBoard,
   openTaskFile
 } = require('./lib/cli/CliControler')
+const {
+  STORY_ID
+} = require('./lib/cli/domain/BacklogProject').constants
 const package = require('./package.json')
 
 const { log } = hideLogs()
@@ -29,7 +31,9 @@ function actionCancelled() {
   log(chalk.bgRed('Action canceled'))
 }
 
-const STORY_OPTION = ['-s, --story-id <story-id>', 'The story to add this task to'] 
+const STORY_OPTION = `-s, --${STORY_ID} `
+const STORY_OPTION_OPTIONAL = `${STORY_OPTION}[${STORY_ID}]`
+const STORY_OPTION_REQUIRED = `${STORY_OPTION}<${STORY_ID}>`
 program
 .version(package.version, '-v, --version', 'output the current version')
 .command('init')
@@ -46,11 +50,13 @@ program
 
 program
 .command('plan')
+.option(STORY_OPTION_OPTIONAL, 'Update an existing story\'s tasks')
 .description('Plan a story with tasks and DoD')
 .action(async function () {
   let markdown
+  let { storyId } = this.opts()
   if (process.stdin.isTTY) {
-    await planAStory(markdown, log)
+    await planAStory(markdown, storyId, log)
     process.exit(0)
   } else {
 
@@ -66,7 +72,7 @@ program
         }
     });
     stdin.on('end', async function() {
-      await planAStory(markdown, log)
+      await planAStory(markdown, storyId, log)
       spinner.stop()
       process.exit(0)
     });
@@ -77,7 +83,13 @@ program
 .command('open')
 .description('open the current or selected task in the default markdown editor')
 .action(async function () {
-  await openTaskFile(log)
+  try {
+    await openTaskFile(log)
+  } catch (e) {
+    log(chalk.yellowBright(e.message))
+  } finally {
+    process.exit(0)
+  }
 })
 
 program
@@ -90,17 +102,6 @@ program
     spinner.stop()  
   } catch (e) {
     log(chalk.yellowBright(e.message))
-  } finally {
-    process.exit(0)
-  }
-})
-
-program
-.command('task')
-.description('Show the current task')
-.action(async function () {
-  try {
-    await showCurrentTask(log)
   } finally {
     process.exit(0)
   }
@@ -140,7 +141,7 @@ program
 program
 .command('add-task <task-content>')
 .description('add a task')
-.option(...STORY_OPTION)
+.option(STORY_OPTION_REQUIRED, 'The story to add this task to')
 .option('-g, --group <group>', 'The group to add this task to')
 .action(async function () {
   let { storyId, group } = this.opts()
@@ -156,7 +157,7 @@ program
 program
 .command('ls')
 .description('list tasks')
-.option(...STORY_OPTION)
+.option(STORY_OPTION_REQUIRED, 'The story to list tasks for')
 .option('-f, --filter <filter>', 'The filter to use')
 .option('-j, --json', 'Output as json')
 .action(async function () {
@@ -185,9 +186,9 @@ function hideLogs() {
 }
 
 
-async function planAStory(markdown, log) {
+async function planAStory(markdown, storyId, log) {
   try {
-    await planStory(markdown, log)
+    await planStory(markdown, storyId, log)
   } catch (e) {
     log(chalk.yellowBright(e.message))
   }
