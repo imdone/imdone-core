@@ -1,4 +1,4 @@
-# #DOING Plan a story
+# #DONE Plan a story
 <card>
 
 As a developer I would like to plan a story and make it visible by adding tasks to a story markdown in my repo
@@ -36,7 +36,8 @@ As a developer I would like to plan a story and make it visible by adding tasks 
 #story
 created:2023-10-08T15:06:13.331Z
 task-id:BSgB3
-story-id:Plan-a-story order:0
+story-id:Plan-a-story order:-270
+completed:2023-12-21T20:14:03.324Z
 -->
 </card>
 
