@@ -52,7 +52,6 @@ marked:
   langPrefix: language-
 settings:
   openIn: code
-  customOpenIn: ''
   editorTheme: blackboard
   journalType: Folder
   journalPath: notes
@@ -72,6 +71,8 @@ settings:
           value: Release 2.0
   journalTemplate: null
   theme: dark
+  markdownOnly: false
+  customOpenIn: ''
   filteredLists: []
   filterHistory:
     - allMeta.id = "4"
