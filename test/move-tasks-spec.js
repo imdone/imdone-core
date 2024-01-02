@@ -28,11 +28,12 @@ proj1
 function _beforeEach(done) {
     createDir(tmpDir)
 
+    const repoConfig = new Config({settings: {markdownOnly: false}})
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
     wrench.copyDirSyncRecursive(filesSrc, repoDir, { forceDelete: true })
-    repo = fsStore(new Repository(repoDir))
+    repo = fsStore(new Repository(repoDir, repoConfig))
     proj = new Project(repo)
-    repo1 = fsStore(new Repository(repo1Dir))
+    repo1 = fsStore(new Repository(repo1Dir, repoConfig))
     proj1 = new Project(repo1)
     done()
 }
@@ -196,6 +197,7 @@ describe('moveTasks', function () {
         const FILE_PATH = 'test.js'
         initProject({repo, config: {
             settings: {
+                markdownOnly: false,
                 cards: {
                     orderMeta: true,
                     defaultList: TODO

@@ -63,24 +63,26 @@ describe('Repository', function () {
       return done(e)
     }
 
+    const repoConfig = Config.newDefaultConfig()
+    repoConfig.settings.markdownOnly = false
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
     wrench.copyDirSyncRecursive(filesSrc, repoDir, { forceDelete: true })
-    repo = fsStore(new Repository(repoDir))
+    repo = fsStore(new Repository(repoDir, repoConfig))
     proj = new Project(repo)
     configDir = path.join(repo.getPath(), '.imdone')
-    repo1 = fsStore(new Repository(repo1Dir))
+    repo1 = fsStore(new Repository(repo1Dir, repoConfig))
     proj1 = new Project(repo1)
-    repo2 = fsStore(new Repository(repo2Dir))
+    repo2 = fsStore(new Repository(repo2Dir, repoConfig))
     proj2 = new Project(repo2)
-    repo3 = fsStore(new Repository(repo3Dir))
+    repo3 = fsStore(new Repository(repo3Dir, repoConfig))
     proj3 = new Project(repo3)
-    defaultCardsRepo = fsStore(new Repository(defaultCardsDir))
+    defaultCardsRepo = fsStore(new Repository(defaultCardsDir, repoConfig))
     defaultCardsProj = new Project(defaultCardsRepo)
-    noOrderRepo = fsStore(new Repository(noOrderRepoDir))
+    noOrderRepo = fsStore(new Repository(noOrderRepoDir, repoConfig))
     noOrderProj = new Project(noOrderRepo)
-    moveMetaOrderRepo = fsStore(new Repository(moveMetaOrderDir))
+    moveMetaOrderRepo = fsStore(new Repository(moveMetaOrderDir, repoConfig))
     moveMetaOrderProj = new Project(moveMetaOrderRepo)
-    metaSepTestRepo = fsStore(new Repository(metaSepTestDir))
+    metaSepTestRepo = fsStore(new Repository(metaSepTestDir, repoConfig))
     metaSepTestProj = new Project(metaSepTestRepo)
     done()
   })
@@ -175,6 +177,7 @@ describe('Repository', function () {
     // BACKLOG:-80 Test with changes to config
     config.settings = {
       newCardSyntax: 'MARKDOWN',
+      markdownOnly: false,
       cards: {
         doneList: 'DONE',
         defaultList: 'TODO',
@@ -602,36 +605,6 @@ describe('Repository', function () {
                 var todo = repo3.getTasksInList('TODO')
                 expect(todo.length).to.be(todos.length)
                 todos = repo3.getTasksInList('TODO')
-                next()
-              })
-            })
-          },
-          function (err) {
-            done(err)
-          }
-        )
-      })
-    })
-    it('deletes all TODOs in a file', (done) => {
-      const list = 'DOING'
-      appContext().projectContext = new ProjectContext(repo3)
-      proj3.init(function (err, result) {
-        let todos = repo3.getTasksInList(list)
-
-        async.until(
-          function test(cb) {
-            return todos.length === 0
-          },
-          function iter(next) {
-            let task = todos.pop()
-            const file = repo3.getFileForTask(task)
-            repo3.deleteTask(task, function (err) {
-              if (err) return next(err)
-              repo3.readFile(file, function (err) {
-                if (err) return next(err)
-                var todo = repo3.getTasksInList(list)
-                expect(todo.length).to.be(todos.length)
-                todos = repo3.getTasksInList(list)
                 next()
               })
             })

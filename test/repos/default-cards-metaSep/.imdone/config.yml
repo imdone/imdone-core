@@ -32,6 +32,7 @@ lists:
     id: 1
     name: Recently Completed
 settings:
+  markdownOnly: false
   addNewCardsToTop: true
   cards:
     colors: []
