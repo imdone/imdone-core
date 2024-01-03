@@ -12,7 +12,8 @@
     "lint": "jshint ./lib",
     "mocha": "mocha --exit",
     "test": "export NODE_ENV=test && npm run coverage",
-    "test-debug": "mocha debug"
+    "test-debug": "mocha debug",
+    "serve": "npx docsify-cli serve"
   },
   "repository": {
     "type": "git",
