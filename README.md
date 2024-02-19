@@ -70,12 +70,11 @@ Take a look at the source of this README.md.  You'll probably find a few tasks i
 ### Task syntax
 - Code style tasks will only be detected if the list name matches a string in the `code.include_lists` attribute in `.imdone/config.yml` and the file extension exists in lib/languages.js.
 - List names in code style tasks must match this regular expression ([A-Z]+[A-Z-_]+?).
+- Only code style tasks can be used in code files and must be in a line or block comment
+  - Code style tasks are only detected in comments for files with extensions listed in [imdone-core/languages.js](https://github.com/imdone/imdone-core/blob/master/lib/languages.js) or the **languages** attribute in the `.imdone/config.yml`
 - In Hash and markdown style tasks **list name** can be any combination of upper and lower case letters, underscores and dashes
 - In Hash and markdown style tasks the **list name** must be followed by a `:` and a number which determines sort order in the list
   - Sort numbers can be reused, in which case tasks with the same sort number will be sorted alphabetically by text.
-- In code, tasks can be any style but must be in a line or block comment
-  - Code style tasks are only detected in comments for files with extensions listed in [imdone-core/languages.js](https://github.com/imdone/imdone-core/blob/master/lib/languages.js) or the **languages** attribute in the `.imdone/config.yml`
-- For code and hash style tasks, the task text is terminated by the end of line
 - Task text can have [todo.txt formatting](https://github.com/todotxt/todo.txt) excluding the completion and priority markers.
 - Task text can have markdown formatting
 
