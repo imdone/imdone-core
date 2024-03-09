@@ -1,0 +1,89 @@
+keepEmptyPriority: true
+code:
+  include_lists:
+    - TODO
+    - DOING
+    - DONE
+    - PLANNING
+    - FIXME
+    - ARCHIVE
+    - HACK
+    - CHANGED
+    - XXX
+    - IDEA
+    - NOTE
+    - REVIEW
+lists:
+  - hidden: false
+    name: NOTE
+  - hidden: false
+    name: TODO
+  - hidden: false
+    name: DOING
+  - hidden: false
+    ignore: true
+    name: DONE
+settings:
+  journalType: Folder
+  journalPath: content
+  newCardSyntax: HASH_META_ORDER
+  cards:
+    maxLines: 6
+    addNewCardsToTop: true
+    colors: []
+    metaNewLine: true
+    computed:
+      date: "${(new Date()).toDateString()}"
+      time: "${(new Date()).toLocaleTimeString()}"
+      timestamp: "${(new Date()).toISOString()}"
+      sourceLink: "[${source.path}:${line}](${source.path}:${line})"
+      dueEmoji: !<tag:yaml.org,2002:js/function> |-
+        function anonymous(
+        ) {
+        const due = this.totals["What's Due?"]
+          let emoji = ':2nd_place_medal:'
+          if (due >= 3) {
+            emoji = ':fire:'
+          } else if (due === 0) {
+            emoji = ':rocket:'
+          }
+          return `<span style="font-size: 1.5em;">${emoji}</span>`
+        }
+      recentEmoji: !<tag:yaml.org,2002:js/function> |-
+        function anonymous(
+        ) {
+        const recentlyCompleted = this.totals["Recently Completed"]
+          let emoji = ':2nd_place_medal:'
+          if (recentlyCompleted >= 3) {
+            emoji = ':rocket:'
+          } else if (recentlyCompleted === 0) {
+            emoji = ':fire:'
+          }
+          return `<span style="font-size: 1.5em;">${emoji}</span>`
+        }
+      wipEmoji: !<tag:yaml.org,2002:js/function> |-
+        function anonymous(
+        ) {
+        const doing = this.totals["DOING"]
+          let emoji = ':2nd_place_medal:'
+          if (doing >= 3) {
+            emoji = ':fire:'
+          } else if (doing === 0) {
+            emoji = ':sleeping:'
+          } else if (doing === 1) {
+            emoji = ':rocket:'
+          }
+          return `<span style="font-size: 1.5em;">${emoji}</span>`
+        }
+    doneList: DONE
+    defaultList: TODO
+    taskPrefix: "- [ ]"
+    addCheckBoxTasks: true
+  filteredLists: []
+  journalTemplate: ""
+  openIn: code
+  editorTheme: blackboard
+  replaceSpacesWith: "-"
+  appendNewCardsTo: ""
+  theme: dark
+  useVimKeyBindings: false
