@@ -19,7 +19,7 @@ var should = require('should'),
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const Task = require('../lib/task')
-const { createFileSystemProject } = require('../lib/project-factory')
+const { createFileSystemProject, createWatchedFileSystemProject } = require('../lib/project-factory')
 
 describe('Repository', function () {
   var tmpDir = path.join(process.cwd(), 'tmp'),
@@ -34,6 +34,7 @@ describe('Repository', function () {
     defaultCards2Dir = path.join(tmpReposDir, 'default-cards-2'),
     noOrderRepoDir = path.join(tmpReposDir, 'no-order-repo'),
     moveMetaOrderDir = path.join(tmpReposDir, 'move-meta-order'),
+    moveMetaOrderKeepEmptyPriorityDir = path.join(tmpReposDir, 'move-meta-order-keep-empty-priority'),
     metaSepTestDir = path.join(tmpReposDir, 'meta-sep-test'),
     repo,
     repo1,
@@ -1223,6 +1224,22 @@ describe('Repository', function () {
         moveMetaOrderRepo.moveTasks([task], 'TODO', 2, (err) => {
           expect(err).to.be(undefined)
           var list = moveMetaOrderRepo.getTasksInList('TODO')
+          task.equals(list[2]).should.be.true
+          done()
+        })
+      })
+    })
+
+    it('Should move a task in a file with orderMeta and keepEmptyPriority = true', (done) => {
+      const listName = 'DOING'
+      const project = createFileSystemProject({path: moveMetaOrderKeepEmptyPriorityDir})
+      const repo = project.repo
+      project.init((err, result) => {
+        var list = repo.getTasksInList(listName)
+        var task = list[0]
+        repo.moveTasks([task], 'TODO', 2, (err) => {
+          expect(err).to.be(undefined)
+          var list = repo.getTasksInList('TODO')
           task.equals(list[2]).should.be.true
           done()
         })
