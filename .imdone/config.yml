@@ -107,6 +107,7 @@ settings:
     orderMeta: true
     maxLines: 4
     addNewCardsToTop: true
+    showTagsAndMeta: true
     links:
       - href: >-
           https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio

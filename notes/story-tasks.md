@@ -1,7 +1,7 @@
 # story-tasks
-#DOING: Keep your story tasks in your repo and publish them for stakeholder visibility
+#TODO: Keep your story tasks in your repo and publish them for stakeholder visibility
 is-epic:"story tasks"
-<!-- order:30 -->
+<!-- order:-55 -->
 
 - [ ] #READY As a developer I would like to quickly add story tasks in my repo so they can be published for stakeholder visibility.
   <!-- #story:1 order:0 epic:"story tasks" -->
