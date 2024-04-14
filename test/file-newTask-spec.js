@@ -2,7 +2,7 @@ const Config = require('../lib/config')
 const File = require('../lib/file')
 const Task = require('../lib/task')
 
-describe("File.prototype.newTask", () => {
+describe("File.prototype.extractTaskDescription", () => {
     it("Creates a new task with all interpolation data", () => {
         var config = Config.newDefaultConfig()
         config.settings = {
@@ -32,7 +32,7 @@ describe("File.prototype.newTask", () => {
           project,
         })
 
-        const task = file.newTask({
+        const task = file.extractTaskDescription({
             content,
             taskStartOnLine: 0,
             rawTask,
