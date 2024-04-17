@@ -593,7 +593,7 @@ describe('File', function () {
         'This is \n  \n A multiline \n     \n comment',
         config
       )
-      task.preserveBlankLines.should.be.ok()
+      task.isWrappedWithCardTag.should.be.ok()
       task.description.length.should.be.exactly(4)
     })
 
@@ -617,7 +617,7 @@ describe('File', function () {
         'This is \n  \n A multiline \n     \n comment',
         config
       )
-      task.preserveBlankLines.should.be.ok()
+      task.isWrappedWithCardTag.should.be.ok()
       task.description.length.should.be.exactly(4)
     })
   })
