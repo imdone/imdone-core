@@ -1,4 +1,3 @@
-const assert = require('assert')
 const should = require('should')
 const expect = require('expect.js')
 const Task = require('../lib/task')
