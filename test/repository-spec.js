@@ -1329,7 +1329,6 @@ describe('Repository', function () {
         const filePath = path.join(metaSepTestRepo.path, 'metadata-test.md')
         const content = `A new task with space and expand meta
 
-
 space
 
 expand::1

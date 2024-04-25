@@ -48,6 +48,7 @@ describe("File.prototype.extractTaskDescription", () => {
         })
         task.init()
 
+        task.description.length.should.equal(2)
         task.should.have.property("data")
         const data = task.data
         
