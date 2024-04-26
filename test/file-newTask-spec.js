@@ -32,7 +32,7 @@ describe("File.prototype.extractTaskDescription", () => {
           project,
         })
 
-        const task = file.extractTaskDescription({
+        const task = file.extractTaskWithDescription({
             content,
             taskStartOnLine: 0,
             rawTask,
