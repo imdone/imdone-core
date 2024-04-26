@@ -864,6 +864,8 @@ describe('Repository', function () {
           '- [ ] #DOING A task',
           '  <!-- order:40 newTask:true -->',
           '',
+          '',
+          ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
           // BACKLOG:-110 make sure the task is added correctly
@@ -894,6 +896,8 @@ describe('Repository', function () {
           '- [ ] [A task!](#DOING:)',
           '  <!-- newTask:true -->',
           '',
+          '',
+          ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
           // BACKLOG:-110 make sure the task is added correctly
@@ -933,6 +937,8 @@ describe('Repository', function () {
         const expectedLines = JSON.stringify([
           '[A task](#DOING:)',
           '- with a bullet',
+          '',
+          '',
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
@@ -963,6 +969,8 @@ describe('Repository', function () {
         const expectedLines = JSON.stringify([
           '- [ ] #DOING A task',
           '  - with a bullet',
+          '',
+          '',
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
@@ -1328,7 +1336,6 @@ describe('Repository', function () {
       metaSepTestProj.init((err, result) => {
         const filePath = path.join(metaSepTestRepo.path, 'metadata-test.md')
         const content = `A new task with space and expand meta
-
 
 space
 

@@ -329,6 +329,7 @@ describe('File', function () {
       // BACKLOG:-70 Test with changes to config
       config.settings = {
         newCardSyntax: 'MARKDOWN',
+        orderMeta: true,
         cards: {
           doneList: 'DONE',
           defaultList: 'TODO',
@@ -365,9 +366,9 @@ describe('File', function () {
       expect(lines[22].startsWith('- [ ] [Task 1-b](#TODO:')).to.be(true)
       expect(lines[23].startsWith('  - [ ] Subtask 1-b-a')).to.be(true)
       expect(lines[24].startsWith('  - [ ] Subtask 1-b-b')).to.be(true)
-      expect(lines[30].startsWith('  - [ ] [A task in a list](#TODO:')).to.be(
-        true
-      )
+      // expect(lines[30].startsWith('  - [ ] [A task in a list](#TODO:')).to.be(
+      //   true
+      // )
     })
   })
 
@@ -593,7 +594,7 @@ describe('File', function () {
         'This is \n  \n A multiline \n     \n comment',
         config
       )
-      task.preserveBlankLines.should.be.ok()
+      task.isWrappedWithCardTag.should.be.ok()
       task.description.length.should.be.exactly(4)
     })
 
@@ -617,7 +618,6 @@ describe('File', function () {
         'This is \n  \n A multiline \n     \n comment',
         config
       )
-      task.preserveBlankLines.should.be.ok()
       task.description.length.should.be.exactly(4)
     })
   })

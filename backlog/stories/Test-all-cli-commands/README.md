@@ -1,5 +1,4 @@
 ## #TODO Test all cli commands
-<card>
 
 <!--
 #story
@@ -8,4 +7,4 @@ task-id:WmdbU
 story-id:Test-all-cli-commands
 order:0
 -->
-</card>
+
