@@ -148,6 +148,15 @@ with:meta
       )
       afterAdd.includes('\norder:10')
     })
+    it('should add content correctly when there is no comment', () => {
+      const content = `A task\n\n`
+      const afterAdd = new Task(config, {}, true).addToLastCommentInContent(
+        content,
+        'order:10',
+        true
+      )
+      afterAdd.includes('\n<!--\norder:10\n-->')
+    })
   })
 
   describe('replaceContent', function () {
