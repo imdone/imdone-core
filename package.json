@@ -81,7 +81,7 @@
     "lodash.isundefined": "^3.0.1",
     "lodash.noop": "^3.0.1",
     "lodash.omit": "^4.5.0",
-    "lodash.pick": "^4.4.0",
+    "lodash.pick": "^3.1.0",
     "lodash.reject": "^4.6.0",
     "lodash.remove": "^4.7.0",
     "lodash.some": "^4.6.0",
