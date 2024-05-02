@@ -1078,3 +1078,18 @@ describe("getCodePositions", () => {
     expect(content.substring(...positions[3])).to.be("```\nanother code block #DOING: with a task\n```")
   })
 })
+
+describe('parseDueDate', () => {
+  const config = {
+    getMetaSep: () => ':',
+  }
+  it('should parse a due date from a task', () => {
+    const dueDate = File.parseDueDate(config, ' due in two days.')
+    expect(dueDate.startsWith(' due:')).to.be(true)
+  })
+
+  it('should return the text if it\'s not a due date', () => {
+    const dueDate = File.parseDueDate(config, ' a due task.')
+    expect(dueDate).to.be(' a due task.')
+  })
+})
