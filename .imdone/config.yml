@@ -16,9 +16,10 @@ code:
     - BACKLOG
     - READY
 lists:
-  - hidden: true
-    name: FIXME
-    id: jea6nx7llx85j9j
+  - name: FIXME
+    hidden: false
+    ignore: false
+    id: sktwi22bvlvppcr50
   - name: NOTE
     hidden: true
     ignore: false
@@ -27,21 +28,25 @@ lists:
     hidden: true
     ignore: false
     id: jea6nx7llx85j9l
-  - hidden: true
-    name: BACKLOG
+  - name: BACKLOG
+    hidden: true
+    ignore: false
     id: jea6nx7llx85j9m
-  - hidden: false
-    name: TODO
+  - name: TODO
+    hidden: false
+    ignore: false
     id: jea6nx7llx85j9n
-  - hidden: false
-    name: DOING
+  - name: DOING
+    hidden: false
+    ignore: false
     id: jea6nx7llx85j9o
-  - hidden: false
-    name: READY
+  - name: READY
+    hidden: false
+    ignore: false
     id: jea6nx7llx85j9p
-  - hidden: false
+  - name: DONE
+    hidden: false
     ignore: true
-    name: DONE
     id: jea6nx7llx85j9q
 marked:
   gfm: true
