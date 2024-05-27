@@ -10,33 +10,33 @@ TODO:2021-06-25T18:03:55.122Z
 </card>
 
 - [x] [Story 1](#DONE:20)
-epic:epic
-<!--
-TODO:2021-06-27T01:49:16.460Z
-DOING:2021-06-27T01:56:14.709Z
-DONE:2021-06-27T01:56:15.276Z
-completed:2021-06-27T01:56:15.276Z
--->
+  epic:epic
+  <!--
+  TODO:2021-06-27T01:49:16.460Z
+  DOING:2021-06-27T01:56:14.709Z
+  DONE:2021-06-27T01:56:15.276Z
+  completed:2021-06-27T01:56:15.276Z
+  -->
 
 - [ ] [Story 2](#TODO:30)
-Move this first
-epic:epic
-<!--
-TODO:2021-06-27T01:49:16.460Z
--->
+  Move this first
+  epic:epic
+  <!--
+  TODO:2021-06-27T01:49:16.460Z
+  -->
 
 - [ ] [Story 3](#TODO:40)
-Then move this
-epic:epic
-<!--
-TODO:2021-06-25T18:05:52.111Z story:3
--->
+  Then move this
+  epic:epic
+  <!--
+  TODO:2021-06-25T18:05:52.111Z story:3
+  -->
 
 - [ ] [Story 4](#TODO:)
-We should be able to perform the following operations on a markdown task with no order
-- [ ] move task
-- [ ] modify task
-- [ ] modify task from content
-- [ ] modify task from html
-- [ ] switch between orderMeta true/false
-<!-- story:4 -->
+  We should be able to perform the following operations on a markdown task with no order
+  - [ ] move task
+  - [ ] modify task
+  - [ ] modify task from content
+  - [ ] modify task from html
+  - [ ] switch between orderMeta true/false
+  <!-- story:4 -->

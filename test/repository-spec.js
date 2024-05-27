@@ -485,8 +485,8 @@ describe('Repository', function () {
     it('deletes a task with blank lines', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
-        var todo = repo3.getTasksInList('DOING')
-        var taskToDelete = todo.find(
+        var doing = repo3.getTasksInList('DOING')
+        var taskToDelete = doing.find(
           (task) => task.meta.id && task.meta.id[0] === '7'
         )
         repo3.deleteTask(taskToDelete, function (err) {
