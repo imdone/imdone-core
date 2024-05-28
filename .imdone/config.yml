@@ -63,6 +63,7 @@ settings:
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: MARKDOWN
   replaceSpacesWith: '-'
+  noDST: false
   plugins:
     devMode: false
     imdone-sample-plugin:
