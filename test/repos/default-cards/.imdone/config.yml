@@ -32,7 +32,7 @@ lists:
     id: 1
     name: Recently Completed
 settings:
-  defaultFilter: list=/.*/ +text
+  defaultFilter: list=/.*/
   addNewCardsToTop: true
   cards:
     colors: []

@@ -116,7 +116,6 @@ describe('Repository', function () {
       appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         proj3.config.keepEmptyPriority = true
-        proj3.config.settings.jounalType = "New File"
         proj3.config.settings.cards.orderMeta = false
         proj3.config.settings.newCardSyntax = 'HASHTAG'
         const list = "DOING"

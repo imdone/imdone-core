@@ -34,11 +34,37 @@ describe('project', function () {
     done()
   })
 
-  it('sorts according to due date when the default view filter has +list', async function () {
+  it('sorts according to due date when the default view filter has +dueDate', async function () {
     await project.init()
-    console.log(project.config)
+    project.defaultFilter = 'dueDate < "${tomorrow at 6AM}" AND list != DONE +dueDate +order'
     const imdoneJson = project.toImdoneJSON()
-    expect(imdoneJson.lists[2].tasks[0].text).to.be('Add and Edit Cards')
-    expect(imdoneJson.lists[2].tasks[12].text).to.be('Read the documentation')
+    expect(imdoneJson.lists[2].tasks[0].text).to.be('If you have any questions, feel free to reach out!')
+    expect(imdoneJson.lists[2].tasks[11].text).to.be('Get started with imdone')
+  })
+
+  describe('addTaskToFile', () => {
+    it('adds a task to a file', async function () {
+      await project.init()
+      const { task } = await project.addTaskToFile({
+        path: 'imdone-readme.md',
+        list: 'TODO',
+        content: 'New task'
+      })
+      expect(task.text).to.be('New task')
+    })
+    it('adds a task to a file and moves it to the bottom of the list', async function () {
+      await project.init()
+      project.config.settings.cards.addNewCardsToTop = false
+      const list = 'TODO'
+      const { task } = await project.addTaskToFile({
+        path: 'imdone-readme.md',
+        list,
+        content: 'New task'
+      })
+      const todoList = project.lists.find(l => l.name === list)
+      const tasks = todoList.tasks
+
+      expect(task.text).to.be('New task')
+      expect(tasks[tasks.length - 1].text).to.be('New task')})
   })
 })
