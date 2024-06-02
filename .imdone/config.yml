@@ -57,13 +57,11 @@ marked:
   langPrefix: language-
 settings:
   openIn: code
-  editorTheme: blackboard
   journalType: Folder
   journalPath: notes
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: MARKDOWN
   replaceSpacesWith: '-'
-  noDST: false
   plugins:
     devMode: false
     imdone-sample-plugin:
@@ -78,6 +76,7 @@ settings:
   journalTemplate: null
   theme: dark
   markdownOnly: false
+  editorTheme: blackboard
   customOpenIn: ''
   filteredLists: []
   filterHistory:
