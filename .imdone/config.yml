@@ -74,8 +74,8 @@ settings:
         - key: epic
           value: Release 2.0
   journalTemplate: null
-  theme: dark
   markdownOnly: false
+  theme: dark
   editorTheme: blackboard
   customOpenIn: ''
   filteredLists: []
