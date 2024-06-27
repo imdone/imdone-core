@@ -3,9 +3,6 @@
   "version": "1.42.1",
   "description": "imdone-core",
   "main": "index.js",
-  "bin": {
-    "imdone": "cli.js"
-  },
   "scripts": {
     "build": "doctoc --github --notitle README.md && npm test",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha --exit",
