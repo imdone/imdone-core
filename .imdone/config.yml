@@ -1,3 +1,4 @@
+keepEmptyPriority: false
 code:
   include_lists:
     - TODO
