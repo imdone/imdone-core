@@ -1,9 +1,9 @@
 # story-tasks
-#TODO: Keep your story tasks in your repo and publish them for stakeholder visibility
+#ABANDONED: Keep your story tasks in your repo and publish them for stakeholder visibility
 is-epic:"story tasks"
-<!-- order:-55 -->
+<!-- order:-10 -->
 
-- [ ] #READY As a developer I would like to quickly add story tasks in my repo so they can be published for stakeholder visibility.
+- [ ] #ABANDONED As a developer I would like to quickly add story tasks in my repo so they can be published for stakeholder visibility.
   <!-- #story:1 order:0 epic:"story tasks" -->
   ## Scenarios
   - [x] Developer relizes a new IaC task must be added to the story, so they run `imdone add "Add IaC for new GET orders endpoint"`
