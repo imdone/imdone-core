@@ -5,6 +5,26 @@ const Config = require('../lib/config')
 const { DEFAULT_CONFIG } = require('../lib/constants')
 const config = new Config(DEFAULT_CONFIG)
 describe('task', function () {
+  describe('getTags', function () {
+    it('should return tags from a task when tag prefix is #', function () {
+      const tags = Task.getTags('# one\n\n## two\n\n### three\n\nA new task #tag1 #tag2', '#')
+      should(JSON.stringify(tags)).be.equal(`["tag1","tag2"]`)  
+    })
+    it('should return tags from a task when tag prefix is +', function () {
+      const tags = Task.getTags('# one\n\n## two\n\n### three\n\nA new task +tag1 +tag2', '+')
+      should(JSON.stringify(tags)).be.equal(`["tag1","tag2"]`)  
+    })
+  })
+  describe('removeTags', function () {
+    it('should remove tags from a task when tag prefix is #', function () {
+      const text = Task.removeTags('# one\n\n## two\n\n### three\n\nA new task #tag1 #tag2', '#')
+      should(text).be.equal('# one\n\n## two\n\n### three\n\nA new task')  
+    })
+    it('should remove tags from a task when tag prefix is +', function () {
+      const text = Task.removeTags('# one\n\n## two\n\n### three\n\nA new task +tag1 +tag2', '+')
+      should(text).be.equal('# one\n\n## two\n\n### three\n\nA new task')  
+    })
+  })
   describe('hasMetaData', function () {
     it('should return true for non array matches', function () {
       let task = new Task(config, {
