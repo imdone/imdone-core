@@ -1093,3 +1093,18 @@ describe('parseDueDate', () => {
     expect(dueDate).to.be(' a due task.')
   })
 })
+
+describe('parseRemindDate', () => {
+  const config = {
+    getMetaSep: () => ':',
+  }
+  it('should parse a remind date from a task', () => {
+    const dueDate = File.parseRemindDate(config, ' Remind me in two days.')
+    expect(dueDate.startsWith(' remind:')).to.be(true)
+  })
+
+  it('should return the text if it\'s not a remind date', () => {
+    const dueDate = File.parseRemindDate(config, ' a remind task.')
+    expect(dueDate).to.be(' a remind task.')
+  })
+})
