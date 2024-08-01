@@ -30,7 +30,7 @@ lists:
     ignore: false
     id: jea6nx7llx85j9l
   - name: BACKLOG
-    hidden: true
+    hidden: false
     ignore: false
     id: jea6nx7llx85j9m
   - name: TODO
