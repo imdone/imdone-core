@@ -1079,32 +1079,27 @@ describe("getCodePositions", () => {
   })
 })
 
-describe('parseDueDate', () => {
+describe('parseDate', () => {
   const config = {
     getMetaSep: () => ':',
   }
   it('should parse a due date from a task', () => {
-    const dueDate = File.parseDueDate(config, ' due in two days.')
+    const dueDate = File.parseDate(config, ' due in two days.', 'due')
     expect(dueDate.startsWith(' due:')).to.be(true)
   })
 
   it('should return the text if it\'s not a due date', () => {
-    const dueDate = File.parseDueDate(config, ' a due task.')
+    const dueDate = File.parseDate(config, ' a due task.', 'due')
     expect(dueDate).to.be(' a due task.')
   })
-})
 
-describe('parseRemindDate', () => {
-  const config = {
-    getMetaSep: () => ':',
-  }
-  it('should parse a remind date from a task', () => {
-    const dueDate = File.parseRemindDate(config, ' Remind me in two days.')
-    expect(dueDate.startsWith(' remind:')).to.be(true)
+  it('should parse a defer date from a task', () => {
+    const dueDate = File.parseDate(config, ' defer for 2 days.', 'defer')
+    expect(dueDate.startsWith(' defer:')).to.be(true)
   })
 
-  it('should return the text if it\'s not a remind date', () => {
-    const dueDate = File.parseRemindDate(config, ' a remind task.')
-    expect(dueDate).to.be(' a remind task.')
+  it('should parse a defer-date from a task', () => {
+    const dueDate = File.parseDeferDate(config, ' defer for 2 days.')
+    expect(dueDate.startsWith(' defer:')).to.be(true)
   })
 })
