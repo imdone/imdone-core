@@ -25,6 +25,11 @@ lists:
     hidden: true
     ignore: false
     id: jea6nx7llx85j9k
+  - name: Past Due Reminders
+    hidden: true
+    ignore: false
+    id: jea613h4lzjqljbo
+    filter: 'remind = /./ and remind < "${now}" and list != READY and list != DONE'
   - name: HACK
     hidden: true
     ignore: false
@@ -53,11 +58,6 @@ lists:
     hidden: true
     ignore: true
     id: jea6b3hlxv87stb
-  - name: Past Due Reminders
-    hidden: false
-    ignore: false
-    id: jea613h4lzjqljbo
-    filter: 'remind = /./ and remind < "${now}" and list != READY and list != DONE'
 settings:
   openIn: code
   journalType: Folder
