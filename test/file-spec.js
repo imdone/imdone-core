@@ -13,6 +13,11 @@ const Task = require('../lib/task')
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const FileProjectContext = require('../lib/domain/entities/FileProjectContext')
+const pluginManager = {
+  onTaskUpdate: () => {},
+  getCardProperties: () => { return {} },
+  getCardActions: () => [],
+}
 appContext().projectContext = new FileProjectContext()
 
 const generateTaskFromTemplate = (list, order, templateFunction) => {
@@ -177,7 +182,7 @@ describe('File', function () {
         cards: { metaNewLine: true, addCompletedMeta: true, doneList: 'DONE' },
       }
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -226,7 +231,7 @@ describe('File', function () {
           getTasksInList: () => [],
         })
       
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -254,7 +259,7 @@ describe('File', function () {
         })
       
       var content = fs.readFileSync('tmp/files/update-metadata.md', 'utf8')
-      const project = { config, path: 'tmp/files' }
+      const project = { config, path: 'tmp/files', pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'tmp/files/update-metadata.md',
@@ -279,7 +284,7 @@ describe('File', function () {
       }
       const filePath = 'tmp/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { config, path: 'tmp/files' }
+      const project = { config, path: 'tmp/files', pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -308,7 +313,7 @@ describe('File', function () {
       }
       const filePath = 'tmp/files/update-metadata.md'
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { config, path: 'tmp/files' }
+      const project = { config, path: 'tmp/files', pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -340,7 +345,7 @@ describe('File', function () {
       }
       const filePath = 'tmp/files/checkbox-tasks.md'
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -376,7 +381,7 @@ describe('File', function () {
     it('Should find markdown tasks in a markdown file', function () {
       var config = Config.newDefaultConfig()
       var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'tmp/files/sample.md',
@@ -396,7 +401,7 @@ describe('File', function () {
     it('Should not include content in brackets before a task', function () {
       content = '[2021-12-01 12:00] #DOING:20 A new task'
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'tmp/files/sample.md',
@@ -424,7 +429,7 @@ describe('File', function () {
     it('Should find all tasks in a code file', function () {
       var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'tmp/files/sample.js',
@@ -444,7 +449,7 @@ describe('File', function () {
       const filePath = 'tmp/files/hash-no-order.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -480,7 +485,7 @@ describe('File', function () {
       })
       var config = Config.newDefaultConfig()
       config.lists.unshift({ name: 'PÅGÅENDE' })
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -510,7 +515,7 @@ describe('File', function () {
       })
       var config = Config.newDefaultConfig()
       config.lists.push({ name: 'PÅGÅENDE' })
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -539,7 +544,7 @@ describe('File', function () {
       })
       var config = Config.newDefaultConfig()
       config.lists.push({ name: 'PÅGÅENDE' })
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -556,7 +561,7 @@ describe('File', function () {
     it('Should modfy a description from content', function () {
       var config = Config.newDefaultConfig()
       var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'tmp/files/sample.md',
@@ -578,7 +583,7 @@ describe('File', function () {
       const filePath = 'tmp/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -602,7 +607,7 @@ describe('File', function () {
       const filePath = 'tmp/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -627,7 +632,7 @@ describe('File', function () {
       const filePath = 'tmp/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -666,7 +671,7 @@ describe('File', function () {
       config.settings.cards = {
         orderMeta: true,
       }
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -689,7 +694,7 @@ describe('File', function () {
       config.settings.cards = {
         orderMeta: true,
       }
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -712,7 +717,7 @@ describe('File', function () {
       config.settings.cards = {
         orderMeta: true,
       }
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -757,7 +762,7 @@ describe('File', function () {
   describe('extractTasksInCodeFile', function () {
     it('Should extract code style tasks from a code file', function () {
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'tmp/files/sample.js',
@@ -906,7 +911,7 @@ describe('File', function () {
       const filePath = path.join('test', 'files', 'sample.js')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -925,7 +930,7 @@ describe('File', function () {
     it('extracts tasks and descriptions', () => {
       var content = fs.readFileSync('tmp/files/descriptions.js', 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'tmp/files/descriptions.js',
@@ -949,7 +954,7 @@ describe('File', function () {
     it('sets the correct beforeText for hash and link style tasks', () => {
       var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'tmp/files/sample.md',
@@ -976,7 +981,7 @@ describe('File', function () {
         'utf8'
       )
       var config = Config.newDefaultConfig()
-      const project = { path: 'test/repos/repo3', config }
+      const project = { path: 'test/repos/repo3', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath: 'test/repos/repo3/KillSurvivorCommandHandler.cs',
@@ -991,7 +996,7 @@ describe('File', function () {
       const filePath = 'test/repos/repo3/lists.md'
       var config = Config.newDefaultConfig()
       var content = fs.readFileSync(filePath, 'utf8')
-      const project = { path: 'test/repos/repo3', config }
+      const project = { path: 'test/repos/repo3', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -1010,7 +1015,7 @@ describe('File', function () {
       const filePath = 'tmp/files/preserve-blank-lines.md'
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
-      const project = { path: 'tmp/files', config }
+      const project = { path: 'tmp/files', config, pluginManager }
       var file = new File({
         repoId: 'test',
         filePath,
