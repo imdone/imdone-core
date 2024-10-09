@@ -616,6 +616,9 @@ describe('Repository', function () {
           function iter(next) {
             let task = todos.pop()
             const file = repo3.getFileForTask(task)
+            if (!file) {
+              return next()
+            }
             repo3.deleteTask(task, function (err) {
               if (err) return next(err)
               repo3.readFile(file, function (err) {
@@ -646,6 +649,9 @@ describe('Repository', function () {
           function iter(next) {
             let task = todos.pop()
             const file = repo3.getFileForTask(task)
+            if (!file) {
+              return next()
+            }
             repo3.deleteTask(task, function (err) {
               if (err) return next(err)
               repo3.readFile(file, function (err) {
