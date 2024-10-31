@@ -3,7 +3,6 @@
 ## Tasks
 
 - [x] remove story tasking
-- [ ] Remove line parsing
 
 <!-- 
 #important

@@ -17,14 +17,14 @@ code:
     - READY
     - ABANDONED
 lists:
+  - name: NOTE
+    hidden: false
+    ignore: false
+    id: jea6nx7llx85j9k
   - name: FIXME
     hidden: false
     ignore: false
     id: sktwi22bvlvppcr50
-  - name: NOTE
-    hidden: true
-    ignore: false
-    id: jea6nx7llx85j9k
   - name: Past Due Reminders
     hidden: true
     ignore: false
@@ -66,7 +66,6 @@ settings:
   newCardSyntax: MARKDOWN
   replaceSpacesWith: '-'
   plugins:
-    devMode: false
     imdone-sample-plugin:
       tags: []
       meta:
@@ -76,6 +75,12 @@ settings:
           value: Release 1.29.0
         - key: epic
           value: Release 2.0
+    SamplePlugin:
+      tags: []
+      meta: []
+    HeaderFooterPlugin:
+      afterPrefix: '${!/.md$/.test(relPath) ? ''## **:hammer_and_wrench:** '' : ''''}'
+    devMode: false
   journalTemplate: null
   markdownOnly: false
   theme: dark
@@ -86,6 +91,7 @@ settings:
   views: []
   name: imdone core
   defaultFilter: !<tag:yaml.org,2002:js/undefined> ''
+  kudosProbability: 0.33
   cards:
     colors:
       - color: green
@@ -122,3 +128,5 @@ settings:
         pack: fab
         title: Tweet this card
     defaultList: FIXME
+    archiveCompleted: true
+    archiveFolder: notes/archive
