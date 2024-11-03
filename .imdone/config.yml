@@ -22,7 +22,7 @@ lists:
     ignore: false
     id: jea6nx7llx85j9k
   - name: FIXME
-    hidden: false
+    hidden: true
     ignore: false
     id: sktwi22bvlvppcr50
   - name: Past Due Reminders
@@ -114,6 +114,7 @@ settings:
     addCompletedMeta: true
     addCheckBoxTasks: false
     doneList: DONE
+    tokenPrefix: '#'
     taskPrefix: '#'
     tagPrefix: '#'
     metaSep: ':'

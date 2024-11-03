@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.47.0",
+  "version": "1.47.1",
   "description": "imdone-core",
   "main": "index.js",
   "scripts": {
@@ -99,6 +99,7 @@
     "multilang-extract-comments": "^0.4.0",
     "open": "^9.1.0",
     "ora": "^5.4.1",
+    "parse-code-context": "^1.0.0",
     "prompts": "^2.4.2",
     "readdirp": "^3.6.0",
     "remove-markdown": "^0.3.0",
