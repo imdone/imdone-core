@@ -1,4 +1,4 @@
-null#DONE Make loadPlugin async so we can call async init on each plugin
+#DONE Make loadPlugin async so we can call async init on each plugin
 <!--
 order:-280
 completed:2024-10-30T22:37:42-04:00

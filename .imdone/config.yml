@@ -47,7 +47,7 @@ lists:
     ignore: false
     id: jea6nx7llx85j9o
   - name: READY
-    hidden: false
+    hidden: true
     ignore: false
     id: jea6nx7llx85j9p
   - name: DONE
