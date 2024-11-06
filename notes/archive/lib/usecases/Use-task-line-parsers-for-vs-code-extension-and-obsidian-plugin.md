@@ -1,4 +1,4 @@
-null#DONE Use task line parsers for vs code extension and obsidian plugin
+#DONE Use task line parsers for vs code extension and obsidian plugin
 <!--
 order:0
 completed:2024-11-04T20:59:05-05:00
