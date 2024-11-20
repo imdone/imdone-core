@@ -60,7 +60,7 @@ lists:
     id: jea6b3hlxv87stb
 settings:
   openIn: code
-  journalType: Folder
+  journalType: New File
   journalPath: notes
   appendNewCardsTo: imdone-tasks.md
   newCardSyntax: MARKDOWN

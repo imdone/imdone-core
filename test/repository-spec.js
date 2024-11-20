@@ -108,26 +108,6 @@ describe('Repository', function () {
     })
   })
 
-  describe('addTaskToFile', (done) => {
-    it('should add a task to a file and call callback with file and taskId', (done) => {
-      const content = 'A task added to a file'
-      const testFilePath = 'addTaskTest.md'
-      const filePath = path.join(repo3.path, testFilePath)
-      appContext().projectContext = new ProjectContext(repo3)
-      proj3.init(function (err, result) {
-        proj3.config.keepEmptyPriority = true
-        proj3.config.settings.cards.orderMeta = false
-        proj3.config.settings.newCardSyntax = 'HASHTAG'
-        const list = "DOING"
-        repo3.addTaskToFile(filePath, list, content, (err, file, task) => {
-          expect(file).to.be.ok()
-          expect(task).to.be.ok()
-          done()
-        })
-      })
-    })
-  })  
-
   it('Should write and delete a file successfully', function (done) {
     appContext().projectContext = new ProjectContext(repo1)
     proj1.init(function (err, files) {
@@ -852,6 +832,25 @@ describe('Repository', function () {
   })
 
   describe('addTaskToFile', function (done) {
+
+    it('should add a task to a file and call callback with file and taskId', (done) => {
+      const content = 'A task added to a file'
+      const testFilePath = 'addTaskTest.md'
+      const filePath = path.join(repo3.path, testFilePath)
+      appContext().projectContext = new ProjectContext(repo3)
+      proj3.init(function (err, result) {
+        proj3.config.keepEmptyPriority = true
+        proj3.config.settings.cards.orderMeta = false
+        proj3.config.settings.newCardSyntax = 'HASHTAG'
+        const list = "DOING"
+        repo3.addTaskToFile(filePath, list, content, (err, file, task) => {
+          expect(file).to.be.ok()
+          expect(task).to.be.ok()
+          done()
+        })
+      })
+    })
+
     it("Adds a task to a file that doesn't exist with order = null", (done) => {
       const content = 'A task added to a file with order = null'
       const testFilePath = 'addTaskTestNew.md'

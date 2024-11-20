@@ -208,7 +208,7 @@ describe('moveTasks', function () {
                     taskCount: tasks.length
                 }
             })
-            const tasksToMove = repo.getFile(FILE_PATH).getTasks().filter(({line}) => line === 4)
+            const tasksToMove = repo.getFile(FILE_PATH).getTasks().filter(({line}) => line === 7)
             const listLengthTODO = repo.getTasksInList(TODO).length
             const listLengthDONE = repo.getTasksInList(DONE).length
             const allTasksLength = repo.getTasks().length
@@ -225,8 +225,10 @@ describe('moveTasks', function () {
                     should(`${path}:${taskCount}`).be.exactly(`${fileTaskCount.path}:${fileTaskCount.taskCount}`);
                 })
                 repo.getTasks().length.should.be.exactly(allTasksLength)
-                repo.getTasksInList(TODO).length.should.be.exactly(listLengthTODO + 1)
-                repo.getTasksInList(DONE).length.should.be.exactly(listLengthDONE - 1)
+                const newTODOListLength = repo.getTasksInList(TODO).length
+                const newDONEListLength = repo.getTasksInList(DONE).length
+                newTODOListLength.should.be.exactly(listLengthTODO + 1)
+                newDONEListLength.should.be.exactly(listLengthDONE - 1)
                 done()
             })
         })
