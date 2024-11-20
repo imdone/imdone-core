@@ -421,23 +421,17 @@ describe('Repository', function () {
       })
     })
 
-    it('should modify the list filter', function (done) {
+    it('should modify the list filter', async function () {
       appContext().projectContext = new ProjectContext(repo1)
-      proj1.init(function (err) {
-        expect(err).to.be(null)
-        const bareList = {name: "Filtered", filter: "text = /task/"}     
-        const filtered = new List(bareList)
-        repo1.addList(filtered)
-        const lists = proj1.toImdoneJSON().lists
-        expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(6)
-        repo1.updateList(filtered.id, {...bareList, filter: "text = /tasks/"})
-        .then(() => {
-          const lists = proj1.toImdoneJSON().lists
-          expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(0)
-          done()
-        })
-        .catch(done)
-      })
+      await proj1.init()
+      const bareList = {name: "Filtered", filter: "text = /task/"}     
+      const filtered = new List(bareList)
+      repo1.addList(filtered)
+      const { lists } = await proj1.toImdoneJSON()
+      expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(6)
+      await repo1.updateList(filtered.id, {...bareList, filter: "text = /tasks/"})
+      const updatedLists = (await proj1.toImdoneJSON()).lists
+      expect(updatedLists.find(list => list.id === filtered.id).tasks.length).to.be(0)
     })
   })
 

@@ -37,7 +37,7 @@ describe('project', function () {
   it('sorts according to due date when the default view filter has +dueDate', async function () {
     await project.init()
     project.defaultFilter = 'dueDate < "${tomorrow at 6AM}" AND list != DONE +dueDate +order'
-    const imdoneJson = project.toImdoneJSON()
+    const imdoneJson = await project.toImdoneJSON()
     expect(imdoneJson.lists[2].tasks[0].text).to.be('If you have any questions, feel free to reach out!')
     expect(imdoneJson.lists[2].tasks[11].text).to.be('Get started with imdone')
   })
