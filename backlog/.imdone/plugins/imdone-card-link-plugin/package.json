@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "imdone-api": "^0.0.16",
-    "nanoid": "^4.0.1"
+    "nanoid": "^5.0.9"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
