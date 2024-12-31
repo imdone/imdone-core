@@ -1051,7 +1051,7 @@ describe('Repository', function () {
     it('Should filter tasks with a regex', function (done) {
       appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
-        const lists = repo1.query('DOING')
+        const lists = repo1.query('task')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
           3
         )
