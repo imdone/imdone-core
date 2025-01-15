@@ -1,6 +1,7 @@
 const Config = require('../lib/config')
 const File = require('../lib/file')
 const Task = require('../lib/task')
+const renderMarkdown = () => 'File content'
 
 describe("File.prototype.extractTaskDescription", () => {
     it("Creates a new task with all interpolation data", () => {
@@ -23,7 +24,8 @@ describe("File.prototype.extractTaskDescription", () => {
                 onTaskUpdate: () => {},
                 getCardProperties: () => [],
                 getCardActions: () => []
-            }
+            },
+            renderMarkdown
         }
         var file = new File({
           repoId: 'test',
