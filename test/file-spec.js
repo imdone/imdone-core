@@ -274,7 +274,10 @@ describe('File', function () {
 
     it('should complete tasks with checkbox beforeText in a md file', () => {
       var config = Config.newDefaultConfig()
-      // BACKLOG:-50 Test with changes to config
+      // BACKLOG Test with changes to config
+      // <!--
+      // order:-1015
+      // -->
       config.settings = {
         doneList: 'DONE',
         cards: {
@@ -303,7 +306,10 @@ describe('File', function () {
 
     it('should uncomplete tasks with checkbox beforeText in a md file', () => {
       var config = Config.newDefaultConfig()
-      // BACKLOG:-60 Test with changes to config
+      // BACKLOG Test with changes to config
+      // <!--
+      // order:-1025
+      // -->
       config.settings = {
         doneList: 'DONE',
         cards: {
@@ -332,7 +338,10 @@ describe('File', function () {
 
     it(`should find checkbox tasks`, () => {
       var config = Config.newDefaultConfig()
-      // BACKLOG:-70 Test with changes to config
+      // BACKLOG Test with changes to config
+      // <!--
+      // order:-1035
+      // -->
       config.settings = {
         newCardSyntax: 'MARKDOWN',
         orderMeta: true,

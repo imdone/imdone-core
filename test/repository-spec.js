@@ -173,7 +173,10 @@ describe('Repository', function () {
   it('Should find checkBox tasks', function (done) {
     appContext().projectContext = new ProjectContext(repo)
     var config = Config.newDefaultConfig()
-    // BACKLOG:-80 Test with changes to config
+    // BACKLOG Test with changes to config
+    // <!--
+    // order:-1045
+    // -->
     config.settings = {
       newCardSyntax: 'MARKDOWN',
       cards: {
@@ -887,7 +890,10 @@ describe('Repository', function () {
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
-          // BACKLOG:-110 make sure the task is added correctly
+          // BACKLOG make sure the task is added correctly
+          // <!--
+          // order:-1055
+          // -->
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)
@@ -919,7 +925,10 @@ describe('Repository', function () {
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
-          // BACKLOG:-110 make sure the task is added correctly
+          // BACKLOG make sure the task is added correctly
+          // <!--
+          // order:-1065
+          // -->
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)
@@ -933,7 +942,10 @@ describe('Repository', function () {
     it('Adds a MARKDOWN task to a file with orderMeta: false and no order', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       var config = Config.newDefaultConfig()
-      // BACKLOG:-80 Test with changes to config
+      // BACKLOG Test with changes to config
+      // <!--
+      // order:-1075
+      // -->
       config.keepEmptyPriority = true
       config.settings = {
         newCardSyntax: 'MARKDOWN',
@@ -961,7 +973,10 @@ describe('Repository', function () {
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
-          // BACKLOG:-110 make sure the task is added correctly
+          // BACKLOG make sure the task is added correctly
+          // <!--
+          // order:-1085
+          // -->
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)
@@ -993,7 +1008,10 @@ describe('Repository', function () {
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
-          // BACKLOG:-110 make sure the task is added correctly
+          // BACKLOG make sure the task is added correctly
+          // <!--
+          // order:-1095
+          // -->
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)

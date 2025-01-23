@@ -14,8 +14,11 @@ docker run \
 
 docker exec git-remote mkdir /home/git/authorized_keys
 
-# TODO: Generate a key in the container and use that instead of copying the key from the host
+# TODO Generate a key in the container and use that instead of copying the key from the host
 # Update to use `GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa_example" git clone example`
+# <!--
+# order:0
+# -->
 
 
 docker cp ~/.ssh/id_rsa.pub git-remote:/home/git/authorized_keys

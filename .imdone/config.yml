@@ -1,4 +1,3 @@
-keepEmptyPriority: true
 code:
   include_lists:
     - TODO
@@ -60,10 +59,11 @@ lists:
     id: jea6b3hlxv87stb
 settings:
   openIn: code
+  openCodeIn: default
   journalType: New File
   journalPath: notes
   appendNewCardsTo: imdone-tasks.md
-  newCardSyntax: MARKDOWN
+  newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
   plugins:
     imdone-sample-plugin:
@@ -89,7 +89,7 @@ settings:
   filterHistory:
     - allMeta.id = "4"
   views: []
-  name: imdone core
+  name: "\U0001F3AF imdone core"
   defaultFilter: !<tag:yaml.org,2002:js/undefined> ''
   kudosProbability: 0.33
   cards:
@@ -121,7 +121,7 @@ settings:
     orderMeta: true
     maxLines: 4
     addNewCardsToTop: true
-    showTagsAndMeta: true
+    showTagsAndMeta: false
     links:
       - href: >-
           https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
