@@ -201,3 +201,16 @@ License
 - #BACKLOG:-550 As a vscode user I would like to see the imdone board in vscode so I can get shit done! ic:gh gh:132 id:30 +enhancement
 
 -->
+# #NOTE Notes
+
+[Focus]({{getFilterURL('list = DOING or tags = focus')}})
+[Plan]({{getFilterURL(' ')}})
+
+<!--
+expand:1
+#focus
+created:2025-02-01T19:22:41.979Z
+order:0
+-->
+
+

@@ -15,6 +15,7 @@ module.exports = function ({ line, source, totals }) {
     wipEmoji: wipEmoji(totals),
     cardTotal: cardTotal(totals),
     release: version.get(),
+    getFilterURL: (filter) => `imdone://${project.path}?filter=${filter}`
   }
 }
 
