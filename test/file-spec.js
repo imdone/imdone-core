@@ -1086,19 +1086,6 @@ imdone_ignore: true
   })
 })
 
-describe("getCodePositions", () => {
-  it("Returns an array code span and code block positions", async () => {
-    const testFilePath = path.join(process.cwd(), 'test', 'repos', 'code-blocks', 'readme.md')
-    const content = await fs.promises.readFile(testFilePath, "utf-8")
-    const positions = File.getCodePositions(content)
-    expect(positions.length).to.be(4)
-    expect(content.substring(...positions[0])).to.be("`code`")
-    expect(content.substring(...positions[1])).to.be("```java\nString one;\n// #TODO: A task in a codeblock\n```")
-    expect(content.substring(...positions[2])).to.be("`#TODO a task`")
-    expect(content.substring(...positions[3])).to.be("```\nanother code block #DOING: with a task\n```")
-  })
-})
-
 describe('parseDate', () => {
   const config = {
     getMetaSep: () => ':',

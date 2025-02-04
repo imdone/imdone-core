@@ -14,6 +14,14 @@ describe('task', function () {
       const tags = Task.getTags('# one\n\n## two\n\n### three\n\nA new task +tag1 +tag2', '+')
       should(JSON.stringify(tags)).be.equal(`["tag1","tag2"]`)  
     })
+    it('should not return tags that are in a markdown link', function () {
+      const tags = Task.getTags('# one\n\n## two\n\n### three\n\nA new task [#tag1](#tag1) #tag2', '#')
+      should(JSON.stringify(tags)).be.equal(`["tag2"]`)  
+    })
+    it('should not return tags that are in a code block', function () {
+      const tags = Task.getTags('# one\n\n## two\n\n### three\n\nA new task `#tag1`\n\n```\n#tag3\n```\n\n #tag2', '#')
+      should(JSON.stringify(tags)).be.equal(`["tag2"]`)  
+    })
   })
   describe('removeTags', function () {
     it('should remove tags from a task when tag prefix is #', function () {
@@ -23,6 +31,14 @@ describe('task', function () {
     it('should remove tags from a task when tag prefix is +', function () {
       const text = Task.removeTags('# one\n\n## two\n\n### three\n\nA new task +tag1 +tag2', '+')
       should(text).be.equal('# one\n\n## two\n\n### three\n\nA new task')  
+    })
+    it('should not remove tags that are in a markdown link', function () {
+      const text = Task.removeTags('# one\n\n## two\n\n### three\n\nA new task [#tag1](#tag1) #tag2', '#')
+      should(text).be.equal('# one\n\n## two\n\n### three\n\nA new task [#tag1](#tag1)')  
+    })
+    it('should not remove tags that are in a code block', function () {
+      const text = Task.removeTags('# one\n\n## two\n\n### three\n\nA new task `#tag1`\n\n```javascript\nsome #tag3\n```\n\n #tag2', '#')
+      should(text).be.equal('# one\n\n## two\n\n### three\n\nA new task `#tag1`\n\n```javascript\nsome #tag3\n```\n\n')  
     })
   })
   describe('hasMetaData', function () {
