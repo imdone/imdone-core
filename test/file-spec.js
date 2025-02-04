@@ -413,6 +413,22 @@ describe('File', function () {
       expectation.verify()
     })
 
+    it('Should ignore tasks in code blocks', function () {
+      var content = fs.readFileSync('tmp/files/code-blocks.md', 'utf8')
+      var config = Config.newDefaultConfig()
+      const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
+      var file = new File({
+        repoId: 'test',
+        filePath: 'tmp/files/code-blocks.md',
+        content: content,
+        languages: languages,
+        project,
+      })
+      const tasks = file.extractTasks(config).getTasks()
+      tasks.length.should.be.exactly(1)
+      tasks[0].content.should.equal("This is a card\n\n[A link with a #tag](https://imdone.io/#tag)\n\n```javascript\nconsole.log('A codeblock with a #tag')\n// DOING this is a task\n```\n\n```markdown\n#DOING A card\n```")
+    })
+
     it('Should not include content in brackets before a task', function () {
       content = '[2021-12-01 12:00] #DOING:20 A new task'
       var config = Config.newDefaultConfig()

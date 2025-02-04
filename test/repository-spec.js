@@ -103,7 +103,7 @@ describe('Repository', function () {
     appContext().projectContext = new ProjectContext(repo)
     proj.init(function (err, files) {
       if (err) return done(err)
-      expect(files.length).to.be(13)
+      expect(files.length).to.be(14)
       done()
     })
   })
@@ -197,7 +197,7 @@ describe('Repository', function () {
       const file = files.find((file) => file.path === 'checkbox-tasks.md')
       expect(file.tasks[1].text).to.equal('A checkbox task without a list')
       expect(err).to.be(null)
-      expect(repo.files.length).to.be(13)
+      expect(repo.files.length).to.be(14)
       done()
     })
   })
