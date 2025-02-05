@@ -805,6 +805,7 @@ describe('File', function () {
         project,
       })
       file.extractTasksInCodeFile(Config.newDefaultConfig())
+      file.tasks.length.should.be.exactly(8)
       // console.log(file.tasks)
     })
   })
