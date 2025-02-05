@@ -17,6 +17,7 @@ const { extractWikilinkTopics } = require('../lib/adapters/markdown')
 const pluginManager = {
   onTaskUpdate: () => {},
   getCardProperties: () => { return {} },
+  getBoardProperties: () => { return {} },
   getCardActions: () => [],
 }
 appContext().projectContext = new FileProjectContext()
