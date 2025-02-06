@@ -57,7 +57,7 @@
     "find-up": "^5.0.0",
     "gray-matter": "^4.0.2",
     "ignore": "^5.2.0",
-    "imdone-api": "^1.52.2",
+    "imdone-api": "^1.53.0",
     "isbinaryfile": "^3.0.2",
     "js-yaml": "^3.14.1",
     "json-fns": "^1.0.0",
