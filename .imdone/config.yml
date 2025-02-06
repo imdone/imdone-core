@@ -114,6 +114,7 @@ settings:
     metaNewLine: true
     addCompletedMeta: true
     addCheckBoxTasks: false
+    doingList: DOING
     doneList: DONE
     tokenPrefix: '#'
     taskPrefix: '#'

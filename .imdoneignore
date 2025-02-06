@@ -2,6 +2,7 @@ coverage
 .nyc_output
 test/repos
 test/files
+test/file-spec.js
 __tests__
 test-big-file.md
 tmp
