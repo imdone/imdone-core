@@ -427,7 +427,7 @@ describe('Repository', function () {
     it('should modify the list filter', async function () {
       appContext().projectContext = new ProjectContext(repo1)
       await proj1.init()
-      const bareList = {name: "Filtered", filter: "text = /task/"}     
+      const bareList = {name: "Filtered", filter: "text = /task/", id: "filtered"}     
       const filtered = new List(bareList)
       repo1.addList(filtered)
       const { lists } = await proj1.toImdoneJSON()
