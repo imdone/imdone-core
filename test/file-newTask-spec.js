@@ -23,7 +23,8 @@ describe("File.prototype.extractTaskDescription", () => {
             config,
             pluginManager: {
                 onTaskUpdate: () => {},
-                getCardProperties: () => [],
+                getCardProperties: () => {return {}},
+                getBoardProperties: () => {return {}},
                 getCardActions: () => []
             },
             renderMarkdown,

@@ -17,6 +17,7 @@ const { extractWikilinkTopics } = require('../lib/adapters/markdown')
 const pluginManager = {
   onTaskUpdate: () => {},
   getCardProperties: () => { return {} },
+  getBoardProperties: () => { return {} },
   getCardActions: () => [],
 }
 appContext().projectContext = new FileProjectContext()
@@ -427,6 +428,9 @@ describe('File', function () {
       const tasks = file.extractTasks(config).getTasks()
       tasks.length.should.be.exactly(1)
       tasks[0].content.should.equal("This is a card\n\n[A link with a #tag](https://imdone.io/#tag)\n\n```javascript\nconsole.log('A codeblock with a #tag')\n// DOING this is a task\n```\n\n```markdown\n#DOING A card\n```")
+                                                                                  // <!--
+                                                                                  // order:-10
+                                                                                  // -->
     })
 
     it('Should not include content in brackets before a task', function () {
@@ -802,6 +806,7 @@ describe('File', function () {
         project,
       })
       file.extractTasksInCodeFile(Config.newDefaultConfig())
+      file.tasks.length.should.be.exactly(8)
       // console.log(file.tasks)
     })
   })
