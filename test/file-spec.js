@@ -427,7 +427,7 @@ describe('File', function () {
       })
       const tasks = file.extractTasks(config).getTasks()
       tasks.length.should.be.exactly(1)
-      tasks[0].content.should.equal("This is a card\n\n[A link with a #tag](https://imdone.io/#tag)\n\n```javascript\nconsole.log('A codeblock with a #tag')\n// DOING this is a task\n```\n\n```markdown\n#DOING A card\n```")
+      tasks[0].content.should.equal("This is a card\n\n[A link with a #tag](https://imdone.io/#tag)\n\n`#TODO A codeblock with a #tag`\n\n```javascript\nconsole.log('A codeblock with a #tag')\n// DOING this is a task\n```\n\n```markdown\n#DOING A card\n```")
     })
 
     it('Should not include content in brackets before a task', function () {
@@ -1061,7 +1061,23 @@ describe('File', function () {
         .find((task) => task.list === 'DOING')
         .description.length.should.be.exactly(16)
     })
-
+    
+    it('should ignore tasks in markdown code blocks or code spans', () => {
+      const filePath = 'tmp/files/code-blocks.md'
+      var content = fs.readFileSync(filePath, 'utf8')
+      var config = Config.newDefaultConfig()
+      const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
+      var file = new File({
+        repoId: 'test',
+        filePath,
+        content,
+        languages: languages,
+        project,
+      })
+      file.extractTasks(config)
+      file.tasks.length.should.be.exactly(1)
+    })
+    
     it('should ignore tasks in files with kanban-plugin frontMatter', () => {
       var content = `---
 kanban-plugin: true
