@@ -5,7 +5,13 @@ tags:
   - epic
   - feature
   - focus
+  - imdone
+  - imdone-
+  - 'imdone-${version}'
+  - imdone-1.
   - imdone-1.45.0
   - imdone-1.49.0
+  - imdone-1.53.15
+  - imdone-1.54.0
   - story
   - urgent
