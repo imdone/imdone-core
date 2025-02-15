@@ -197,11 +197,9 @@ License
 [travis-image]: https://img.shields.io/travis/imdone/imdone-core/master.svg?label=linux
 [travis-url]: https://travis-ci.org/imdone/imdone-core
 
-<!--
-- #BACKLOG:-550 As a vscode user I would like to see the imdone board in vscode so I can get shit done! ic:gh gh:132 id:30 +enhancement
+<!-- # #NOTE Notes
 
--->
-# #NOTE Notes
+**Package Version {{version}}**
 
 [Focus]({{getFilterURL('list = DOING or tags = focus')}})
 [Plan]({{getFilterURL(' ')}})
