@@ -1,5 +1,5 @@
 const eol = require('eol')
-const release = require('../lib/release')
+// const release = require('../lib/release')
 
 module.exports = function (task) {
   const project = this.project
