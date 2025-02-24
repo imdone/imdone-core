@@ -5,7 +5,7 @@ const ora = require('ora')
 const chalk = require('chalk')
 const package = require('./package.json')
 const { createFileSystemProject } = require('./lib/project-factory.js')
-const { log } = hideLogs()
+// const { log } = hideLogs()
 const spinner = ora('Loading unicorns')
 
 setTimeout(() => {
@@ -24,11 +24,18 @@ mainCmd
 .command('action <pluginName> <actionTitle>')
 .option('-t, --task <task>', 'Task filePath:line')
 .description('Run a board action')
-.action(async function () {
+.action(async function (plugin, title, options) {
   spinner.start()
+  const action = {plugin, title}
+  const [filePath, line] = options.task ? options.task.split(':') : []
   try {
     const project = createFileSystemProject({path:  process.env.PWD})
     await project.init()
+    await project.toImdoneJSON()
+    chalk.bgGreen('Project loaded')
+    const file = filePath && project.getFile(filePath)
+    const task = file && line > -1 && file.getTaskAtLine(line)
+    await project.performBoardAction(action, task)
   } catch (e) {
     console.error(e)
     actionCancelled()
@@ -37,6 +44,7 @@ mainCmd
     process.exit(0)
   }
 })
+
 
 program.parse();
 
