@@ -20,6 +20,8 @@ const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const Task = require('../lib/task')
 const { createFileSystemProject, createWatchedFileSystemProject } = require('../lib/project-factory')
+const exp = require('constants')
+const { parseHideListsFromQueryString } = Repository
 
 describe('Repository', function () {
   var tmpDir = path.join(process.cwd(), 'tmp'),
@@ -1477,3 +1479,34 @@ describe('getTasksToModify', () => {
   })
 
 })
+
+describe('parseHideListsFromQueryString', () => {
+  it('should return an empty array if no hide parameter is present', () => {
+    let query = 'tags=important';
+    const { hideLists, queryString } = parseHideListsFromQueryString(query);
+    expect(hideLists).to.be.empty;
+    expect(queryString).to.equal(query);
+  });
+
+  it ('should handle a single list to hide if hide parameter is present', () => {
+    const query = 'tags=important hide: DOING';
+    const { hideLists, queryString } = parseHideListsFromQueryString(query);
+    should(hideLists).deepEqual(['DOING']);
+    expect(queryString).to.equal('tags=important');
+
+  })
+
+  it('should return an array of lists to hide if hide parameter is present', () => {
+    const query = 'tags=important hide: DOING, DONE';
+    const { hideLists, queryString } = parseHideListsFromQueryString(query);
+    should(hideLists).deepEqual(['DOING', 'DONE']);
+    expect(queryString).to.equal('tags=important');
+  });
+
+  it('should handle empty hide parameter', () => {
+    const query = 'tags=important hide: ';
+    const { hideLists, queryString } = parseHideListsFromQueryString(query);
+    should(hideLists).deepEqual([]);
+    expect(queryString).to.equal('tags=important');
+  });
+});
