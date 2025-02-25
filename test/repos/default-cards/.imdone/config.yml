@@ -90,11 +90,6 @@ settings:
     addCheckBoxTasks: false
     maxLines: 6
     taskPrefix: '#'
-  filteredLists:
-    - filter: 'dueDate < "${tomorrow at 6AM}" AND list != DONE +dueDate +order'
-      name: What's Due?
-    - filter: 'completedDate > "${7 days ago}" -completed'
-      name: Recently Completed
   journalPath: imdone-tasks
   journalType: Folder
   newCardSyntax: MARKDOWN

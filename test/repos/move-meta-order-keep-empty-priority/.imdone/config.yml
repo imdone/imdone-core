@@ -79,7 +79,6 @@ settings:
     defaultList: TODO
     taskPrefix: "- [ ]"
     addCheckBoxTasks: true
-  filteredLists: []
   journalTemplate: ""
   openIn: code
   editorTheme: blackboard
