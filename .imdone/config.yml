@@ -86,7 +86,6 @@ settings:
   markdownOnly: false
   theme: dark
   editorTheme: blackboard
-  filteredLists: []
   filterHistory:
     - allMeta.id = "4"
   views: []
