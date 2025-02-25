@@ -3,6 +3,9 @@
   "version": "1.54.1",
   "description": "imdone-core",
   "main": "index.js",
+  "bin": {
+    "imdone-cli": "./cli.js"
+  },
   "scripts": {
     "build": "doctoc --github --notitle README.md && npm test",
     "coverage": "nyc --reporter=lcov --reporter=text --reporter=html mocha --exit",
@@ -48,7 +51,7 @@
     "cheerio": "^1.0.0-rc.10",
     "chrono-node": "^2.6.4",
     "command-exists": "^1.2.9",
-    "commander": "^11.0.0",
+    "commander": "^11.1.0",
     "debug": ">=4.3.4",
     "download": "^8.0.0",
     "eol": "^0.9.1",
