@@ -80,7 +80,15 @@ settings:
       tags: []
       meta: []
     HeaderFooterPlugin:
-      afterPrefix: '${!/.md$/.test(relPath) ? ''## **:hammer_and_wrench:** '' : ''''}'
+      afterPrefix: |-
+        ${!/.md$/.test(relPath) ? '## **:hammer_and_wrench:** ' : ''}
+        ${tags.includes('bug') ? ':bug: ' : ''}
+        ${tags.includes('experiment') ? ':test_tube: ' : ''}
+        ${tags.includes('urgent') ? ' :fire: ' : '' }
+        ${tags.includes('important') ? ' :exclamation: ' : '' }
+        ${meta.remind ? ' :alarm_clock: ' : ''}
+        ${tags.includes('launch') ? ':rocket: ' : ''}
+        ${tags.includes('plugin') ? ':electric_plug: ' : ''}
     devMode: false
   journalTemplate: null
   markdownOnly: false
