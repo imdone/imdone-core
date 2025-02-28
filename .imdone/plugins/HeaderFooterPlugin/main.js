@@ -23,7 +23,8 @@ export default class HeaderFooterPlugin extends Plugin {
   }
 
   get afterPrefix() {
-    return this.getSettings().afterPrefix || ''
+    const afterPrefix = this.getSettings().afterPrefix || ''
+    return afterPrefix.replaceAll(/\n/g, '')
   }
 
   get afterTitle() {

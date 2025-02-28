@@ -391,6 +391,28 @@ describe('Repository', function () {
     })
   })
 
+  describe('toggleList', function () {
+    it('Should toggle the list', async function () {
+      appContext().projectContext = new ProjectContext(repo)
+      await proj.init()
+      await repo.toggleList('TODO')
+      expect(repo.getList('TODO').hidden).to.be(true)
+      await repo.toggleList('TODO')
+      expect(repo.getList('TODO').hidden).to.be(false)
+    })
+  })
+
+  describe('toggleListIgnore', function () {
+    it('Should toggle the list ignore', async function () {
+      appContext().projectContext = new ProjectContext(repo)
+      await proj.init()
+      await repo.toggleListIgnore('TODO')
+      expect(repo.getList('TODO').ignore).to.be(true)
+      await repo.toggleListIgnore('TODO')
+      expect(repo.getList('TODO').ignore).to.be(false)
+    })
+  })
+
   describe('loadConfig', function (done) {
     it('Should load the config file', function (done) {
       appContext().projectContext = new ProjectContext(repo)
