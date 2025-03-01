@@ -199,7 +199,8 @@ License
 
 <!-- # #NOTE Notes
 
-**Package Version {{version}}**
+**Development Package Version {{version}}**
+**Published Version**
 
 [Focus]({{getFilterURL('list = DOING or tags = focus')}})
 [Plan]({{getFilterURL(' ')}})
