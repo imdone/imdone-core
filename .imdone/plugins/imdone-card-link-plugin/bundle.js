@@ -1,6 +1,6 @@
 'use strict';
 
-var crypto = require('crypto');
+var node_crypto = require('node:crypto');
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -84,25 +84,25 @@ const urlAlphabet =
 
 const POOL_SIZE_MULTIPLIER = 128;
 let pool, poolOffset;
-let fillPool = bytes => {
+function fillPool(bytes) {
   if (!pool || pool.length < bytes) {
     pool = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER);
-    crypto.randomFillSync(pool);
+    node_crypto.webcrypto.getRandomValues(pool);
     poolOffset = 0;
   } else if (poolOffset + bytes > pool.length) {
-    crypto.randomFillSync(pool);
+    node_crypto.webcrypto.getRandomValues(pool);
     poolOffset = 0;
   }
   poolOffset += bytes;
-};
-let nanoid = (size = 21) => {
-  fillPool((size -= 0));
+}
+function nanoid(size = 21) {
+  fillPool((size |= 0));
   let id = '';
   for (let i = poolOffset - size; i < poolOffset; i++) {
     id += urlAlphabet[pool[i] & 63];
   }
   return id
-};
+}
 
 class CardLinkPlugin extends Plugin {
   
