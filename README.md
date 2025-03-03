@@ -1,6 +1,6 @@
 [![npm version](https://badge.fury.io/js/imdone-core.svg)](https://badge.fury.io/js/imdone-core)
 [![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
-[![Build Status](https://github.com/imdone/imdone-core/actions/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/imdone/imdone-core/actions/workflows/ci.yml/badge.svg)
 
 Imdone is text based kanban processor with a simple syntax that uses [comment tags like TODO and FIXME](https://en.wikipedia.org/wiki/Comment_%28computer_programming%29#Tags) and [todo.txt format](https://github.com/todotxt/todo.txt#todotxt-format). This model allows the user to create and modify tasks using the keyboard and automatically establishes a link between their tasks and work.  Get [imdone](https://imdone.io) or use the cli to see your projects board and this library in action.
 
@@ -197,7 +197,19 @@ License
 [travis-image]: https://img.shields.io/travis/imdone/imdone-core/master.svg?label=linux
 [travis-url]: https://travis-ci.org/imdone/imdone-core
 
-<!--
-- #BACKLOG:-550 As a vscode user I would like to see the imdone board in vscode so I can get shit done! ic:gh gh:132 id:30 +enhancement
+<!-- # #NOTE Notes
 
+**Development Package Version {{version}}**
+**Published Version**
+
+[Focus]({{getFilterURL('list = DOING or tags = focus')}})
+[Plan]({{getFilterURL(' ')}})
+
+<!--
+expand:1
+#focus
+created:2025-02-01T19:22:41.979Z
+order:0
 -->
+
+

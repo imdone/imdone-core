@@ -1,4 +1,4 @@
-keepEmptyPriority: false
+keepEmptyPriority: true
 code:
   include_lists:
     - TODO
@@ -17,14 +17,14 @@ code:
     - READY
     - ABANDONED
 lists:
-  - name: FIXME
+  - name: NOTE
     hidden: false
     ignore: false
-    id: sktwi22bvlvppcr50
-  - name: NOTE
+    id: jea6nx7llx85j9k
+  - name: FIXME
     hidden: true
     ignore: false
-    id: jea6nx7llx85j9k
+    id: sktwi22bvlvppcr50
   - name: Past Due Reminders
     hidden: true
     ignore: false
@@ -35,7 +35,7 @@ lists:
     ignore: false
     id: jea6nx7llx85j9l
   - name: BACKLOG
-    hidden: false
+    hidden: true
     ignore: false
     id: jea6nx7llx85j9m
   - name: TODO
@@ -60,13 +60,13 @@ lists:
     id: jea6b3hlxv87stb
 settings:
   openIn: code
-  journalType: Folder
+  openCodeIn: default
+  journalType: New File
   journalPath: notes
   appendNewCardsTo: imdone-tasks.md
-  newCardSyntax: MARKDOWN
+  newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
   plugins:
-    devMode: false
     imdone-sample-plugin:
       tags: []
       meta:
@@ -76,16 +76,30 @@ settings:
           value: Release 1.29.0
         - key: epic
           value: Release 2.0
+    SamplePlugin:
+      tags: []
+      meta: []
+    HeaderFooterPlugin:
+      afterPrefix: |-
+        ${!/.md$/.test(relPath) ? '## **:hammer_and_wrench:** ' : ''}
+        ${tags.includes('bug') ? ':bug: ' : ''}
+        ${tags.includes('experiment') ? ':test_tube: ' : ''}
+        ${tags.includes('urgent') ? ' :fire: ' : '' }
+        ${tags.includes('important') ? ' :exclamation: ' : '' }
+        ${meta.remind ? ' :alarm_clock: ' : ''}
+        ${tags.includes('launch') ? ':rocket: ' : ''}
+        ${tags.includes('plugin') ? ':electric_plug: ' : ''}
+    devMode: false
   journalTemplate: null
   markdownOnly: false
   theme: dark
   editorTheme: blackboard
-  filteredLists: []
   filterHistory:
     - allMeta.id = "4"
   views: []
-  name: imdone core
+  name: "\U0001F3AF imdone core"
   defaultFilter: !<tag:yaml.org,2002:js/undefined> ''
+  kudosProbability: 0.33
   cards:
     colors:
       - color: green
@@ -107,14 +121,16 @@ settings:
     metaNewLine: true
     addCompletedMeta: true
     addCheckBoxTasks: false
+    doingList: DOING
     doneList: DONE
+    tokenPrefix: '#'
     taskPrefix: '#'
     tagPrefix: '#'
     metaSep: ':'
     orderMeta: true
     maxLines: 4
     addNewCardsToTop: true
-    showTagsAndMeta: true
+    showTagsAndMeta: false
     links:
       - href: >-
           https://twitter.com/intent/tweet?text=${encodedText}%0ATweeted%20with%20@imdoneio
@@ -122,3 +138,5 @@ settings:
         pack: fab
         title: Tweet this card
     defaultList: FIXME
+    archiveCompleted: true
+    archiveFolder: notes/archive

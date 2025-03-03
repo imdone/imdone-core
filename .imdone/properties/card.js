@@ -1,8 +1,8 @@
-const release = require('../lib/release')
+const getVersion = require('../lib/version')
 
 module.exports = function ({ line, source, totals }) {
   const project = this.project
-  const { version } = release(project)
+  const release = getVersion()
 
   return {
     hashtags:
@@ -14,7 +14,8 @@ module.exports = function ({ line, source, totals }) {
     recentEmoji: recentEmoji(totals),
     wipEmoji: wipEmoji(totals),
     cardTotal: cardTotal(totals),
-    release: version.get(),
+    release,
+    getFilterURL: (filter) => `imdone://${project.path}?filter=${filter}`
   }
 }
 

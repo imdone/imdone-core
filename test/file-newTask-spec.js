@@ -1,6 +1,8 @@
 const Config = require('../lib/config')
 const File = require('../lib/file')
 const Task = require('../lib/task')
+const renderMarkdown = () => 'File content'
+const extractWikilinkTopics = () => ['a topic', 'another topic']
 
 describe("File.prototype.extractTaskDescription", () => {
     it("Creates a new task with all interpolation data", () => {
@@ -21,9 +23,12 @@ describe("File.prototype.extractTaskDescription", () => {
             config,
             pluginManager: {
                 onTaskUpdate: () => {},
-                getCardProperties: () => [],
+                getCardProperties: () => {return {}},
+                getBoardProperties: () => {return {}},
                 getCardActions: () => []
-            }
+            },
+            renderMarkdown,
+            extractWikilinkTopics
         }
         var file = new File({
           repoId: 'test',

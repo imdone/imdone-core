@@ -20,6 +20,8 @@ const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const Task = require('../lib/task')
 const { createFileSystemProject, createWatchedFileSystemProject } = require('../lib/project-factory')
+const exp = require('constants')
+const { parseHideListsFromQueryString } = Repository
 
 describe('Repository', function () {
   var tmpDir = path.join(process.cwd(), 'tmp'),
@@ -103,30 +105,10 @@ describe('Repository', function () {
     appContext().projectContext = new ProjectContext(repo)
     proj.init(function (err, files) {
       if (err) return done(err)
-      expect(files.length).to.be(13)
+      expect(files.length).to.be(14)
       done()
     })
   })
-
-  describe('addTaskToFile', (done) => {
-    it('should add a task to a file and call callback with file and taskId', (done) => {
-      const content = 'A task added to a file'
-      const testFilePath = 'addTaskTest.md'
-      const filePath = path.join(repo3.path, testFilePath)
-      appContext().projectContext = new ProjectContext(repo3)
-      proj3.init(function (err, result) {
-        proj3.config.keepEmptyPriority = true
-        proj3.config.settings.cards.orderMeta = false
-        proj3.config.settings.newCardSyntax = 'HASHTAG'
-        const list = "DOING"
-        repo3.addTaskToFile(filePath, list, content, (err, file, task) => {
-          expect(file).to.be.ok()
-          expect(task).to.be.ok()
-          done()
-        })
-      })
-    })
-  })  
 
   it('Should write and delete a file successfully', function (done) {
     appContext().projectContext = new ProjectContext(repo1)
@@ -193,7 +175,10 @@ describe('Repository', function () {
   it('Should find checkBox tasks', function (done) {
     appContext().projectContext = new ProjectContext(repo)
     var config = Config.newDefaultConfig()
-    // BACKLOG:-80 Test with changes to config
+    // BACKLOG Test with changes to config
+    // <!--
+    // order:-1045
+    // -->
     config.settings = {
       newCardSyntax: 'MARKDOWN',
       cards: {
@@ -214,7 +199,7 @@ describe('Repository', function () {
       const file = files.find((file) => file.path === 'checkbox-tasks.md')
       expect(file.tasks[1].text).to.equal('A checkbox task without a list')
       expect(err).to.be(null)
-      expect(repo.files.length).to.be(13)
+      expect(repo.files.length).to.be(14)
       done()
     })
   })
@@ -406,6 +391,28 @@ describe('Repository', function () {
     })
   })
 
+  describe('toggleList', function () {
+    it('Should toggle the list', async function () {
+      appContext().projectContext = new ProjectContext(repo)
+      await proj.init()
+      await repo.toggleList('TODO')
+      expect(repo.getList('TODO').hidden).to.be(true)
+      await repo.toggleList('TODO')
+      expect(repo.getList('TODO').hidden).to.be(false)
+    })
+  })
+
+  describe('toggleListIgnore', function () {
+    it('Should toggle the list ignore', async function () {
+      appContext().projectContext = new ProjectContext(repo)
+      await proj.init()
+      await repo.toggleListIgnore('TODO')
+      expect(repo.getList('TODO').ignore).to.be(true)
+      await repo.toggleListIgnore('TODO')
+      expect(repo.getList('TODO').ignore).to.be(false)
+    })
+  })
+
   describe('loadConfig', function (done) {
     it('Should load the config file', function (done) {
       appContext().projectContext = new ProjectContext(repo)
@@ -441,23 +448,17 @@ describe('Repository', function () {
       })
     })
 
-    it('should modify the list filter', function (done) {
+    it('should modify the list filter', async function () {
       appContext().projectContext = new ProjectContext(repo1)
-      proj1.init(function (err) {
-        expect(err).to.be(null)
-        const bareList = {name: "Filtered", filter: "text = /task/"}     
-        const filtered = new List(bareList)
-        repo1.addList(filtered)
-        const lists = proj1.toImdoneJSON().lists
-        expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(6)
-        repo1.updateList(filtered.id, {...bareList, filter: "text = /tasks/"})
-        .then(() => {
-          const lists = proj1.toImdoneJSON().lists
-          expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(0)
-          done()
-        })
-        .catch(done)
-      })
+      await proj1.init()
+      const bareList = {name: "Filtered", filter: "text = /task/", id: "filtered"}     
+      const filtered = new List(bareList)
+      await repo1.addList(filtered)
+      const { lists } = await proj1.toImdoneJSON()
+      expect(lists.find(list => list.id === filtered.id).tasks.length).to.be(6)
+      await repo1.updateList(filtered.id, {...bareList, filter: "text = /tasks/"})
+      const updatedLists = (await proj1.toImdoneJSON()).lists
+      expect(updatedLists.find(list => list.id === filtered.id).tasks.length).to.be(0)
     })
   })
 
@@ -852,6 +853,25 @@ describe('Repository', function () {
   })
 
   describe('addTaskToFile', function (done) {
+
+    it('should add a task to a file and call callback with file and taskId', (done) => {
+      const content = 'A task added to a file'
+      const testFilePath = 'addTaskTest.md'
+      const filePath = path.join(repo3.path, testFilePath)
+      appContext().projectContext = new ProjectContext(repo3)
+      proj3.init(function (err, result) {
+        proj3.config.keepEmptyPriority = true
+        proj3.config.settings.cards.orderMeta = false
+        proj3.config.settings.newCardSyntax = 'HASHTAG'
+        const list = "DOING"
+        repo3.addTaskToFile(filePath, list, content, (err, file, task) => {
+          expect(file).to.be.ok()
+          expect(task).to.be.ok()
+          done()
+        })
+      })
+    })
+
     it("Adds a task to a file that doesn't exist with order = null", (done) => {
       const content = 'A task added to a file with order = null'
       const testFilePath = 'addTaskTestNew.md'
@@ -894,7 +914,10 @@ describe('Repository', function () {
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
-          // BACKLOG:-110 make sure the task is added correctly
+          // BACKLOG make sure the task is added correctly
+          // <!--
+          // order:-1055
+          // -->
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)
@@ -926,7 +949,10 @@ describe('Repository', function () {
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
-          // BACKLOG:-110 make sure the task is added correctly
+          // BACKLOG make sure the task is added correctly
+          // <!--
+          // order:-1065
+          // -->
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)
@@ -940,7 +966,10 @@ describe('Repository', function () {
     it('Adds a MARKDOWN task to a file with orderMeta: false and no order', (done) => {
       appContext().projectContext = new ProjectContext(repo3)
       var config = Config.newDefaultConfig()
-      // BACKLOG:-80 Test with changes to config
+      // BACKLOG Test with changes to config
+      // <!--
+      // order:-1075
+      // -->
       config.keepEmptyPriority = true
       config.settings = {
         newCardSyntax: 'MARKDOWN',
@@ -968,7 +997,10 @@ describe('Repository', function () {
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
-          // BACKLOG:-110 make sure the task is added correctly
+          // BACKLOG make sure the task is added correctly
+          // <!--
+          // order:-1085
+          // -->
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)
@@ -1000,7 +1032,10 @@ describe('Repository', function () {
           ''
         ])
         repo3.addTaskToFile(filePath, 'DOING', content, (err, file) => {
-          // BACKLOG:-110 make sure the task is added correctly
+          // BACKLOG make sure the task is added correctly
+          // <!--
+          // order:-1095
+          // -->
           repo3.readFileContent(file, (err, file) => {
             const lines = eol.split(file.content)
             JSON.stringify(lines.slice(5)).should.equal(expectedLines)
@@ -1058,7 +1093,7 @@ describe('Repository', function () {
     it('Should filter tasks with a regex', function (done) {
       appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
-        const lists = repo1.query('DOING')
+        const lists = repo1.query('task')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
           3
         )
@@ -1466,3 +1501,34 @@ describe('getTasksToModify', () => {
   })
 
 })
+
+describe('parseHideListsFromQueryString', () => {
+  it('should return an empty array if no hide parameter is present', () => {
+    let query = 'tags=important';
+    const { hideLists, queryString } = parseHideListsFromQueryString(query);
+    expect(hideLists).to.be.empty;
+    expect(queryString).to.equal(query);
+  });
+
+  it ('should handle a single list to hide if hide parameter is present', () => {
+    const query = 'tags=important hide: DOING';
+    const { hideLists, queryString } = parseHideListsFromQueryString(query);
+    should(hideLists).deepEqual(['DOING']);
+    expect(queryString).to.equal('tags=important');
+
+  })
+
+  it('should return an array of lists to hide if hide parameter is present', () => {
+    const query = 'tags=important hide: DOING, DONE';
+    const { hideLists, queryString } = parseHideListsFromQueryString(query);
+    should(hideLists).deepEqual(['DOING', 'DONE']);
+    expect(queryString).to.equal('tags=important');
+  });
+
+  it('should handle empty hide parameter', () => {
+    const query = 'tags=important hide: ';
+    const { hideLists, queryString } = parseHideListsFromQueryString(query);
+    should(hideLists).deepEqual([]);
+    expect(queryString).to.equal('tags=important');
+  });
+});

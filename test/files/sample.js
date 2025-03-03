@@ -8,6 +8,7 @@
  * DOING:80 with a task 
  */
  var dog = {
-  name: /* TODO: name the dog */ "Rover"
+  name: /* TODO: name the dog */ "// TODO Rover",
+  content: "// DOING: woof"
  };
 // - [x] DONE: A card with a checkbox in a code file
