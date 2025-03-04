@@ -19,7 +19,7 @@ var should = require('should'),
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const Task = require('../lib/task')
-const { createFileSystemProject, createWatchedFileSystemProject } = require('../lib/project-factory')
+const { createFileSystemProject } = require('../lib/project-factory')
 const exp = require('constants')
 const { parseHideListsFromQueryString } = Repository
 

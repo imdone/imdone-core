@@ -5,7 +5,7 @@ const ora = require('ora')
 const chalk = require('chalk')
 const package = require('./package.json')
 const { createFileSystemProject } = require('./lib/project-factory.js')
-const { getYamlConfig } = require('./lib/adapters/storage/config.js')
+const { load } = require('./lib/adapters/storage/config.js')
 // const { log } = hideLogs()
 const spinner = ora('Loading unicorns')
 
@@ -34,7 +34,7 @@ mainCmd
   const [filePath, line] = options.task ? options.task.split(':') : []
   try {
     const path = options.workingDir || process.env.PWD
-    const config = options.config && await getYamlConfig(options.config)
+    const config = options.config && await load(options.config)
     const project = createFileSystemProject({path, config})
     await project.init()
     await project.toImdoneJSON()
