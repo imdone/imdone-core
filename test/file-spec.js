@@ -677,7 +677,7 @@ describe('File', function () {
       task.description.length.should.be.exactly(16)
       file.modifyTaskFromHtml(
         task,
-        '<div class="task-description"><input type="checkbox" checked><input>',
+        '<div class="task-description"><input type="checkbox" checked></input>',
         config
       )
       const modifiedFile = new File({
