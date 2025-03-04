@@ -5,8 +5,10 @@ const ora = require('ora')
 const chalk = require('chalk')
 const package = require('./package.json')
 const { createFileSystemProject } = require('./lib/project-factory.js')
+const { load } = require('./lib/adapters/storage/config.js')
 // const { log } = hideLogs()
 const spinner = ora('Loading unicorns')
+
 
 setTimeout(() => {
 	spinner.color = 'yellow';
@@ -23,13 +25,17 @@ const mainCmd = program
 mainCmd
 .command('action <pluginName> <actionTitle>')
 .option('-t, --task <task>', 'Task filePath:line')
+.option('-w, --working-dir <workingDir>', 'Working directory')
+.option('-c, --config <config>', 'Config file path')
 .description('Run a board action')
 .action(async function (plugin, title, options) {
   spinner.start()
   const action = {plugin, title}
   const [filePath, line] = options.task ? options.task.split(':') : []
   try {
-    const project = createFileSystemProject({path:  process.env.PWD})
+    const path = options.workingDir || process.env.PWD
+    const config = options.config && await load(options.config)
+    const project = createFileSystemProject({path, config})
     await project.init()
     await project.toImdoneJSON()
     chalk.bgGreen('Project loaded')
