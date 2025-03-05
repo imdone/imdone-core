@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "1.54.8",
+  "version": "1.54.9",
   "description": "imdone-core",
   "main": "index.js",
   "bin": {
@@ -118,7 +118,7 @@
     "fs-extra": "^11.1.0",
     "jshint": "^2.9.4",
     "json-stringify-safe": "~5.0.0",
-    "mocha": "^9.2.2",
+    "mocha": "^11.1.0",
     "mocha-each": "^2.0.1",
     "nyc": "^15.1.0",
     "prettier": "^2.5.1",

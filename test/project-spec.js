@@ -9,7 +9,6 @@ describe('project', function () {
   const tmpReposDir = path.join(tmpDir, 'repos')
   const repoSrc = path.join(process.cwd(), 'test', 'repos')
   const defaultCardsDir = path.join(tmpReposDir, 'default-cards')
-  let repo
   let project
 
   beforeEach((done) => {
@@ -23,7 +22,11 @@ describe('project', function () {
     }
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
     
-    project = createFileSystemProject({path: defaultCardsDir})
+    project = createFileSystemProject({
+      path: defaultCardsDir,
+      loadInstalledPlugins: () => {},
+      loadPluginsNotInstalled: () => {}
+    })
     repo = project.repo
     done()
   })

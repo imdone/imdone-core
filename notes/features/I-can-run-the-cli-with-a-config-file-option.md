@@ -10,6 +10,10 @@ Run with a config option, so the config can be synced with git and jira plugin c
 
 [Jira plugin :-) · Issue #26 · imdone/imdone-core](https://github.com/imdone/imdone-core/issues/26)
 
+## Outcome
+
+When a plugin is configured in `.imdone/config.yml`, a `.imdone/.env` file exists and an imdone-with-jira board action is executed with the cli, it runs successfully.
+
 ## :ballot_box_with_check: Tasks
 
 - [ ] Add tasks here

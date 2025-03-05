@@ -10,6 +10,8 @@ const fsStore = require('../lib/mixins/repo-fs-store')
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const forEach = require("mocha-each")
+const { createFileSystemProject } = require('../lib/project-factory')
+
 const TODO = "TODO"
 const DOING = "DOING"
 const DONE = "DONE"
@@ -30,10 +32,19 @@ function _beforeEach(done) {
 
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
     wrench.copyDirSyncRecursive(filesSrc, repoDir, { forceDelete: true })
-    repo = fsStore(new Repository(repoDir))
-    proj = new Project(repo)
-    repo1 = fsStore(new Repository(repo1Dir))
-    proj1 = new Project(repo1)
+    proj = createFileSystemProject({
+        path: repoDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+    repo = proj.repo
+    proj1 = createFileSystemProject({
+        path: repo1Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+    repo1 = proj1.repo
+
     done()
 }
 
@@ -69,6 +80,8 @@ function createProject({repo, config = {}}) {
     appContext().config = _config
     appContext().projectContext = new ProjectContext(repo)
     const proj = new Project(repo)
+    proj.pluginManager.loadInstalledPlugins = () => {}
+    proj.pluginManager.loadPluginsNotInstalled = () => {}
     repo.config = _config
     repo.loadConfig = (cb) => {
       repo.updateConfig(_config, cb)
