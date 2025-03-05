@@ -32,3 +32,5 @@ backlog_test
 !.imdone/actions
 !.imdone/properties
 !.imdone/templates
+!.imdone/package.json
+!.imdone/package-lock.json
