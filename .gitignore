@@ -25,3 +25,10 @@ cli-test-repo
 debug.md
 
 backlog_test
+
+# Imdone
+.imdone/*
+!.imdone/config.yml
+!.imdone/actions
+!.imdone/properties
+!.imdone/templates
