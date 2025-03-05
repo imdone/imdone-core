@@ -25,7 +25,9 @@ describe("File.prototype.extractTaskDescription", () => {
                 onTaskUpdate: () => {},
                 getCardProperties: () => {return {}},
                 getBoardProperties: () => {return {}},
-                getCardActions: () => []
+                getCardActions: () => [],
+                loadInstalledPlugins: () => {},
+                loadPluginsNotInstalled: () => {}         
             },
             renderMarkdown,
             extractWikilinkTopics

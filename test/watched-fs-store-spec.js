@@ -1,7 +1,6 @@
 require('colors')
 const should = require('should')
 const expect = require('expect.js')
-const sinon = require('sinon')
 const path = require('path')
 const helper = require('./helper')
 const Repository = require('../lib/repository')
@@ -9,8 +8,6 @@ const WatchedFsStore = require('../lib/mixins/repo-watched-fs-store')
 const wrench = require('wrench')
 const { load, dump } = require('js-yaml')
 const { readFileSync, writeFileSync, existsSync, promises } = require('fs')
-const Task = require('../lib/task')
-const File = require('../lib/file')
 const Diff = require('diff')
 const eol = require('eol')
 const Project = require('../lib/project')
@@ -38,8 +35,12 @@ describe('WatchedFsStore', function () {
 
     repo = WatchedFsStore(new Repository(helper.getFreshRepo()))
     proj = new Project(repo)
+    proj.pluginManager.loadPluginsNotInstalled = () => {}
+    proj.pluginManager.loadInstalledPlugins = () => {}
     defaultCardsRepo = WatchedFsStore(new Repository(defaultCardsDir))
     defaultCardsProj = new Project(defaultCardsRepo)
+    defaultCardsProj.pluginManager.loadPluginsNotInstalled = () => {}
+    defaultCardsProj.pluginManager.loadInstalledPlugins = () => {}
     done()
   })
 
@@ -104,7 +105,6 @@ describe('WatchedFsStore', function () {
     })
     it('should reload config and do nothing if metaSep is incorrect', function (done) {
       let filePath
-      let expected
       defaultCardsRepo.once('config.update', (data) => {
         const expected = readFileSync(
           path.join(

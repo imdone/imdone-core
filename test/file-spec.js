@@ -13,12 +13,13 @@ const Task = require('../lib/task')
 const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const FileProjectContext = require('../lib/domain/entities/FileProjectContext')
-const { extractWikilinkTopics } = require('../lib/adapters/markdown')
 const pluginManager = {
   onTaskUpdate: () => {},
   getCardProperties: () => { return {} },
   getBoardProperties: () => { return {} },
   getCardActions: () => [],
+  loadInstalledPlugins: () => {},
+  loadPluginsNotInstalled: () => {} 
 }
 appContext().projectContext = new FileProjectContext()
 

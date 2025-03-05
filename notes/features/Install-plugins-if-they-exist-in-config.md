@@ -33,8 +33,9 @@ I would like plugins to be insalled if they exist in the config but are not inst
 
 ## :ballot_box_with_check: Tasks
 
-- [/] Refactor ImdonePlugins to use imdone core plugin lookup
-- [ ] Install plugins that are in config but not in plugins dir
+- [x] Refactor ImdonePlugins to use imdone core plugin lookup
+- [x] Install plugins that are in config but not in plugins dir
+- [ ] Test command line with only config.yml and a plugin with an action.
 
 ## :white_check_mark: DoD
 

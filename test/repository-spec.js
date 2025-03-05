@@ -20,7 +20,6 @@ const appContext = require('../lib/context/ApplicationContext')
 const ProjectContext = require('../lib/ProjectContext')
 const Task = require('../lib/task')
 const { createFileSystemProject } = require('../lib/project-factory')
-const exp = require('constants')
 const { parseHideListsFromQueryString } = Repository
 
 describe('Repository', function () {
@@ -66,10 +65,13 @@ describe('Repository', function () {
       return done(e)
     }
 
+    appContext().pluginRegistry = { getAvailablePlugins: async () => [] }
+
     wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
     wrench.copyDirSyncRecursive(filesSrc, repoDir, { forceDelete: true })
     repo = fsStore(new Repository(repoDir))
     proj = new Project(repo)
+
     configDir = path.join(repo.getPath(), '.imdone')
     repo1 = fsStore(new Repository(repo1Dir))
     proj1 = new Project(repo1)
@@ -102,7 +104,11 @@ describe('Repository', function () {
   })
 
   it('Should init successfully', function (done) {
-    appContext().projectContext = new ProjectContext(repo)
+    proj = createFileSystemProject({
+      path: repoDir,
+      loadInstalledPlugins: () => {},
+      loadPluginsNotInstalled: () => {} 
+    })  
     proj.init(function (err, files) {
       if (err) return done(err)
       expect(files.length).to.be(14)
@@ -111,7 +117,12 @@ describe('Repository', function () {
   })
 
   it('Should write and delete a file successfully', function (done) {
-    appContext().projectContext = new ProjectContext(repo1)
+    proj1 = createFileSystemProject({
+      path: repo1Dir,
+      loadInstalledPlugins: () => {},
+      loadPluginsNotInstalled: () => {} 
+    })
+    repo1 = proj1.repo
     proj1.init(function (err, files) {
       files.length.should.be.exactly(3)
       var file = new File({
@@ -134,7 +145,12 @@ describe('Repository', function () {
   })
 
   it('Should write and delete a file in a sub-dir successfully', function (done) {
-    appContext().projectContext = new ProjectContext(repo1)
+    proj1 = createFileSystemProject({
+      path: repo1Dir,
+      loadInstalledPlugins: () => {},
+      loadPluginsNotInstalled: () => {} 
+    })
+    repo1 = proj1.repo
     proj1.init(function (err, files) {
       files.length.should.be.exactly(3)
       var file = new File({
@@ -173,7 +189,12 @@ describe('Repository', function () {
   })
 
   it('Should find checkBox tasks', function (done) {
-    appContext().projectContext = new ProjectContext(repo)
+    proj = createFileSystemProject({
+      path: repoDir,
+      loadInstalledPlugins: () => {},
+      loadPluginsNotInstalled: () => {} 
+    })
+    repo = proj.repo
     var config = Config.newDefaultConfig()
     // BACKLOG Test with changes to config
     // <!--
@@ -206,7 +227,12 @@ describe('Repository', function () {
 
   describe('Repository.query', function () {
     it('Should should sort according to sort values', function (done) {
-      appContext().projectContext = new ProjectContext(repo2)
+      proj2 = createFileSystemProject({
+        path: repo2Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo2 = proj2.repo
       proj2.init(function (err, files) {
         expect(err).to.be(null)
         const tasks = Repository.query(repo2.getTasks(), 'list != OKAY +list')
@@ -223,8 +249,15 @@ describe('Repository', function () {
   })
 
   describe('hasDefaultFile', function (done) {
+    beforeEach(function () {
+      proj = createFileSystemProject({
+        path: repoDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo = proj.repo
+    })
     it('Should return false if no default file exists', function (done) {
-      appContext().projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         expect(repo.hasDefaultFile()).to.be(false)
         done()
@@ -232,7 +265,6 @@ describe('Repository', function () {
     })
 
     it('Should return true if readme.md file exists', function (done) {
-      appContext().projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var file = new File({
           repoId: repo.getId(),
@@ -252,7 +284,6 @@ describe('Repository', function () {
     })
 
     it('Should return true if home.md file exists', function (done) {
-      appContext().projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var file = new File({
           repoId: repo.getId(),
@@ -273,8 +304,15 @@ describe('Repository', function () {
   })
 
   describe('getDefaultFile', function (done) {
+    beforeEach(function () {
+      proj = createFileSystemProject({
+        path: repoDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo = proj.repo
+    })
     it("should return undefined if a default file doesn't exist", function (done) {
-      appContext().projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         expect(repo.getDefaultFile()).to.be(undefined)
         done()
@@ -282,7 +320,6 @@ describe('Repository', function () {
     })
 
     it('should return readme.md if it exist', function (done) {
-      appContext().projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var file = new File({
           repoId: repo.getId(),
@@ -302,7 +339,6 @@ describe('Repository', function () {
     })
 
     it('Should return home.md if it exists', function (done) {
-      appContext().projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var file = new File({
           repoId: repo.getId(),
@@ -322,7 +358,6 @@ describe('Repository', function () {
     })
 
     it('Should return readme.md if both home.md and readme.md exist', function (done) {
-      appContext().projectContext = new ProjectContext(repo)
       proj.init(function (err, files) {
         var home = new File({
           repoId: repo.getId(),
@@ -380,7 +415,12 @@ describe('Repository', function () {
 
   describe('saveConfig', function () {
     it('Should save the config file', function (done) {
-      appContext().projectContext = new ProjectContext(repo)
+      proj = createFileSystemProject({
+        path: repoDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo = proj.repo
       repo.saveConfig(function (err) {
         expect(err).to.be(null)
         expect(fs.existsSync(configDir)).to.be(true)
@@ -393,7 +433,12 @@ describe('Repository', function () {
 
   describe('toggleList', function () {
     it('Should toggle the list', async function () {
-      appContext().projectContext = new ProjectContext(repo)
+      proj = createFileSystemProject({
+        path: repoDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo = proj.repo
       await proj.init()
       await repo.toggleList('TODO')
       expect(repo.getList('TODO').hidden).to.be(true)
@@ -404,7 +449,12 @@ describe('Repository', function () {
 
   describe('toggleListIgnore', function () {
     it('Should toggle the list ignore', async function () {
-      appContext().projectContext = new ProjectContext(repo)
+      proj = createFileSystemProject({
+        path: repoDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo = proj.repo
       await proj.init()
       await repo.toggleListIgnore('TODO')
       expect(repo.getList('TODO').ignore).to.be(true)
@@ -431,8 +481,15 @@ describe('Repository', function () {
   })
 
   describe('updateList', function () {
+    beforeEach(function () {
+      proj1 = createFileSystemProject({
+        path: repo1Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo1 = proj1.repo
+    })
     it('should modify the list name', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err) {
         const todo = repo1.getList("TODO")
         const updatedList = {...todo, name: "PLANNING"}
@@ -449,7 +506,6 @@ describe('Repository', function () {
     })
 
     it('should modify the list filter', async function () {
-      appContext().projectContext = new ProjectContext(repo1)
       await proj1.init()
       const bareList = {name: "Filtered", filter: "text = /task/", id: "filtered"}     
       const filtered = new List(bareList)
@@ -463,8 +519,15 @@ describe('Repository', function () {
   })
 
   describe('deleteTasks', () => {
+    beforeEach(function () {
+      proj3 = createFileSystemProject({
+        path: repo3Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo3 = proj3.repo
+    })
     it('deletes all tasks', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var tasks = repo3.getTasks()
         repo3.deleteTasks(tasks, function (err) {
@@ -476,7 +539,6 @@ describe('Repository', function () {
     })
 
     it('deletes all tasks in a list', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todos = repo3.getTasksInList('TODO')
         repo3.deleteTasks(todos, function (err) {
@@ -488,7 +550,11 @@ describe('Repository', function () {
     })
 
     it('deletes all tasks that match a filter', (done) => {
-      const project = createFileSystemProject({path: defaultCards2Dir})
+      const project = createFileSystemProject({
+        path: defaultCards2Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
       const repo = appContext().repo
       project.init(function (err, result) {
         const cards = project.getCards('cards')
@@ -503,8 +569,15 @@ describe('Repository', function () {
   })
 
   describe('deleteTask', () => {
+    beforeEach(function () {
+      proj3 = createFileSystemProject({
+        path: repo3Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo3 = proj3.repo
+    })
     it('deletes a task with blank lines', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var doing = repo3.getTasksInList('DOING')
         var taskToDelete = doing.find(
@@ -521,7 +594,6 @@ describe('Repository', function () {
       })
     })
     it('deletes a block comment task on a single line', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -538,7 +610,6 @@ describe('Repository', function () {
       })
     })
     it('deletes a TODO that starts on the same line as code', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -555,7 +626,6 @@ describe('Repository', function () {
       })
     })
     it('deletes a TODO in a block comment', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -572,7 +642,6 @@ describe('Repository', function () {
       })
     })
     it('deletes a TODO in a block comment on the same lines', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -589,7 +658,6 @@ describe('Repository', function () {
       })
     })
     it('deletes a TODO with single line comments', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToDelete = todo.find(
@@ -606,7 +674,6 @@ describe('Repository', function () {
       })
     })
     it('deletes all TODOs in a file', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todos = repo3.getTasksInList('TODO')
 
@@ -639,7 +706,6 @@ describe('Repository', function () {
     })
     it('deletes all TODOs in a file', (done) => {
       const list = 'DOING'
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         let todos = repo3.getTasksInList(list)
 
@@ -673,8 +739,15 @@ describe('Repository', function () {
   })
 
   describe('modifyFromContent', () => {
+    beforeEach(function () {
+      proj3 = createFileSystemProject({
+        path: repo3Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo3 = proj3.repo
+    })
     it('modifies a description on a single line block comment', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
@@ -697,7 +770,6 @@ describe('Repository', function () {
       })
     })
     it('removes a description from a TODO that starts on the same line as code', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
@@ -721,7 +793,6 @@ describe('Repository', function () {
       })
     })
     it('removes a a description from a TODO in a block comment', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
@@ -745,7 +816,6 @@ describe('Repository', function () {
       })
     })
     it('modifies a a description for a TODO in a block comment', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -766,7 +836,6 @@ describe('Repository', function () {
       })
     })
     it.skip('removes a a description from a TODO on the same line as code with a description that ends with a block comment', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var todo = repo3.getTasksInList('TODO')
         var taskToModify = todo.find(
@@ -788,7 +857,6 @@ describe('Repository', function () {
       })
     })
     it('removes a a description from a TODO with two lines of comments following', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
@@ -812,7 +880,6 @@ describe('Repository', function () {
       })
     })
     it('ends the description on blank comment lines', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         var trickyTasks = repo3.getFile('tricky.js').getTasks()
         const task_a1 = trickyTasks.find(
@@ -827,7 +894,6 @@ describe('Repository', function () {
       })
     })
     it('removes a description from a TODO with a description in a yaml file', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         if (err) return done(err)
         var todo = repo3.getTasksInList('TODO')
@@ -853,12 +919,18 @@ describe('Repository', function () {
   })
 
   describe('addTaskToFile', function (done) {
-
+    beforeEach(function () {
+      proj3 = createFileSystemProject({
+        path: repo3Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo3 = proj3.repo
+    })
     it('should add a task to a file and call callback with file and taskId', (done) => {
       const content = 'A task added to a file'
       const testFilePath = 'addTaskTest.md'
       const filePath = path.join(repo3.path, testFilePath)
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         proj3.config.keepEmptyPriority = true
         proj3.config.settings.cards.orderMeta = false
@@ -876,7 +948,6 @@ describe('Repository', function () {
       const content = 'A task added to a file with order = null'
       const testFilePath = 'addTaskTestNew.md'
       const filePath = path.join(repo3.path, testFilePath)
-      appContext().projectContext = new ProjectContext(repo3)
       proj3.init(function (err, result) {
         proj3.config.keepEmptyPriority = true
         proj3.config.settings.jounalType = "New File"
@@ -895,7 +966,6 @@ describe('Repository', function () {
     })
 
     it('Adds a HASHTAG task to a file with orderMeta', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       repo3.loadConfig = (cb) => {
         const config = appContext().config
         config.settings.cards = { orderMeta : true, taskPrefix: '- [ ]'}
@@ -929,7 +999,6 @@ describe('Repository', function () {
     })
 
     it('Adds a MARKDOWN task to a file with orderMeta and keepEmptyPriority true', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       repo3.loadConfig = (cb) => {
         const config = appContext().config
         config.keepEmptyPriority = true
@@ -964,7 +1033,6 @@ describe('Repository', function () {
     })
 
     it('Adds a MARKDOWN task to a file with orderMeta: false and no order', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       var config = Config.newDefaultConfig()
       // BACKLOG Test with changes to config
       // <!--
@@ -978,6 +1046,7 @@ describe('Repository', function () {
           doneList: 'DONE',
           defaultList: 'TODO',
           addCheckBoxTasks: true,
+          taskPrefix: '',
           // metaNewLine: true,
           // trackChanges: true,
         },
@@ -1012,7 +1081,6 @@ describe('Repository', function () {
     })
 
     it('Adds a HASHTAG task to a file with orderMeta: true and no order', (done) => {
-      appContext().projectContext = new ProjectContext(repo3)
       repo3.loadConfig = (cb) => {
         const config = appContext().config
         config.keepEmptyPriority = true
@@ -1048,8 +1116,15 @@ describe('Repository', function () {
   })
 
   describe('query', function () {
+    beforeEach(function () {
+      proj1 = createFileSystemProject({
+        path: repo1Dir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      repo1 = proj1.repo
+    })
     it('Should find tasks with tags=/one\\/two/', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const filter = 'tags=/one\\/two/'
         const lists = repo1.query(filter)
@@ -1060,7 +1135,6 @@ describe('Repository', function () {
       })
     })
     it('Should find tasks with tags=one', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('tags=one')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -1070,7 +1144,6 @@ describe('Repository', function () {
       })
     })
     it('Should filter tasks by modified time with rql', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('list=DOING')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -1080,7 +1153,6 @@ describe('Repository', function () {
       })
     })
     it('Should filter tasks by modified time monquery', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('list = /DO/')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -1091,7 +1163,6 @@ describe('Repository', function () {
       })
     })
     it('Should filter tasks with a regex', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('task')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -1101,7 +1172,6 @@ describe('Repository', function () {
       })
     })
     it('Should return a result with a bad query', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         const lists = repo1.query('^&%^')
         expect(lists.find((list) => list.name === 'DOING').tasks.length).to.be(
@@ -1111,7 +1181,6 @@ describe('Repository', function () {
       })
     })
     it('should query using dates', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         let lists = repo1.query(
           'due < "2020-11-14" and list != DONE +due +order'
@@ -1135,7 +1204,6 @@ describe('Repository', function () {
       })
     })
     it('should sort using +[attribute] for ascending in with', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         let lists = repo1.query(
           'due < "2020-11-13T12:32:55.216Z" AND list != DONE +dueDate +order'
@@ -1148,7 +1216,6 @@ describe('Repository', function () {
       })
     })
     it('should sort using +[attribute] for ascending with regex', function (done) {
-      appContext().projectContext = new ProjectContext(repo1)
       proj1.init(function (err, result) {
         let lists = repo1.query('due +due +order')
         let doing = lists.find((list) => list.name === 'DOING')
@@ -1284,9 +1351,14 @@ describe('Repository', function () {
     })
 
     it('Should move a task in a file with orderMeta', (done) => {
+      moveMetaOrderProj = createFileSystemProject({
+        path: moveMetaOrderDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      moveMetaOrderRepo = moveMetaOrderProj.repo
+  
       const listName = 'DOING'
-      appContext().projectContext =
-        new ProjectContext(moveMetaOrderRepo)
       moveMetaOrderProj.init((err, result) => {
         var list = moveMetaOrderRepo.getTasksInList(listName)
         var task = list[0]
@@ -1301,7 +1373,11 @@ describe('Repository', function () {
 
     it('Should move a task in a file with orderMeta and keepEmptyPriority = true', (done) => {
       const listName = 'DOING'
-      const project = createFileSystemProject({path: moveMetaOrderKeepEmptyPriorityDir})
+      const project = createFileSystemProject({
+        path: moveMetaOrderKeepEmptyPriorityDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
       const repo = project.repo
       project.init((err, result) => {
         var list = repo.getTasksInList(listName)
@@ -1317,7 +1393,12 @@ describe('Repository', function () {
 
     it('should move a task to the proper location even if other tasks around it have the same order', (done) => {
       const listName = 'DOING'
-      appContext().projectContext = new ProjectContext(noOrderRepo)
+      noOrderProj = createFileSystemProject({
+        path: noOrderRepoDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      noOrderRepo = noOrderProj.repo
       noOrderProj.init((err, result) => {
         var list = noOrderRepo.getTasksInList(listName)
         var task = list[5]
@@ -1334,10 +1415,13 @@ describe('Repository', function () {
 
   describe('getTasksByList', () => {
     it('should return tasks in a filtered list', function (done) {
-      defaultCardsRepo = fsStore(new Repository(defaultCardsDir))
-      appContext().projectContext =
-        new ProjectContext(defaultCardsRepo);
-      defaultCardsProj = new Project(defaultCardsRepo)
+      defaultCardsProj = createFileSystemProject({
+        path: defaultCardsDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      defaultCardsRepo = defaultCardsProj.repo
+
       defaultCardsProj.init(function (err, result) {
         if (err) return done(err)
         const lists = defaultCardsRepo.getTasksByList()
@@ -1364,10 +1448,13 @@ describe('Repository', function () {
 
   describe('It should allow : or :: in config.settings.metaSep', function () {
     it('should read metaData with a :: as sep', function (done) {
-      appContext().projectContext =
-        new ProjectContext(metaSepTestRepo)
+      metaSepTestProj = createFileSystemProject({
+        path: metaSepTestDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      metaSepTestRepo = metaSepTestProj.repo
       metaSepTestProj.init((err, result) => {
-        const files = metaSepTestRepo.files
         const doneList = metaSepTestRepo
           .getTasksByList()
           .find(({ name }) => name === 'DONE')
@@ -1386,8 +1473,12 @@ describe('Repository', function () {
 
   describe('add and remove metadata', () => {
     it('Removes metadata from a task with a checkbox prefix', (done) => {
-      appContext().projectContext = 
-        new ProjectContext(metaSepTestRepo)
+      metaSepTestProj = createFileSystemProject({
+        path: metaSepTestDir,
+        loadInstalledPlugins: () => {},
+        loadPluginsNotInstalled: () => {} 
+      })
+      metaSepTestRepo = metaSepTestProj.repo
       function getTask() {
         return metaSepTestRepo
           .getTasks()
