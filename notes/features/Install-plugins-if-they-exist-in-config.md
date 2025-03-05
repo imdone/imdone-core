@@ -8,9 +8,33 @@ order:-10
 
 I would like plugins to be insalled if they exist in the config but are not installed on the system so I can keep the config in source control, but not plugins
 
+## Outcome
+
+`.imdone` directory should only have the following stored in git. Everything else should be ignored.
+
+```
+.imdone
+├── actions
+├── config.yml
+├── properties
+└── templates
+```
+
+.gitignore should look like this:
+
+```
+# Imdone
+.imdone/*
+!.imdone/config.yml
+!.imdone/actions
+!.imdone/properties
+!.imdone/templates
+``` 
+
 ## :ballot_box_with_check: Tasks
 
-- [ ] Add tasks here
+- [/] Refactor ImdonePlugins to use imdone core plugin lookup
+- [ ] Install plugins that are in config but not in plugins dir
 
 ## :white_check_mark: DoD
 
