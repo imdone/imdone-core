@@ -199,8 +199,9 @@ License
 
 <!-- # #NOTE Notes
 
-**Development Package Version {{version}}**
-**Published Version**
+{{branch}} :deciduous_tree: :hammer_and_wrench: Current Branch
+{{version}} :package: :hammer_and_wrench: Code Version
+{{publishedVersion}} :package: :passenger_ship: Published Version
 
 [Focus]({{getFilterURL('list = DOING or tags = focus')}})
 [Plan]({{getFilterURL(' ')}})
