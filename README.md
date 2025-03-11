@@ -204,7 +204,7 @@ License
 {{publishedVersion}} :package: :passenger_ship: Published Version
 
 [Focus]({{getFilterURL('list = DOING or tags = focus')}})
-[Plan]({{getFilterURL(' ')}})
+[Plan]({{clearFilterURL}})
 
 <!--
 expand:1
