@@ -1,3 +1,4 @@
+import { Project } from 'imdone-api/lib/project';
 const { Project } = require('imdone-api/lib/project')
 const PluginManager = require('./plugins/plugin-manager')
 const Repository = require('./repository')
