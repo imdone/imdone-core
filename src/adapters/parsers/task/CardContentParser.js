@@ -98,12 +98,12 @@ export function hasTaskInText(config, text, isCodeFile) {
   // Check for hash style tasks
   let result;
   if ((result = hashStyleRegex.exec(text)) !== null && !isWithinInlineCode(result.index)) {
-    return config.lists.find((list) => text.includes(`${config.tokenPrefix}${list.name}`));
+    return !!config.lists.find((list) => text.includes(`${config.tokenPrefix}${list.name}`));
   }
 
   // Check for link style tasks
   if ((result = linkStyleRegex.exec(text)) !== null && !isWithinInlineCode(result.index)) {
-    return config.lists.find((list) => text.includes(`${config.tokenPrefix}${list.name}`));
+    return !!config.lists.find((list) => text.includes(`${config.tokenPrefix}${list.name}`));
   }
 
   return false;

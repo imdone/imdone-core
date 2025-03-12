@@ -157,7 +157,7 @@ myFunction();
 ```
 
 lib
-- [ ] `├── ProjectContext.js`
+- [x] `├── ProjectContext.js`
 - [ ] `├── adapters`
 - [ ] `│   ├── __tests__`
 - [x] `│   │   ├── date-time.spec.js`
@@ -167,10 +167,10 @@ lib
 - [x] `│   ├── git-download.js`
 - [x] `│   ├── markdown.js`
 - [ ] `│   ├── parsers`
-- [ ] `│   │   ├── DateLanguageParser.js`
+- [x] `│   │   ├── DateLanguageParser.js`
 - [ ] `│   │   ├── __tests__`
-- [ ] `│   │   │   └── content-transformer.spec.js`
-- [ ] `│   │   ├── content-transformer.js`
+- [x] `│   │   │   └── content-transformer.spec.js`
+- [x] `│   │   ├── content-transformer.js`
 - [ ] `│   │   ├── file`
 - [ ] `│   │   │   ├── LocalFileParserFactory.js`
 - [ ] `│   │   │   ├── ReadStreamCodeParser.js`
@@ -181,7 +181,7 @@ lib
 - [ ] `│   │   │       ├── ReadStreamMarkdownParser.spec.js`
 - [ ] `│   │   │       ├── code-file.js`
 - [ ] `│   │   │       └── test-big-file.md`
-- [ ] `│   │   ├── function-parser.js`
+- [x] `│   │   ├── function-parser.js`
 - [ ] `│   │   └── task`
 - [x] `│   │       ├── CardContentParser.js`
 - [ ] `│   │       ├── CheckStyleTaskParser.js`
@@ -197,11 +197,11 @@ lib
 - [ ] `│   │   ├── config.js`
 - [ ] `│   │   └── tags.js`
 - [x] `│   └── yaml.js`
-- [ ] `├── card.js`
+- [x] `├── card.js`
 - [x] `├── config.js`
 - [x] `├── constants.js`
 - [ ] `├── context`
-- [ ] `│   ├── ApplicationContext.js`
+- [x] `│   ├── ApplicationContext.js`
 - [ ] `│   └── StreamingApplicationContext.js`
 - [ ] `├── controlers`
 - [ ] `│   ├── SaveViewController.js`
@@ -213,7 +213,7 @@ lib
 - [ ] `├── default-settings.js`
 - [ ] `├── domain`
 - [ ] `│   ├── entities`
-- [ ] `│   │   ├── FileProjectContext.js`
+- [x] `│   │   ├── FileProjectContext.js`
 - [ ] `│   │   └── View.js`
 - [ ] `│   └── usecases`
 - [ ] `│       ├── GetViewsUsecase.js`
@@ -223,8 +223,8 @@ lib
 - [ ] `│           ├── GetViewsUsecase.spec.js`
 - [ ] `│           ├── OpenProjectUsecase.spec.js`
 - [ ] `│           └── SaveViewUsecase.spec.js`
-- [ ] `├── file.js`
-- [ ] `├── languages.js`
+- [x] `├── file.js`
+- [x] `├── languages.js`
 - [ ] `├── list.js`
 - [ ] `├── migrate-config.js`
 - [ ] `├── mixins`
@@ -238,7 +238,7 @@ lib
 - [ ] `│   ├── extension-plugin.js`
 - [ ] `│   ├── persist-tags-plugin.js`
 - [ ] `│   ├── plugin-manager.js`
-- [ ] `│   └── plugin-registry.js`
+- [x] `│   └── plugin-registry.js`
 - [ ] `├── project-factory.js`
 - [ ] `├── project.js`
 - [ ] `├── repository.js`
