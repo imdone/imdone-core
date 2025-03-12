@@ -1,8 +1,10 @@
 {
   "name": "imdone-core",
-  "version": "1.55.0",
+  "version": "2.0.0",
   "description": "imdone-core",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
   "bin": {
     "imdone-cli": "./cli.js"
   },
@@ -111,6 +113,7 @@
     "xregexp": "^5.1.0"
   },
   "devDependencies": {
+    "@types/node": "^22.13.10",
     "chai": "^4.3.6",
     "colors": "^1.4.0",
     "doctoc": "^2.1.0",
@@ -125,6 +128,7 @@
     "should": "13.1.3",
     "sinon": "^13.0.0",
     "sinon-chai": "^3.7.0",
+    "typescript": "^5.8.2",
     "wrench": "~1.5.8"
   },
   "mocha": {
