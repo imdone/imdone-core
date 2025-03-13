@@ -1,4 +1,4 @@
-import constants from './constants'
+import constants from './constants.js'
 const { JOURNAL_TYPE, DEFAULT_CONFIG } = constants
 
 /**
@@ -175,7 +175,7 @@ export class Config {
   }
 
   get plugins() {
-    return this?.plugins ?? { devMode: this.devMode }
+    return this?.settings?.plugins ?? { devMode: this.devMode }
   }
 
   get orderMeta() {

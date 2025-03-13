@@ -2,7 +2,7 @@ import checkbox from 'markdown-it-checkbox';
 import imageSize from 'markdown-it-imsize';
 import emoji from 'markdown-it-emoji';
 import mark from 'markdown-it-mark';
-import removeMD from 'remove-markdown';
+import _removeMD from 'remove-markdown';
 import path from 'path';
 import MarkdownIt from 'markdown-it';
 
@@ -30,7 +30,7 @@ export function renderMarkdown (markdown, filePath) {
 }
 
 export function removeMD() {
-  return removeMD.apply({}, arguments)
+  return _removeMD.apply({}, arguments)
 }
 
 function getRenderer(filePath) {

@@ -1,5 +1,5 @@
-import { Config } from '../config'
-import pluginRegistry from '../plugins/plugin-registry';
+import { Config } from '../config.js'
+import pluginRegistry from '../plugins/plugin-registry.js';
 
 class ApplicationContext {
   constructor({
@@ -30,4 +30,6 @@ class ApplicationContext {
 }
 const context = new ApplicationContext({})
 
-export default () => context
+export default function() {
+  return context
+}

@@ -47,7 +47,8 @@
     }
   },
   "dependencies": {
-    "async": "~1.5.0",
+    "async": "^3.2.6",
+    "async-es": "^3.2.6",
     "chalk": "^4.1.2",
     "checksum": "^0.1.1",
     "chrono-node": "^2.6.4",

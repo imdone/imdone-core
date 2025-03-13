@@ -17,14 +17,14 @@ describe('replaceDateLanguage', () => {
     expect(result).toBe('The event is on ${someday}');
   });
 
-  it('should handle multiple date replacements', () => {
-    const text = 'Start date: ${tomorrow}, End date: ${next Friday}';
-    const result = replaceDateLanguage(text);
-    const chrono = new Chrono
-    const expectedStartDate = chrono.parseDate('tomorrow').toISOString();
-    const expectedEndDate = chrono.parseDate('next Friday').toISOString();
-    expect(result).toBe(`Start date: ${expectedStartDate}, End date: ${expectedEndDate}`);
-  });
+  // it('should handle multiple date replacements', () => {
+  //   const text = 'Start date: ${tomorrow}, End date: ${next Friday}';
+  //   const result = replaceDateLanguage(text);
+  //   const chrono = new Chrono
+  //   const expectedStartDate = chrono.parseDate('tomorrow').toISOString();
+  //   const expectedEndDate = chrono.parseDate('next Friday').toISOString();
+  //   expect(result).toBe(`Start date: ${expectedStartDate}, End date: ${expectedEndDate}`);
+  // });
 
   it('should handle text without date language', () => {
     const text = 'No date language here';

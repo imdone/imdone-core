@@ -193,9 +193,9 @@ lib
 - [ ] `│   │           └── CardContentParser.spec.js`
 - [ ] `│   ├── readers`
 - [ ] `│   │   └── FileSystemProjectReader.js`
-- [ ] `│   ├── storage`
-- [ ] `│   │   ├── config.js`
-- [ ] `│   │   └── tags.js`
+- [x] `│   ├── storage`
+- [x] `│   │   ├── config.js`
+- [x] `│   │   └── tags.js`
 - [x] `│   └── yaml.js`
 - [x] `├── card.js`
 - [x] `├── config.js`
@@ -210,7 +210,7 @@ lib
 - [ ] `│       └── repos`
 - [ ] `│           └── test`
 - [ ] `│               └── readme.md`
-- [ ] `├── default-settings.js`
+- [x] `├── default-settings.js`
 - [ ] `├── domain`
 - [ ] `│   ├── entities`
 - [x] `│   │   ├── FileProjectContext.js`
@@ -225,23 +225,23 @@ lib
 - [ ] `│           └── SaveViewUsecase.spec.js`
 - [x] `├── file.js`
 - [x] `├── languages.js`
-- [ ] `├── list.js`
-- [ ] `├── migrate-config.js`
-- [ ] `├── mixins`
-- [ ] `│   ├── repo-fs-store.js`
-- [ ] `│   └── repo-watched-fs-store.js`
-- [ ] `├── plugins`
-- [ ] `│   ├── archive-plugin.js`
-- [ ] `│   ├── default-board-actions-plugin.js`
-- [ ] `│   ├── default-board-properties-plugin.js`
-- [ ] `│   ├── epic-plugin.js`
-- [ ] `│   ├── extension-plugin.js`
-- [ ] `│   ├── persist-tags-plugin.js`
-- [ ] `│   ├── plugin-manager.js`
+- [x] `├── list.js`
+- [x] `├── migrate-config.js`
+- [x] `├── mixins`
+- [x] `│   ├── repo-fs-store.js`
+- [x] `│   └── repo-watched-fs-store.js`
+- [x] `├── plugins`
+- [x] `│   ├── archive-plugin.js`
+- [x] `│   ├── default-board-actions-plugin.js`
+- [x] `│   ├── default-board-properties-plugin.js`
+- [x] `│   ├── epic-plugin.js`
+- [x] `│   ├── extension-plugin.js`
+- [x] `│   ├── persist-tags-plugin.js`
+- [x] `│   ├── plugin-manager.js`
 - [x] `│   └── plugin-registry.js`
-- [ ] `├── project-factory.js`
-- [ ] `├── project.js`
-- [ ] `├── repository.js`
+- [x] `├── project-factory.js`
+- [x] `├── project.js`
+- [x] `├── repository.js`
 - [x] `├── task.js`
 - [x] `├── tools.js`
 - [ ] `└── usecases`

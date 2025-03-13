@@ -14,7 +14,7 @@ import { removeMD } from './adapters/markdown'
 const CONTENT_TOKEN = '__CONTENT__'
 const lf = String(eol.lf)
 
-export function newCard(task, _project, dontParse) {
+export default function newCard(task, _project, dontParse) {
   const project = _project
   const pluginManager = _project && _project.pluginManager
 

@@ -1,25 +1,25 @@
 import { Project } from 'imdone-api/lib/project';
-const { Project } = require('imdone-api/lib/project')
-const PluginManager = require('./plugins/plugin-manager')
-const Repository = require('./repository')
-const _cloneDeep = require('lodash.clonedeep')
-const newCard = require('./card')
-const { JOURNAL_TYPE, CONFIG_DIR } = require('./constants')
-const _path = require('path')
-const moment = require('moment')
-const { getIsoDateWithOffset } = require('./adapters/date-time')
-const fileGateway = require('./adapters/file-gateway')
-const matter = require('gray-matter')
-const _isObject = require('lodash.isobject')
-const _isString = require('lodash.isstring')
-const _isFunction = require('lodash.isfunction')
-const exec = require('child_process').exec
-const fastSort = require('fast-sort/dist/sort.js')
-const Task = require('./task')
-const eol = require('eol')
-const { renderMarkdown, extractWikilinkTopics } = require('./adapters/markdown')
-const { getFunctionSignature } = require('./adapters/parsers/function-parser')
-const { format } = require('./adapters/parsers/content-transformer')
+import PluginManager from './plugins/plugin-manager';
+import { Repository } from './repository';
+import _cloneDeep from 'lodash.clonedeep';
+import newCard from './card';
+import constants from './constants';
+const { JOURNAL_TYPE, CONFIG_DIR } = constants;
+import _path from 'path';
+import moment from 'moment';
+import { getIsoDateWithOffset } from './adapters/date-time';
+import * as fileGateway from './adapters/file-gateway';
+import matter from 'gray-matter';
+import _isObject from 'lodash.isobject';
+import _isString from 'lodash.isstring';
+import _isFunction from 'lodash.isfunction';
+import exec from 'child_process';
+import fastSort from 'fast-sort/dist/sort.js';
+import Task from './task';
+import eol from 'eol';
+import { renderMarkdown, extractWikilinkTopics } from './adapters/markdown';
+import { getFunctionSignature } from './adapters/parsers/function-parser';
+import { format } from './adapters/parsers/content-transformer';
 
 function calculateTotals(lists = []) {
   const totals = {}
@@ -46,7 +46,7 @@ const EVENTS = [
   'config.update',
 ]
 
-module.exports = class WorkerProject extends Project {
+export default class WorkerProject extends Project {
   constructor(repo) {
     super()
     this.repo = repo
@@ -578,7 +578,7 @@ module.exports = class WorkerProject extends Project {
     return this.addTaskToFile(opts)
   }
   
-  async addTaskToFile({path, list = this.config.getDefaultList(), content, tags = [], contexts = [], meta = [], useCardTemplate = false}) {
+  async addTaskToFile({path, list = this.config?.getDefaultList(), content, tags = [], contexts = [], meta = [], useCardTemplate = false}) {
     const pluginMods = await this.pluginManager.onBeforeAddTask({path, list, meta, tags, contexts, content, useCardTemplate})
     path = pluginMods.path
     content = pluginMods.content

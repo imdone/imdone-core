@@ -1,6 +1,7 @@
+import https from 'https'
 import {
 	renderMarkdown,
-} from '../adapters/markdown'
+} from '../adapters/markdown.js'
 
 export default {
   
@@ -21,8 +22,6 @@ async function getReadmeContent({version}) {
   const buffer = Buffer.from(content, 'base64');
   return buffer.toString('utf-8');
 }
-
-const https = require('https')
 
 async function fetch(url, opts = { method: 'GET', headers: {} }) {
   const { method, headers, body, debug = () => { } } = opts

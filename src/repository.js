@@ -13,7 +13,7 @@ import _union from 'lodash.union'
 import Emitter from 'events'
 import languages from './languages'
 import util from 'util'
-import async from 'async'
+import { parallel, eachLimit, eachSeries, series } from 'async-es'
 import path from 'path'
 import ignore from 'ignore'
 import { File } from './file'
@@ -30,12 +30,12 @@ import sift from 'sift'
 import fastSort from 'fast-sort/dist/sort.js'
 import JSONfns from 'json-fns'
 import { Task } from './task'
-import { newCard } from './card'
+import newCard from './card'
 import { replaceDateLanguage } from './adapters/parsers/DateLanguageParser'
 import { getRawTask, isNumber, LIST_NAME_PATTERN } from './adapters/parsers/task/CardContentParser'
 import XRegExp from 'xregexp'
+import appContext from './context/ApplicationContext'
 const {promisify } = util
-const appContext = require('./context/ApplicationContext')
 const { ERRORS, ASYNC_LIMIT, DEFAULT_FILE_PATTERN} = constants
 const DEFAULT_SORT = [{ asc: u => u.order }, { asc: u => u.text }]
 
@@ -358,6 +358,7 @@ function filterObjectValues (o, cb) {
 export class Repository extends Emitter {
 
   constructor(_path, config) {
+    super()
     this.config = config
     this.path = _path
     this.files = []
@@ -666,12 +667,12 @@ export class Repository extends Emitter {
     const oldMetaSep = oldConfig.getMetaSep()
     const newMetaSep = newConfig.getMetaSep()
     if (oldMetaSep === newMetaSep) return cb()
-    async.eachLimit(
+    eachLimit(
       this.getFiles(),
       ASYNC_LIMIT,
       (file, cb) => {
         const tasks = fastSort(file.tasks).desc(u => u.line)
-        async.eachSeries(
+        eachSeries(
           tasks,
           (task, cb) => {
             if (!Task.isTask(task)) return cb()
@@ -1018,7 +1019,7 @@ export class Repository extends Emitter {
     var exec = function (files) {
       var completed = 0
       if (files.length < 1) return cb(null, [])
-      async.eachLimit(
+      eachLimit(
         files,
         ASYNC_LIMIT,
         function (file, cb) {
@@ -1261,7 +1262,7 @@ export class Repository extends Emitter {
 
     this.moving = true
     if (modifyTasks.length > 0) {
-      async.parallel(modifyTasks, (err) => {
+      parallel(modifyTasks, (err) => {
         if (err) return cb(err)
 
         var fns = Object.values(tasksByFile).map(({ file }) => {
@@ -1271,7 +1272,7 @@ export class Repository extends Emitter {
         })
 
         if (fns.length > 0) {
-          async.parallel(fns, cbfn)
+          parallel(fns, cbfn)
         } else {
           cbfn()
         }
@@ -1341,11 +1342,11 @@ export class Repository extends Emitter {
     for (let [path, tasks] of Object.entries(files)) {
       files[path] = fastSort(tasks).desc(u => u.line)
     }
-    async.eachSeries(
+    eachSeries(
       Object.entries(files),
       ([path, tasks], cb) => {
         const file = this.getFile(path)
-        async.eachSeries(
+        eachSeries(
           tasks,
           (task, cb) => {
             task = newCard(task, this.project, true)
@@ -1585,7 +1586,7 @@ export class Repository extends Emitter {
     toListTasks.splice(newPos, 0, task)
 
     const tasksToModifySorted = fastSort(tasksToModify).by([{ desc: u => u.line }, { asc: u => u.path }])
-    async.eachSeries(
+    eachSeries(
       tasksToModifySorted,
       (task, cb) => {
         this.modifyTask(task, true, cb)
@@ -1622,7 +1623,7 @@ export class Repository extends Emitter {
       JSON.stringify(self.getTasksInList(newList), null, 3)
     )
     fastSort(tasks).by({desc: t => t.line})
-    async.series(
+    series(
       tasks.map((task, i) => {
         return function (cb) {
           const foundTask  = self.getTasks().find(({source, line}) => task.source.path === source.path && task.line === line)
@@ -1686,7 +1687,7 @@ export class Repository extends Emitter {
 
     if (funcs.length < 1) return cb()
     this.savingFiles = true
-    async.parallel(funcs, (err) => {
+    parallel(funcs, (err) => {
       this.savingFiles = false
       if (err) return cb(err)
       self.emit('files.saved', filesToSave)

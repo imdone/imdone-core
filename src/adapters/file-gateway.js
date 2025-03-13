@@ -1,7 +1,8 @@
-import tools from '../tools'
+import tools from '../tools.js'
 import _path from 'path'
 import _fs from 'fs'
 import sanitize from 'sanitize-filename'
+import mkdirp from 'mkdirp'
 
 let fs = _fs
 
@@ -16,7 +17,7 @@ export async function exists(path) {
 
 export function mkdirpSync(path) {
   console.warn('sync call')
-  return require('mkdirp').sync(path, { fs })
+  return mkdirp.sync(path, { fs })
 }
 
 export function statSync(path) {
