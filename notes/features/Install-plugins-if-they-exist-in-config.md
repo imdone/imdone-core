@@ -1,9 +1,9 @@
-# #DOING Install plugins if they exist in config
+# #READY Install plugins if they exist in config
 <!--
 #imdone-1.54.9
 #feature
 created:2025-03-04T15:01:11-05:00
-order:-10
+order:0
 -->
 
 I would like plugins to be insalled if they exist in the config but are not installed on the system so I can keep the config in source control, but not plugins

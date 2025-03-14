@@ -1,6 +1,6 @@
 import { describe, it, expect, should } from 'vitest';
 
-import { Task } from '../task'
+import Task from '../task'
 import { Config } from '../config';
 
 const config = Config.newDefaultConfig()

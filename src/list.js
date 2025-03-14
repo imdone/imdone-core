@@ -7,7 +7,7 @@ import uniqid from 'uniqid';
  * @param {} hidden
  * @return
  */
-export class List {
+export default class List {
   constructor({ name, hidden, ignore, filter, id }) {
     this.name = name;
     this.hidden = hidden || false

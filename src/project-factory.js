@@ -1,4 +1,4 @@
-import { Repository } from './repository'
+import Repository from './repository'
 import watchedFsStore from './mixins/repo-watched-fs-store'
 import fsStore from './mixins/repo-fs-store'
 import { ProjectContext } from './ProjectContext'

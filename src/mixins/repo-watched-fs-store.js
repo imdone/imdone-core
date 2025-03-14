@@ -1,7 +1,7 @@
 import fsStore from './repo-fs-store'
 import debug from 'debug'
 const log = debug('imdone-mixins:repo-watched-fs-store')
-import { File } from '../file'
+import File from '../file'
 import constants from '../constants'
 import sane from 'sane'
 import realFs from 'fs'

@@ -54,7 +54,7 @@ describe('Content Transformer', () => {
 
   describe('encodeMarkdownLinks', () => {
     it('should encode file links', () => {
-      const content = 'This is a [link](imdone://one/two/three?filter=list = DOING or tags = focus or (list = TODO and index = 0) hide TODO)';
+      const content = "This is a [link](imdone://one/two/three?filter=list = DOING or tags = focus or (list = TODO and index = 0) hide TODO)";
       const result = encodeMarkdownLinks(content);
 
       expect(result).to.equal('This is a [link](imdone://one/two/three?filter=list%20=%20DOING%20or%20tags%20=%20focus%20or%20%28list%20=%20TODO%20and%20index%20=%200) hide TODO)');

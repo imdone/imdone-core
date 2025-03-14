@@ -10,7 +10,7 @@ import eol from 'eol'
 import tools from './tools'
 import debug from 'debug'
 import * as chrono from 'chrono-node'
-import { Task } from './task'
+import Task from './task'
 import newCard from './card'
 import fastSort from 'fast-sort/dist/sort'
 import XRegExp from 'xregexp'
@@ -115,7 +115,7 @@ function isUndefNull(val) {
 
 
 
-export class File extends Emitter {
+export default class File extends Emitter {
   constructor(opts) {
     super()
     this.project = opts.project
@@ -890,7 +890,7 @@ export class File extends Emitter {
         (hasBlankLines(description) || isWrappedWithCardTag || trailingBlankLines)
       ) {
         task.isWrappedWithCardTag = isWrappedWithCardTag // FIXME Find out where this is used and stop using it
-                                                        // <!-- order:-30 -->
+                                                         // <!-- order:-30 -->
         const blankLinesToAdd = isWrappedWithCardTag ? 2 : trailingBlankLines
         description = `${description}${lineEnd.repeat(blankLinesToAdd)}`
       }

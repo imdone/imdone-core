@@ -1,6 +1,6 @@
 import { Project } from 'imdone-api/lib/project';
 import PluginManager from './plugins/plugin-manager';
-import { Repository } from './repository';
+import Repository from './repository';
 import _cloneDeep from 'lodash.clonedeep';
 import newCard from './card';
 import constants from './constants';

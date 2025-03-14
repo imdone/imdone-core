@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import path from 'path';
-import wrench from 'wrench';
 import fs from 'fs';
 import { createFileSystemProject } from '../project-factory';
 
+const {cp, rm, mkdir, access} = fs.promises
 describe('project', function () {
   const tmpDir = path.join(process.cwd(), 'tmp')
   const tmpReposDir = path.join(tmpDir, 'repos')
@@ -11,16 +11,16 @@ describe('project', function () {
   const defaultCardsDir = path.join(tmpReposDir, 'default-cards')
   let project, repo
 
-  beforeEach(() => {
+  beforeEach(async () => {
     try {
-      if (fs.existsSync(tmpDir)) {
-        wrench.rmdirSyncRecursive(tmpDir)
-      }
-      wrench.mkdirSyncRecursive(tmpDir)
+      await access(tmpDir)
+      await rm(tmpDir, { recursive: true })
     } catch (e) {
-      return done(e)
+      // swallow exception
+    } finally {
+      await mkdir(tmpDir)
+      await cp(repoSrc, tmpReposDir, { recursive: true, force: true })
     }
-    wrench.copyDirSyncRecursive(repoSrc, tmpReposDir, { forceDelete: true })
     
     project = createFileSystemProject({
       path: defaultCardsDir,
@@ -30,9 +30,9 @@ describe('project', function () {
     repo = project.repo
   })
 
-  afterEach(() => {
+  afterEach(async () => {
     project.destroy()
-    wrench.rmdirSyncRecursive(tmpDir, true)
+    await rm(tmpDir, {recursive: true})
   })
 
   it('sorts according to due date when the default view filter has +dueDate', async function () {

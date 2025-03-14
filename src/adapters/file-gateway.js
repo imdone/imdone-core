@@ -9,7 +9,7 @@ let fs = _fs
 export async function exists(path) {
   try {
     await fs.promises.access(path)
-    return path
+    return !!path
   } catch {
     return false
   }

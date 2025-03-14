@@ -11,7 +11,7 @@ import tools from '../tools'
 import constants from '../constants'
 import debug from 'debug'
 const log = debug('imdone-mixins:repo-fs-store')
-import { File } from '../file'
+import File from '../file'
 import { Config } from '../config'
 import languages from '../languages'
 import isBinaryFile from 'isbinaryfile'
@@ -23,6 +23,7 @@ import fastSort from 'fast-sort/dist/sort.js'
 import buildMigrateConfig from '../migrate-config'
 import { loadYAML, dumpYAML } from '../adapters/yaml';
 import realFs from 'fs'
+import { preparePathForWriting, writeFile } from '../adapters/file-gateway'
 
 const {
   CONFIG_DIR,
@@ -183,32 +184,26 @@ export default function mixin(repo, fs = realFs) {
     })
   }
 
-  repo.saveConfig = function (cb) {
-    repo.savingConfig = true
-    cb = tools.cb(cb)
-    var _cb = function (err, resp) {
-      repo.savingConfig = false
-      cb(err, resp)
-    }
-    var dir = repo.getFullPath(CONFIG_DIR)
-    var file = repo.getFullPath(CONFIG_FILE_YML)
-    fs.exists(dir, function (exists) {
+  repo.saveConfig = async function (cb) {
+    try {
+      repo.savingConfig = true
+      var file = repo.getFullPath(CONFIG_FILE_YML)
       const data = { ...repo.getConfig() }
       delete data.cardActionsFunction
       delete data.boardActionsFunction
       delete data.cardPropertiesFunction
       delete data.path
       if (data.lists) data.lists.forEach((list) => delete list.tasks)
-      var yaml = dumpYAML(data)
-      if (exists) {
-        fs.writeFile(file, yaml, _cb)
-      } else {
-        fs.mkdir(dir, function (err) {
-          if (err) return _cb(err)
-          fs.writeFile(file, yaml, _cb)
-        })
-      }
-    })
+      const yaml = dumpYAML(data)
+      await preparePathForWriting(file)
+      await writeFile(file, yaml)
+      repo.savingConfig = false
+      if (cb) cb()
+    } catch (e) {
+      repo.savingConfig = false
+      if (cb) cb(e)
+      else throw e
+    }
   }
 
   repo.updateConfig = function (loadedConfig, cb) {
@@ -240,16 +235,22 @@ export default function mixin(repo, fs = realFs) {
     })
   }
 
-  repo.loadConfig = function (cb) {
+  repo.loadConfig = async function (cb) {
     // BACKLOG If a config is bad move it to config.json.bak and save a new one with defaults gh:2 id:9 +enhancement +standup +chore
     // <!--
     // order:-670
     // -->
-    cb = tools.cb(cb)
     repo.loadIgnore()
-    // new
-    const configData =  (!repo.config || repo.config.dirty) ? this.getYamlConfig() : repo.config || {}
-    repo.updateConfig(configData, cb)
+    const configData =  (!repo.config || repo.config.dirty) 
+    ? this.getYamlConfig() 
+    : repo.config || {}
+    
+    return new Promise((resolve, reject) => {
+      repo.updateConfig(configData, (err, config) => {
+        if (err) return cb ? cb(err) : reject(err)
+        return cb ? cb() : resolve(config)
+      })
+    })
   }
 
   repo.getConfigFile = function () {
@@ -267,15 +268,6 @@ export default function mixin(repo, fs = realFs) {
       /* noop */
     }
     return configLike
-  }
-
-  var _deleteTasks = repo.deleteTasks
-  repo.deleteTasks = function (tasks, cb) {
-    _deleteTasks.call(repo, tasks, function (err) {
-      if (err) return cb(err)
-      repo.emit('tasks.updated', tasks)
-      cb()
-    })
   }
 
   repo.writeFile = function (file, emitFileUpdate, cb) {
@@ -382,7 +374,7 @@ export default function mixin(repo, fs = realFs) {
     })
   }
 
-  repo.readFileContent = function (file, cb) {
+  const _readFileContent = function (file, cb) {
     cb = tools.cb(cb)
     if (!File.isFile(file)) return cb(new Error(ERRORS.NOT_A_FILE))
     var filePath = repo.getFullPath(file)
@@ -404,16 +396,45 @@ export default function mixin(repo, fs = realFs) {
     })
   }
 
-  repo.deleteFile = function (path, cb) {
-    cb = tools.cb(cb)
-    var file = File.isFile(path) ? path : repo.getFile(path)
-    if (!_isUndefined(file)) {
-      fs.unlink(repo.getFullPath(file), function (err) {
-        if (err) return cb('Unable to delete:' + path + ' : ' + err.toString())
-        repo.removeFile(file)
-        cb(null, file)
+  repo.readFileContent = async function (file, cb) {
+    const promise = new Promise((resolve, reject) => {
+      _readFileContent(file, function (err, file) {
+        if (err) {
+          if (cb) cb(err)
+          else reject(err)
+          return
+        }
+        if (cb) cb(null, file)
+        else resolve(file)
       })
-    } else cb('Unable to delete:' + path)
+    });
+
+    if (!cb) return promise
+  }
+
+  repo.deleteFile = async function (path, cb) {
+    const promise = new Promise((resolve, reject) => {
+      const file = File.isFile(path) ? path : repo.getFile(path)
+      if (!_isUndefined(file)) {
+        fs.unlink(repo.getFullPath(file), function (err) {
+          if (err) {
+            err = new Error('Unable to delete:' + path , {cause: err})
+            if (cb) cb(err)
+            else reject(err)
+            return
+          }
+          repo.removeFile(file)
+          if (cb) cb(null, file)
+          else resolve(file)
+        })
+      } else {
+        const err = new Error('Unable to delete:' + path)
+        if (cb) cb(err)
+        else reject(err)
+      }
+    });
+
+    if (!cb) return promise
   }
 
   return repo

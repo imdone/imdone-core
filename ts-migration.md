@@ -1,3 +1,9 @@
+# #DOING ES Migration of imdone-core
+<!--
+order:-30
+#esm-migration
+-->
+
 [Chat](https://chatgpt.com/share/67d08118-c930-8005-84d1-c29e324ae3b9)
 
 Converting `imdone-core` from CommonJS (CJS) to TypeScript (TS) with ECMAScript Modules (ESM, `.mjs`) involves several steps. Since `imdone-core` is currently using CJS, you'll need to:

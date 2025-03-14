@@ -1,4 +1,4 @@
-import { Task } from './task'
+import Task from './task'
 import _path from 'path'
 import template from 'lodash.template'
 import _pick from 'lodash.pick'

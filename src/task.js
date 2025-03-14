@@ -21,7 +21,7 @@ const lineEnd = String(eol.auto);
  * @param {} obj
  * @return
  */
-export class Task {
+export default class Task {
   constructor(config, obj, dontParse) {
     if (obj == null || typeof obj !== 'object') throw new Error('obj must be an Object')
     this.frontMatter = obj.frontMatter || {

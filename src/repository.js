@@ -16,7 +16,7 @@ import util from 'util'
 import { parallel, eachLimit, eachSeries, series } from 'async-es'
 import path from 'path'
 import ignore from 'ignore'
-import { File } from './file'
+import File from './file'
 import { Config } from './config'
 import eol from 'eol'
 import tools from './tools'
@@ -24,12 +24,12 @@ const { inMixinsNoop } = tools
 import constants from './constants'
 import debug from 'debug'
 const log = debug('imdone-core:Repository')
-import { List } from './list'
+import List from './list'
 import monquery from 'monquery'
 import sift from 'sift'
 import fastSort from 'fast-sort/dist/sort.js'
 import JSONfns from 'json-fns'
-import { Task } from './task'
+import Task from './task'
 import newCard from './card'
 import { replaceDateLanguage } from './adapters/parsers/DateLanguageParser'
 import { getRawTask, isNumber, LIST_NAME_PATTERN } from './adapters/parsers/task/CardContentParser'
@@ -355,7 +355,7 @@ function filterObjectValues (o, cb) {
 }
 
 // Emits task.found, list.found, file.update and file.delete, file.processed, files.saved
-export class Repository extends Emitter {
+export default class Repository extends Emitter {
 
   constructor(_path, config) {
     super()
@@ -946,18 +946,21 @@ export class Repository extends Emitter {
    * @param {} cb
    * @return
    */
-  readFileContent (file, cb) {
+  async readFileContent (file, cb) {
     inMixinsNoop(cb)
   }
 
-  /**
-   * Description
-   * @method readFile
-   * @param {} file
-   * @param {} cb
-   * @return
-   */
-  readFile (file, cb) {
+  async readFile(file, cb) {
+    return new Promise((resolve, reject) => {
+      this._readFile(file, (err, file) => {
+        if (err) return cb && cb(err) || reject(err)
+        cb && cb(null, file)
+        resolve(file)
+      })
+    })
+  }
+  
+  _readFile (file, cb) {
     const checksum = this.checksum || function () {}
     cb = tools.cb(cb)
     if (!File.isFile(file)) return cb(new Error(ERRORS.NOT_A_FILE))
@@ -1066,7 +1069,7 @@ export class Repository extends Emitter {
    * @param {} cb
    * @return
    */
-  deleteFile (path, cb) {
+ async deleteFile (path, cb) {
     inMixinsNoop(cb)
   }
 
@@ -1176,18 +1179,12 @@ export class Repository extends Emitter {
   }
 
   async toggleList (name) {
-    return new Promise(async (resolve, reject) => {
-      var self = this
-      var list = this.getList(name)
-      if (!list) return reject(new Error('List not found'))
-      list.hidden = !list.hidden
-      await this.updateList(list.id, list)
-      this.saveConfig((err) => {
-        if (err) reject(err)
-        self.emit('list.modified', name)
-        resolve()
-      })
-    });
+    const list = this.getList(name)
+    if (!list) throw new Error('List not found')
+    list.hidden = !list.hidden
+    await this.updateList(list.id, list)
+    await this.saveConfig()
+    this.emit('list.modified', name)
   }
 
   updateList(id, {name, hidden, ignore, filter}) {
@@ -1280,23 +1277,38 @@ export class Repository extends Emitter {
     } else cbfn()
   }
 
-  writeAndExtract (file, emit, cb) {
-    this.writeFile(file, emit, (err, file) => {
-      if (err) return cb(new Error('Unable to write file:' + file.path))
-      this.extractTasks(file, (err, file) => {
+  async writeAndExtract (file, emit, cb) {
+    const promise = new Promise((resolve, reject) => {
+      this.writeFile(file, emit, (err, file) => {
         if (err) {
-          return cb(new Error('Unable to extract tasks for file:' + file.path))
+          err = new Error('Unable to write file:' + file.path, {cause: err})
+          if (cb) cb(err)
+          else reject(err)
+          return
         }
-        
-        this.addFile(file, (err) => {
+        this.extractTasks(file, (err, file) => {
           if (err) {
-            err.message = `Unable to add file after extracting tasks: #{file.path}\n${err.message}` 
-            return cb(err)
+            err = new Error('Unable to extract tasks for file:' + file.path, { cause: err })
+            if (cb) cb(err)
+            else reject(err)
+            return
           }
-          cb(null, file)
+          
+          this.addFile(file, (err) => {
+            if (err) {
+              err = new Error('Unable to add file after extracting tasks: ' + file.path, { cause: err })
+              if (cb) cb(err)
+              else reject(err)
+              return
+            }
+            if (cb) cb(null, file)
+            else resolve(file)
+          })
         })
       })
     })
+
+    if (!cb) return promise
   }
 
   writeAndAdd (file, emit, cb) {
@@ -1309,8 +1321,16 @@ export class Repository extends Emitter {
     })
   }
 
-  deleteTask (task, cb) {
-    if (!cb) throw new Error('task, callback required')
+  async deleteTask (task, cb) {
+    return new Promise((resolve, reject) => {
+      this._deleteTask(task, (err) => {
+        if (err) return cb ? cb(err) : reject(err)
+        return cb ? cb() : resolve() 
+      })
+    })
+  }
+
+  _deleteTask (task, cb) {
     var self = this
     var file = self.getFileForTask(task)
     if (!file) return cb(null)
@@ -1334,10 +1354,18 @@ export class Repository extends Emitter {
       execute(file)
     }
   }
-  deleteTasks (tasks, cb) {
-    if (!cb) throw new Error('tasks, callback required')
-    var self = this
 
+  async deleteTasks(tasks, cb) {
+    return new Promise((resolve, reject) => {
+      this._deleteTasks(tasks, (err) => {
+        if (err) return cb ? cb(err) : reject(err)
+        this.emit('tasks.updated', tasks)
+        return cb ? cb() : resolve() 
+      })
+    })
+  }
+
+  _deleteTasks (tasks, cb) {
     let files = _groupBy(tasks, (task) => task.source.path) // {path:tasks, path2:tasks}
     for (let [path, tasks] of Object.entries(files)) {
       files[path] = fastSort(tasks).desc(u => u.line)
@@ -1380,7 +1408,16 @@ export class Repository extends Emitter {
     }
   }
 
-  modifyTaskFromContent (task, content, cb) {
+  async modifyTaskFromContent (task, content, cb) {
+    return new Promise((resolve, reject) => {
+      this._modifyTaskFromContent(task, content, (err) => {
+        if (err) return cb ? cb(err) : reject(err)
+        return cb ? cb() : resolve()
+      })
+    })
+  }
+
+  _modifyTaskFromContent (task, content, cb) {
     cb = tools.cb(cb)
     var file = this.getFileForTask(task)
     if (!file.getContent()) {
@@ -1469,7 +1506,16 @@ export class Repository extends Emitter {
     })
   }
 
-  addTaskToFile (filePath, list, content, cb) {
+  async addTaskToFile (filePath, list, content, cb) {
+    return new Promise((resolve, reject) => {
+      this._addTaskToFile(filePath, list, content, (err, file, task) => {
+        if (err) return cb ? cb(err) : reject(err)
+        return cb ? cb(null, file, task) : resolve({ file, task })
+      })
+    })
+  }
+
+  _addTaskToFile (filePath, list, content, cb) {
     cb = tools.cb(cb)
     const relPath = this.getRelativePath(filePath)
     let file = this.getFile(relPath)
@@ -1555,7 +1601,16 @@ export class Repository extends Emitter {
     cb()
   }
 
-  moveTask ({ task, newList = task.list, newPos }, cb) {
+  async moveTask ({ task, newList, newPos }, cb) {
+    return new Promise((resolve, reject) => {
+      this._moveTask({ task, newList, newPos }, (err, task) => {
+        if (err) return cb ? cb(err) : reject(err)
+        return cb ? cb(null, task) : resolve(task)
+      })
+    })
+  }
+
+  _moveTask ({ task, newList = task.list, newPos }, cb) {
     if (!Task.isTask(task)) {
       task = newCard(task, this.project, true)
     }

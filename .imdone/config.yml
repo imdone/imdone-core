@@ -97,7 +97,7 @@ settings:
   filterHistory:
     - allMeta.id = "4"
   views: []
-  name: "\U0001F3AF imdone core"
+  name: "\U0001F3AF imdone core 2"
   defaultFilter: !<tag:yaml.org,2002:js/undefined> ''
   kudosProbability: 0.33
   cards:
