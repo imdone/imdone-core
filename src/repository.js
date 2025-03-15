@@ -404,29 +404,28 @@ export default class Repository extends Emitter {
     cb(null)
   }
 
-  refresh (cb) {
-    cb = tools.cb(cb)
-    this.config.dirty = true
-    this.loadConfig((err, config) => {
-      if (err) {
-        return cb(err)
-      }
+  // TODO Refactor to use async/await
+  // #esm-migration #urgent #important
+  async refresh () {
+    this.files = []
+    this.allMeta = {}
+    this.metaKeys = new Set()
+    this.allTags = new Set()
+    this.allTopics = new Set()
+    this.allContexts = new Set()
+    this?.config?.dirty = true
+
+    let files = await this.getFilesInPath(false)
+    try {
+      const config = await this.loadConfig()
       this.config = config
-      this.files = []
-      this.allMeta = {}
-      this.metaKeys = new Set()
-      this.allTags = new Set()
-      this.allTopics = new Set()
-      this.allContexts = new Set()
-      this.readFiles((err, files) => {
-        if (err) {
-          this.emit('initialized', { ok: false })
-          return cb(err)
-        }
-        this.emit('initialized', { ok: true, lists: this.getTasksByList() })
-        if (cb) cb(err, files)
-      })
-    })
+      files = await this.readFiles()
+      this.emit('initialized', { ok: true, lists: this.getTasksByList() })
+    } catch (err) {
+      this.emit('initialized', { ok: false })
+      throw err
+    }
+    return files
   }
 
   /**
@@ -481,11 +480,8 @@ export default class Repository extends Emitter {
     })
   }
 
-  /**
-   * Description
-   * @method createListeners
-   * @return
-   */
+  // TODO Refactor createListeners to use async/await
+  //#esm-migration
   createListeners () {
     if (this.taskListener) return
     var self = this
@@ -495,12 +491,12 @@ export default class Repository extends Emitter {
      * @param {} task
      * @return
      */
-    this.taskListener = function (event, task) {
+    this.taskListener = async function (event, task) {
       if (!self.listExists(task.list) && self.config.includeList(task.list)) {
         const list = new List({ name: task.list })
         self.addList(list)
         self.emit('list.found', list)
-        self.saveConfig()
+        await self.saveConfig()
       }
       Object.keys(task.allMeta).forEach(key => self.metaKeys.add(key))
       task.topics.forEach(topic => self.allTopics.add(topic))
@@ -552,7 +548,7 @@ export default class Repository extends Emitter {
         }
       }
 
-      await promisify(this.saveConfig).bind(this)();
+      await this.saveConfig()
       this.emit('list.modified', list);
       cb();
     } catch (err) {
@@ -560,22 +556,18 @@ export default class Repository extends Emitter {
     }
   };
 
-  removeList (list, cb) {
-    return new Promise((resolve, reject) => {
-      var fn = (err) => {
-        if (err) return cb && cb(err) || reject(err)
-        this.emit('list.modified', list)
-        resolve()
-      }
-      if (!this.listExists(list)) return fn()
+  // TODO Refactor removeList to use async/await
+  // #esm-migration
+  async removeList (list) {
+    if (!this.listExists(list)) return
 
-      var lists = _reject(this.getLists(), { name: list })
-      if (this.config.code && this.config.code.include_lists) {
-        this.config.code.include_lists = _reject(this.config.code.include_lists, list)
-      }
-      this.setLists(lists)
-      this.saveConfig(fn)
-    })
+    var lists = _reject(this.getLists(), { name: list })
+    if (this.config.code && this.config.code.include_lists) {
+      this.config.code.include_lists = _reject(this.config.code.include_lists, list)
+    }
+    this.setLists(lists)
+    await this.saveConfig()
+    this.emit('list.modified', list)
   }
 
   /**
@@ -641,11 +633,10 @@ export default class Repository extends Emitter {
    * Save the config file (Implemented in mixins)
    *
    * @method saveConfig
-   * @param {} cb
    * @return
    */
-  saveConfig (cb) {
-    inMixinsNoop(cb)
+  async saveConfig () {
+    inMixinsNoop()
   }
 
   /**
@@ -654,44 +645,54 @@ export default class Repository extends Emitter {
    * @method loadConfig
    * @return MemberExpression
    */
+  // TODO Refactor loadConfig to use async/await
+  // #esm-migration #urgent
   loadConfig (cb) {
     inMixinsNoop(cb)
   }
 
-  migrateTasksByConfig (
-    oldConfig,
-    newConfig,
-    cb
-  ) {
-    if (!oldConfig || !newConfig) return cb()
-    const oldMetaSep = oldConfig.getMetaSep()
-    const newMetaSep = newConfig.getMetaSep()
-    if (oldMetaSep === newMetaSep) return cb()
-    eachLimit(
-      this.getFiles(),
-      ASYNC_LIMIT,
-      (file, cb) => {
-        const tasks = fastSort(file.tasks).desc(u => u.line)
-        eachSeries(
-          tasks,
-          (task, cb) => {
-            if (!Task.isTask(task)) return cb()
-            task.replaceMetaSep(oldMetaSep, newMetaSep)
-            this.modifyTask(task, false, cb)
-          },
-          (err) => {
-            if (err) return cb(err)
-            if (!file.isModified() || file.getContent().trim() === '') return cb()
-            this.writeFile(file, (err, file) => {
-              this.resetFile(file)
+  async migrateTasksByConfig (oldConfig, newConfig) {
+    return new Promise((resolve, reject) => {
+      if (!oldConfig || !newConfig) return resolve()
+      const oldMetaSep = oldConfig.getMetaSep()
+      const newMetaSep = newConfig.getMetaSep()
+      if (oldMetaSep === newMetaSep) return resolve()
+      eachLimit(
+        this.getFiles(),
+        ASYNC_LIMIT,
+        (file, cb) => {
+          const tasks = fastSort(file.tasks).desc(u => u.line)
+          eachSeries(
+            tasks,
+            async (task, cb) => {
+              if (!Task.isTask(task)) return cb()
+              try {
+                task.replaceMetaSep(oldMetaSep, newMetaSep)
+                await this.modifyTask(task, false)
+                cb()
+              } catch (err) {
+                cb(err)
+              }
+            },
+            async (err) => {
               if (err) return cb(err)
-              cb(null, file)
-            })
-          }
-        )
-      },
-      cb
-    )
+              if (!file.isModified() || file.getContent().trim() === '') return cb()
+              try {
+                const file = await this.writeFile(file)
+                this.resetFile(file)
+                cb(null, file)
+              } catch (err) {
+                cb(err)
+              }
+            }
+          )
+        },
+        (err) => {
+          if (err) return reject(err)
+          resolve()
+        }
+      )
+    })
   }
 
   /**
@@ -752,6 +753,8 @@ export default class Repository extends Emitter {
    * @param {} includeDirs
    * @return stat
    */
+  // TODO Refactor fileOK to use async/await
+  // #esm-migration #urgent
   fileOK (file, includeDirs, cb) {
     if (_isFunction(includeDirs)) cb = includeDirs
     cb(null, true)
@@ -797,6 +800,8 @@ export default class Repository extends Emitter {
    * @param {} file
    * @return MemberExpression
    */
+  // TODO Refactor addFile to use async/await
+  // #esm-migration #urgent
   addFile (file, cb) {
     if (this.destroyed) return cb(new Error('destroyed'))
     var self = this
@@ -889,32 +894,27 @@ export default class Repository extends Emitter {
     file.removeListener('task.modified', this.taskModifiedListener)
   }
 
-  extractTasks (file, cb) {
-    cb = tools.cb(cb)
-    var self = this
-    var extract = (file) => {
-      file.on('task.found', self.taskFoundListener)
-      file.on('task.modified', self.taskModifiedListener)
-      const fileContent = file.content
-      file.extractAndTransformTasks(self.getConfig())
-      if (!file.isModified() || fileContent === file.content) {
-        this.resetFile(file)
-        return cb(null, file)
-      }
-      file.extractTasks(self.getConfig())
-      self.writeFile(file, (err, file) => {
-        this.resetFile(file)
-        if (err) return cb(err)
-        cb(null, file)
-      })
-    }
-
+  // DOING refactor extractTasks to use async/await
+  // #esm-migration #urgent #important
+  // <!--
+  // order:-70
+  // -->
+  async extractTasks (file) {
     if (file.content === null) {
-      this.readFileContent(file, function (err, file) {
-        if (err) return cb(err)
-        extract(file)
-      })
-    } else extract(file)
+      await this.readFileContent(file)
+    }
+    file.on('task.found', this.taskFoundListener)
+    file.on('task.modified', this.taskModifiedListener)
+    const fileContent = file.content
+    file.extractAndTransformTasks(self.getConfig())
+    if (!file.isModified() || fileContent === file.content) {
+      this.resetFile(file)
+      return cb(null, file)
+    }
+    file.extractTasks(self.getConfig())
+    if (file.modified) await self.writeFile(file)
+    this.resetFile(file)
+    return file
   }
 
   /**
@@ -924,8 +924,13 @@ export default class Repository extends Emitter {
    * @param {} cb
    * @return
    */
-  writeFile (file, cb) {
-    inMixinsNoop(cb)
+  // DOING Refactor writeFile to use async/await
+  // #esm-migration #urgent
+  // <!--
+  // order:-60
+  // -->
+  async writeFile (file) {
+    inMixinsNoop()
   }
 
   /**
@@ -935,8 +940,8 @@ export default class Repository extends Emitter {
    * @return CallExpression
    */
 
-  getFilesInPath (includeDirs, cb) {
-    inMixinsNoop(cb)
+  async getFilesInPath (includeDirs) {
+    inMixinsNoop()
   }
 
   /**
@@ -946,51 +951,33 @@ export default class Repository extends Emitter {
    * @param {} cb
    * @return
    */
-  async readFileContent (file, cb) {
-    inMixinsNoop(cb)
+  async readFileContent (file) {
+    inMixinsNoop()
   }
 
-  async readFile(file, cb) {
-    return new Promise((resolve, reject) => {
-      this._readFile(file, (err, file) => {
-        if (err) return cb && cb(err) || reject(err)
-        cb && cb(null, file)
-        resolve(file)
-      })
-    })
-  }
-  
-  _readFile (file, cb) {
+  // DOING Refactor readFile to use async/await
+  // #esm-migration #important #urgent
+  // <!--
+  // order:-90
+  // -->
+  async readFile(file) {
     const checksum = this.checksum || function () {}
-    cb = tools.cb(cb)
-    if (!File.isFile(file)) return cb(new Error(ERRORS.NOT_A_FILE))
-    if (file.deleted) return cb(null, file)
-    var self = this
+    if (!File.isFile(file)) throw new Error(ERRORS.NOT_A_FILE)
+    if (file.deleted) return file
 
     var currentChecksum = file.checksum
     const filePath = file.path
-    if (!/\.\.(\/|\\)/.test(filePath)) {
-      this.readFileContent(file, (err, file) => {
-        if (err) return cb(new Error('Unable to read file:' + filePath))
-        // BACKLOG Allow user to assign a module for content transformation
-        // <!--
-        // order:-800
-        // -->
-        file.checksum = checksum(file.getContent())
-        file.updated = currentChecksum !== file.checksum
-        if (file.updated)
-          self.extractTasks(file, (err) => {
-            if (err) return cb(err)
-            self.addFile(file, (err) => {
-              if (err) log('error:', err)
-              log(`File added. repo: ${self.getPath()} file-path: ${file.path}`)
-              if (err) return cb(err)
-              cb(null, file)
-            })
-          })
-        else cb(null, file)
-      })
-    } else return cb(new Error('Unable to read file:' + file))
+    if (/\.\.(\/|\\)/.test(filePath)) throw new Error('Unable to read file:' + file)
+
+    await this.readFileContent(file)
+    file.checksum = checksum(file.getContent())
+    file.updated = currentChecksum !== file.checksum
+    if (!file.updated) return file
+
+    await this.extractTasks(file)
+    await this.addFile()
+
+    return file
   }
 
   /**
@@ -1000,66 +987,46 @@ export default class Repository extends Emitter {
    * @param {} cb
    * @return
    */
-  readFiles (files, cb) {
-    if (arguments.length === 0) {
-      cb = _noop
-      files = undefined
-    } else if (_isFunction(files)) {
-      cb = files
-      files = undefined
-    } else if (files && !Array.isArray(files))
-      return cb(new Error('files must be an array of files or undefined'))
-
-    cb = tools.cb(cb)
-
-    var self = this
-
+  // READY Refactor readFiles to use async/await
+  // #esm-migration #urgent #important
+  // <!--
+  // order:-10
+  // -->
+  readFiles (files = this.files) {
     this.allMeta = {}
     this.metaKeys = new Set()
     this.allTags = new Set()
     this.allContexts = new Set()
 
-    var exec = function (files) {
-      var completed = 0
-      if (files.length < 1) return cb(null, [])
+    return new Promise(async (resolve, reject) => {
+
+      if (files.length < 1) {
+        files = this.files = await this.getFilesInPath(false)
+        const filesToInclude = files.map((file) => file.path)
+        const fileStats = {
+          count: filesToInclude.length,
+          files: filesToInclude,
+        }
+        this.emit('files.found', fileStats)
+      }
+      let completed = 0
+
+      if (files.length < 1) return resolve()
       eachLimit(
         files,
         ASYNC_LIMIT,
-        function (file, cb) {
-          self.emit('file.reading', { path: file.path })
-          self.readFile(file, function (err, file) {
-            if (err) return cb(err)
-            completed++
-            self.emit('file.read', {
-              path: file.path,
-              completed: completed,
-            })
-            cb()
-          })
+        async (file) => {
+          this.emit('file.reading', { path: file.path })
+          await this.readFile(file)
+          completed++
+          self.emit('file.read', {path: file.path, completed: completed})
         },
         function (err) {
-          cb(err, files)
+          if (err) return reject(err)
+          resolve()
         }
       )
-    }
-
-    if (files === undefined) {
-      if (this.files && this.files.length > 0) {
-        exec(this.files)
-      } else {
-        this.getFilesInPath(false, (err, files) => {
-          if (err) return cb(err)
-          self.files = files
-          const filesToInclude = files.map((file) => file.path)
-          const fileStats = {
-            count: filesToInclude.length,
-            files: filesToInclude,
-          }
-          this.emit('files.found', fileStats)
-          exec(files)
-        })
-      }
-    } else exec(files)
+    })
   }
 
   /**
@@ -1108,34 +1075,25 @@ export default class Repository extends Emitter {
     return lists.find((list) => list.id === id)
   }
 
-  hideList (name, cb) {
-    var self = this
-    cb = tools.cb(cb)
-    var fn = function (err) {
-      if (!err) self.emit('list.modified', name)
-      cb(err)
-    }
-
-    var list = this.getList(name)
-    if (list) {
-      list.hidden = true
-      this.saveConfig(fn)
-    } else cb()
+  // TODO Refactor hideList to use async/await
+  // #esm-migration
+  async hideList (name) {
+    await this.setListHidden(name)
   }
 
-  showList (name, cb) {
-    var self = this
-    cb = tools.cb(cb)
-    var fn = function (err) {
-      if (!err) self.emit('list.modified', name)
-      cb(err)
-    }
+  // TODO Refactor showList to use async/await
+  // #esm-migration
+  async showList (name) {
+    await this.setListHidden(name, false)
+  }
 
-    var list = this.getList(name)
+  async setListHidden (name, hidden = true) {
+    const list = this.getList(name)
     if (list) {
-      list.hidden = false
-      this.saveConfig(fn)
-    } else cb()
+      list.hidden = hidden
+      await this.saveConfig()
+      self.emit('list.modified', name)
+    }
   }
 
   /**
@@ -1146,36 +1104,27 @@ export default class Repository extends Emitter {
    * @param {} cb
    * @return
    */
-  moveList (name, pos, cb) {
-    var self = this
-    cb = tools.cb(cb)
+  // TODO Refactor moveList to use async/await
+  // #esm-migration
+  async moveList (name, pos) {
     var list = this.getList(name)
-    // Only modify the lists if the list name exists
-    var fn = function (err) {
-      if (!err) self.emit('list.modified', name)
-      cb(err)
-    }
-
     if (list) {
       _remove(this.getLists(), { name: name })
       this.getLists().splice(pos, 0, list)
-      this.saveConfig(fn)
-    } else cb()
+      await this.saveConfig()
+      this.emit('list.modified', name)
+    }
   }
 
+  // TODO Refactor toggleListIgnore to use async/await
+  // #esm-migration
   async toggleListIgnore (name) {
-    return new Promise(async (resolve, reject) => {
-      var self = this
-      var list = this.getList(name)
-      if (!list) return reject(new Error('List not found'))
-      list.ignore = !list.ignore
-      await this.updateList(list.id, list)
-      this.saveConfig((err) => {
-        if (err) reject(err)
-        self.emit('list.modified', name)
-        resolve()
-      })
-    });
+    var list = this.getList(name)
+    if (!list) return reject(new Error('List not found'))
+    list.ignore = !list.ignore
+    await this.updateList(list.id, list)
+    await this.saveConfig()
+    this.emit('list.modified', name)
   }
 
   async toggleList (name) {
@@ -1187,94 +1136,84 @@ export default class Repository extends Emitter {
     this.emit('list.modified', name)
   }
 
-  updateList(id, {name, hidden, ignore, filter}) {
-    return new Promise((resolve, reject) => {
-      const lists = this.getLists()
-      const list = this.getListById(id, lists)
-      const oldName = list.name
-      const hasFilter = list.filter
-      list.name = name
-      list.hidden = hidden
-      list.ignore = ignore
-      if (hasFilter !== undefined) list.filter = filter
-      this.setLists(lists)
+  // TODO Refactor updateList to use async/await
+  // #esm-migration
+  async updateList(id, {name, hidden, ignore, filter}) {
+    const lists = this.getLists()
+    const list = this.getListById(id, lists)
+    const oldName = list.name
+    const hasFilter = list.filter
+    list.name = name
+    list.hidden = hidden
+    list.ignore = ignore
+    if (hasFilter !== undefined) list.filter = filter
+    this.setLists(lists)
 
-      if (oldName === name || hasFilter) {
-        this.saveConfig(err => {
-          if (err) return reject(err)
-          resolve()
-        })
-      } else {
-        this.moveTasksBetweenLists(oldName, name, err => {
-          if (err) return reject(err)
-          resolve()
-        })
-      }
-    })
-  }
-
-  moveTasksBetweenLists(oldName, newName, cb) {
-    cb = tools.cb(cb)
-    // Modify the tasks
-    const tasksToModify = this.getTasksInList(oldName)
-
-    const cbfn = (err) => {
-      this.moving = false
-      if (err) return cb(err)
-      this.saveConfig((err) => {
-        if (err) return cb(err)
-        cb(null, { oldName, newName })
-      })
+    if (oldName === name || hasFilter) {
+      return await this.saveConfig()
     }
 
+    await this.moveTasksBetweenLists(oldName, name)
+  }
+
+  getTasksByFile(tasks) {
     const tasksByFile = {} // path: [files]
-    tasksToModify.forEach((task) => {
+    tasks.forEach((task) => {
       const filePath = task.path
       if (!tasksByFile[filePath]) {
         tasksByFile[filePath] = { file: this.getFileForTask(task), tasks: [] }
       }
       tasksByFile[filePath].tasks.push(task)
+      tasksByFile[filePath].tasks = fastSort(tasksByFile[filePath].tasks).desc(u => u.line)
     })
-    const modifyTasks = Object.values(tasksByFile).map(({ file, tasks }) => {
-      return (cb) => {
-        this.readFileContent(file, (err) => {
-          if (err) return cb(err)
+    return tasksByFile
+  }
+  // TODO Refactor moveTasksBetweenLists to use async/await
+  // <!--
+  // #esm-migration #needs-testing
+  // order:-265
+  // -->
+  // ## Tasks
+  // - [x] Refactor
+  // - [ ] Test
+  async moveTasksBetweenLists(oldName, newName) {
+    return new Promise((resolve, reject) => {
+      const tasksToModify = this.getTasksInList(oldName)
+      const tasksByFile = this.getTasksByFile(tasksToModify) // { <path/to/file>: {file, tasks} }
+
+      const modifyTasksFunctions = Object.values(tasksByFile).map(({ file, tasks }) => {
+        return async (cb) => {
+          await this.readFileContent(file)
           try {
             tasks.forEach((task) => {
               task.list = newName
               file.modifyTask(task, this.getConfig(), true)
+              file.modified = true
             })
           } catch (err) {
             return cb(err)
           }
           cb()
-        })
-      }
-    })
-
-    // BACKLOG Let's use saveModifiedFiles here id:15 gh:100 +fix
-    // <!--
-    // order:-810
-    // -->
-
-    this.moving = true
-    if (modifyTasks.length > 0) {
-      parallel(modifyTasks, (err) => {
-        if (err) return cb(err)
-
-        var fns = Object.values(tasksByFile).map(({ file }) => {
-          return (cb) => {
-            this.writeFile(file, cb)
-          }
-        })
-
-        if (fns.length > 0) {
-          parallel(fns, cbfn)
-        } else {
-          cbfn()
         }
       })
-    } else cbfn()
+
+      if (modifyTasksFunctions.length < 1) return resolve()
+      this.moving = true
+      parallel(modifyTasksFunctions, async (err) => {
+        this.moving = false
+        if (err) {
+          tasksByFile.forEach(({ file }) => this.resetFile(file))
+          return reject(err)
+        }
+        try {
+          await this.saveConfig()
+          await this.saveModifiedFiles()
+          resolve()  
+        } catch (err) {
+          reject(err)
+        }
+      })
+    })
   }
 
   async writeAndExtract (file, emit, cb) {
@@ -1546,6 +1485,11 @@ export default class Repository extends Emitter {
    * @param {} task
    * @return CallExpression
    */
+  // TODO Refactor modifyTask to use async/await
+  // #esm-migration #important #urgent
+  // <!--
+  // order:-285
+  // -->
   modifyTask (task, writeFile, cb) {
     if (!Task.isTask(task)) return cb()
     if (_isFunction(writeFile)) {
@@ -1729,6 +1673,11 @@ export default class Repository extends Emitter {
     return filesToSave
   }
 
+  // TODO Refactor saveModifiedFiles to use async/await
+  // #esm-migration #urgent #important
+  // <!--
+  // order:-275
+  // -->
   saveModifiedFiles (cb) {
     const checksum = this.checksum || function () {}
     var self = this

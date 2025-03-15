@@ -13,12 +13,12 @@ export default class PluginManager extends Emitter {
     super()
     this.project = project
     this.defaultPlugins = [
-      './persist-tags-plugin.js',
-      './default-board-properties-plugin.js',
-      './default-board-actions-plugin.js',
-      './archive-plugin.js',
-      './epic-plugin.js', 
-      './extension-plugin.js',
+      './persist-tags-plugin',
+      './default-board-properties-plugin',
+      './default-board-actions-plugin',
+      './archive-plugin',
+      './epic-plugin', 
+      './extension-plugin',
     ]
     this.pluginsMap = {}
     this.pluginPath = _path.join(project.path, '.imdone', 'plugins')

@@ -72,7 +72,7 @@ export default class ExtensionPlugin extends Plugin {
       if (e.code === 'ENOENT') {
         console.log('No extension found at:', extensionPath)
       } else {
-        console.error(e)
+        console.warn(e)
       }
     }
 

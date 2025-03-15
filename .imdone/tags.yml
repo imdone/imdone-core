@@ -4,15 +4,23 @@ tags:
   - bug
   - enhancement
   - epic
+  - esm
+  - esm-
+  - esm-m
+  - esm-mi
   - esm-migration
   - feature
   - focus
+  - im
   - imdone-1.45.0
   - imdone-1.53.16
   - imdone-1.54.0
   - imdone-1.54.6
   - imdone-1.54.9
   - imdone-1.55.0
+  - import
   - important
+  - needs-test
+  - needs-testing
   - story
   - urgent

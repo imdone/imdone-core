@@ -203,6 +203,7 @@ License
 {{version}} :package: :hammer_and_wrench: Code Version
 {{publishedVersion}} :package: :passenger_ship: Published Version
 
+[ESM Migration]({{getFilterURL('list = NOTE or allTags = "esm-migration"')}})
 [Focus]({{getFilterURL('list = DOING or tags = focus')}})
 [Plan]({{clearFilterURL}})
 

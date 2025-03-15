@@ -1034,6 +1034,7 @@ export default class File extends Emitter {
   reset () {
     this.previousContent = this.content
     this.content = null
+    this.modified = false
     return this
   }
 

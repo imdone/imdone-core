@@ -17,10 +17,11 @@ import { createFileSystemProject } from '../project-factory'
 import appContext from '../context/ApplicationContext'
 import { ProjectContext } from '../ProjectContext';
 
-// DOING Continue migrating repository-spec.js
+// TODO Continue migrating repository-spec.js
 // Next migrate other tests
 // <!--
-// order:-20
+// #esm-migration
+// order:-235
 // -->
 
 const { parseHideListsFromQueryString } = Repository

@@ -23,10 +23,10 @@ import fastSort from 'fast-sort/dist/sort.js'
 import buildMigrateConfig from '../migrate-config'
 import { loadYAML, dumpYAML } from '../adapters/yaml';
 import realFs from 'fs'
-import { preparePathForWriting, writeFile } from '../adapters/file-gateway'
+import { preparePathForWriting, readFile, writeFile, stat } from '../adapters/file-gateway'
+import reject from 'lodash.reject'
 
 const {
-  CONFIG_DIR,
   CONFIG_FILE,
   CONFIG_FILE_YML,
   DEFAULT_CONFIG,
@@ -58,28 +58,13 @@ export default function mixin(repo, fs = realFs) {
     return !dirent.isSymbolicLink() && !IG.ignores(path)
   }
 
-  function getAllFilePaths(root, cb) {
-    readdirp
-      .promise(root, {
-        lstat: true,
-        fileFilter: shouldIncludeFile,
-      })
-      .then((entries) => cb(null, entries))
-      .catch((error) => cb(error, []))
-  }
-
-  function ls(root, cb) {
-    getAllFilePaths(root, function (error, files) {
-      if (error) {
-        console.error(`Error reading dir: ${root} `, error)
-      }
-      cb(
-        null,
-        files
-          .filter((res) => repo.shouldInclude(res.path))
-          .map((res) => res.fullPath)
-      )
-    })
+  async function getAllFilePaths(root, cb) {
+    const entries = []
+    for await (const entry of readdirp(root, { lstat: true, fileFilter: shouldIncludeFile })) {
+      entries.push(entry)
+    }
+    return entries.filter((res) => repo.shouldInclude(res.path))
+      .map((res) => res.fullPath)
   }
 
   repo.addFilePath = async function (path) {
@@ -103,6 +88,11 @@ export default function mixin(repo, fs = realFs) {
 
   const _init = repo.init
   repo.migrateConfig = buildMigrateConfig(repo)
+  // TODO Refactor init to use async/await
+  // #esm-migration #important #urgent
+  // <!--
+  // order:-270
+  // -->
   repo.init = function (cb) {
     _init.call(repo, (err) => {
       if (err && repo.destroyed) return cb(err)
@@ -116,13 +106,13 @@ export default function mixin(repo, fs = realFs) {
           return cb(error)
         }
 
-        repo.loadConfig((err) => {
+        repo.loadConfig(async (err) => {
           if (err) {
             repo.emit('error', err)
             return cb(err)
           }
           repo.migrateConfig()
-          repo.saveConfig()
+          await repo.saveConfig()
           repo.emit('config.loaded')
           repo.createListeners()
           repo.readFiles((err, files) => {
@@ -184,7 +174,7 @@ export default function mixin(repo, fs = realFs) {
     })
   }
 
-  repo.saveConfig = async function (cb) {
+  repo.saveConfig = async function () {
     try {
       repo.savingConfig = true
       var file = repo.getFullPath(CONFIG_FILE_YML)
@@ -197,16 +187,12 @@ export default function mixin(repo, fs = realFs) {
       const yaml = dumpYAML(data)
       await preparePathForWriting(file)
       await writeFile(file, yaml)
+    } finally {
       repo.savingConfig = false
-      if (cb) cb()
-    } catch (e) {
-      repo.savingConfig = false
-      if (cb) cb(e)
-      else throw e
     }
   }
 
-  repo.updateConfig = function (loadedConfig, cb) {
+  repo.updateConfig = async function (loadedConfig) {
     var baseConfig = _cloneDeep(DEFAULT_CONFIG)
     var include_lists = baseConfig.code.include_lists
     const currentConfig = repo.config
@@ -223,18 +209,21 @@ export default function mixin(repo, fs = realFs) {
       _assign({}, baseConfig, repo.config, loadedConfig, { path: repo.path })
     )
 
-    repo.migrateTasksByConfig(currentConfig, newConfig, (err) => {
-      if (err) return cb(err)
-      repo.config = newConfig
-      repo.config.code.include_lists = include_lists
-      var _languages = _cloneDeep(languages)
-      repo.languages = repo.config.languages
-        ? _assign(_languages, repo.config.languages)
-        : _languages
-      cb(null, repo.config)
-    })
+    await repo.migrateTasksByConfig(currentConfig, newConfig)
+    repo.config = newConfig
+    repo.config.code.include_lists = include_lists
+    var _languages = _cloneDeep(languages)
+    repo.languages = repo.config.languages
+      ? _assign(_languages, repo.config.languages)
+      : _languages
+    return repo.config
   }
 
+  // TODO Refactor loadConfig to use async/await
+  // #esm-migration
+  // <!--
+  // order:-255
+  // -->
   repo.loadConfig = async function (cb) {
     // BACKLOG If a config is bad move it to config.json.bak and save a new one with defaults gh:2 id:9 +enhancement +standup +chore
     // <!--
@@ -245,12 +234,7 @@ export default function mixin(repo, fs = realFs) {
     ? this.getYamlConfig() 
     : repo.config || {}
     
-    return new Promise((resolve, reject) => {
-      repo.updateConfig(configData, (err, config) => {
-        if (err) return cb ? cb(err) : reject(err)
-        return cb ? cb() : resolve(config)
-      })
-    })
+    return await repo.updateConfig(configData)
   }
 
   repo.getConfigFile = function () {
@@ -322,96 +306,83 @@ export default function mixin(repo, fs = realFs) {
     } else return cb(new Error('Unable to write file:' + file.path), file)
   }
 
-  repo.getFilesInPath = function (includeDirs, cb) {
-    cb = tools.cb(cb)
-    ls(repo.path, function (err, allPaths) {
-      if (err) return cb(err)
-      var files = [],
-        processed = 0
-      log('allPaths=', allPaths)
-      if (allPaths.length === 0) return cb(null, [])
+  // READY Refactor getFilesInPath to use async/await
+  // #esm-migration #important #urgent
+  // <!--
+  // order:-20
+  // -->
+  repo.getFilesInPath = async function (includeDirs) {
+    const allPaths = getAllFilePaths(repo.path)
+    const files = []
+    let processed = 0
+    log('allPaths=', allPaths)
+    if (allPaths.length === 0) return files
+    return new Promise((resolve, reject) => {
       eachLimit(
         allPaths,
         ASYNC_LIMIT,
-        function (path, _cb) {
-          if (!path) return _cb()
+        async (path) => {
+          if (!path) return
           path = repo.getRelativePath(path)
-          repo.fileOK(path, includeDirs, function (err, stat) {
-            // stack-3 repo-fs-store.js:250:14
-            processed++
-            if (err) return _cb(err)
-            repo.emit('file.processed', {
-              file: path,
-              ok: stat !== false,
-              total: allPaths.length,
-              processed: processed + 1,
-              repoId: repo.getId(),
-            })
-
-            if (stat) {
-              log('%s is ok %j', path, stat)
-              var file = new File({
-                repoId: repo.getId(),
-                filePath: path,
-                modifiedTime: stat.mtime,
-                createdTime: stat.birthtime,
-                languages: repo.languages,
-                project: repo.project,
-              })
-              file.isDir = stat.isDirectory()
-              files.push(file)
-            }
-            log('err=%j', err, null)
-            log('stat=%j', stat, null)
-            log('processed=%d allPaths.length=%d', processed, allPaths.length)
-            _cb() // stack-1 repo-fs-store.js:270:11
+          const stat = await repo.fileOK(path, includeDirs)
+          processed++
+          repo.emit('file.processed', {
+            file: path,
+            ok: stat !== false,
+            total: allPaths.length,
+            processed: processed + 1,
+            repoId: repo.getId(),
           })
+
+          if (stat) {
+            log('%s is ok %j', path, stat)
+            var file = new File({
+              repoId: repo.getId(),
+              filePath: path,
+              modifiedTime: stat.mtime,
+              createdTime: stat.birthtime,
+              languages: repo.languages,
+              project: repo.project,
+            })
+            file.isDir = stat.isDirectory()
+            files.push(file)
+          }
+          log('err=%j', err, null)
+          log('stat=%j', stat, null)
+          log('processed=%d allPaths.length=%d', processed, allPaths.length)
         },
         function (err) {
-          cb(err, fastSort(files).asc(u => u.path))
+          if (err) return reject(err)
+          resolve(fastSort(files).asc(u => u.path))
         }
       )
     })
   }
 
-  const _readFileContent = function (file, cb) {
-    cb = tools.cb(cb)
-    if (!File.isFile(file)) return cb(new Error(ERRORS.NOT_A_FILE))
+  // DOING Refactor readFileContent to use async/await
+  // #esm-migration #important #urgent
+  // <!--
+  // order:-80
+  // -->
+  repo.readFileContent = async function (file) {
+    if (!File.isFile(file)) throw new Error(ERRORS.NOT_A_FILE)
     var filePath = repo.getFullPath(file)
 
-    fs.lstat(filePath, function (err, stats) {
-      if (err) return cb([new Error('Unable to stat file:' + filePath), err])
-      if (!stats.isFile()) return cb(null, file)
-      fs.readFile(filePath, 'utf8', function (err, data) {
-        if (err) return cb([new Error('Unable to read file:' + filePath), err])
+    const stats = await stat(filePath)
+    if (!stats.isFile()) return cb(null, file)
+    await readFile(filePath, 'utf8')
 
-        file
-          .setContentFromFile(data)
-          .setModifiedTime(stats.mtime)
-          .setCreatedTime(stats.birthtime)
+    file
+      .setContentFromFile(data)
+      .setModifiedTime(stats.mtime)
+      .setCreatedTime(stats.birthtime)
 
-        file.lineCount = eol.split(data).length
-        cb(null, file)
-      })
-    })
+    file.lineCount = eol.split(data).length
+    return file
   }
 
-  repo.readFileContent = async function (file, cb) {
-    const promise = new Promise((resolve, reject) => {
-      _readFileContent(file, function (err, file) {
-        if (err) {
-          if (cb) cb(err)
-          else reject(err)
-          return
-        }
-        if (cb) cb(null, file)
-        else resolve(file)
-      })
-    });
-
-    if (!cb) return promise
-  }
-
+  // TODO Refactor deleteFile to use async/await
+  // #esm-migration #important
   repo.deleteFile = async function (path, cb) {
     const promise = new Promise((resolve, reject) => {
       const file = File.isFile(path) ? path : repo.getFile(path)

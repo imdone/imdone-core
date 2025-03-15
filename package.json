@@ -103,7 +103,7 @@
     "ora": "^5.4.1",
     "parse-code-context": "^1.0.0",
     "prompts": "^2.4.2",
-    "readdirp": "^3.6.0",
+    "readdirp": "^4.1.2",
     "remove-markdown": "^0.3.0",
     "rimraf": "^3.0.2",
     "sane": "^5.0.1",
