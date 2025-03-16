@@ -254,7 +254,7 @@ function parseSortFromQueryString (queryString) {
     /\s([+-])([A-Za-z.]+)/g,
     (match, order, attr) => {
       const direction = order === '+' ? 'asc' : 'desc'
-      const sortString = `{ "${direction}": "function (o) { return o.${attr}; }" }`
+      const sortString = `{ "${direction}": "(o) => ${returnString}" }`
       sort.push(JSONfns.parse(sortString))
       return ''
     }
