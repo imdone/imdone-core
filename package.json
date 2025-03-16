@@ -50,7 +50,6 @@
     "async": "^3.2.6",
     "async-es": "^3.2.6",
     "chalk": "^4.1.2",
-    "checksum": "^0.1.1",
     "chrono-node": "^2.6.4",
     "command-exists": "^1.2.9",
     "commander": "^11.1.0",

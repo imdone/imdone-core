@@ -1,6 +1,6 @@
 import util from 'util';
 import eol from 'eol';
-import fastSort from 'fast-sort/dist/sort.js';
+import { sort } from 'fast-sort';
 import { extractWikilinkTopics } from './adapters/markdown.js';
 import { 
   CHECK_REGEX,
@@ -611,7 +611,7 @@ export default class Task {
         listTrackingMeta = listTrackingMeta.concat(listMeta)
       }
     })
-    return fastSort(listTrackingMeta).asc(u => u.timestamp)
+    return sort(listTrackingMeta).asc(u => u.timestamp)
   }
 
   hasListChanged (lists) {

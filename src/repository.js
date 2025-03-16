@@ -34,7 +34,7 @@ import { replaceDateLanguage } from './adapters/parsers/DateLanguageParser'
 import { getRawTask, isNumber, LIST_NAME_PATTERN } from './adapters/parsers/task/CardContentParser'
 import XRegExp from 'xregexp'
 import appContext from './context/ApplicationContext'
-import { file } from 'checksum'
+import { computeChecksum } from './checksum'
 const { ERRORS, ASYNC_LIMIT, DEFAULT_FILE_PATTERN} = constants
 const DEFAULT_SORT = [{ asc: u => Number(u.order) }, { asc: u => u.text }]
 
@@ -931,7 +931,6 @@ export default class Repository extends Emitter {
   // order:-30
   // -->
   async readFile(file) {
-    const checksum = this.checksum || function () {}
     if (!File.isFile(file)) throw new Error(ERRORS.NOT_A_FILE)
     if (file.deleted) return file
 
@@ -940,7 +939,7 @@ export default class Repository extends Emitter {
     if (/\.\.(\/|\\)/.test(filePath)) throw new Error('Unable to read file:' + file)
 
     await this.readFileContent(file)
-    file.checksum = checksum(file.getContent())
+    file.checksum = computeChecksum(file.getContent())
     file.updated = currentChecksum !== file.checksum
     if (!file.updated) return file
 
@@ -1338,8 +1337,11 @@ export default class Repository extends Emitter {
     return task.description.join(eol.lf)
   }
 
-  // DOING Refactor appendTask to use async/await
+  // READY Refactor appendTask to use async/await
   // #esm-migration
+  // <!--
+  // order:-300
+  // -->
   async appendTask({file, content, list}) {
     const config = this.getConfig()
     const interpretedTaskPrefix = _template(config.getTaskPrefix())({
@@ -1449,7 +1451,7 @@ export default class Repository extends Emitter {
       throw e
     }
 
-    if (!beforeModifyContent) await readFileContent(file)
+    if (!beforeModifyContent) await this.readFileContent(file)
     file.modifyTask(task, config, true)
     file.extractTasks(config)
     file.transformTask({config, modify:true, task})
@@ -1500,8 +1502,8 @@ export default class Repository extends Emitter {
     return new Promise((resolve, reject) => {
       eachSeries(
         tasksToModifySorted,
-        (task, cb) => {
-          this.modifyTask(task, true, cb)
+        async (task) => {
+          await this.modifyTask(task, true)
         },
         (err) => {
           if (err) return reject(err)
@@ -1594,11 +1596,10 @@ export default class Repository extends Emitter {
   // order:-110
   // -->
   async saveModifiedFiles () {
-    const checksum = this.checksum || function () {}
     var filesToSave = this.getModifiedFiles()
     var funcs = filesToSave.map((file) => {
       return async () => {
-        file.checksum = checksum(file.getContent())
+        file.checksum = computeChecksum(file.getContent())
         await this.writeAndExtract(file, false)
       }
     })

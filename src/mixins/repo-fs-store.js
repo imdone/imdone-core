@@ -6,7 +6,7 @@ import _assign from 'lodash.assign'
 import _remove from 'lodash.remove'
 import _union from 'lodash.union'
 import { eachLimit } from 'async-es'
-import checksum from 'checksum'
+import { computeChecksum } from '../checksum'
 import constants from '../constants'
 import debug from 'debug'
 const log = debug('imdone-mixins:repo-fs-store')
@@ -37,7 +37,6 @@ const {
 } = constants
 
 export default function mixin(repo, fs = realFs) {
-  repo.checksum = checksum
   repo.allFiles = []
 
   function getIgnorePatterns() {
@@ -249,7 +248,7 @@ export default function mixin(repo, fs = realFs) {
     await preparePathForWriting(filePath)
 
     const oldChecksum = file.checksum
-    file.checksum = checksum(file.getContentForFile())
+    file.checksum = computeChecksum(file.getContentForFile())
         
     try {
       await writeFile(filePath, file.getContentForFile(), 'utf8')

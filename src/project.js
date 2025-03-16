@@ -147,7 +147,7 @@ export default class WorkerProject extends Project {
     this.innerFilter = filter
   }
 
-  async init(cb) {
+  async init() {
     this.pluginManager.on('plugin-installed', () => this.emitUpdate())
     this.pluginManager.on('plugin-uninstalled', () => this.emitUpdate())
     this.pluginManager.on('plugins-reloaded', () => this.emitUpdate())
@@ -423,10 +423,8 @@ export default class WorkerProject extends Project {
   async removeMetadata(task, key, value) {
     if (!task.meta[key]) return
     const file = this.getFileForTask(task)
-    return this.updateCardContent(
-      task,
-      file.removeMetaData(task.content, key, value)
-    )
+    const content = file.removeMetaData(task.content, key, value)
+    return await this.updateCardContent(task,content)
   }
 
   async addTag(task, tag) {
@@ -438,7 +436,7 @@ export default class WorkerProject extends Project {
       tagContent,
       this.config.isMetaNewLine()
     )
-    return this.updateCardContent(task, content)
+    return await this.updateCardContent(task, content)
   }
 
   async removeTag(task, tag) {
@@ -449,7 +447,7 @@ export default class WorkerProject extends Project {
     )
     console.log('removeTag regex:', tagContent)
     const content = task.content.replace(tagContent, '')
-    return this.updateCardContent(task, content)
+    return await this.updateCardContent(task, content)
   }
 
   async moveTask(task, newList, newPos) {
@@ -474,16 +472,9 @@ export default class WorkerProject extends Project {
   }
 
   async updateCardContent(task, content) {
-    return new Promise((resolve, reject) => {
-      this.repo.modifyTaskFromContent(task, content, (err, file) => {
-        if (err) {
-          console.error(err)
-          reject(err)
-        }
-        this.emitUpdate()
-        resolve(file)
-      })
-    })
+    const file = await this.repo.modifyTaskFromContent(task, content)
+    this.emitUpdate()
+    return file
   }
 
   async snackBar({ message, type, duration }) {
