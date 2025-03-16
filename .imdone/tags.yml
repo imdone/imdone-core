@@ -2,8 +2,10 @@ tags:
   - 1.12.0
   - adapter
   - bug
+  - e
   - enhancement
   - epic
+  - es
   - esm
   - esm-
   - esm-m
@@ -18,8 +20,10 @@ tags:
   - imdone-1.54.6
   - imdone-1.54.9
   - imdone-1.55.0
+  - imp
   - import
   - important
+  - imprtant
   - needs-test
   - needs-testing
   - story

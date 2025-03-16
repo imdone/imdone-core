@@ -172,22 +172,6 @@ describe('Repository', function () {
     })
   })
 
-  it.skip('Should serialize and deserialize successfully', function (done) {
-    console.log(`initializing repo at : ${repo.path}`)
-    proj.init(function (err, files) {
-      var sr = repo.serialize()
-      Repository.deserialize(sr, function (err, newRepo) {
-        newRepo = fsStore(newRepo)
-        newproj.init(function (err) {
-          newRepo.getFiles().length.should.be.exactly(repo.getFiles().length)
-          newRepo.getTasks().length.should.be.exactly(repo.getTasks().length)
-          newRepo.getLists().length.should.be.exactly(repo.getLists().length)
-          done()
-        })
-      })
-    })
-  })
-
   it('Should find checkBox tasks', function (done) {
     proj = createFileSystemProject({
       path: repoDir,

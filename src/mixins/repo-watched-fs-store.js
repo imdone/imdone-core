@@ -17,6 +17,8 @@ export default function mixin(repo, fs = realFs) {
   var _init = repo.init
   var initializing = false
 
+  // TODO Refactor init to async/await
+  // #esm-migration #important
   repo.init = function (cb) {
     if (initializing) {
       const err = new Error("Can't initialize repo while it's initializing.")
@@ -43,6 +45,8 @@ export default function mixin(repo, fs = realFs) {
     _destroy.apply(repo)
   }
 
+  // TODO Refactor refresh to async/await
+  // #esm-migration #important
   repo.refresh = function (cb) {
     if (initializing) {
       return cb ? cb('already initializing') : null
@@ -83,6 +87,8 @@ export default function mixin(repo, fs = realFs) {
 
   const onIgnoreChange = onConfigChange
 
+  // TODO Refactor initWatcher to async/await
+  // #esm-migration #important
   repo.initWatcher = function (cb) {
     console.log('initializing watcher for:', repo.path)
     repo.watcher = sane(repo.path, {

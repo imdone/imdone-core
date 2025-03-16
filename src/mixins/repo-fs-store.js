@@ -14,7 +14,7 @@ const log = debug('imdone-mixins:repo-fs-store')
 import File from '../file'
 import { Config } from '../config'
 import languages from '../languages'
-import isBinaryFile from 'isbinaryfile'
+import { isBinaryFile } from 'isbinaryfile'
 import eol from 'eol'
 const _eol = String(eol.auto)
 import readdirp from 'readdirp'
@@ -23,8 +23,7 @@ import fastSort from 'fast-sort/dist/sort.js'
 import buildMigrateConfig from '../migrate-config'
 import { loadYAML, dumpYAML } from '../adapters/yaml';
 import realFs from 'fs'
-import { preparePathForWriting, readFile, writeFile, stat } from '../adapters/file-gateway'
-import reject from 'lodash.reject'
+import { preparePathForWriting, readFile, writeFile, stat, lstat } from '../adapters/file-gateway'
 
 const {
   CONFIG_FILE,
@@ -58,7 +57,7 @@ export default function mixin(repo, fs = realFs) {
     return !dirent.isSymbolicLink() && !IG.ignores(path)
   }
 
-  async function getAllFilePaths(root, cb) {
+  repo.getAllFilePaths = async function (root) {
     const entries = []
     for await (const entry of readdirp(root, { lstat: true, fileFilter: shouldIncludeFile })) {
       entries.push(entry)
@@ -86,43 +85,31 @@ export default function mixin(repo, fs = realFs) {
     return repo.allFiles
   }
 
-  const _init = repo.init
   repo.migrateConfig = buildMigrateConfig(repo)
-  // TODO Refactor init to use async/await
+  // READY Refactor init to use async/await
   // #esm-migration #important #urgent
   // <!--
   // order:-270
   // -->
-  repo.init = function (cb) {
-    _init.call(repo, (err) => {
-      if (err && repo.destroyed) return cb(err)
-      cb = tools.cb(cb)
-      fs.stat(repo.path, function (err, stat) {
-        if (err || !stat.isDirectory()) {
-          var error = new Error(
-            `Path must be an existing directory on the file system: ${repo.path}`
-          )
-          repo.emit('error', error)
-          return cb(error)
-        }
+  repo.init = async function () {
+    const stats = await stat(repo.path)
+    if (!stats.isDirectory()) {
+      var error = new Error(
+        `Path must be an existing directory on the file system: ${repo.path}`
+      )
+      repo.emit('error', error)
+      throw error
+    }
 
-        repo.loadConfig(async (err) => {
-          if (err) {
-            repo.emit('error', err)
-            return cb(err)
-          }
-          repo.migrateConfig()
-          await repo.saveConfig()
-          repo.emit('config.loaded')
-          repo.createListeners()
-          repo.readFiles((err, files) => {
-            if (err && repo.destroyed) return cb(err)
-            repo.emit('initialized', { ok: true, lists: repo.getTasksByList() })
-            cb(err, files)
-          })
-        })
-      })
-    })
+    await repo.loadConfig()
+    repo.migrateConfig()
+    await repo.saveConfig()
+    repo.emit('config.loaded')
+    repo.createListeners()
+    
+    const files = await repo.readFiles()
+    repo.emit('initialized', { ok: true, lists: repo.getTasksByList() })
+    return files
   }
 
   repo.loadIgnore = function () {
@@ -130,54 +117,47 @@ export default function mixin(repo, fs = realFs) {
     repo.setIgnores(patterns)
   }
 
-  repo.fileOK = function (file, includeDirs, cb) {
+  repo.fileOK = async function (file, includeDirs = false) {
     if (File.isFile(file)) file = file.path
-    if (_isFunction(includeDirs)) {
-      cb = includeDirs
-      includeDirs = false
-    }
-    cb = tools.cb(cb)
-    try {
-      if (!file || !this.shouldInclude(file)) return cb(null, false)
-    } catch (e) {
-      cb(e)
-    }
+    if (!file || !this.shouldInclude(file)) return false
+
     var fullPath = repo.getFullPath(file)
-    fs.lstat(fullPath, function (err, stat) {
-      if (err) {
-        console.log(err)
-        return cb(null, false)
+    try {
+      const stats = await lstat(fullPath)
+      
+      if (!stats) return false
+      
+      if (/\.\.(\/|\\)/.test(file) || (!includeDirs && stats.isDirectory()))
+        return false
+          
+      const content = await readFile(fullPath)
+      
+      if (await isBinaryFile(content, stats.size) ) {
+        return false
       }
-      if (/\.\.(\/|\\)/.test(file) || (!includeDirs && stat.isDirectory()))
-        return cb(null, false)
-      if (stat.isFile()) {
-        isBinaryFile(fullPath, function (err, result) {
-          if (err || result) return cb(null, false)
-          cb(null, stat)
-        })
-      } else if (includeDirs && stat.isDirectory()) {
-        cb(null, stat)
-      } else cb(null, false)
-    })
+      
+      return stats
+    } catch (err) {
+      return false
+    }
   }
 
-  repo.saveSort = function (sort, cb) {
-    cb = tools.cb(cb)
-    fs.writeFile(repo.getFullPath(SORT_FILE), JSON.stringify(sort), cb)
+  // READY Refactor saveSort to use async/await
+  // #esm-migration #important
+  // TODO readSort and saveSort are no longer used
+  repo.saveSort = async function (sort) {
+    writeFile(repo.getFullPath(SORT_FILE), JSON.stringify(sort), 'utf8')
   }
 
-  repo.readSort = function (cb) {
-    fs.readFile(repo.getFullPath(SORT_FILE), (err, data) => {
-      if (err) return cb(err)
-      repo.sort = JSON.parse(data)
-      cb(null, repo.sort)
-    })
+  repo.readSort = async function () {
+    const data = readFile(repo.getFullPath(SORT_FILE))
+    repo.sort = JSON.parse(data)
   }
 
   repo.saveConfig = async function () {
     try {
       repo.savingConfig = true
-      var file = repo.getFullPath(CONFIG_FILE_YML)
+      const file = repo.getFullPath(CONFIG_FILE_YML)
       const data = { ...repo.getConfig() }
       delete data.cardActionsFunction
       delete data.boardActionsFunction
@@ -219,7 +199,7 @@ export default function mixin(repo, fs = realFs) {
     return repo.config
   }
 
-  // TODO Refactor loadConfig to use async/await
+  // READY Refactor loadConfig to use async/await
   // #esm-migration
   // <!--
   // order:-255
@@ -231,7 +211,7 @@ export default function mixin(repo, fs = realFs) {
     // -->
     repo.loadIgnore()
     const configData =  (!repo.config || repo.config.dirty) 
-    ? this.getYamlConfig() 
+    ? await this.getYamlConfig() 
     : repo.config || {}
     
     return await repo.updateConfig(configData)
@@ -241,10 +221,10 @@ export default function mixin(repo, fs = realFs) {
     return repo.getFullPath(CONFIG_FILE)
   }
 
-  repo.getYamlConfig = function () {
+  repo.getYamlConfig = async function () {
     const filePath = repo.getFullPath(CONFIG_FILE_YML)
     if (!fs.existsSync(filePath)) return
-    const configData = fs.readFileSync(filePath, 'utf-8')
+    const configData = await readFile(filePath, 'utf-8')
     let configLike = {}
     try {
       configLike = loadYAML(configData.toString())
@@ -254,56 +234,42 @@ export default function mixin(repo, fs = realFs) {
     return configLike
   }
 
-  repo.writeFile = function (file, emitFileUpdate, cb) {
-    if (_isFunction(emitFileUpdate)) {
-      cb = emitFileUpdate
-      emitFileUpdate = false
-    }
-    cb = tools.cb(cb)
-
-    if (!File.isFile(file)) return cb(new Error(ERRORS.NOT_A_FILE))
-    if (file.deleted) return cb(null, file)
+  // READY Refactor writeFile to use async/await
+  // #esm-migration #important
+  // <!--
+  // order:-280
+  // -->
+  repo.writeFile = async (file, emitFileUpdate) => {
+    if (!File.isFile(file)) throw new Error(ERRORS.NOT_A_FILE)
+    if (file.deleted) return file
     
-    var filePath = repo.getFullPath(file)
+    if (/\.\.(\/|\\)/.test(file.path)) throw new Error('Unable to write file:' + file.path)
 
-    if (!/\.\.(\/|\\)/.test(file.path)) {
-      var write = function () {
-        var oldChecksum = file.checksum
-        file.checksum = checksum(file.getContentForFile())
-        fs.writeFile(
-          filePath,
-          file.getContentForFile(),
-          'utf8',
-          function (err) {
-            if (err) {
-              file.checksum = oldChecksum
-              return cb([new Error('Unable to write file:' + filePath), err])
-            }
+    const filePath = repo.getFullPath(file)
+    
+    await preparePathForWriting(filePath)
 
-            fs.stat(filePath, function (err, stats) {
-              if (err)
-                return cb([new Error('Unable to stat file:' + filePath), err])
+    const oldChecksum = file.checksum
+    file.checksum = checksum(file.getContentForFile())
+        
+    try {
+      await writeFile(filePath, file.getContentForFile(), 'utf8')
+    } catch (err) {
+      file.checksum = oldChecksum
+      throw new Error('Unable to write file:' + filePath, {cause: err})
+    }
 
-              file.setModifiedTime(stats.mtime)
-              file.modified = false
-              repo.addFilePath(filePath)
-              if (emitFileUpdate) repo.emit('file.saved', file)
-              cb(null, file)
-            })
-          }
-        )
-      }
-
-      var dirName = _path.dirname(filePath)
-      if (fs.existsSync(dirName)) {
-        return write()
-      }
-
-      tools.mkdirp(fs, dirName, function (err) {
-        if (err) return cb(err)
-        write()
-      })
-    } else return cb(new Error('Unable to write file:' + file.path), file)
+    try {
+      const stats = await stat(filePath)
+      file.setModifiedTime(stats.mtime)
+      file.modified = false
+      repo.addFilePath(filePath)
+      if (emitFileUpdate) repo.emit('file.saved', file)
+    } catch (err) {
+      throw new Error('Unable to stat file:' + filePath, {cause: err})
+    }
+  
+    return file      
   }
 
   // READY Refactor getFilesInPath to use async/await
@@ -312,7 +278,7 @@ export default function mixin(repo, fs = realFs) {
   // order:-20
   // -->
   repo.getFilesInPath = async function (includeDirs) {
-    const allPaths = getAllFilePaths(repo.path)
+    const allPaths = await repo.getAllFilePaths(repo.path)
     const files = []
     let processed = 0
     log('allPaths=', allPaths)
@@ -359,10 +325,10 @@ export default function mixin(repo, fs = realFs) {
     })
   }
 
-  // DOING Refactor readFileContent to use async/await
+  // READY Refactor readFileContent to use async/await
   // #esm-migration #important #urgent
   // <!--
-  // order:-80
+  // order:-40
   // -->
   repo.readFileContent = async function (file) {
     if (!File.isFile(file)) throw new Error(ERRORS.NOT_A_FILE)
@@ -381,31 +347,19 @@ export default function mixin(repo, fs = realFs) {
     return file
   }
 
-  // TODO Refactor deleteFile to use async/await
+  // READY Refactor deleteFile to use async/await
   // #esm-migration #important
-  repo.deleteFile = async function (path, cb) {
-    const promise = new Promise((resolve, reject) => {
-      const file = File.isFile(path) ? path : repo.getFile(path)
-      if (!_isUndefined(file)) {
-        fs.unlink(repo.getFullPath(file), function (err) {
-          if (err) {
-            err = new Error('Unable to delete:' + path , {cause: err})
-            if (cb) cb(err)
-            else reject(err)
-            return
-          }
-          repo.removeFile(file)
-          if (cb) cb(null, file)
-          else resolve(file)
-        })
-      } else {
-        const err = new Error('Unable to delete:' + path)
-        if (cb) cb(err)
-        else reject(err)
-      }
-    });
+  repo.deleteFile = async function (path) {
+    const file = File.isFile(path) ? path : repo.getFile(path)
+    if (!file) throw new Error('Unable to delete:' + path)
 
-    if (!cb) return promise
+    try {
+      await unlink(repo.getFullPath(file))
+      repo.removeFile(file)
+    } catch (err) {
+      throw new Error('Unable to delete file:' + path, {cause: err})
+    }
+
   }
 
   return repo

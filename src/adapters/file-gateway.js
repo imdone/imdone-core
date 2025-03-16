@@ -39,14 +39,9 @@ export function existsSync(...args) {
   return fs.existsSync.apply({}, args)
 }
 
-export async function stat(path, opts) {
-  try {
-    return await fs.promises.stat(path, opts)
-  }
-  catch {
-    return false
-  }
-}
+export const stat = fs.promises.stat
+
+export const lstat = fs.promises.lstat
 
 export function readFileSync(...args) {
   console.warn('sync call')
@@ -63,9 +58,7 @@ export function writeFileSync(...args) {
   return fs.writeFileSync.apply({}, args)
 }
 
-export async function writeFile(...args) {
-  return fs.promises.writeFile.apply({}, args)
-}
+export const writeFile = fs.promises.writeFile
 
 export async function readdir(...args) {
   return fs.promises.readdir.apply({}, args)
@@ -75,6 +68,8 @@ export function unlinkSync(...args) {
   console.warn('sync call')
   return fs.unlinkSync.apply({}, args)
 }
+
+export const unlink = fs.promises.unlink
 
 export async function mkdir(path) {
   return fs.promises.mkdir(path)

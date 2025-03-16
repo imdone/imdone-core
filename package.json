@@ -63,7 +63,7 @@
     "gray-matter": "^4.0.2",
     "ignore": "^5.2.0",
     "imdone-api": "^1.54.0",
-    "isbinaryfile": "^3.0.2",
+    "isbinaryfile": "^5.0.4",
     "js-yaml": "^3.14.1",
     "json-fns": "^1.0.0",
     "lodash.assign": "^4.2.0",

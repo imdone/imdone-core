@@ -148,43 +148,31 @@ export default class WorkerProject extends Project {
   }
 
   async init(cb) {
-    const promise = new Promise(async (resolve, reject) => {
-      this.pluginManager.on('plugin-installed', () => this.emitUpdate())
-      this.pluginManager.on('plugin-uninstalled', () => this.emitUpdate())
-      this.pluginManager.on('plugins-reloaded', () => this.emitUpdate())
-      await this.pluginManager.loadPlugins()
-      this.data = await this.pluginManager.getBoardProperties()
-      this.dataKeys = this.getDataKeys(this.data)
-  
-      console.log('data', this.data)
-      console.log('dataKeys', this.dataKeys)
-      EVENTS.forEach((event) => {
-        this.repo.on(event, (data) => onChange(this, event, data))
-      })
-  
-      this.repo.on('task.found', (task) => this.pluginManager.onTaskFound(task))
+    this.pluginManager.on('plugin-installed', () => this.emitUpdate())
+    this.pluginManager.on('plugin-uninstalled', () => this.emitUpdate())
+    this.pluginManager.on('plugins-reloaded', () => this.emitUpdate())
+    await this.pluginManager.loadPlugins()
+    this.data = await this.pluginManager.getBoardProperties()
+    this.dataKeys = this.getDataKeys(this.data)
 
-      this.repo.init(async (err, files) => {
-        if (err) {
-          if (cb) cb(err)
-          else reject(err)
-          return
-        }
-        this.pluginManager
-          .startDevMode()
-          .then(() => {
-            if (cb) cb(null, files)
-            else resolve(files)
-          })
-          .catch(err => {
-            console.log('Error on starting dev mode', err)
-            if (cb) cb(err)
-            else reject(err)
-          })
-      })
+    console.log('data', this.data)
+    console.log('dataKeys', this.dataKeys)
+    EVENTS.forEach((event) => {
+      this.repo.on(event, (data) => onChange(this, event, data))
     })
 
-    if (!cb) return promise
+    this.repo.on('task.found', (task) => this.pluginManager.onTaskFound(task))
+
+    const files = await this.repo.init()
+    
+    try {
+      await this.pluginManager.startDevMode()
+    } catch (err) {
+      console.log('Error on starting dev mode', err)
+      throw new Error('Error on starting dev mode', { cause: err })
+    }
+
+    return files
   }
 
   initIndexes(allLists) {

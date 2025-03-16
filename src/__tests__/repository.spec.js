@@ -1,4 +1,4 @@
-import { describe, it, expect, should, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import Project from '../project'
 import List from '../list'
 import Repository from '../repository'
@@ -160,22 +160,6 @@ describe('Repository', function () {
     
     await repo1.deleteFile(file.path)
     expect(repo1.files.length).to.equal(4)
-  })
-
-  it.skip('Should serialize and deserialize successfully', function (done) {
-    console.log(`initializing repo at : ${repo.path}`)
-    proj.init(function (err, files) {
-      var sr = repo.serialize()
-      Repository.deserialize(sr, function (err, newRepo) {
-        newRepo = fsStore(newRepo)
-        newproj.init(function (err) {
-          newRepo.getFiles().length.should.be.exactly(repo.getFiles().length)
-          newRepo.getTasks().length.should.be.exactly(repo.getTasks().length)
-          newRepo.getLists().length.should.be.exactly(repo.getLists().length)
-          done()
-        })
-      })
-    })
   })
 
   it('Should find checkBox tasks', async () => {

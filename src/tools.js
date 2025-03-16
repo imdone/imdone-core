@@ -134,7 +134,8 @@ export default {
 
   inMixinsNoop(cb) {
     cb = this.cb(cb)
-    cb(new Error('Implemented in mixins'))
+    if (cb) return cb(new Error('Implemented in mixins'))
+    throw new Error('Implemented in mixins')
   },
 
   /**
