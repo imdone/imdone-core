@@ -14,7 +14,7 @@ import _isObject from 'lodash.isobject';
 import _isString from 'lodash.isstring';
 import _isFunction from 'lodash.isfunction';
 import exec from 'child_process';
-import fastSort from 'fast-sort/dist/sort.js';
+import { sort } from 'fast-sort';
 import Task from './task';
 import eol from 'eol';
 import { renderMarkdown, extractWikilinkTopics } from './adapters/markdown';
@@ -376,7 +376,7 @@ export default class WorkerProject extends Project {
       })
     })
 
-    return fastSort(tags).by([
+    return sort(tags).by([
       {desc: (tag) => tag.count},
       {asc: (tag) => tag.name},
     ])

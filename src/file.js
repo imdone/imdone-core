@@ -12,7 +12,7 @@ import debug from 'debug'
 import * as chrono from 'chrono-node'
 import Task from './task'
 import newCard from './card'
-import fastSort from 'fast-sort/dist/sort'
+import { sort } from 'fast-sort'
 import XRegExp from 'xregexp'
 import { getIsoDateWithOffset } from './adapters/date-time'
 import {
@@ -331,7 +331,7 @@ export default class File extends Emitter {
   }
 
   transformTasks (config, modify) {
-    fastSort(this.getTasks())
+    sort(this.getTasks())
       .desc(u => u.line)
       .forEach(task => this.transformTask({config, modify, task}))
   }

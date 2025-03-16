@@ -43,6 +43,8 @@ export const stat = fs.promises.stat
 
 export const lstat = fs.promises.lstat
 
+export const lstatSync = fs.lstatSync
+
 export function readFileSync(...args) {
   console.warn('sync call')
   return fs.readFileSync.apply({}, args)

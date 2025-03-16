@@ -7,7 +7,6 @@ import _remove from 'lodash.remove'
 import _union from 'lodash.union'
 import { eachLimit } from 'async-es'
 import checksum from 'checksum'
-import tools from '../tools'
 import constants from '../constants'
 import debug from 'debug'
 const log = debug('imdone-mixins:repo-fs-store')
@@ -19,11 +18,11 @@ import eol from 'eol'
 const _eol = String(eol.auto)
 import readdirp from 'readdirp'
 import _ignore from 'ignore'
-import fastSort from 'fast-sort/dist/sort.js'
+import { sort } from 'fast-sort'
 import buildMigrateConfig from '../migrate-config'
 import { loadYAML, dumpYAML } from '../adapters/yaml';
-import realFs from 'fs'
-import { preparePathForWriting, readFile, writeFile, stat, lstat } from '../adapters/file-gateway'
+import realFs, { readFileSync } from 'fs'
+import { preparePathForWriting, readFile, writeFile, stat, lstatSync, unlink } from '../adapters/file-gateway'
 
 const {
   CONFIG_FILE,
@@ -123,14 +122,14 @@ export default function mixin(repo, fs = realFs) {
 
     var fullPath = repo.getFullPath(file)
     try {
-      const stats = await lstat(fullPath)
+      const stats = lstatSync(fullPath)
       
       if (!stats) return false
       
       if (/\.\.(\/|\\)/.test(file) || (!includeDirs && stats.isDirectory()))
         return false
           
-      const content = await readFile(fullPath)
+      const content = readFileSync(fullPath)
       
       if (await isBinaryFile(content, stats.size) ) {
         return false
@@ -313,13 +312,16 @@ export default function mixin(repo, fs = realFs) {
             file.isDir = stat.isDirectory()
             files.push(file)
           }
-          log('err=%j', err, null)
           log('stat=%j', stat, null)
           log('processed=%d allPaths.length=%d', processed, allPaths.length)
         },
         function (err) {
           if (err) return reject(err)
-          resolve(fastSort(files).asc(u => u.path))
+          try {
+            resolve(sort(files).asc(u => u.path))
+          } catch (err) {
+            reject(err)
+          }
         }
       )
     })
@@ -336,7 +338,7 @@ export default function mixin(repo, fs = realFs) {
 
     const stats = await stat(filePath)
     if (!stats.isFile()) return cb(null, file)
-    await readFile(filePath, 'utf8')
+    const data = await readFile(filePath, 'utf8')
 
     file
       .setContentFromFile(data)

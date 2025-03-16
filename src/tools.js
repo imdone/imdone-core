@@ -2,7 +2,7 @@ import _isFunction from 'lodash.isfunction'
 import _noop from 'lodash.noop'
 import crypto from 'crypto'
 import _path from 'path'
-import fastSort from 'fast-sort/dist/sort.js'
+import { sort } from 'fast-sort'
 import eol from 'eol'
 import escapeRegExp from 'escape-string-regexp'
 
@@ -264,7 +264,7 @@ export default {
   },
   mkdirp: mkdirp,
   sortTasks(tasks) {
-    return fastSort(tasks).asc([u => u.order, u => u.text])
+    return sort(tasks).asc([u => u.order, u => u.text])
   },
   hasBlankLines(content) {
     return new RegExp(`^\\s*${String(eol.auto)}`, 'gm').test(content)

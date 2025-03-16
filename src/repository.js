@@ -26,7 +26,7 @@ const log = debug('imdone-core:Repository')
 import List from './list'
 import monquery from 'monquery'
 import sift from 'sift'
-import fastSort from 'fast-sort/dist/sort.js'
+import { sort } from 'fast-sort'
 import JSONfns from 'json-fns'
 import Task from './task'
 import newCard from './card'
@@ -36,7 +36,7 @@ import XRegExp from 'xregexp'
 import appContext from './context/ApplicationContext'
 import { file } from 'checksum'
 const { ERRORS, ASYNC_LIMIT, DEFAULT_FILE_PATTERN} = constants
-const DEFAULT_SORT = [{ asc: u => u.order }, { asc: u => u.text }]
+const DEFAULT_SORT = [{ asc: u => Number(u.order) }, { asc: u => u.text }]
 
 function getPreviousIndexWithDifferentOrder(tasks, pos) {
   let closestIndexWithOrder = -1
@@ -162,7 +162,7 @@ function getTasksByList (
 ) {
   if (!repo) return []
   var tasks = {}
-  var allTasks = noSort ? tasksAry : fastSort(tasksAry).by(DEFAULT_SORT)
+  var allTasks = noSort ? tasksAry : sort(tasksAry).by(DEFAULT_SORT)
   allTasks.forEach(function (task) {
     if (!tasks[task.list]) tasks[task.list] = []
     tasks[task.list].push(task)
@@ -254,7 +254,7 @@ function parseSortFromQueryString (queryString) {
     /\s([+-])([A-Za-z.]+)/g,
     (match, order, attr) => {
       const direction = order === '+' ? 'asc' : 'desc'
-      const sortString = `{ "${direction}": "(o) => ${returnString}" }`
+      const sortString = `{ "${direction}": "function (o) { return o.${attr};}" }`
       sort.push(JSONfns.parse(sortString))
       return ''
     }
@@ -278,13 +278,13 @@ function sortByQuery (tasks, queryString = '') {
   queryString = replaceDateLanguage(queryString)
   let { sort } = Repository.parseSortFromQueryString(queryString)
   if (!sort || sort.length === 0) sort = DEFAULT_SORT
-  fastSort(tasks).by(sort)
+  sort(tasks).by(sort)
 }
 
 function filterCards (tasks, _queryString = '') {
   let query
   _queryString = replaceDateLanguage(_queryString)
-  let { sort, queryString } = Repository.parseSortFromQueryString(_queryString);
+  let { sort: userSort, queryString } = Repository.parseSortFromQueryString(_queryString);
   const hideListsQuery = Repository.parseHideListsFromQueryString(queryString);
   queryString = hideListsQuery.queryString;
   const hideLists = hideListsQuery.hideLists;
@@ -298,12 +298,12 @@ function filterCards (tasks, _queryString = '') {
   if (!query || result.length === 0) {
     result = Repository.regexQuery(tasks, queryString)
   }
-  if (!sort || sort.length === 0) sort = DEFAULT_SORT
-  fastSort(result).by(sort)
+  if (!userSort || userSort.length === 0) userSort = DEFAULT_SORT
+  const sorted = sort(result).by(userSort)
   return {
-    result,
+    result: sorted,
     query,
-    sort,
+    sort: userSort,
     hideLists
   }
 }
@@ -641,7 +641,7 @@ export default class Repository extends Emitter {
         this.getFiles(),
         ASYNC_LIMIT,
         (file, cb) => {
-          const tasks = fastSort(file.tasks).desc(u => u.line)
+          const tasks = sort(file.tasks).desc(u => u.line)
           eachSeries(
             tasks,
             async (task, cb) => {
@@ -853,7 +853,7 @@ export default class Repository extends Emitter {
    * @return CallExpression
    */
   getFiles (paths) {
-    if (_isUndefined(paths)) return fastSort(this.files).asc(u => u.path)
+    if (_isUndefined(paths)) return sort(this.files).asc(u => u.path)
     return this.files.filter((file) => {
       return paths.includes(file.path)
     })
@@ -861,7 +861,7 @@ export default class Repository extends Emitter {
 
   getFilesWithTasks () {
     const files = this.files.filter((file) => file.getTasks().length > 0)
-    return fastSort(files).asc(u => u.path)
+    return sort(files).asc(u => u.path)
   }
 
   resetFile (file) {
@@ -882,13 +882,13 @@ export default class Repository extends Emitter {
     file.on('task.found', this.taskFoundListener)
     file.on('task.modified', this.taskModifiedListener)
     const fileContent = file.content
-    file.extractAndTransformTasks(self.getConfig())
+    file.extractAndTransformTasks(this.getConfig())
     if (!file.isModified() || fileContent === file.content) {
       this.resetFile(file)
-      return cb(null, file)
+      return file
     }
-    file.extractTasks(self.getConfig())
-    if (file.modified) await self.writeFile(file)
+    file.extractTasks(this.getConfig())
+    if (file.modified) await this.writeFile(file)
     this.resetFile(file)
     return file
   }
@@ -981,7 +981,7 @@ export default class Repository extends Emitter {
       }
       let completed = 0
 
-      if (files.length < 1) return resolve()
+      if (files.length < 1) return resolve(files)
       eachLimit(
         files,
         ASYNC_LIMIT,
@@ -989,11 +989,11 @@ export default class Repository extends Emitter {
           this.emit('file.reading', { path: file.path })
           await this.readFile(file)
           completed++
-          self.emit('file.read', {path: file.path, completed: completed})
+          this.emit('file.read', {path: file.path, completed: completed})
         },
         function (err) {
           if (err) return reject(err)
-          resolve()
+          resolve(files)
         }
       )
     })
@@ -1028,7 +1028,7 @@ export default class Repository extends Emitter {
    * @return file
    */
   getDefaultFile () {
-    var files = fastSort(this.getFiles()).asc(u => u.path)
+    var files = sort(this.getFiles()).asc(u => u.path)
     var file = files.reverse().find((file) => {
       var regex = new RegExp(DEFAULT_FILE_PATTERN, 'i')
       return regex.test(file.path)
@@ -1068,7 +1068,7 @@ export default class Repository extends Emitter {
     if (list) {
       list.hidden = hidden
       await this.saveConfig()
-      self.emit('list.modified', name)
+      this.emit('list.modified', name)
     }
   }
 
@@ -1149,7 +1149,7 @@ export default class Repository extends Emitter {
         tasksByFile[filePath] = { file: this.getFileForTask(task), tasks: [] }
       }
       tasksByFile[filePath].tasks.push(task)
-      tasksByFile[filePath].tasks = fastSort(tasksByFile[filePath].tasks).desc(u => u.line)
+      tasksByFile[filePath].tasks = sort(tasksByFile[filePath].tasks).desc(u => u.line)
     })
     return tasksByFile
   }
@@ -1167,33 +1167,29 @@ export default class Repository extends Emitter {
       const tasksByFile = this.getTasksByFile(tasksToModify) // { <path/to/file>: {file, tasks} }
 
       const modifyTasksFunctions = Object.values(tasksByFile).map(({ file, tasks }) => {
-        return async (cb) => {
+        return async () => {
           await this.readFileContent(file)
-          try {
-            tasks.forEach((task) => {
-              task.list = newName
-              file.modifyTask(task, this.getConfig(), true)
-              file.modified = true
-            })
-          } catch (err) {
-            return cb(err)
-          }
-          cb()
+          tasks.forEach((task) => {
+            task.list = newName
+            file.modifyTask(task, this.getConfig(), true)
+            file.modified = true
+          })
+          return file
         }
       })
 
       if (modifyTasksFunctions.length < 1) return resolve()
       this.moving = true
-      parallel(modifyTasksFunctions, async (err) => {
+      parallel(modifyTasksFunctions, async (err, files) => {
         this.moving = false
         if (err) {
-          tasksByFile.forEach(({ file }) => this.resetFile(file))
+          files.forEach(file => this.resetFile(file))
           return reject(err)
         }
         try {
           await this.saveConfig()
           await this.saveModifiedFiles()
-          resolve()  
+          resolve(files)  
         } catch (err) {
           reject(err)
         }
@@ -1274,15 +1270,17 @@ export default class Repository extends Emitter {
         files[task.source.path] = []
       } 
       files[task.source.path].push(task)
-      files[task.source.path] = fastSort(files[task.source.path]).desc(u => u.line)
+      files[task.source.path] = sort(files[task.source.path]).desc(u => u.line)
     })
 
     await Promise.all(
       Object.keys(files).map(async (path) => {
-        const file = files[path]
-        if (!file) return
-        task = newCard(task, this.project, true)
-        await this.deleteTask(task)
+        const tasksInFile = files[path]
+        if (!tasksInFile) return
+        for (const task of tasksInFile) {
+          const taskToDelete = newCard(task, this.project, true)
+          await this.deleteTask(taskToDelete)
+        }
       })
     )
 
@@ -1340,7 +1338,9 @@ export default class Repository extends Emitter {
     return task.description.join(eol.lf)
   }
 
-  appendTask({file, content, list}, cb) {
+  // DOING Refactor appendTask to use async/await
+  // #esm-migration
+  async appendTask({file, content, list}) {
     const config = this.getConfig()
     const interpretedTaskPrefix = _template(config.getTaskPrefix())({
       date: new Date(),
@@ -1385,34 +1385,23 @@ export default class Repository extends Emitter {
     const cardTerminator = "\n".repeat(2)
     file.setContent(`${fileContent}${appendContent}${cardTerminator}`)
 
-    this.writeAndExtract(file, true, (err, file) => {
-      if (err) return cb(err)
-      const task = file.getTasks().find(task => task.text === text && task.list === list)
-      cb(null, file, task)
-    })
+    await this.writeAndExtract(file)
+    const task = file.getTasks().find(task => task.text === text && task.list === list)
+    return { file, task }
   }
 
-  // Refactor addTaskToFile to use async/await
+  // READY Refactor addTaskToFile to use async/await
   // #esm-migration
-  async addTaskToFile (filePath, list, content, cb) {
-    return new Promise((resolve, reject) => {
-      this._addTaskToFile(filePath, list, content, (err, file, task) => {
-        if (err) return cb ? cb(err) : reject(err)
-        return cb ? cb(null, file, task) : resolve({ file, task })
-      })
-    })
-  }
-
-  _addTaskToFile (filePath, list, content, cb) {
-    cb = tools.cb(cb)
+  // <!--
+  // order:-290
+  // -->
+  async addTaskToFile (filePath, list, content) {
     const relPath = this.getRelativePath(filePath)
     let file = this.getFile(relPath)
 
     if (file) {
-      this.readFileContent(file, (err, file) => {
-        if (err) return cb(err)
-        this.appendTask({file, content, list}, cb)
-      })
+      await this.readFileContent(file)
+      return this.appendTask({file, content, list})
     } else {
       const modifiedTime = new Date()
       const createdTime = new Date()
@@ -1424,7 +1413,7 @@ export default class Repository extends Emitter {
         createdTime,
         project: this.project,
       })
-      this.appendTask({file, content, list}, cb)
+      return this.appendTask({file, content, list})
     }
   }
 
@@ -1506,7 +1495,7 @@ export default class Repository extends Emitter {
     task.updateOrderMeta(this.config)
     toListTasks.splice(newPos, 0, task)
 
-    const tasksToModifySorted = fastSort(tasksToModify).by([{ desc: u => u.line }, { asc: u => u.path }])
+    const tasksToModifySorted = sort(tasksToModify).by([{ desc: u => u.line }, { asc: u => u.path }])
     
     return new Promise((resolve, reject) => {
       eachSeries(
@@ -1529,7 +1518,6 @@ export default class Repository extends Emitter {
   // -->
   _moveTasks (tasks, newList, newPos = 0, noEmit, cb) {
     var log = require('debug')('moveTasks')
-    var self = this
     if (this.getList(newList).filter)
       return cb(new Error(`Tasks can\'t be moved to a filtered list ${newList}.`))
     var listsModified = [newList]
@@ -1543,36 +1531,36 @@ export default class Repository extends Emitter {
     log('Move tasks to list:%s at position:%d : %j', newList, newPos, tasks)
     log(
       'newList before mods:',
-      JSON.stringify(self.getTasksInList(newList), null, 3)
+      JSON.stringify(this.getTasksInList(newList), null, 3)
     )
-    fastSort(tasks).by({desc: t => t.line})
+    sort(tasks).by({desc: t => t.line})
     series(
       tasks.map((task, i) => {
-        return async function () {
-          const foundTask  = self.getTasks().find(({source, line}) => task.source.path === source.path && task.line === line)
+        return async () =>{
+          const foundTask  = this.getTasks().find(({source, line}) => task.source.path === source.path && task.line === line)
           if (foundTask) {
             if (listsModified.indexOf(foundTask.list) < 0) listsModified.push(foundTask.list)
-            await self.moveTask({ task: foundTask, newList, newPos: newPos + i, noEmit: true })
+            await this.moveTask({ task: foundTask, newList, newPos: newPos + i, noEmit: true })
           } 
         }
       }),
-      function (err) {
+      (err) => {
         if (err) {
           console.error('Error occurred while moving tasks:', err)
         }
-        self.saveModifiedFiles(function (err, results) {
+        this.saveModifiedFiles(function (err, results) {
           if (err)
             console.error('Error occurred while saving modified files:', err)
-          self.lastMovedFiles = results
+          this.lastMovedFiles = results
           var tasksByList = listsModified.map((list) => {
             return {
               list: list,
-              tasks: self.getTasksInList(list),
+              tasks: this.getTasksInList(list),
             }
           })
-          self.moving = false
+          this.moving = false
           cb(err, tasksByList)
-          if (!err && !noEmit) self.emit('tasks.moved', tasks)
+          if (!err && !noEmit) this.emit('tasks.moved', tasks)
         })
       }
     )
@@ -1620,7 +1608,7 @@ export default class Repository extends Emitter {
     this.savingFiles = true
     await Promise.all(funcs)
     this.savingFiles = false
-    self.emit('files.saved', filesToSave)
+    this.emit('files.saved', filesToSave)
   }
 
   /**
@@ -1629,8 +1617,7 @@ export default class Repository extends Emitter {
    * @return tasks
    */
   getTasks () {
-    var tasks = [],
-      self = this
+    const tasks = []
     this.getFiles().forEach((file) => {
       Array.prototype.push.apply(tasks, file.getTasks())
     })
@@ -1652,7 +1639,7 @@ export default class Repository extends Emitter {
     if (!_isString(name)) return []
     var tasks = _where(this.getTasks(), { list: name })
     if (tasks.length === 0) return []
-    var allTasks = fastSort(tasks).by(DEFAULT_SORT)
+    var allTasks = sort(tasks).by(DEFAULT_SORT)
     if (isNumber(offset) && isNumber(limit))
       return allTasks.slice(offset, offset + limit)
     return allTasks

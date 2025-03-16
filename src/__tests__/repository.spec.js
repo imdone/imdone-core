@@ -718,7 +718,7 @@ describe('Repository', function () {
       })
       repo3 = proj3.repo
     })
-    it('should add a task to a file and call callback with file and task', async () => {
+    it('should add a task to a file and return with file and task', async () => {
       const content = 'A task added to a file'
       const testFilePath = 'addTaskTest.md'
       const filePath = path.join(repo3.path, testFilePath)
@@ -884,14 +884,12 @@ describe('Repository', function () {
       )
     })
     it('Should filter tasks by modified time monquery', async () => {
-      proj1.init(function (err, result) {
-        const lists = repo1.query('list = /DO/')
-        expect(lists.find((list) => list.name === 'DOING').tasks.length).to.equal(
-          3
-        )
-        expect(lists.find((list) => list.name === 'TODO').tasks.length).to.equal(3)
-        done()
-      })
+      await proj1.init()
+      const lists = repo1.query('list = /DO/')
+      expect(lists.find((list) => list.name === 'DOING').tasks.length).to.equal(
+        3
+      )
+      expect(lists.find((list) => list.name === 'TODO').tasks.length).to.equal(3)
     })
     it('Should filter tasks with a regex', async () => {
       await proj1.init()
