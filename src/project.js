@@ -576,12 +576,7 @@ export default class WorkerProject extends Project {
     content = this.addContextsToContent(contexts, content)
     content = this.addMetaToContent(meta, content)
 
-    return new Promise((resolve, reject) => {
-      this.repo.addTaskToFile(filePath, list, content, (err, file, task) => {
-        if (err) return reject(err)
-        resolve({ file, task })
-      })
-    })
+    return await this.repo.addTaskToFile(filePath, list, content)
   }
 
   addMetaToContent(meta, content) {
@@ -635,23 +630,12 @@ export default class WorkerProject extends Project {
   }
 
   async deleteTask(task) {
-    return new Promise((resolve, reject) => {
-      this.repo.deleteTask(task, async (err) => {
-        if (err) return reject(err)
-        await this.pluginManager.onAfterDeleteTask(task)
-        resolve()
-      })
-    })
+      await this.repo.deleteTask(task)
+      await this.pluginManager.onAfterDeleteTask(task)
   }
 
   async deleteTasks(tasks) {
-    return new Promise((resolve, reject) => {
-      this.repo.deleteTasks(tasks, async (err) => {
-        if (err) return reject(err)
-        resolve()
-      })
-    })
-  
+    await this.repo.deleteTasks(tasks)
   }
 
   setFilter(filter) {
@@ -869,16 +853,9 @@ export default class WorkerProject extends Project {
     return this.pluginManager.uninstallPlugin(name)
   }
 
-  refresh() {
-    return new Promise((resolve, reject) => {
-      this.repo.refresh((err) => {
-        if (err) return reject(err)
-        ;(async () => {
-          await this.pluginManager.reloadPlugins()
-          resolve()
-        })()
-      })
-    })
+  async refresh() {
+    await this.repo.refresh()
+    await this.pluginManager.reloadPlugins()
   }
 
   renderMarkdown(content, filePath) {
