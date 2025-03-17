@@ -77,9 +77,7 @@ export async function mkdir(path) {
   return fs.promises.mkdir(path)
 }
 
-export async function readFile(path) {
-  return fs.promises.readFile(path, 'utf8')
-}
+export const readFile = fs.promises.readFile
 
 export function readdirSyncRecursive(path) {
   console.warn('sync call')

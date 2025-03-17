@@ -3,7 +3,7 @@ import Plugin from 'imdone-api'
 import _path from 'path'
 import downloadRepo from '../adapters/git-download'
 import rimraf from 'rimraf'
-import sane from 'sane'
+import chokidar from 'chokidar'
 import debounce from 'lodash.debounce'
 import { exists, mkdir, readdir } from '../adapters/file-gateway'
 import appContext from '../context/ApplicationContext'
@@ -29,7 +29,7 @@ export default class PluginManager extends Emitter {
     if (this.project && this.project.config.devMode && !this.watcher) {
       if (!(await exists(this.pluginPath)))
         await mkdir(this.pluginPath)
-      this.watcher = sane(this.pluginPath, {
+      this.watcher = chokidar(this.pluginPath, {
         ignored(path) {
           return /node_modules/.test(path)
         },

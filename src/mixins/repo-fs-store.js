@@ -106,7 +106,8 @@ export default function mixin(repo, fs = realFs) {
     repo.createListeners()
     
     const files = await repo.readFiles()
-    repo.emit('initialized', { ok: true, lists: repo.getTasksByList() })
+    const lists = repo.getTasksByList()
+    repo.emit('initialized', { ok: true, lists })
     return files
   }
 
@@ -336,7 +337,7 @@ export default function mixin(repo, fs = realFs) {
     var filePath = repo.getFullPath(file)
 
     const stats = await stat(filePath)
-    if (!stats.isFile()) return cb(null, file)
+    if (!stats.isFile()) return file
     const data = await readFile(filePath, 'utf8')
 
     file

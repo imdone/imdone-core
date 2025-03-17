@@ -1,13 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach  } from 'vitest';
 import path from 'path';
 import { getFreshRepo } from './helper';
-import Repository from '../repository';
-import WatchedFsStore from '../mixins/repo-watched-fs-store';
 import { load, dump } from 'js-yaml';
 import { readFileSync, writeFileSync, existsSync, promises } from 'fs';
 import Diff from 'diff';
 import eol from 'eol';
-import Project from '../project';
 import { createWatchedFileSystemProject } from '../project-factory'
 
 
@@ -43,15 +40,23 @@ describe('WatchedFsStore', () => {
   describe('init', function () {
     it("should initialize an imdone repo and emit it's lists", async () => {
       return new Promise(async (resolve, reject) => {
-        repo.on('initialized', ({ ok, lists }) => {
+        defaultCardsRepo.on('initialized', ({ ok, lists }) => {
           if (ok) {
-            expect(lists).to.be.an('object')
-            resolve()
+            try {
+              expect(lists).to.be.an('array')
+              resolve()
+            } catch (err) {
+              reject(err)
+            }
           } else {
             reject()
           }
         })
-        await proj.init()
+        try {
+          await defaultCardsProj.init()
+        } catch (err) {
+          reject(err)
+        }
       })
     })
   })
