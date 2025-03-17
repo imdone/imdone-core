@@ -15,11 +15,7 @@ const { createFileSystemProject } = require('../lib/project-factory')
 const TODO = "TODO"
 const DOING = "DOING"
 const DONE = "DONE"
-// TODO Modernize this test
-// #important #urgent
-// <!--
-// order:-225
-// -->
+
 var tmpDir = path.join(process.cwd(), 'tmp'),
 tmpReposDir = path.join(tmpDir, 'repos'),
 repoSrc = path.join(process.cwd(), 'test', 'repos'),

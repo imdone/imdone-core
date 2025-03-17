@@ -556,6 +556,9 @@ export default class File extends Emitter {
   // TODO Extract functions should be moved to another file
   // Only pass the needed config values to the functions
   // #imdone-1.54.0
+  // <!--
+  // order:40
+  // -->
   extractTasksInCodeFile (config) {
     var self = this
     var commentRegex = this.getCodeCommentRegex()

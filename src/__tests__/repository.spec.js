@@ -9,15 +9,13 @@ import path from 'path'
 import { rm, cp, mkdir, access } from 'fs/promises'
 import { exists } from '../adapters/file-gateway'
 import fsStore from '../mixins/repo-fs-store'
-import debug from 'debug'
-const log = debug('imdone-core:repository-spec')
 import languages from '../languages'
 import eol from 'eol'
 import { createFileSystemProject } from '../project-factory'
 import appContext from '../context/ApplicationContext'
 import { ProjectContext } from '../ProjectContext';
 
-// TODO Continue migrating repository-spec.js
+// READY Continue migrating repository-spec.js
 // Next migrate other tests
 // <!--
 // #esm-migration
