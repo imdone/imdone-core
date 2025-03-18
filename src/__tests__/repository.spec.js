@@ -14,6 +14,7 @@ import eol from 'eol'
 import { createFileSystemProject } from '../project-factory'
 import appContext from '../context/ApplicationContext'
 import { ProjectContext } from '../ProjectContext';
+import { getFreshRepoTestData } from './helper';
 
 // READY Continue migrating repository-spec.js
 // Next migrate other tests
@@ -25,20 +26,16 @@ import { ProjectContext } from '../ProjectContext';
 const { parseHideListsFromQueryString } = Repository
 
 describe('Repository', function () {
-  var tmpDir = path.join(process.cwd(), 'tmp'),
-    tmpReposDir = path.join(tmpDir, 'repos'),
-    repoSrc = path.join(process.cwd(), 'test', 'repos'),
-    filesSrc = path.join(process.cwd(), 'test', 'files'),
-    repoDir = path.join(tmpReposDir, 'files'),
-    repo1Dir = path.join(tmpReposDir, 'repo1'),
-    repo2Dir = path.join(tmpReposDir, 'repo2'),
-    repo3Dir = path.join(tmpReposDir, 'repo3'),
-    defaultCardsDir = path.join(tmpReposDir, 'default-cards'),
-    defaultCards2Dir = path.join(tmpReposDir, 'default-cards-2'),
-    noOrderRepoDir = path.join(tmpReposDir, 'no-order-repo'),
-    moveMetaOrderDir = path.join(tmpReposDir, 'move-meta-order'),
-    moveMetaOrderKeepEmptyPriorityDir = path.join(tmpReposDir, 'move-meta-order-keep-empty-priority'),
-    metaSepTestDir = path.join(tmpReposDir, 'meta-sep-test'),
+  var repoDir,
+    repo1Dir,
+    repo2Dir,
+    repo3Dir,
+    defaultCardsDir,
+    defaultCards2Dir,
+    noOrderRepoDir,
+    moveMetaOrderDir,
+    moveMetaOrderKeepEmptyPriorityDir,
+    metaSepTestDir,
     repo,
     repo1,
     repo2,
@@ -58,16 +55,16 @@ describe('Repository', function () {
     metaSepTestProj
 
   beforeEach(async function () {
-    try {
-      await access(tmpDir)
-      await rm(tmpDir, { recursive: true, force: true })
-    } catch (e) {
-      // swallow exception
-    } 
-
-    await mkdir(tmpDir)
-    await cp(repoSrc, tmpReposDir, { recursive: true, force: true })
-    await cp(filesSrc, repoDir, { recursive: true, force: true })
+    repoDir = await getFreshRepoTestData('files')
+    repo1Dir = await getFreshRepoTestData('repo1')
+    repo2Dir = await getFreshRepoTestData('repo2')
+    repo3Dir = await getFreshRepoTestData('repo3')
+    defaultCardsDir = await getFreshRepoTestData('default-cards')
+    defaultCards2Dir = await getFreshRepoTestData('default-cards-2')
+    noOrderRepoDir = await getFreshRepoTestData('no-order-repo')
+    moveMetaOrderDir = await getFreshRepoTestData('move-meta-order')
+    moveMetaOrderKeepEmptyPriorityDir = await getFreshRepoTestData('move-meta-order-keep-empty-priority')
+    metaSepTestDir = await getFreshRepoTestData('meta-sep-test')
 
     appContext().pluginRegistry = { getAvailablePlugins: async () => [] }
 
@@ -78,8 +75,8 @@ describe('Repository', function () {
       loadPluginsNotInstalled: () => {} 
     })
     repo = proj.repo
-
     configDir = path.join(repo.getPath(), '.imdone')
+
     repo1 = fsStore(new Repository(repo1Dir))
     proj1 = new Project(repo1)
     repo2 = fsStore(new Repository(repo2Dir))
@@ -106,7 +103,6 @@ describe('Repository', function () {
     noOrderProj.destroy()
     moveMetaOrderProj.destroy()
     metaSepTestProj.destroy()
-    await rm(tmpDir, { recursive: true, force: true })
   })
 
   it('Should init successfully', async () => {

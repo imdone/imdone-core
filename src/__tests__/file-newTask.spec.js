@@ -3,18 +3,16 @@ import { Config } from '../config'
 import File from '../file'
 import Task from '../task'
 import { createFileSystemProject } from '../project-factory'
-
-const renderMarkdown = () => 'File content'
-const extractWikilinkTopics = () => ['a topic', 'another topic']
+import { getFreshRepoTestData } from './helper';
 
 describe("File.prototype.extractTaskDescription", () => {
-    it("Creates a new task with all interpolation data", () => {
+    it("Creates a new task with all interpolation data", async() => {
         var config = Config.newDefaultConfig()
         config.settings = {
           cards: { metaNewLine: true, addCompletedMeta: true, doneList: 'DONE' },
         }
         const project = createFileSystemProject({
-            path: 'tmp/files',
+            path: await getFreshRepoTestData('files'),
             config,
             loadInstalledPlugins: () => {},
             loadPluginsNotInstalled: () => {}

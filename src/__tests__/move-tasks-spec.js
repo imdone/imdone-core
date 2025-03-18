@@ -70,8 +70,8 @@ function createDir(tmpDir) {
     }
 }
 
-function createTmpRepo(name, files = []) {
-    const repoDir = path.join(tmpDir, name)
+async function createTmpRepo(name, files = []) {
+    const repoDir = await mkdtemp(path.join(os.tmpdir(), `imdone-core-test-${name}-`));
     createDir(repoDir)
     files.forEach(({name, content}) => {
         fs.writeFileSync(path.join(repoDir, name), content, 'utf8')
@@ -261,7 +261,7 @@ describe('moveTasks', function () {
                 content
             }
         ]
-        const repo = createTmpRepo("order-integrity", repoFiles)
+        const repo = await createTmpRepo("order-integrity", repoFiles)
         const proj = createProject({repo, init: false, config: {
             keepEmptyPriority: true,
             settings: {

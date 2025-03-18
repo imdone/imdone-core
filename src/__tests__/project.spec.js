@@ -1,27 +1,16 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import path from 'path';
 import fs from 'fs';
 import { createFileSystemProject } from '../project-factory';
+import { getFreshRepoTestData } from './helper';
 
-const {cp, rm, mkdir, access} = fs.promises
+const {rm} = fs.promises
 describe('project', function () {
-  const tmpDir = path.join(process.cwd(), 'tmp')
-  const tmpReposDir = path.join(tmpDir, 'repos')
-  const repoSrc = path.join(process.cwd(), 'test', 'repos')
-  const defaultCardsDir = path.join(tmpReposDir, 'default-cards')
-  let project, repo
+  let project, repo, defaultCardsDir
 
   beforeEach(async () => {
-    try {
-      await access(tmpDir)
-      await rm(tmpDir, { recursive: true })
-    } catch (e) {
-      // swallow exception
-    } finally {
-      await mkdir(tmpDir)
-      await cp(repoSrc, tmpReposDir, { recursive: true, force: true })
-    }
-    
+  // DOING I'm here!!!
+    defaultCardsDir = await getFreshRepoTestData('default-cards')
+   
     project = createFileSystemProject({
       path: defaultCardsDir,
       loadInstalledPlugins: () => {},
@@ -32,7 +21,7 @@ describe('project', function () {
 
   afterEach(async () => {
     project.destroy()
-    await rm(tmpDir, {recursive: true})
+    await rm(defaultCardsDir, {recursive: true})
   })
 
   it('sorts according to due date when the default view filter has +dueDate', async function () {

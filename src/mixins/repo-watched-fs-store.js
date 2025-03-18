@@ -29,10 +29,10 @@ export default function mixin(repo, fs = realFs) {
     }
   }
 
-  // DOING Refactor init to async/await
+  // READY Refactor init to async/await
   // #esm-migration #important
   // <!--
-  // order:-40
+  // order:-310
   // -->
   repo.init = async function () {
     if (initializing) {
@@ -56,10 +56,10 @@ export default function mixin(repo, fs = realFs) {
     _destroy.apply(repo)
   }
 
-  // TODO Refactor refresh to async/await
+  // READY Refactor refresh to async/await
   // #esm-migration #important
   // <!--
-  // order:-265
+  // order:-330
   // -->
   repo.refresh = async function () {
     await waitForReady()
@@ -77,15 +77,15 @@ export default function mixin(repo, fs = realFs) {
 
   }
 
-  var _isImdoneConfig = function (path) {
+  function _isImdoneConfig(path) {
     return path === constants.CONFIG_FILE_YML
   }
 
-  var _isImdoneIgnore = function (path) {
+  function _isImdoneIgnore(path) {
     return path === constants.IGNORE_FILE
   }
 
-  const onConfigChange = async function (file) {
+  async function onConfigChange(file) {
     console.info('Loading config.  Observed a change to:', file)
     const label = `Refresh repo: ${repo.path}`
     console.time(label)
@@ -99,26 +99,27 @@ export default function mixin(repo, fs = realFs) {
 
   const onIgnoreChange = onConfigChange
 
-  // TODO Refactor initWatcher to async/await
+  // READY Refactor initWatcher to async/await
   // #esm-migration #important
   // <!--
-  // order:-275
+  // order:-320
   // defer:2025-03-18
   // -->
-  repo.initWatcher = async function () {
+  repo.initWatcher = async () => {
     return new Promise(async (resolve, reject) => {
       console.log('initializing watcher for:', repo.path)
-      repo.watcher = chokidar(repo.path, {
+      repo.watcher = chokidar.watch(repo.path, {
         alwaysStat: true,
         awaitWriteFinish: true,
-        ignoreInitial: true,
-        ignored(file) {
+        // ignoreInitial: true,
+        ignored: async (file) => {
+          console.log('checking ignore:', file)
           if (!initializing && _isImdoneConfig(file)) {
-            onConfigChange(file)
+            await onConfigChange(file)
           }
 
           if (!initializing && _isImdoneIgnore(file)) {
-            onIgnoreChange(file)
+            await onIgnoreChange(file)
           }
 
           const ignore = !repo.shouldInclude(file)

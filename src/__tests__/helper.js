@@ -1,15 +1,15 @@
-import { rm, cp, mkdir } from 'fs/promises'
+import { cp, mkdtemp } from 'fs/promises'
 import path from 'path'
+import path from 'path';
+import os from 'os';
 
-const tmpDir = path.join(process.cwd(), 'tmp')
-const tmpReposDir = path.join(tmpDir, "repos")
-const repoSrc  = path.join(process.cwd(), "test", "repos")
+export async function getFreshRepoTestData (repoName = "repo2") {
+  const tmpDir = await mkdtemp(path.join(os.tmpdir(), `imdone-core-test-${repoName}-`));
+  const repoSrc  = path.join(process.cwd(), "test", "repos", repoName)
 
-export async function getFreshRepo (repoName = "repo2") {
-  const repoDir = path.join(tmpReposDir, repoName)
-  await rm(tmpDir, { recursive: true, force: true })
-  await mkdir(tmpDir, { recursive: true })
-  await cp(repoSrc, tmpReposDir, { recursive: true, force: true })
-  return repoDir
+  await cp(repoSrc, tmpDir, { recursive: true, force: true })
+
+  console.log('Test repo created in:', tmpDir)
+  return tmpDir
 }
 

@@ -11,6 +11,7 @@ import Task from '../task'
 import appContext from '../context/ApplicationContext'
 import { ProjectContext } from '../ProjectContext'
 import { FileProjectContext } from '../FileProjectContext'
+import { getFreshRepoTestData } from './helper';
 
 const pluginManager = {
   onTaskUpdate: () => {},
@@ -90,15 +91,15 @@ const defaultProject = {
   extractWikilinkTopics: () => [],
 }
 
-describe('File', function () {
-  const tmpDir = path.join(process.cwd(), 'tmp', 'files')
-  const testFilesDir = path.join(process.cwd(), 'test', 'files')
-  beforeEach(() => {
-    if (fs.existsSync(tmpDir)) {
-      wrench.rmdirSyncRecursive(tmpDir)
-    }
-    wrench.mkdirSyncRecursive(tmpDir)
-    wrench.copyDirSyncRecursive(testFilesDir, tmpDir, { forceDelete: true })
+describe('File', async () => {
+  let tmpDir
+
+  function getTmpFile(filePath) {
+    return path.join(tmpDir, filePath)
+  }
+
+  beforeEach(async () => {
+    tmpDir = await getFreshRepoTestData('files')
   })
 
   afterEach(() => {
@@ -119,7 +120,7 @@ describe('File', function () {
       return SomeFile.super_.prototype.extractTasks.call(this, config)
     }
     const filePath = path.join('tmp', 'files', 'sample.js')
-    const content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+    const content = fs.readFileSync(getTmpFile('sample.js'), 'utf8')
     const project = { path: '/', config , ...defaultProject }
     var someFile = new SomeFile({
       repoId: 'test',
@@ -139,11 +140,11 @@ describe('File', function () {
 
   describe('getLinePos', function () {
     it('should give the correct line position for each line of a file', function () {
-      var content = fs.readFileSync('tmp/files/test.js', 'utf8')
+      var content = fs.readFileSync(getTmpFile('test.js'), 'utf8')
       const project = { path: 'tmp/files', ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/test.js',
+        filePath: getTmpFile('test.js'),
         content: content,
         languages: languages,
         project,
@@ -165,7 +166,7 @@ describe('File', function () {
 
   describe('deleteTask', () => {
     it('should delete a checkbox task with blank lines', () => {
-      const filePath = 'tmp/files/checkbox-deletions.md'
+      const filePath = getTmpFile('checkbox-deletions.md')
       const after = `
 - [ ] [A new card with space 2](#TODO:-20)
   
@@ -202,7 +203,7 @@ describe('File', function () {
 
   describe('extractAndTransformTasks', () => {
     it('should add order to the correct location based on settings.orderMeta', () => {
-      const filePath = 'tmp/files/BIG-FILE-DOES-NOT-EXIST.md'
+      const filePath = 'BIG-FILE-DOES-NOT-EXIST.md'
       const lists = {
         TODO: 20,
         DOING: 10,
@@ -260,11 +261,11 @@ describe('File', function () {
           getTasksInList: () => [],
         })
       
-      var content = fs.readFileSync('tmp/files/update-metadata.md', 'utf8')
+      var content = fs.readFileSync(getTmpFile('update-metadata.md'), 'utf8')
       const project = { config, path: 'tmp/files', pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/update-metadata.md',
+        filePath: getTmpFile('update-metadata.md'),
         content: content,
         languages: languages,
         project,
@@ -287,7 +288,7 @@ describe('File', function () {
           trackChanges: true,
         },
       }
-      const filePath = 'tmp/files/update-metadata.md'
+      const filePath = getTmpFile('update-metadata.md')
       var content = fs.readFileSync(filePath, 'utf8')
       const project = { config, path: 'tmp/files', pluginManager , ...defaultProject }
       var file = new File({
@@ -319,7 +320,7 @@ describe('File', function () {
           trackChanges: true,
         },
       }
-      const filePath = 'tmp/files/update-metadata.md'
+      const filePath = getTmpFile('update-metadata.md')
       var content = fs.readFileSync(filePath, 'utf8')
       const project = { config, path: 'tmp/files', pluginManager , ...defaultProject }
       var file = new File({
@@ -354,9 +355,9 @@ describe('File', function () {
           trackChanges: true,
         },
       }
-      const filePath = 'tmp/files/checkbox-tasks.md'
-      var content = fs.readFileSync(filePath, 'utf8')
-      const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
+      const filePath = getTmpFile('checkbox-tasks.md')
+      var content = fs.readFileSync(getTmpFile('checkbox-tasks.md'), 'utf8')
+      const project = { path: tmpDir, config, pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
         filePath,
@@ -387,11 +388,11 @@ describe('File', function () {
   describe('extractTasks', function () {
     it('Should find markdown tasks in a markdown file', function () {
       var config = Config.newDefaultConfig()
-      var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.md'), 'utf8')
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.md',
+        filePath: getTmpFile('sample.md'),
         content: content,
         languages: languages,
         project,
@@ -406,12 +407,12 @@ describe('File', function () {
     })
 
     it('Should ignore tasks in code blocks', function () {
-      var content = fs.readFileSync('tmp/files/code-blocks.md', 'utf8')
+      var content = fs.readFileSync(getTmpFile('code-blocks.md'), 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/code-blocks.md',
+        filePath: getTmpFile('code-blocks.md'),
         content: content,
         languages: languages,
         project,
@@ -427,7 +428,7 @@ describe('File', function () {
       let content = '[2021-12-01 12:00] #DOING:20 A new task'
       let file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.md',
+        filePath: getTmpFile('sample.md'),
         content,
         languages,
         project,
@@ -439,7 +440,7 @@ describe('File', function () {
       content = '[2021-12-01 12:00] [A new task](#DOING:20)'
       file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample2.md',
+        filePath: getTmpFile('sample2.md'),
         content,
         languages,
         project,
@@ -450,12 +451,12 @@ describe('File', function () {
     })
 
     it('Should find all tasks in a code file', function () {
-      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.js'), 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.js',
+        filePath: getTmpFile('sample.js'),
         content: content,
         languages: languages,
         project,
@@ -469,7 +470,7 @@ describe('File', function () {
     })
 
     it('Should find all HASHTAG tasks in a markdown file', function () {
-      const filePath = 'tmp/files/hash-no-order.md'
+      const filePath = getTmpFile('hash-no-order.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
@@ -492,7 +493,7 @@ describe('File', function () {
     })
 
     it('Should find all HASH_NO_ORDER tasks in a large markdown file', function () {
-      const filePath = 'tmp/files/BIG-FILE-DOES-NOT-EXIST.md'
+      const filePath = getTmpFile('BIG-FILE-DOES-NOT-EXIST.md')
       const lists = {
         TODO: 20,
         DOING: 10,
@@ -522,7 +523,7 @@ describe('File', function () {
     })
 
     it('Should find all HASH tasks in a large markdown file', function () {
-      const filePath = 'tmp/files/BIG-FILE-DOES-NOT-EXIST.md'
+      const filePath = getTmpFile('BIG-FILE-DOES-NOT-EXIST.md')
       const lists = {
         TODO: 20,
         DOING: 10,
@@ -551,7 +552,7 @@ describe('File', function () {
     })
 
     it('Should find all LINK tasks in a large markdown file', function () {
-      const filePath = 'tmp/files/BIG-FILE-DOES-NOT-EXIST.md'
+      const filePath = getTmpFile('BIG-FILE-DOES-NOT-EXIST.md')
       const lists = {
         TODO: 20,
         DOING: 10,
@@ -583,11 +584,11 @@ describe('File', function () {
   describe('modifyTaskFromContent', function () {
     it('Should modfy a description from content', function () {
       var config = Config.newDefaultConfig()
-      var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.md'), 'utf8')
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.md',
+        filePath: getTmpFile('sample.md'),
         content: content,
         languages: languages,
         project,
@@ -603,7 +604,7 @@ describe('File', function () {
     })
 
     it('modifies a task that contains <code> tags', () => {
-      const filePath = 'tmp/files/preserve-blank-lines.md'
+      const filePath = getTmpFile('preserve-blank-lines.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
@@ -627,7 +628,7 @@ describe('File', function () {
     })
 
     it('replaces content in  a task without blank lines with content containing blank lines', () => {
-      const filePath = 'tmp/files/preserve-blank-lines.md'
+      const filePath = getTmpFile('preserve-blank-lines.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
@@ -652,7 +653,7 @@ describe('File', function () {
 
   describe('modifyTaskFromHtml', () => {
     it('should modify a task that contains <code> tags', () => {
-      const filePath = 'tmp/files/preserve-blank-lines.md'
+      const filePath = getTmpFile('preserve-blank-lines.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
@@ -688,7 +689,7 @@ describe('File', function () {
 
   describe('modifyTask', () => {
     it('should modify a HASH_NO_ORDER task that has no order metadata', () => {
-      const filePath = 'tmp/files/hash-no-order.md'
+      const filePath = getTmpFile('hash-no-order.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       config.settings.cards = {
@@ -711,7 +712,7 @@ describe('File', function () {
     })
 
     it('should modify a HASH_NO_ORDER task that has order metadata', () => {
-      const filePath = 'tmp/files/hash-no-order.md'
+      const filePath = getTmpFile('hash-no-order.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       config.settings.cards = {
@@ -734,7 +735,7 @@ describe('File', function () {
     })
 
     it('should modify a MARKDOWN task that has order in the task text', () => {
-      const filePath = 'tmp/files/modify-tasks.md'
+      const filePath = getTmpFile('modify-tasks.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       config.settings.cards = {
@@ -762,8 +763,8 @@ describe('File', function () {
       const project = { path: 'tmp/files' , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.js',
-        content: fs.readFileSync('tmp/files/sample.js', 'utf8'),
+        filePath: getTmpFile('sample.js'),
+        content: fs.readFileSync(getTmpFile('sample.js'), 'utf8'),
         languages: languages,
         project,
       })
@@ -788,8 +789,8 @@ describe('File', function () {
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.js',
-        content: fs.readFileSync('tmp/files/sample.js', 'utf8'),
+        filePath: getTmpFile('sample.js'),
+        content: fs.readFileSync(getTmpFile('sample.js'), 'utf8'),
         languages: languages,
         project,
       })
@@ -800,11 +801,11 @@ describe('File', function () {
 
   describe('trimCommentBlockStart', () => {
     it('should trim the code block start pattern from a line of text', () => {
-      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.js'), 'utf8')
       const project = { path: 'tmp/files' , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.js',
+        filePath: getTmpFile('sample.js'),
         content: content,
         languages: languages,
         project,
@@ -831,11 +832,11 @@ describe('File', function () {
 
   describe('trimCommentBlockIgnore', () => {
     it('should trim the code block ignore pattern from a line of text', () => {
-      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.js'), 'utf8')
       const project = { path: 'tmp/files' , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.js',
+        filePath: getTmpFile('sample.js'),
         content: content,
         languages: languages,
         project,
@@ -857,11 +858,11 @@ describe('File', function () {
 
   describe('trimCommentBlockEnd', () => {
     it('should trim the code block end pattern from a line of text', () => {
-      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.js'), 'utf8')
       const project = { path: 'tmp/files' , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.js',
+        filePath: getTmpFile('sample.js'),
         content: content,
         languages: languages,
         project,
@@ -881,11 +882,11 @@ describe('File', function () {
 
   describe('trimCommentStart', () => {
     it('should trim the comment start from a line of text', () => {
-      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.js'), 'utf8')
       const project = { path: 'tmp/files' , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.js',
+        filePath: getTmpFile('sample.js'),
         content: content,
         languages: languages,
         project,
@@ -907,11 +908,11 @@ describe('File', function () {
 
   describe('trimCommentChars', () => {
     it('should trim the code block end pattern from a line of text', () => {
-      var content = fs.readFileSync('tmp/files/sample.js', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.js'), 'utf8')
       const project = { path: 'tmp/files' , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.js',
+        filePath: getTmpFile('sample.js'),
         content: content,
         languages: languages,
         project,
@@ -930,7 +931,7 @@ describe('File', function () {
   })
   describe('hasTaskInText', () => {
     it('returns truthy if a line has a task', () => {
-      const filePath = path.join('test', 'files', 'sample.js')
+      const filePath = getTmpFile('sample.js')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
@@ -950,12 +951,12 @@ describe('File', function () {
   })
   describe('extractTasks', () => {
     it('extracts tasks and descriptions', () => {
-      var content = fs.readFileSync('tmp/files/descriptions.js', 'utf8')
+      var content = fs.readFileSync(getTmpFile('descriptions.js'), 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/descriptions.js',
+        filePath: getTmpFile('descriptions.js'),
         content: content,
         languages: languages,
         project,
@@ -974,12 +975,12 @@ describe('File', function () {
     })
 
     it('sets the correct beforeText for hash and link style tasks', () => {
-      var content = fs.readFileSync('tmp/files/sample.md', 'utf8')
+      var content = fs.readFileSync(getTmpFile('sample.md'), 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
       var file = new File({
         repoId: 'test',
-        filePath: 'tmp/files/sample.md',
+        filePath: getTmpFile('sample.md'),
         content: content,
         languages: languages,
         project,
@@ -1035,7 +1036,7 @@ describe('File', function () {
     })
 
     it('extracts tasks with blank lines preserved', () => {
-      const filePath = 'tmp/files/preserve-blank-lines.md'
+      const filePath = getTmpFile('preserve-blank-lines.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
@@ -1053,7 +1054,7 @@ describe('File', function () {
     })
     
     it('should ignore tasks in markdown code blocks or code spans', () => {
-      const filePath = 'tmp/files/code-blocks.md'
+      const filePath = getTmpFile('code-blocks.md')
       var content = fs.readFileSync(filePath, 'utf8')
       var config = Config.newDefaultConfig()
       const project = { path: 'tmp/files', config, pluginManager , ...defaultProject }
