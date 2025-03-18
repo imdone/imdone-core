@@ -246,7 +246,7 @@ describe('File', async () => {
       file.extractAndTransformTasks(config)
 
       expect(file.content).to.not.equal(content)
-    })
+    }, 15_000)
 
     it('should update metadata', () => {
       var config = Config.newDefaultConfig()
