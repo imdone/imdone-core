@@ -356,6 +356,12 @@ export function getRawTask ({
   } 
 }
 
-export function isNumber (value) {
-  return !isNaN(parseFloat(value)) && isFinite(value)
+export function isNumber(value) {
+  return !isNaN(value) && isFinite(Number(value));
+}
+
+export function toNumber(value) {
+  if (value == null || value == undefined) return undefined; // Convert null or undefined to undefined
+  const num = Number(value);
+  return isNaN(num) ? undefined : num; // Return 0 if conversion fails, otherwise return the number
 }

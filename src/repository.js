@@ -35,124 +35,9 @@ import { getRawTask, isNumber, LIST_NAME_PATTERN } from './adapters/parsers/task
 import XRegExp from 'xregexp'
 import appContext from './context/ApplicationContext'
 import { computeChecksum } from './checksum'
+import { getTasksToModify } from './get-tasks-to-modify'
 const { ERRORS, ASYNC_LIMIT, DEFAULT_FILE_PATTERN} = constants
-const DEFAULT_SORT = [{ asc: u => Number(u.order) }, { asc: u => u.text }]
-
-function getPreviousIndexWithDifferentOrder(tasks, pos) {
-  let closestIndexWithOrder = -1
-
-  if (pos === 0) return closestIndexWithOrder
-  
-  let lastTask = tasks[pos] || tasks [pos - 1]
-
-  for (
-    let index = pos - 1;
-    index >= 0 && closestIndexWithOrder < 0;
-    index--
-  ) {
-    const t = tasks[index]
-    if (!tasksHaveSameOrder(lastTask, t)) closestIndexWithOrder = index
-    lastTask = t
-  }
-  return closestIndexWithOrder
-}
-
-function getNextIndexWithDifferentOrder(tasks, pos) {
-  let closestIndexWithOrder = -1
-
-  let lastTask = tasks[pos]
-
-  for (
-    let index = pos;
-    index < tasks.length && closestIndexWithOrder < 0;
-    index++
-  ) {
-    const t = tasks[index]
-    if (!tasksHaveSameOrder(lastTask, t)) closestIndexWithOrder = index
-    lastTask = t
-  }
-  return closestIndexWithOrder
-}
-
-function taskBeforeAndAfterHaveDifferentOrder(taskList, newPos) {
-  const taskBefore = taskList[newPos - 1]
-  const taskAfter = taskList[newPos]
-  return taskBeforeHasOrder(taskList, newPos)
-    && taskAfterHasOrder(taskList, newPos)
-    && parseFloat(taskBefore.order) !== parseFloat(taskAfter.order)
-}
-
-function taskBeforeHasOrder(taskList, newPos) {
-  const taskBefore = taskList[newPos - 1]
-  return taskBefore && isNumber(taskBefore.order)
-}
-
-function taskAfterHasOrder(taskList, newPos) {
-  const taskAfter = taskList[newPos]
-  return taskAfter && isNumber(taskAfter.order)
-}
-function lastTaskHasOrder(taskList) {
-  const lastTask = taskList[taskList.length - 1]
-  return lastTask && isNumber(lastTask.order)
-}
-
-function getTasksToModify(task, taskList, newPos) {
-
-  const previousIndexWithDifferentOrder = getPreviousIndexWithDifferentOrder(taskList, newPos)
-  const nextIndexWithDifferentOrder = getNextIndexWithDifferentOrder(taskList, newPos)
-  const previousTaskWithOrder = taskList[previousIndexWithDifferentOrder]
-  const nextTaskWithOrder = taskList[nextIndexWithDifferentOrder]
-
-  const startingOrder = previousTaskWithOrder
-    ? isNumber(previousTaskWithOrder.order) && previousTaskWithOrder.order || 0
-    : 0;
-  const endingOrder = nextTaskWithOrder
-    ? nextTaskWithOrder.order
-    : null;
-
-  const start = previousIndexWithDifferentOrder > -1 ? previousIndexWithDifferentOrder + 1 : 0;
-  const end = nextIndexWithDifferentOrder > -1 ? nextIndexWithDifferentOrder : newPos + 1;
-  const changes = nextIndexWithDifferentOrder - previousIndexWithDifferentOrder + 1
-  const increment = isNumber(endingOrder) ? (endingOrder - startingOrder) / changes : 10
-  const tasksToModify = []
-  let newOrder = startingOrder
-  let order = 0
-  if (taskList.length === 0) {
-    order = 0
-  } else  if (newPos === 0) {
-    order = taskList[0].order - 10
-  } else if (newPos === taskList.length && lastTaskHasOrder(taskList)) {
-    order = taskList[taskList.length - 1].order + 10
-  } else if (taskBeforeAndAfterHaveDifferentOrder(taskList, newPos)) {
-    order = (taskList[newPos].order - taskList[newPos - 1].order) / 2 + taskList[newPos - 1].order
-  } else if (taskBeforeHasOrder(taskList, newPos) && !taskAfterHasOrder(taskList, newPos)) {
-    order = taskList[newPos - 1].order + 10
-  } else {
-    for (let index = start; index < end; index++) {
-      newOrder += increment
-      if (index === newPos) {
-        task.order = newOrder
-        tasksToModify.push(task)
-        newOrder += increment
-      }
-
-      if (!taskList[index]) continue
-      taskList[index].order = newOrder
-      tasksToModify.push(taskList[index])
-    }  
-  }
-
-  if (tasksToModify.length === 0) {
-    task.order = order
-    tasksToModify.push(task)
-  }
-
-  return tasksToModify
-}
-
-function tasksHaveSameOrder(taskA, taskB) {
-  return taskA && taskB && taskA.order + "" === taskB.order + ""
-}
+const DEFAULT_SORT = [{ asc: u => isNumber(u.order) ? u.order : Infinity }, { asc: u => u.text }]
 
 function getTasksByList (
   repo,
@@ -274,12 +159,12 @@ function parseSortFromMongoQuery (mongoQuery) {
   return sort
 }
 
-function sortByQuery (tasks, queryString = '') {
-  queryString = replaceDateLanguage(queryString)
-  let { sort } = Repository.parseSortFromQueryString(queryString)
-  if (!sort || sort.length === 0) sort = DEFAULT_SORT
-  sort(tasks).by(sort)
-}
+// function sortByQuery (tasks, queryString = '') {
+//   queryString = replaceDateLanguage(queryString)
+//   let { sort } = Repository.parseSortFromQueryString(queryString)
+//   if (!sort || sort.length === 0) sort = DEFAULT_SORT
+//   sort(tasks).by(sort)
+// }
 
 function filterCards (tasks, _queryString = '') {
   let query
@@ -351,16 +236,9 @@ export default class Repository extends Emitter {
     this.allContexts = new Set()
   }
 
-  static getPreviousIndexWithDifferentOrder = getPreviousIndexWithDifferentOrder
-
-  static getNextIndexWithDifferentOrder = getNextIndexWithDifferentOrder
-
-  static getTasksToModify = getTasksToModify
-
   static getTasksByList = getTasksByList
 
   static populateFilteredList = populateFilteredList
-
   
   static regexQuery = regexQuery
 
@@ -370,7 +248,7 @@ export default class Repository extends Emitter {
 
   static parseSortFromMongoQuery = parseSortFromMongoQuery
 
-  static sortByQuery = sortByQuery
+  // static sortByQuery = sortByQuery
 
   static filterCards = filterCards
 
@@ -1231,6 +1109,7 @@ export default class Repository extends Emitter {
   async writeAndAdd (file, emit) {
     await this.writeFile(file, emit)
     await this.addFile(file)
+    return file
   }
 
   // READY Refactor deleteTask to use async/await
@@ -1333,7 +1212,7 @@ export default class Repository extends Emitter {
       },
       this.project
     )
-    Task.prototype.updateOrderMeta.apply(task, [this.config])
+    task.updateOrderMeta(this.config)
     return task.description.join(eol.lf)
   }
 
@@ -1499,45 +1378,36 @@ export default class Repository extends Emitter {
 
     const tasksToModifySorted = sort(tasksToModify).by([{ desc: u => u.line }, { asc: u => u.path }])
     
-    return new Promise((resolve, reject) => {
-      eachSeries(
-        tasksToModifySorted,
-        async (task) => {
-          await this.modifyTask(task, true)
-        },
-        (err) => {
-          if (err) return reject(err)
-          resolve(task)
-        }
-      )
-    })
+    await eachSeries(
+      tasksToModifySorted,
+      async (task) => {
+        await this.modifyTask(task, true)
+      },
+    )
+
+    return task
   }
 
-  // READY Refactor moveTasks to use async/await
-  // #esm-migration
+  // DOING Refactor moveTasks to use async/await
+  // #esm-migration #important
   // <!--
   // order:-210
   // -->
-  _moveTasks (tasks, newList, newPos = 0, noEmit, cb) {
-    var log = require('debug')('moveTasks')
+  async moveTasks (tasks, newList, newPos = 0, noEmit = false) {
+    const log = require('debug')('moveTasks')
     if (this.getList(newList).filter)
-      return cb(new Error(`Tasks can\'t be moved to a filtered list ${newList}.`))
-    var listsModified = [newList]
-    if (_isFunction(noEmit)) {
-      cb = noEmit
-      noEmit = false
-    }
+      throw new Error(`Tasks can\'t be moved to a filtered list ${newList}.`)
+    
+    const listsModified = [newList]
     this.moving = true
-    cb = tools.cb(cb)
 
     log('Move tasks to list:%s at position:%d : %j', newList, newPos, tasks)
     log(
       'newList before mods:',
       JSON.stringify(this.getTasksInList(newList), null, 3)
     )
-    sort(tasks).by({desc: t => t.line})
-    series(
-      tasks.map((task, i) => {
+    await series(
+      sort(tasks).by({desc: t => t.line}).map((task, i) => {
         return async () =>{
           const foundTask  = this.getTasks().find(({source, line}) => task.source.path === source.path && task.line === line)
           if (foundTask) {
@@ -1545,40 +1415,20 @@ export default class Repository extends Emitter {
             await this.moveTask({ task: foundTask, newList, newPos: newPos + i, noEmit: true })
           } 
         }
-      }),
-      (err) => {
-        if (err) {
-          console.error('Error occurred while moving tasks:', err)
-        }
-        this.saveModifiedFiles(function (err, results) {
-          if (err)
-            console.error('Error occurred while saving modified files:', err)
-          this.lastMovedFiles = results
-          var tasksByList = listsModified.map((list) => {
-            return {
-              list: list,
-              tasks: this.getTasksInList(list),
-            }
-          })
-          this.moving = false
-          cb(err, tasksByList)
-          if (!err && !noEmit) this.emit('tasks.moved', tasks)
-        })
-      }
-    )
-  }
-
-  // READY Replace use of this for moveTasks
-  // #esm-migration
-  // <!--
-  // order:-260
-  // -->
-  async moveTasks (tasks, newList, newPos, noEmit = false) {
-    return new Promise((resolve, reject) => {
-      this._moveTasks(tasks, newList, newPos, noEmit, (err, tasksByList) => {
-        if (err) return reject(err)
-        resolve(tasksByList)
       })
+    )
+
+    const results = await this.saveModifiedFiles()
+
+    this.lastMovedFiles = results
+    this.moving = false
+
+    if (!noEmit) this.emit('tasks.moved', tasks)
+    return listsModified.map((list) => {
+      return {
+        list: list,
+        tasks: this.getTasksInList(list),
+      }
     })
   }
 

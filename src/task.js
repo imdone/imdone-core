@@ -7,7 +7,8 @@ import {
   TASK_TYPES,
   getCheckedData,
   isBeforeTextMarkdownList,
-  isNumber
+  isNumber,
+  toNumber,
 } from './adapters/parsers/task/CardContentParser.js';
 import tools from './tools.js';
 
@@ -68,12 +69,11 @@ export default class Task {
   }
 
   set order(val) {
-    const order = parseFloat(val)
-    this.innerOrder = isNaN(order) ? null : order
+    this.innerOrder = toNumber(val)
   }
 
   get order() {
-    return this.innerOrder
+    return toNumber(this.innerOrder)
   }
 
   get descriptionString() {
@@ -124,10 +124,6 @@ export default class Task {
       .trim()
       .replace(/[^#]+/g, '')
     return beforeText.length > 0 ? `${beforeText} ` : ''
-  }
-
-  getOrder() {
-    return this.order
   }
 
   getTextAndDescription() {
@@ -185,7 +181,7 @@ export default class Task {
       allContext: this.allContext,
       allMeta: this.allMeta,
       config: undefined,
-      expand: !!this?.allMeta?.expand[0]
+      expand: !!(this?.allMeta?.expand && this.allMeta.expand[0]),
     })
   }
 
@@ -231,20 +227,20 @@ export default class Task {
   
   updateOrderMeta (config, descContent = this.descriptionString) {
     if (config.orderMeta) {
-      if (!isNumber(this.order)) return this.order = ''
-      const addNewLine = config.isMetaNewLine()
+      if (!isNumber(this.order)) return this.order = undefined
       const metaSep = config.getMetaSep()
       if (this.meta.order) {
         const regex = Task.getMetaOrderRegex(config)
         descContent = descContent.replace(regex, `order${metaSep}${this.order}`)
       } else {
+        const addNewLine = config.isMetaNewLine()
         descContent = this.addToLastCommentInContent(
           descContent,
           `order${metaSep}${this.order}`,
           addNewLine
         )
       }
-      this.meta.order = [this.order]
+      this.meta.order = isNumber(this.order) ? [this.order] : undefined
     } else {
       descContent = Task.removeMetaData({
         config,
@@ -753,15 +749,6 @@ export default class Task {
 
     return result;
   };
-
-  /**
-   * Description
-   * @method order
-   * @return MemberExpression
-   */
-  order () {
-    return this.order
-  }
 
   /**
    * Description

@@ -8,7 +8,6 @@ describe('project', function () {
   let project, repo, defaultCardsDir
 
   beforeEach(async () => {
-  // DOING I'm here!!!
     defaultCardsDir = await getFreshRepoTestData('default-cards')
    
     project = createFileSystemProject({

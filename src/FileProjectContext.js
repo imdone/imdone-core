@@ -1,10 +1,13 @@
+import { toNumber } from "./adapters/parsers/task/CardContentParser";
 export class FileProjectContext {
   constructor() {}
   getOrder(list, order) {
-    return order ? +order : 0
+    return toNumber(order)
   }
 
   getProject() {
-    return null
+    return
   }
+
 }
+

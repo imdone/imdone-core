@@ -3,7 +3,7 @@
 const { program } = require('commander');
 const ora = require('ora')
 const chalk = require('chalk')
-const package = require('./package.json')
+const _package = require('./package.json')
 const { createFileSystemProject } = require('./lib/project-factory.js')
 const { load } = require('./lib/adapters/storage/config.js')
 // const { log } = hideLogs()
@@ -20,7 +20,7 @@ function actionCancelled() {
 }
 
 const mainCmd = program
-.version(package.version, '-v, --version', 'output the current version')
+.version(_package.version, '-v, --version', 'output the current version')
 
 mainCmd
 .command('action <pluginName> <actionTitle>')
@@ -67,8 +67,4 @@ function hideLogs() {
     })
   }
   return {log, info, warn, logQueue}
-}
-
-function actionCancelled() {
-  log(chalk.bgRed('Action canceled'))
 }

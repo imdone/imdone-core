@@ -22,7 +22,7 @@ import { sort } from 'fast-sort'
 import buildMigrateConfig from '../migrate-config'
 import { loadYAML, dumpYAML } from '../adapters/yaml';
 import realFs, { readFileSync } from 'fs'
-import { preparePathForWriting, readFile, writeFile, stat, lstatSync, unlink } from '../adapters/file-gateway'
+import { preparePathForWriting, readFile, writeFile, stat, lstat, unlink } from '../adapters/file-gateway'
 
 const {
   CONFIG_FILE,
@@ -122,14 +122,14 @@ export default function mixin(repo, fs = realFs) {
 
     var fullPath = repo.getFullPath(file)
     try {
-      const stats = lstatSync(fullPath)
+      const stats = await lstat(fullPath)
       
       if (!stats) return false
       
       if (/\.\.(\/|\\)/.test(file) || (!includeDirs && stats.isDirectory()))
         return false
           
-      const content = readFileSync(fullPath)
+      const content = await readFile(fullPath)
       
       if (await isBinaryFile(content, stats.size) ) {
         return false
@@ -282,49 +282,39 @@ export default function mixin(repo, fs = realFs) {
     let processed = 0
     log('allPaths=', allPaths)
     if (allPaths.length === 0) return files
-    return new Promise((resolve, reject) => {
-      eachLimit(
-        allPaths,
-        ASYNC_LIMIT,
-        async (path) => {
-          if (!path) return
-          path = repo.getRelativePath(path)
-          const stat = await repo.fileOK(path, includeDirs)
-          processed++
-          repo.emit('file.processed', {
-            file: path,
-            ok: stat !== false,
-            total: allPaths.length,
-            processed: processed + 1,
-            repoId: repo.getId(),
-          })
+    await eachLimit(
+      allPaths,
+      ASYNC_LIMIT,
+      async (path) => {
+        if (!path) return
+        path = repo.getRelativePath(path)
+        const stat = await repo.fileOK(path, includeDirs)
+        processed++
+        repo.emit('file.processed', {
+          file: path,
+          ok: stat !== false,
+          total: allPaths.length,
+          processed: processed + 1,
+          repoId: repo.getId(),
+        })
 
-          if (stat) {
-            log('%s is ok %j', path, stat)
-            var file = new File({
-              repoId: repo.getId(),
-              filePath: path,
-              modifiedTime: stat.mtime,
-              createdTime: stat.birthtime,
-              languages: repo.languages,
-              project: repo.project,
-            })
-            file.isDir = stat.isDirectory()
-            files.push(file)
-          }
-          log('stat=%j', stat, null)
-          log('processed=%d allPaths.length=%d', processed, allPaths.length)
-        },
-        function (err) {
-          if (err) return reject(err)
-          try {
-            resolve(sort(files).asc(u => u.path))
-          } catch (err) {
-            reject(err)
-          }
+        if (stat) {
+          log('%s is ok %j', path, stat)
+          var file = new File({
+            repoId: repo.getId(),
+            filePath: path,
+            modifiedTime: stat.mtime,
+            createdTime: stat.birthtime,
+            languages: repo.languages,
+            project: repo.project,
+          })
+          file.isDir = stat.isDirectory()
+          files.push(file)
         }
-      )
-    })
+        log('stat=%j', stat, null)
+        log('processed=%d allPaths.length=%d', processed, allPaths.length)
+      })
+      return sort(files).asc(u => u.path)
   }
 
   // READY Refactor readFileContent to use async/await

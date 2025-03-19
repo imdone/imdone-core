@@ -91,11 +91,11 @@ export default function newCard(task, _project, dontParse) {
     }
 
     get relPath() {
-      return this.source ? this.source.path : null
+      return this.source ? this.source.path : undefined
     }
 
     get fullPath() {
-      return this.source ? _path.join(project.path, this.source.path) : null
+      return this.source ? _path.join(project.path, this.source.path) : undefined
     }
 
     get defaultData() {
@@ -262,7 +262,7 @@ export default function newCard(task, _project, dontParse) {
     getHtml(content) {
       const html = project.renderMarkdown(content, this.fullPath)
       const mdArray = eol.split(content)
-      let truncHtml = null
+      let truncHtml
       if (mdArray.length > this.truncLines) {
         mdArray.length = this.truncLines
         truncHtml = project.renderMarkdown(mdArray.join(eol.lf), this.fullPath)
