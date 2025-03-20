@@ -294,7 +294,7 @@ export default class Repository extends Emitter {
    * @method destroy
    * @return
    */
-  destroy () {
+  async destroy () {
     this.destroyed = true
     this.removeAllListeners()
   }

@@ -1027,7 +1027,7 @@ export default class File extends Emitter {
   }
 
   getFullPath () {
-    return this.repoId + this.path
+    return path.join(this.repoId, this.path)
   }
 
   getId () {

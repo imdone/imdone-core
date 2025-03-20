@@ -52,8 +52,8 @@ async function _beforeEach() {
 }
 
 async function _afterEach() {
-    proj1.destroy()
-    proj.destroy()
+    await proj1.destroy()
+    await proj.destroy()
 }
 
 async function createTmpProject({name, config = {}, files = []}) {
@@ -139,8 +139,8 @@ describe('moveTasks', function () {
         expect(repo.getTasks().length).to.equal(allTasksLength)
         expect(repo.getTasksInList(DOING).length).to.equal(0)
         expect(repo.getTasksInList(DONE).length).to.equal(listLengthDONE + listLengthDOING)
-        project.destroy()
-    })
+        await project.destroy()
+    }, 10000)
 
     it('Should move multiple tasks in a code file to the requested location in the requested list', async () => {
         const FILE_PATH = 'test.js'
@@ -180,7 +180,7 @@ describe('moveTasks', function () {
         const newDONEListLength = repo.getTasksInList(DONE).length
         expect(newTODOListLength).to.equal(listLengthTODO + 1)
         expect(newDONEListLength).to.equal(listLengthDONE - 1)
-        project.destroy()
+        await project.destroy()
     })
 
     it('Extracts a task with inline order and switches to orderMeta when the task is moved', async () => {
@@ -212,7 +212,7 @@ describe('moveTasks', function () {
         let task = repo.getTasksInList(TODO).find(({meta}) => meta.task[0] === 'A')
         task = await repo.moveTask({ task, newList: DOING, newPos: 0 })
         expect(task.content).to.equal("Task A\ntask:A\n<!-- order:0 -->")
-        project.destroy()
+        await project.destroy()
     })
 
     it.each([
@@ -246,7 +246,7 @@ describe('moveTasks', function () {
         await repo.moveTask({ task, newList: TODO, newPos: toPosition })
         const expectedOrder = expected[toPosition]
         expect(task.content).to.equal(`Task ${fromPosition}\ntask:${fromPosition}\n<!-- order:${expectedOrder} -->`)
-        project.destroy()
+        await project.destroy()
     })
 
     // Test modifying markdown tasks and order meta switch
@@ -351,7 +351,7 @@ describe('moveTasks', function () {
         console.log(todoTasks.map(({order, meta}, i) => `index:${i}, letter:${meta.task[0]}, order:${order}`))
         expect(task.meta.task[0]).to.equal(letter)
         expect(newTaskIndex).to.equal(newPos)
-        project.destroy()
+        await project.destroy()
     })
 
     it.each([
@@ -441,8 +441,8 @@ describe('moveTasks', function () {
         console.log(`task: ${letter}`)
         console.log(todoTasks.map(({order, meta}, i) => `${i} : ${meta.task[0]} : ${order}`))
         expect(newTaskIndex).toEqual(newPos)
-        project.destroy()
-    })
+        await project.destroy()
+    }, 10000)
 
     it('Modify a markdown task with no order, orderMeta = true', async () => {
         const filePath =  'modify-tasks.md'

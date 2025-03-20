@@ -43,6 +43,7 @@ export default function mixin(repo, fs = realFs) {
     try {
       const files = await _init.call(repo)
       await repo.initWatcher()
+      repo.emit('watching', { ok: true, lists: repo.getLists() })
       initializing = false
       return files
     } catch (err) {
@@ -51,9 +52,9 @@ export default function mixin(repo, fs = realFs) {
     }
   }
 
-  repo.destroy = function () {
-    if (repo.watcher) repo.watcher.close()
-    _destroy.apply(repo)
+  repo.destroy = async function () {
+    if (repo.watcher) await repo.watcher.close()
+    await _destroy.apply(repo)
   }
 
   // READY Refactor refresh to async/await
@@ -109,28 +110,20 @@ export default function mixin(repo, fs = realFs) {
     return new Promise(async (resolve, reject) => {
       console.log('initializing watcher for:', repo.path)
       repo.watcher = chokidar.watch(repo.path, {
+        persistent: true,
+        usePolling: false,
         alwaysStat: true,
         awaitWriteFinish: true,
-        // ignoreInitial: true,
-        ignored: async (file) => {
+        atomic: true,
+        ignoreInitial: true,
+        ignored: (file) => {
           console.log('checking ignore:', file)
-          if (!initializing && _isImdoneConfig(file)) {
-            await onConfigChange(file)
-          }
-
-          if (!initializing && _isImdoneIgnore(file)) {
-            await onIgnoreChange(file)
-          }
-
-          const ignore = !repo.shouldInclude(file)
-          if (!ignore || /^.*\.(jpg|gif|pdf|png)$/i.test(file)) {
-            repo.addFilePath(file)
-          }
-          return ignore
+          return !repo.shouldInclude(file)
         },
-      })
-
-      repo.watcher
+      }).on('all', (event, path) => {
+          repo.emit('watch.all', {event, path})
+          console.log(event, path);
+        })
         .on('error', (err) => {
           console.error('Error in watcher')
           console.error(err)
@@ -143,7 +136,6 @@ export default function mixin(repo, fs = realFs) {
         })
         .on('add', async function (path, stat) {
           console.log('Watcher received add event for file: ' + path)
-          await waitForReady()
           if (stat.isDirectory()) return
           let file = repo.getFile(path)
           if (file === undefined) {
@@ -170,7 +162,6 @@ export default function mixin(repo, fs = realFs) {
             `Watcher received change event for file: ${path} repoPath: ${repo.path}`,
             stat.mtime
           )
-          await waitForReady()
           if (!path || stat.isDirectory()) return
           var file = repo.getFile(path) || path
           const isFile = File.isFile(file)
@@ -195,7 +186,6 @@ export default function mixin(repo, fs = realFs) {
         })
         .on('delete', async function (path) {
           log('Watcher received unlink event for file: ' + path)
-          await waitForReady()
           repo.removeFilePath(path)
           var file = new File({
             repoId: repo.getId(),

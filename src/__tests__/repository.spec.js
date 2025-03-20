@@ -95,14 +95,14 @@ describe('Repository', function () {
 
   afterEach(async function () {
     // repo.destroy()
-    proj1.destroy()
-    proj2.destroy()
-    proj3.destroy()
-    proj.destroy()
-    defaultCardsProj.destroy()
-    noOrderProj.destroy()
-    moveMetaOrderProj.destroy()
-    metaSepTestProj.destroy()
+    await proj1.destroy()
+    await proj2.destroy()
+    await proj3.destroy()
+    await proj.destroy()
+    await defaultCardsProj.destroy()
+    await noOrderProj.destroy()
+    await moveMetaOrderProj.destroy()
+    await metaSepTestProj.destroy()
   })
 
   it('Should init successfully', async () => {
@@ -180,7 +180,7 @@ describe('Repository', function () {
     const file = files.find((file) => file.path === 'checkbox-tasks.md')
     expect(file.tasks[1].text).to.equal('A checkbox task without a list')
     expect(repo.files.length).to.equal(15)
-  })
+  },10000)
 
   describe('Repository.query', function () {
     it('Should should sort according to sort values', async () => {

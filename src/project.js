@@ -297,8 +297,8 @@ export default class WorkerProject extends Project {
     this.emit('file.update')
   }
 
-  destroy() {
-    this.repo.destroy()
+  async destroy() {
+    await this.repo.destroy()
     if (this.pluginManager) this.pluginManager.destroyPlugins()
   }
 

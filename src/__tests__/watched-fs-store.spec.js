@@ -1,46 +1,31 @@
 import { describe, it, expect, beforeEach, afterEach  } from 'vitest';
-import path from 'path';
 import { getFreshRepoTestData } from './helper';
-import { load, dump } from 'js-yaml';
-import { readFileSync, writeFileSync, existsSync, promises } from 'fs';
-import Diff from 'diff';
-import eol from 'eol';
 import { createWatchedFileSystemProject } from '../project-factory'
+import { appendFile } from 'fs/promises';
+import { setTimeout } from 'timers/promises';
 
 
 describe('WatchedFsStore', () => {
-  let repo,
-    proj,
-    defaultCardsRepo,
+  let defaultCardsRepo,
     defaultCardsProj
     
   beforeEach(async () => {
-    const opts = {
-      loadPluginsNotInstalled: () => {},
-      loadInstalledPlugins: () => {}
-    }
-
-    proj = createWatchedFileSystemProject({
-      path: await getFreshRepoTestData(),
-      ...opts
-    })
-    repo = proj.repo
     defaultCardsProj = createWatchedFileSystemProject({
       path: await getFreshRepoTestData('default-cards-metaSep'),
-      ...opts
+      loadPluginsNotInstalled: () => {},
+      loadInstalledPlugins: () => {}
     })
     defaultCardsRepo = defaultCardsProj.repo
   })
 
-  afterEach( () => {
-    proj.destroy()
-    defaultCardsProj.destroy()
+  afterEach(async () => {
+    await  defaultCardsProj.destroy()
   })
 
   describe('init', function () {
     it("should initialize an imdone repo and emit it's lists", async () => {
       return new Promise(async (resolve, reject) => {
-        defaultCardsRepo.on('initialized', ({ ok, lists }) => {
+        defaultCardsRepo.on('watching', ({ ok, lists }) => {
           if (ok) {
             try {
               expect(lists).to.be.an('array')
@@ -61,5 +46,32 @@ describe('WatchedFsStore', () => {
     })
   })
   describe('watcher', function () {
+    it('should detect changes to a task in a file and update the task', async () => {
+      return new Promise(async (resolve, reject) => {
+        defaultCardsRepo.on('watch.all', async (path) => {
+          console.log('watch.all', path)
+        });
+        defaultCardsRepo.on('file.update', (file) => {
+          try {
+            expect(file).to.be.an('object')
+            resolve()
+          } catch (err) {
+            reject(err)
+          }
+        })
+        try {
+          await defaultCardsProj.init()
+          const task = defaultCardsRepo.getTasks()[0]
+          const file = defaultCardsRepo.getFileForTask(task)
+          expect(task).to.be.an('object')
+          expect(file).to.be.an('object')
+          await setTimeout(500)
+          await appendFile(file.getFullPath(), '\n\n\n#TODO This is a test test:watcher-test\n')
+          console.log('Appended to file:', file.getFullPath())
+        } catch (err) {
+          reject(err)
+        }
+      })
+    })
   })
 })

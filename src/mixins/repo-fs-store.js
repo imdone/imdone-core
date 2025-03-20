@@ -107,7 +107,7 @@ export default function mixin(repo, fs = realFs) {
     
     const files = await repo.readFiles()
     const lists = repo.getTasksByList()
-    repo.emit('initialized', { ok: true, lists })
+    repo.emit('fs-store-initialized', { ok: true, lists })
     return files
   }
 

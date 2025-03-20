@@ -19,7 +19,7 @@ describe('project', function () {
   })
 
   afterEach(async () => {
-    project.destroy()
+    await project.destroy()
     await rm(defaultCardsDir, {recursive: true})
   })
 
