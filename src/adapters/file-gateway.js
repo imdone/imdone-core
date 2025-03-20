@@ -8,20 +8,19 @@ let fs = _fs
 
 export async function exists(path) {
   try {
-    await fs.promises.access(path)
-    return !!path
+    return await stat(path)
   } catch {
     return false
   }
 }
 
 export function mkdirpSync(path) {
-  console.warn('sync call')
+  console.warn('mkdirpSync call')
   return mkdirp.sync(path, { fs })
 }
 
 export function statSync(path) {
-  console.warn('sync call')
+  console.warn('statSync call')
   try {
     return fs.statSync(path)
   } catch {
@@ -35,7 +34,7 @@ export function init(fileSystem = fs) {
 export const sep = _path.sep
 
 export function existsSync(...args) {
-  console.warn('sync call')
+  console.warn('existsSync call')
   return fs.existsSync.apply({}, args)
 }
 
@@ -46,17 +45,17 @@ export const lstat = fs.promises.lstat
 export const lstatSync = fs.lstatSync
 
 export function readFileSync(...args) {
-  console.warn('sync call')
+  console.warn('readFileSync call')
   return fs.readFileSync.apply({}, args)
 }
 
 export function appendFileSync(...args) {
-  console.warn('sync call')
+  console.warn('appendFileSync call')
   return fs.appendFileSync.apply({}, args)
 }
 
 export function writeFileSync(...args) {
-  console.warn('sync call')
+  console.warn('writeFileSync call')
   return fs.writeFileSync.apply({}, args)
 }
 
@@ -67,25 +66,23 @@ export async function readdir(...args) {
 }
 
 export function unlinkSync(...args) {
-  console.warn('sync call')
+  console.warn('unlinkSync call')
   return fs.unlinkSync.apply({}, args)
 }
 
 export const unlink = fs.promises.unlink
 
-export async function mkdir(path) {
-  return fs.promises.mkdir(path)
-}
+export const mkdir = fs.promises.mkdir
 
 export const readFile = fs.promises.readFile
 
 export function readdirSyncRecursive(path) {
-  console.warn('sync call')
+  console.warn('readdirSyncRecursive call')
   return tools.readdirSyncRecursive(fs, path)
 }
 
 export function readdirSync(path) {
-  console.warn('sync call')
+  console.warn('readdirSync call')
   return fs.readdirSync(path, { withFileTypes: true })
 }
 
@@ -98,18 +95,21 @@ export function sanitizeFileName(fileName, replaceSpacesWith) {
   return fileName
 }
 
-export function preparePathForWriting(path) {
-  let stat = statSync(path)
-  if (!stat) {
-    let { dir, ext } = _path.parse(path)
-    if (!ext) {
-      dir = path
-    }
-    mkdirpSync(dir)
-    stat = statSync(path)
-  }
+function statsProps(stats) {
   return {
-    isFile: stat && stat.isFile(),
-    isDirectory: stat && stat.isDirectory()
+    isFile: stats.isFile(),
+    isDirectory: stats.isDirectory()
   }
+}
+export async function preparePathForWriting(path) {
+  let stats = await exists(path)
+  if (stats) return statsProps(stats)
+
+  let { dir } = _path.parse(path)
+  stats = await exists(dir)
+  if (stats) return statsProps(stats)
+
+  await mkdir(dir, { recursive: true })
+  stats = await exists(dir)
+  return statsProps(stats)
 }

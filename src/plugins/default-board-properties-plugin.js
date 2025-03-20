@@ -70,7 +70,7 @@ export default class DefaultBoardPropertiesPlugin extends Plugin {
     const templateDir = path.join(this.project.configDir, 'templates');
     const githubDir = path.join(this.project.path, '.github');
 
-    preparePathForWriting(templateDir);
+    await preparePathForWriting(templateDir);
 
     const readMarkdownFiles = async (dir, prefix = '') => {
       const files = await readdir(dir);

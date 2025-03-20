@@ -48,7 +48,6 @@
     }
   },
   "dependencies": {
-    "async": "^3.2.6",
     "async-es": "^3.2.6",
     "chalk": "^4.1.2",
     "chokidar": "^4.0.3",
@@ -132,8 +131,7 @@
     "sinon": "^19.0.2",
     "sinon-chai": "^4.0.0",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.8",
-    "wrench": "~1.5.8"
+    "vitest": "^3.0.8"
   },
   "mocha": {
     "diff": true,

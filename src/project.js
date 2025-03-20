@@ -530,7 +530,7 @@ export default class WorkerProject extends Project {
     if (!path || !_path.parse(path).ext) path = this.getNewCardsFile({title})
     path = this.getFullPath(path)
 
-    const { isFile, isDirectory } = fileGateway.preparePathForWriting(path)
+    const { isFile, isDirectory } = await fileGateway.preparePathForWriting(path)
     
     if (!template) template = this.getNewCardTemplate(path, isFile)
 

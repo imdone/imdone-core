@@ -1,6 +1,6 @@
 import Plugin from 'imdone-api'
 import _path from 'path'
-import { statSync } from '../adapters/file-gateway.js'
+import { exists } from '../adapters/file-gateway.js'
 
 export default class ExtensionPlugin extends Plugin {
   constructor(project) {
@@ -65,7 +65,7 @@ export default class ExtensionPlugin extends Plugin {
     let extension = _default
     const extensionPath = this.getConfigPath(path)
     try {
-      statSync(extensionPath + '.js')
+      await exists(extensionPath + '.js')
       delete require.cache[require.resolve(extensionPath)]
       extension = await import(extensionPath)
     } catch (e) {

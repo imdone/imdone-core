@@ -6,7 +6,6 @@ import { Config } from '../config'
 import languages from '../languages'
 import eol from 'eol'
 import fs from 'fs'
-import wrench from 'wrench'
 import Task from '../task'
 import appContext from '../context/ApplicationContext'
 import { ProjectContext } from '../ProjectContext'
@@ -100,10 +99,6 @@ describe('File', async () => {
 
   beforeEach(async () => {
     tmpDir = await getFreshRepoTestData('files')
-  })
-
-  afterEach(() => {
-    wrench.rmdirSyncRecursive(tmpDir)
   })
 
   it.skip('should enable subclassing', function () {

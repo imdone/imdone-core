@@ -6,7 +6,7 @@ import { Config } from '../config'
 import File from '../file'
 import Task from '../task';
 import path from 'path'
-import { rm, cp, mkdir, access } from 'fs/promises'
+import { rm } from 'fs/promises'
 import { exists } from '../adapters/file-gateway'
 import fsStore from '../mixins/repo-fs-store'
 import languages from '../languages'
@@ -338,7 +338,7 @@ describe('Repository', function () {
       })
       repo = proj.repo
       await repo.saveConfig()
-      expect(await exists(configDir)).to.be.true
+      expect(await exists(configDir)).toBeTruthy
       await rm(configDir, { recursive: true, force: true })
       expect(await exists(configDir)).to.be.false
     })
@@ -370,7 +370,7 @@ describe('Repository', function () {
       repo.config = Config.newDefaultConfig()
       repo.config.foo = 'bar'
       await repo.saveConfig()
-      expect(await exists(configDir)).to.be.true
+      expect(await exists(configDir)).toBeTruthy
       await repo.loadConfig()
       expect(repo.config.foo).to.equal('bar')
       await rm(configDir, { recursive: true, force: true })
@@ -418,6 +418,10 @@ describe('Repository', function () {
         loadPluginsNotInstalled: () => {} 
       })
       repo3 = proj3.repo
+    })
+
+    afterEach(async function () {
+      await proj3.destroy()
     })
 
     it('deletes all tasks', async () => {

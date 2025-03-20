@@ -210,25 +210,25 @@ lib
 - [x] `│   ├── ApplicationContext.js`
 - [ ] `│   └── StreamingApplicationContext.js`
 - [ ] `├── controlers`
-- [ ] `│   ├── SaveViewController.js`
-- [ ] `│   └── __tests__`
-- [ ] `│       ├── SaveViewController.spec.js`
-- [ ] `│       └── repos`
-- [ ] `│           └── test`
-- [ ] `│               └── readme.md`
+- [x] `│   ├── SaveViewController.js`
+- [x] `│   └── __tests__`
+- [x] `│       ├── SaveViewController.spec.js`
+- [x] `│       └── repos`
+- [x] `│           └── test`
+- [x] `│               └── readme.md`
 - [x] `├── default-settings.js`
-- [ ] `├── domain`
-- [ ] `│   ├── entities`
+- [x] `├── domain`
+- [x] `│   ├── entities`
 - [x] `│   │   ├── FileProjectContext.js`
-- [ ] `│   │   └── View.js`
-- [ ] `│   └── usecases`
-- [ ] `│       ├── GetViewsUsecase.js`
-- [ ] `│       ├── OpenProjectUsecase.js`
-- [ ] `│       ├── SaveViewUsecase.js`
-- [ ] `│       └── __tests__`
-- [ ] `│           ├── GetViewsUsecase.spec.js`
-- [ ] `│           ├── OpenProjectUsecase.spec.js`
-- [ ] `│           └── SaveViewUsecase.spec.js`
+- [x] `│   │   └── View.js`
+- [x] `│   └── usecases`
+- [x] `│       ├── GetViewsUsecase.js`
+- [x] `│       ├── OpenProjectUsecase.js`
+- [x] `│       ├── SaveViewUsecase.js`
+- [x] `│       └── __tests__`
+- [x] `│           ├── GetViewsUsecase.spec.js`
+- [x] `│           ├── OpenProjectUsecase.spec.js`
+- [x] `│           └── SaveViewUsecase.spec.js`
 - [x] `├── file.js`
 - [x] `├── languages.js`
 - [x] `├── list.js`

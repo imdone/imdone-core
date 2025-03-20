@@ -29,7 +29,9 @@ export default class ArchivePlugin extends Plugin {
       if (messageUser) this.project.snackBar({message: `Archiving ${cards.length} card(s)...`})
     }
 
-    cards.forEach(card => this.archiveTask(card))
+    for (const card of cards) {
+      await this.archiveTask(card)
+    }
 
     if (messageUser) this.project.snackBar({message: ` Done archiving ${cards.length} card(s). Deleting original(s)...`})
     await this.project.deleteTasks(cards)
@@ -39,7 +41,7 @@ export default class ArchivePlugin extends Plugin {
 
   }
 
-  archiveTask (task, config = this.config) {
+  async archiveTask (task, config = this.config) {
     const archiveFolder = config.archiveFolder
     const fileDir = path.dirname(task.relPath)
     
@@ -63,8 +65,8 @@ export default class ArchivePlugin extends Plugin {
     const taskStart = getRawTask({tokenPrefix, beforeText, list, text: ''})
     const taskContent = `${taskStart} ${content}\n\n\n`
     
-    this.fileGateway.preparePathForWriting(newPath)
-    this.fileGateway.appendFileSync(newPath, taskContent)
+    await this.fileGateway.preparePathForWriting(newPath)
+    await this.fileGateway.appendFileSync(newPath, taskContent)
   }
 
 }
