@@ -1,11 +1,21 @@
-import wget from 'download'
+import fetch from 'node-fetch';
+import AdmZip from 'adm-zip';
 
 export default async function download(repo, dest) {
-  var url = github(normalize(repo));
-  return wget(url, dest, { extract: true, strip: 1 })
+  const url = github(normalize(repo));
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+  }
+
+  const arrayBuffer = await response.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const zip = new AdmZip(buffer);
+  zip.extractAllTo(dest, true);
 }
 
-function github(repo){
+function github(repo) {
   return 'https://github.com/'
     + repo.owner
     + '/'
@@ -15,19 +25,17 @@ function github(repo){
     + '.zip';
 }
 
-function normalize(string){
-  var owner = string.split('/')[0];
-  var name = string.split('/')[1];
-  var branch = 'master';
+function normalize(string) {
+  let [owner, name] = string.split('/');
+  let branch = 'master';
 
-  if (~name.indexOf('#')) {
-    branch = name.split('#')[1];
-    name = name.split('#')[0];
+  if (name.includes('#')) {
+    [name, branch] = name.split('#');
   }
 
   return {
-    owner: owner,
-    name: name,
-    branch: branch
+    owner,
+    name,
+    branch
   };
 }
