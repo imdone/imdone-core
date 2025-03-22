@@ -8,7 +8,6 @@ import _some from 'lodash.some'
 import _remove from 'lodash.remove'
 import _groupBy from 'lodash.groupby'
 import _where from 'lodash.where'
-import _template from 'lodash.template'
 import _union from 'lodash.union'
 import Emitter from 'events'
 import languages from './languages'
@@ -32,6 +31,7 @@ import Task from './task'
 import newCard from './card'
 import { replaceDateLanguage } from './adapters/parsers/DateLanguageParser'
 import { getRawTask, isNumber, LIST_NAME_PATTERN } from './adapters/parsers/task/CardContentParser'
+import { interpolate } from './adapters/parsers/content-transformer'
 import XRegExp from 'xregexp'
 import appContext from './context/ApplicationContext'
 import { computeChecksum } from './checksum'
@@ -1223,9 +1223,10 @@ export default class Repository extends Emitter {
   // -->
   async appendTask({file, content, list}) {
     const config = this.getConfig()
-    const interpretedTaskPrefix = _template(config.getTaskPrefix())({
-      date: new Date(),
-    }).trimEnd()
+    const interpretedTaskPrefix = interpolate(
+      config.getTaskPrefix(),
+      { date: new Date() }
+    ).content.trimEnd()
     const lines = eol.split(content)
     const text = lines[0]
     const taskSyntax = config.getNewCardSyntax()
@@ -1388,10 +1389,10 @@ export default class Repository extends Emitter {
     return task
   }
 
-  // DOING Refactor moveTasks to use async/await
+  // READY Refactor moveTasks to use async/await
   // #esm-migration #important
   // <!--
-  // order:-210
+  // order:-350
   // -->
   async moveTasks (tasks, newList, newPos = 0, noEmit = false) {
     const log = require('debug')('moveTasks')

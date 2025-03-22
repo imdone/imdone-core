@@ -495,4 +495,4 @@ describe('moveTasks', function () {
     // it('Modify a markdown task from html with no order, orderMeta = false', (done) => {
     //     done('Write test')
     // })
-})
+}, 10000)

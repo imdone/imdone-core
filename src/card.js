@@ -1,6 +1,5 @@
 import Task from './task'
 import _path from 'path'
-import template from 'lodash.template'
 import _pick from 'lodash.pick'
 import _isFunction from 'lodash.isfunction'
 import _isObject from 'lodash.isobject'
@@ -8,7 +7,7 @@ import _isEmpty from 'lodash.isempty'
 import eol from 'eol'
 import allEmoji from 'markdown-it-emoji/lib/data/full.json'
 import { getFunctionSignature } from './adapters/parsers/function-parser'
-import { format, encodeMarkdownLinks } from './adapters/parsers/content-transformer'
+import { format, encodeMarkdownLinks, interpolate } from './adapters/parsers/content-transformer'
 import { removeMD } from './adapters/markdown'
 
 const CONTENT_TOKEN = '__CONTENT__'
@@ -159,7 +158,7 @@ export default function newCard(task, _project, dontParse) {
           } else {
             try {
               // Use template for the computed value
-              computedValue = template(value)(computedProps)
+              computedValue = interpolate(value, computedProps, { tags: ['${', '}'] })
             } catch (e) {
               console.info(
                 `Unable to compute key: ${key} with value: ${computedValue}`,

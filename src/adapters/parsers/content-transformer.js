@@ -1,30 +1,30 @@
-import template from 'lodash.template';
+import { Eta } from "eta"
 import uniqid from 'uniqid';
 
 function removeDisplayComments(description) {
-  return description.replace(/<!--\s*\[([\s\S]*?)\]\s*-->/g, '$1')
+  return description.replace(/<!--\s*\[([\s\S]*?)\]\s*-->/g, '$1');
 }
 
 function escapeCodeBlocks(content) {
-  const codeBlockRegex = /(```[\s\S]*?```|`[^`]*`)/g
-  let codeBlocks = []
-  
+  const codeBlockRegex = /(```[\s\S]*?```|`[^`]*`)/g;
+  let codeBlocks = [];
+
   // Replace code blocks with unique keys
   content = content.replace(codeBlockRegex, (match) => {
-    const key = `__CODE_BLOCK_${codeBlocks.length}__`
-    codeBlocks.push(match) // Maintain order
-    return key
-  })
+    const key = `__CODE_BLOCK_${codeBlocks.length}__`;
+    codeBlocks.push(match); // Maintain order
+    return key;
+  });
 
-  return { content, codeBlocks }
+  return { content, codeBlocks };
 }
 
 function restoreCodeBlocks(content, codeBlocks) {
   // Restore code blocks in order using stored array
   codeBlocks.forEach((code, index) => {
-    content = content.replace(`__CODE_BLOCK_${index}__`, code)
-  })
-  return content
+    content = content.replace(`__CODE_BLOCK_${index}__`, code);
+  });
+  return content;
 }
 
 /**
@@ -34,21 +34,27 @@ function restoreCodeBlocks(content, codeBlocks) {
  * @param {object} opts - The options for interpolation.
  * @returns {object} - The interpolated content, whether there was interpolation, and error tokens.
  */
-function interpolate(content, data, opts) {
+export function interpolate(content, data, opts = { tags: ['${', '}'] }) {
   const errorTokens = {};
+  const { tags } = opts;
+  // /(?<![`\\])\${([\s\S]+?)}/g
+  const regex = new RegExp(`(?<![\`\\\\])\\${tags[0]}([\\s\\S]+?)${tags[1]}`, 'g');
   let hasInterpolation = false;
 
-  content = content.replace(opts.interpolate, (match, p1) => {
+  content = content.replace(regex, (match, p1) => {
     try {
-      const result = template(match, opts)(data);
+      const eta = new Eta({ tags, useWith: true });
+      const [startTag, endTag] = opts.tags;
+      const template = `${startTag}= ${p1} ${endTag}`;
+      const result = eta.renderString(template, data);
       if (result !== match) {
         hasInterpolation = true;
       }
-      return result;
+      return result || '';
     } catch (e) {
       const token = `__ERROR_TOKEN_${uniqid()}__`;
       errorTokens[token] = match;
-      return token;
+      return token || '';
     }
   });
 
@@ -72,7 +78,6 @@ export function encodeMarkdownLinks(content) {
 }
 
 export function format(content, data, mustache) {
-  const opts = { interpolate: /(?<![`\\])\${([\s\S]+?)}/g };
   const errorTokens = {};
 
   if (mustache) content = removeDisplayComments(content);
@@ -84,17 +89,16 @@ export function format(content, data, mustache) {
   let hasInterpolation = true;
 
   while (hasInterpolation) {
-    const interpolationResult = interpolate(result, data, opts);
+    const interpolationResult = interpolate(result, data, { tags: ['${', '}'] });
     result = interpolationResult.content;
     hasInterpolation = interpolationResult.hasInterpolation;
     Object.assign(errorTokens, interpolationResult.errorTokens);
   }
 
   if (mustache) {
-    const mustacheOpts = { interpolate: /(?<!`){{([\s\S]+?)}}/g };
     hasInterpolation = true;
     while (hasInterpolation) {
-      const interpolationResult = interpolate(result, data, mustacheOpts);
+      const interpolationResult = interpolate(result, data, { tags: ['{{', '}}'] });
       result = interpolationResult.content;
       hasInterpolation = interpolationResult.hasInterpolation;
       Object.assign(errorTokens, interpolationResult.errorTokens);
