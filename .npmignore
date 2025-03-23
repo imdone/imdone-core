@@ -10,3 +10,4 @@ coverage
 .imdone
 imdone-export.json
 __tests__
+_lib

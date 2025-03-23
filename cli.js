@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// DOING: Modernize cli to esm
 const { program } = require('commander');
 const ora = require('ora')
 const chalk = require('chalk')

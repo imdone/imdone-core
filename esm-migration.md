@@ -172,30 +172,30 @@ lib
 - [x] `│   ├── file-gateway.js`
 - [x] `│   ├── git-download.js`
 - [x] `│   ├── markdown.js`
-- [ ] `│   ├── parsers`
+- [x] `│   ├── parsers`
 - [x] `│   │   ├── DateLanguageParser.js`
-- [ ] `│   │   ├── __tests__`
+- [x] `│   │   ├── __tests__`
 - [x] `│   │   │   └── content-transformer.spec.js`
 - [x] `│   │   ├── content-transformer.js`
-- [ ] `│   │   ├── file`
+- [x] `│   │   ├── file`
 - [x] `│   │   │   ├── LocalFileParserFactory.js`
 - [x] `│   │   │   ├── ReadStreamCodeParser.js`
 - [x] `│   │   │   ├── ReadStreamMarkdownParser.js`
 - [x] `│   │   │   ├── ReadStreamTaskParser.js`
-- [ ] `│   │   │   └── __tests__`
-- [ ] `│   │   │       ├── LocalFileParser.spec.js`
-- [ ] `│   │   │       ├── ReadStreamMarkdownParser.spec.js`
-- [ ] `│   │   │       ├── code-file.js`
-- [ ] `│   │   │       └── test-big-file.md`
+- [x] `│   │   │   └── __tests__`
+- [x] `│   │   │       ├── LocalFileParser.spec.js`
+- [x] `│   │   │       ├── ReadStreamMarkdownParser.spec.js`
+- [x] `│   │   │       ├── code-file.js`
+- [x] `│   │   │       └── test-big-file.md`
 - [x] `│   │   ├── function-parser.js`
-- [ ] `│   │   └── task`
+- [x] `│   │   └── task`
 - [x] `│   │       ├── CardContentParser.js`
-- [ ] `│   │       ├── CheckStyleTaskParser.js`
-- [ ] `│   │       ├── CodeStyleTaskParser.js`
-- [ ] `│   │       ├── HashStyleTaskParser.js`
-- [ ] `│   │       ├── MarkdownStyleTaskParser.js`
-- [ ] `│   │       ├── TaskParser.js`
-- [ ] `│   │       └── __tests__`
+- [x] `│   │       ├── CheckStyleTaskParser.js`
+- [x] `│   │       ├── CodeStyleTaskParser.js`
+- [x] `│   │       ├── HashStyleTaskParser.js`
+- [x] `│   │       ├── MarkdownStyleTaskParser.js`
+- [x] `│   │       ├── TaskParser.js`
+- [x] `│   │       └── __tests__`
 - [x] `│   │           └── CardContentParser.spec.js`
 - [ ] `│   ├── readers`
 - [ ] `│   │   └── FileSystemProjectReader.js`
@@ -250,13 +250,13 @@ lib
 - [x] `├── repository.js`
 - [x] `├── task.js`
 - [x] `├── tools.js`
-- [ ] `└── usecases`
-- [ ] `    ├── __tests__`
-- [ ] `    │   ├── get-project-tags.spec.js`
-- [ ] `    │   └── get-tasks-in-file.spec.js`
-- [ ] `    ├── get-imdone-url.js`
-- [ ] `    ├── get-project-tags.js`
-- [ ] `    └── get-tasks-in-file.js`
+- [x] `└── usecases`
+- [x] `    ├── __tests__`
+- [x] `    │   ├── get-project-tags.spec.js`
+- [x] `    │   └── get-tasks-in-file.spec.js`
+- [x] `    ├── get-imdone-url.js`
+- [x] `    ├── get-project-tags.js`
+- [x] `    └── get-tasks-in-file.js`
 
 24 directories, 71 files
 
