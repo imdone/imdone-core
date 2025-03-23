@@ -1,5 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+
 const sidebar = '_index.md';
 
 function getMarkdownFiles(files = []) {
@@ -12,12 +13,11 @@ function getFileLinks(files) {
 
 function getSubDirLinks(files, directory) {
   const subDirs = files.filter(file => fs.statSync(path.join(directory, file)).isDirectory());
-  const subDirsContainingMarkdown = subDirs.filter(subDir => fs.readdirSync(path.join(directory, subDir)).find(file => file.endsWith('.md'))
-  );
+  const subDirsContainingMarkdown = subDirs.filter(subDir => fs.readdirSync(path.join(directory, subDir)).find(file => file.endsWith('.md')));
   return subDirsContainingMarkdown.map(subDir => {
     const resource = fs.readdirSync(path.join(directory, subDir)).find(file => file.toLowerCase() === 'readme.md')
       ? 'README'
-      : sidebar
+      : sidebar;
     return `- [:file_folder: **${subDir}**](${subDir}/${resource})`;
   }).join('\n');
 }

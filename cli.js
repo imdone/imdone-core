@@ -1,12 +1,32 @@
 #!/usr/bin/env node
 
-// DOING: Modernize cli to esm
-const { program } = require('commander');
-const ora = require('ora')
-const chalk = require('chalk')
-const _package = require('./package.json')
-const { createFileSystemProject } = require('./lib/project-factory.js')
-const { load } = require('./lib/adapters/storage/config.js')
+// DOING Modernize cli to esm
+// <!--
+// order:-40
+// -->
+import { Command } from 'commander';
+import ora from 'ora';
+import chalk from 'chalk';
+import { createFileSystemProject } from './lib/project-factory.js';
+import { load } from './lib/adapters/storage/config.js';
+import * as fs from 'node:fs/promises'; // Use fs/promises for async read
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+async function getPackageJson() {
+  try {
+    const data = await fs.readFile(`${__dirname}/package.json`, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error reading package.json:", error);
+    return null;
+  }
+}
+
+const _package = await getPackageJson()
 // const { log } = hideLogs()
 const spinner = ora('Loading unicorns')
 
@@ -20,6 +40,7 @@ function actionCancelled() {
   log(chalk.bgRed('Action canceled'))
 }
 
+const program = new Command();
 const mainCmd = program
 .version(_package.version, '-v, --version', 'output the current version')
 
