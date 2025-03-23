@@ -1,5 +1,4 @@
 export function exists(path: any): Promise<false | _fs.Stats>;
-export function mkdirpSync(path: any): any;
 export function statSync(path: any): _fs.Stats | undefined;
 export function init(fileSystem?: typeof _fs): void;
 export function existsSync(...args: any[]): boolean;
@@ -15,7 +14,7 @@ export function preparePathForWriting(path: any): Promise<{
     isFile: any;
     isDirectory: any;
 }>;
-export const sep: "\\" | "/";
+export const sep: "/" | "\\";
 export const stat: typeof _fs.promises.stat;
 export const lstat: typeof _fs.promises.lstat;
 export const lstatSync: _fs.StatSyncFn;

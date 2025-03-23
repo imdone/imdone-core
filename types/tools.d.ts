@@ -21,13 +21,9 @@ declare namespace _default {
     export function format(template: any, col: any, ...args: any[]): any;
     export function isBinaryFile(fs: any, file: any, callback: any): void;
     export { isBinaryCheck };
-    export function readdirSyncRecursive(fs: any, baseDir: any): any;
-    export function mkdirSyncRecursive(fs: any, path: any, mode: any): void;
-    export { mkdirp };
     export function sortTasks(tasks: any): any[];
     export function hasBlankLines(content: any): boolean;
 }
 export default _default;
 declare function deepEqual(a: any, b: any): any;
 declare function isBinaryCheck(bytes: any, size: any): boolean;
-declare function mkdirp(fs: any, path: any, mode: any, cb: any, position: any): any;

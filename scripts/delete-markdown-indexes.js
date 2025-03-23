@@ -1,5 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get the current directory name in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const sidebar = '_index.md';
 
@@ -53,3 +58,30 @@ function createIndexes(directory, parentDir, title) {
 
 createIndexes(process.cwd(), undefined, 'imdone-core');
 console.log('Indexes created successfully!');
+
+function deleteIndexFiles(dir) {
+  // Read the directory and filter for _index.md files
+  const files = fs.readdirSync(dir);
+
+  files.forEach(file => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+
+    // If it's a file and matches the _index.md pattern, delete it
+    if (stat.isFile() && file === '_index.md') {
+      console.log(`Deleting file: ${filePath}`);
+      fs.unlinkSync(filePath);
+    }
+
+    // If it's a directory, recurse
+    if (stat.isDirectory()) {
+      deleteIndexFiles(filePath);
+    }
+  });
+}
+
+// Path to your test directory
+const testDirectory = path.join(__dirname, '..', 'test');
+
+// Call the function to delete _index.md files
+deleteIndexFiles(testDirectory);

@@ -17,10 +17,11 @@
     "imdone-cli": "./cli.js"
   },
   "scripts": {
-    "prepublishOnly": "node scripts/generate-index.js && npm run build",
+    "prepublishOnly": "npm run build:index && npm run build",
     "build": "npm run build:docs && npm run build:docs:index && npm run coverage && npm run build:only && npm run build:types",
     "build:docs": "doctoc --github --notitle README.md",
-    "build:docs:index": "node index-markdown.js",
+    "build:docs:index": "node scripts/index-markdown.js",
+    "build:index": "node scripts/generate-index.js",
     "build:types": "tsc --noEmit false",
     "build:only": "esbuild --bundle --platform=node --outfile=dist/index.js lib/index.js",
     "coverage": "vitest --run --coverage",
@@ -102,7 +103,6 @@
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-imsize": "^2.0.1",
     "markdown-it-mark": "^3.0.1",
-    "mkdirp": "^1.0.4",
     "moment": "^2.29.1",
     "monquery": "github:imdone/node-monquery#0.2.1",
     "multilang-extract-comments": "^0.4.0",
