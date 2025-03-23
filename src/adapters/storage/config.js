@@ -1,9 +1,9 @@
-import { readFile, writeFile, exists } from '../file-gateway'
-import constants from '../../constants'
-import { loadYAML, dumpYAML } from '../yaml'
+import { readFile, writeFile, exists } from '../file-gateway.js'
+import constants from '../../constants.js'
+import { loadYAML, dumpYAML } from '../yaml.js'
 import findUp from 'find-up'
 import _path from 'path'
-import { Config } from '../../config'
+import { Config } from '../../config.js'
 
 const { CONFIG_DIR, CONFIG_FILE_YML } = constants
 export async function load(projectPath, configPath = _path.join(projectPath, CONFIG_FILE_YML)) {

@@ -178,10 +178,10 @@ lib
 - [x] `│   │   │   └── content-transformer.spec.js`
 - [x] `│   │   ├── content-transformer.js`
 - [ ] `│   │   ├── file`
-- [ ] `│   │   │   ├── LocalFileParserFactory.js`
-- [ ] `│   │   │   ├── ReadStreamCodeParser.js`
-- [ ] `│   │   │   ├── ReadStreamMarkdownParser.js`
-- [ ] `│   │   │   ├── ReadStreamTaskParser.js`
+- [x] `│   │   │   ├── LocalFileParserFactory.js`
+- [x] `│   │   │   ├── ReadStreamCodeParser.js`
+- [x] `│   │   │   ├── ReadStreamMarkdownParser.js`
+- [x] `│   │   │   ├── ReadStreamTaskParser.js`
 - [ ] `│   │   │   └── __tests__`
 - [ ] `│   │   │       ├── LocalFileParser.spec.js`
 - [ ] `│   │   │       ├── ReadStreamMarkdownParser.spec.js`
@@ -196,7 +196,7 @@ lib
 - [ ] `│   │       ├── MarkdownStyleTaskParser.js`
 - [ ] `│   │       ├── TaskParser.js`
 - [ ] `│   │       └── __tests__`
-- [ ] `│   │           └── CardContentParser.spec.js`
+- [x] `│   │           └── CardContentParser.spec.js`
 - [ ] `│   ├── readers`
 - [ ] `│   │   └── FileSystemProjectReader.js`
 - [x] `│   ├── storage`
