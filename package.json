@@ -18,7 +18,7 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build:index && npm run build",
-    "build": "npm run build:docs && npm run build:docs:index && npm run coverage && npm run build:only && npm run build:types",
+    "build": "npm run build:docs && npm run build:docs:index && npm run coverage && npm run build:index && npm run build:only && npm run build:types",
     "build:docs": "doctoc --github --notitle README.md",
     "build:docs:index": "node scripts/index-markdown.js",
     "build:index": "node scripts/generate-index.js",
@@ -142,25 +142,5 @@
     "sinon-chai": "^4.0.0",
     "typescript": "^5.8.2",
     "vitest": "^3.0.8"
-  },
-  "mocha": {
-    "diff": true,
-    "extension": [
-      "js",
-      "cjs",
-      "mjs"
-    ],
-    "package": "./package.json",
-    "reporter": "spec",
-    "slow": "75",
-    "timeout": "2000",
-    "spec": [
-      "lib/**/__tests__/**/*.spec.js",
-      "test/**/*spec.js"
-    ],
-    "watch-files": [
-      "lib/**/__tests__/**/*.spec.js",
-      "test/**/*spec.js"
-    ]
   }
 }

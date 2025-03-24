@@ -1,1 +1,1 @@
-export default function download(repo: any, dest: any): Promise<void>;
+export function downloadPlugin(repo: any, dest: any): Promise<void>;
