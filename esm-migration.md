@@ -4,6 +4,18 @@ order:-30
 #esm-migration
 -->
 
+- [ ] Fix deprecated packages
+```text
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated lodash.pick@3.1.0: This package is deprecated. Use destructuring assignment syntax instead.
+npm warn deprecated lodash.get@4.4.2: This package is deprecated. Use the optional chaining (?.) operator instead.
+npm warn deprecated lodash.omit@4.5.0: This package is deprecated. Use destructuring assignment syntax instead.
+npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+npm warn deprecated lodash.clone@4.5.0: This package is deprecated. Use structuredClone instead.
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+```
+
 [Chat](https://chatgpt.com/share/67d08118-c930-8005-84d1-c29e324ae3b9)
 
 Converting `imdone-core` from CommonJS (CJS) to TypeScript (TS) with ECMAScript Modules (ESM, `.mjs`) involves several steps. Since `imdone-core` is currently using CJS, you'll need to:

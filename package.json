@@ -14,7 +14,7 @@
   ],
   "type": "module",
   "bin": {
-    "imdone-cli": "./cli.js"
+    "imdone-cli": "dist/cli.js"
   },
   "scripts": {
     "prepublishOnly": "npm run build:index && npm run build",
@@ -23,7 +23,7 @@
     "build:docs:index": "node scripts/index-markdown.js",
     "build:index": "node scripts/generate-index.js",
     "build:types": "tsc --noEmit false",
-    "build:only": "esbuild --bundle --platform=node --outfile=dist/index.js lib/index.js",
+    "build:only": "node build.js",
     "coverage": "vitest --run --coverage",
     "lint": "jshint ./lib",
     "_test": "export NODE_ENV=test && npm run coverage",
@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
+    "async": "^3.2.6",
     "async-es": "^3.2.6",
     "chalk": "^5.4.1",
     "chokidar": "^4.0.3",
@@ -121,6 +122,7 @@
     "xregexp": "^5.1.2"
   },
   "devDependencies": {
+    "@types/node": "^22.13.13",
     "@vitest/coverage-istanbul": "^3.0.8",
     "@vitest/coverage-v8": "^3.0.8",
     "chai": "^5.2.0",

@@ -8,7 +8,7 @@ function generateIndexes(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
   const files = entries
-    .filter(entry => entry.isFile() && entry.name !== 'index.js' && entry.name.endsWith('.js'))
+    .filter(entry => entry.isFile() && entry.name !== 'index.js' && entry.name !== 'cli.js' && entry.name.endsWith('.js'))
     .map(entry => `export * from './${entry.name}';`);
 
   const subdirs = entries
