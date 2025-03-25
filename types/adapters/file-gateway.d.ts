@@ -1,0 +1,25 @@
+export function exists(path: any): Promise<false | _fs.Stats>;
+export function statSync(path: any): _fs.Stats | undefined;
+export function init(fileSystem?: typeof _fs): void;
+export function existsSync(...args: any[]): boolean;
+export function readFileSync(...args: any[]): string | Buffer<ArrayBufferLike>;
+export function appendFileSync(...args: any[]): void;
+export function writeFileSync(...args: any[]): void;
+export function readdir(...args: any[]): Promise<_fs.Dirent[]>;
+export function unlinkSync(...args: any[]): void;
+export function readdirSyncRecursive(path: any): any;
+export function readdirSync(path: any): _fs.Dirent[];
+export function sanitizeFileName(fileName: any, replaceSpacesWith: any): any;
+export function preparePathForWriting(path: any): Promise<{
+    isFile: any;
+    isDirectory: any;
+}>;
+export const sep: "/" | "\\";
+export const stat: typeof _fs.promises.stat;
+export const lstat: typeof _fs.promises.lstat;
+export const lstatSync: _fs.StatSyncFn;
+export const writeFile: typeof _fs.promises.writeFile;
+export const unlink: typeof _fs.promises.unlink;
+export const mkdir: typeof _fs.promises.mkdir;
+export const readFile: typeof _fs.promises.readFile;
+import _fs from 'fs';
