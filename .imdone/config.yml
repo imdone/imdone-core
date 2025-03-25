@@ -67,15 +67,6 @@ settings:
   newCardSyntax: HASHTAG
   replaceSpacesWith: '-'
   plugins:
-    imdone-sample-plugin:
-      tags: []
-      meta:
-        - key: expand
-          value: '1'
-        - key: epic
-          value: Release 1.29.0
-        - key: epic
-          value: Release 2.0
     SamplePlugin:
       tags: []
       meta: []
