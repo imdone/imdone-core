@@ -1,6 +1,7 @@
 export * from "./archive-plugin.js";
 export * from "./default-board-actions-plugin.js";
 export * from "./default-board-properties-plugin.js";
+export * from "./default-plugins.js";
 export * from "./epic-plugin.js";
 export * from "./extension-plugin.js";
 export * from "./persist-tags-plugin.js";

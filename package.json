@@ -6,24 +6,23 @@
     "type": "git",
     "url": "https://github.com/imdone/imdone-core.git"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "types/index.d.ts",
   "files": [
     "dist"
   ],
   "type": "module",
   "bin": {
-    "imdone-cli": "dist/cli.js"
+    "imdone-cli": "lib/cli.js"
   },
   "scripts": {
     "prepublishOnly": "npm run build:index && npm run build",
-    "build": "npm run build:docs && npm run build:docs:index && npm run coverage && npm run build:index && npm run build:only && npm run build:types",
+    "build": "npm run build:docs && npm run build:docs:index && npm run coverage && npm run build:index && npm run build:types",
     "build:docs": "doctoc --github --notitle README.md",
     "build:docs:index": "node scripts/index-markdown.js",
     "build:index": "node scripts/generate-index.js",
     "build:types": "tsc --noEmit false",
-    "build:only": "node build.js",
     "coverage": "vitest --run --coverage",
     "test": "vitest --run",
     "test-ci": "vitest --run",
