@@ -22,4 +22,26 @@ export const writeFile: typeof _fs.promises.writeFile;
 export const unlink: typeof _fs.promises.unlink;
 export const mkdir: typeof _fs.promises.mkdir;
 export const readFile: typeof _fs.promises.readFile;
+declare namespace _default {
+    export { exists };
+    export { stat };
+    export { lstat };
+    export { lstatSync };
+    export { readFileSync };
+    export { appendFileSync };
+    export { writeFileSync };
+    export { writeFile };
+    export { readdir };
+    export { unlink };
+    export { mkdir };
+    export { readFile };
+    export { readdirSyncRecursive };
+    export { readdirSync };
+    export { sanitizeFileName };
+    export { preparePathForWriting };
+    export { unlinkSync };
+    export { existsSync };
+    export { sep };
+}
+export default _default;
 import _fs from 'fs';

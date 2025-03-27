@@ -1,4 +1,4 @@
-export class CodeStyleTaskParser {
+export class CodeStyleTaskParser extends TaskParser {
     constructor(config: any);
     get pattern(): RegExp;
     parse(lineContent: any, line: any, matchResult: any): {
@@ -11,3 +11,4 @@ export class CodeStyleTaskParser {
         type: any;
     };
 }
+import { TaskParser } from './TaskParser.js';

@@ -1,4 +1,19 @@
 export class Config {
+    static DEFAULT_CONFIG: {
+        keepEmptyPriority: boolean;
+        code: {
+            include_lists: string[];
+        };
+        lists: {
+            hidden: boolean;
+            name: string;
+        }[];
+    };
+    static JOURNAL_TYPE: {
+        SINGLE_FILE: string;
+        FOLDER: string;
+        NEW_FILE: string;
+    };
     static newDefaultConfig(config?: {}): Config;
     constructor(opts: any);
     settings: {};

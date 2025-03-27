@@ -1,4 +1,5 @@
-export class CheckStyleTaskParser {
+export class CheckStyleTaskParser extends TaskParser {
+    constructor();
     get pattern(): RegExp;
     parse(lineContent: any, line: any, matchResult: any, task: any): {
         beforeText: any;
@@ -8,3 +9,4 @@ export class CheckStyleTaskParser {
         type: any;
     } | undefined;
 }
+import { TaskParser } from "./TaskParser.js";

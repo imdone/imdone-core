@@ -1,4 +1,4 @@
-export class HashStyleTaskParser {
+export class HashStyleTaskParser extends TaskParser {
     constructor(config: any);
     get pattern(): any;
     parse(lineContent: any, line: any, matchResult: any): {
@@ -10,3 +10,4 @@ export class HashStyleTaskParser {
         type: any;
     };
 }
+import { TaskParser } from './TaskParser.js';
