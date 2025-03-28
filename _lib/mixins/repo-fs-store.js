@@ -34,7 +34,7 @@ const {
   CONFIG_FILE_YML,
   DEFAULT_CONFIG,
   ASYNC_LIMIT,
-  DEFAULT_IGNORE_DIRS,
+  DEFAULT_IGNORE_PATHS,
   DEFAULT_IGNORE_EXTS,
   IGNORE_FILE,
   SORT_FILE,
@@ -47,7 +47,7 @@ function mixin(repo, fs = require('fs')) {
 
   function getIgnorePatterns() {
     var ignoreFile = _path.join(repo.path, IGNORE_FILE)
-    let patterns = DEFAULT_IGNORE_DIRS
+    let patterns = DEFAULT_IGNORE_PATHS
     if (fs.existsSync(ignoreFile))
       patterns = patterns + _eol + fs.readFileSync(ignoreFile).toString()
 

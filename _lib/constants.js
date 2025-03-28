@@ -1,7 +1,7 @@
 'use strict'
 var path = require('path')
 
-var DEFAULT_IGNORE_DIRS = `
+var DEFAULT_IGNORE_PATHS = `
 node_modules
 bower_components
 target
@@ -33,7 +33,7 @@ var DEFAULT_IGNORE_EXTS = `
 `
 
 var DEFAULT_IGNORE = `
-${DEFAULT_IGNORE_DIRS}
+${DEFAULT_IGNORE_PATHS}
 ${DEFAULT_IGNORE_EXTS}
 `
 var CONFIG_DIR = '.imdone'
@@ -52,7 +52,7 @@ module.exports = {
   IGNORE_FILE: '.imdoneignore',
   DEFAULT_FILE_PATTERN: '^(readme\\.md|home\\.md|readme\\.w+|home\\.w+)$',
   DEFAULT_IGNORE,
-  DEFAULT_IGNORE_DIRS,
+  DEFAULT_IGNORE_PATHS,
   DEFAULT_IGNORE_EXTS,
   ERRORS: {
     NOT_A_FILE: 'file must be of type File',

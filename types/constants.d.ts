@@ -9,7 +9,7 @@ export namespace constants {
     export let IGNORE_FILE: string;
     export let DEFAULT_FILE_PATTERN: string;
     export { DEFAULT_IGNORE };
-    export { DEFAULT_IGNORE_DIRS };
+    export { DEFAULT_IGNORE_PATHS };
     export { DEFAULT_IGNORE_EXTS };
     export namespace ERRORS {
         let NOT_A_FILE: string;
@@ -31,7 +31,7 @@ declare const CONFIG_FILE_YML: string;
 declare const SORT_FILE: string;
 declare const TEMPLATES_DIR: string;
 declare const DEFAULT_IGNORE: string;
-declare var DEFAULT_IGNORE_DIRS: string;
+declare var DEFAULT_IGNORE_PATHS: string;
 declare var DEFAULT_IGNORE_EXTS: string;
 declare const DEFAULT_CONFIG: {
     keepEmptyPriority: boolean;
