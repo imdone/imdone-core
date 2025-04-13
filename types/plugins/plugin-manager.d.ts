@@ -1,7 +1,7 @@
 export class PluginManager extends Emitter<[never]> {
     constructor(project: any);
     project: any;
-    defaultPlugins: string[];
+    defaultPlugins: (typeof PersistTagsPlugin | typeof DefaultBoardPropertiesPlugin | typeof DefaultBoardActionsPlugin | typeof ArchivePlugin | typeof EpicPlugin | typeof ExtensionPlugin)[];
     pluginsMap: {};
     pluginPath: string;
     onDevChange(): Promise<void>;
@@ -18,8 +18,9 @@ export class PluginManager extends Emitter<[never]> {
     loadPlugins(): Promise<void>;
     loadInstalledPlugins(): Promise<void>;
     loadPluginsNotInstalled(): Promise<void>;
-    loadPlugin(path: any): Promise<void>;
-    createPlugin(pluginClass: any, path: any): Promise<any>;
+    loadPlugin(path: any): Promise<any>;
+    getPackageInfo(path: any): {} | undefined;
+    createPlugin(pluginClass: any, path?: undefined): Promise<any>;
     destroyPlugins(): void;
     isPlugin(pluginClass: any): boolean;
     eachPlugin(cb: any): void;
@@ -59,3 +60,9 @@ export class PluginManager extends Emitter<[never]> {
     performBoardAction(action: any, task: any): Promise<any>;
 }
 import Emitter from 'events';
+import PersistTagsPlugin from './persist-tags-plugin.js';
+import DefaultBoardPropertiesPlugin from './default-board-properties-plugin.js';
+import DefaultBoardActionsPlugin from './default-board-actions-plugin.js';
+import ArchivePlugin from './archive-plugin.js';
+import EpicPlugin from './epic-plugin.js';
+import ExtensionPlugin from './extension-plugin.js';
