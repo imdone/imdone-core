@@ -3,9 +3,10 @@ coverage
 test/repos
 test/files
 test/file-spec.js
-__tests__
 test-big-file.md
 tmp
+dist
+types
 imdone-export.json
 .imdone/templates
 .imdone

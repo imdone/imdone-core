@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+    "outDir": "types",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "strict": true
+  },
+  "include": ["lib/**/index.js"],
+  "exclude": ["node_modules", "__tests__"]
+}

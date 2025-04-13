@@ -9,7 +9,6 @@ Imdone is text based kanban processor with a simple syntax that uses [comment ta
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Imdone format](#imdone-format)
   - [Code Style](#code-style)
   - [Hash Style](#hash-style)
@@ -203,8 +202,9 @@ License
 {{version}} :package: :hammer_and_wrench: Code Version
 {{publishedVersion}} :package: :passenger_ship: Published Version
 
+[ESM Migration]({{getFilterURL('list = NOTE or allTags = "esm-migration"')}})
 [Focus]({{getFilterURL('list = DOING or tags = focus')}})
-[Plan]({{getFilterURL(' ')}})
+[Plan]({{clearFilterURL}})
 
 <!--
 expand:1

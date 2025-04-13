@@ -1,9 +1,9 @@
-# #DOING I can run the cli with a config file option
+# #READY I can run the cli with a config file option
 <!--
 #imdone-1.54.6
 #feature
 created:2025-03-01T00:13:07-05:00
-order:0
+order:10
 -->
 
 Run with a config option, so the config can be synced with git and jira plugin can run in CI.
