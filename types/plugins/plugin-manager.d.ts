@@ -19,7 +19,7 @@ export class PluginManager extends Emitter<[never]> {
     loadInstalledPlugins(): Promise<void>;
     loadPluginsNotInstalled(): Promise<void>;
     loadPlugin(path: any): Promise<any>;
-    getPackageInfo(path: any): {} | undefined;
+    getPackageInfo(path: any): Promise<{} | undefined>;
     createPlugin(pluginClass: any, path?: undefined): Promise<any>;
     destroyPlugins(): void;
     isPlugin(pluginClass: any): boolean;

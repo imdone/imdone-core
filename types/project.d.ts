@@ -1,4 +1,4 @@
-export class WorkerProject extends Project {
+export class WorkerProject {
     constructor(repo: any);
     repo: any;
     innerFilter: string;
@@ -96,6 +96,7 @@ export class WorkerProject extends Project {
     copyToClipboard(text: any, message: any): Promise<void>;
     openUrl(url: any): Promise<void>;
     openPath(path: any): Promise<void>;
+    saveFile(content: any, file: any): void;
     newCard({ list, path, template, title, comments, emit }: {
         list: any;
         path: any;
@@ -125,6 +126,7 @@ export class WorkerProject extends Project {
     addTagsToContent(tags: any, content: any): any;
     deleteTask(task: any): Promise<void>;
     deleteTasks(tasks: any): Promise<void>;
+    setFilter(filter: any): void;
     getNewCardTemplate(file: any, isFile: any): any;
     getNewCardFileFrontMatter(file: any, isFile: any): {
         props: any;
@@ -153,6 +155,5 @@ export class WorkerProject extends Project {
     renderMarkdown(content: any, filePath: any): any;
     extractWikilinkTopics(markdown: any): string[];
 }
-import { Project } from 'imdone-api/lib/project.js';
 import * as fileGateway from './adapters/file-gateway.js';
 import { PluginManager } from './plugins/plugin-manager.js';
