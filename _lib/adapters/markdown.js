@@ -1,5 +1,4 @@
 const checkbox = require('markdown-it-checkbox')
-const imageSize = require('markdown-it-imsize')
 const emoji = require('markdown-it-emoji')
 const mark = require('markdown-it-mark')
 const removeMD = require('remove-markdown')
@@ -26,7 +25,6 @@ function getRenderer(filePath) {
   md.use(checkbox)
   .use(mark)
   .use(emoji)
-  .use(imageSize)
   .use(obsidianTopicLinks(filePath))
   .use(replaceImagePaths(filePath))
   .use(replaceLinkPathsAndTitles(filePath))
