@@ -1,23 +1,19 @@
 {
   "name": "imdone-core",
-  "version": "2.0.0",
+  "version": "2.0.7",
   "description": "imdone-core",
   "repository": {
     "type": "git",
     "url": "https://github.com/imdone/imdone-core.git"
   },
   "main": "lib/index.js",
-  "module": "lib/index.js",
   "types": "types/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "type": "module",
   "bin": {
     "imdone-cli": "lib/cli.js"
   },
   "scripts": {
-    "prepublishOnly": "npm run build:index && npm run build",
+    "prepublishOnly": "npm run build",
     "build": "npm run build:docs && npm run build:docs:index && npm run coverage && npm run build:index && npm run build:types",
     "build:docs": "doctoc --github --notitle README.md",
     "build:docs:index": "node scripts/index-markdown.js",
@@ -59,7 +55,7 @@
     "find-up-simple": "^1.0.1",
     "gray-matter": "^4.0.2",
     "ignore": "^5.2.0",
-    "imdone-api": "^1.54.0",
+    "imdone-api": "^2.0.0",
     "isbinaryfile": "^5.0.4",
     "js-yaml": "^3.14.1",
     "json-fns": "^1.0.0",
@@ -89,7 +85,6 @@
     "markdown-it": "^14.1.0",
     "markdown-it-checkbox": "^1.1.0",
     "markdown-it-emoji": "^2.0.0",
-    "markdown-it-imsize": "^2.0.1",
     "markdown-it-mark": "^3.0.1",
     "moment": "^2.29.1",
     "monquery": "github:imdone/node-monquery#0.2.1",

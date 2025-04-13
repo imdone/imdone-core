@@ -7,13 +7,15 @@ export function appendFileSync(...args: any[]): void;
 export function writeFileSync(...args: any[]): void;
 export function readdir(...args: any[]): Promise<_fs.Dirent[]>;
 export function unlinkSync(...args: any[]): void;
-export function readdirSyncRecursive(path: any): any;
+export function readdirSyncRecursive(path: any): any[];
 export function readdirSync(path: any): _fs.Dirent[];
 export function sanitizeFileName(fileName: any, replaceSpacesWith: any): any;
-export function preparePathForWriting(path: any): Promise<{
+export function preparePathForWriting(path: any, directory?: boolean): Promise<{
     isFile: any;
     isDirectory: any;
 }>;
+export function cp(src: any, dest: any, opts: any): Promise<void>;
+export function rm(path: any, opts: any): Promise<void>;
 export const sep: "/" | "\\";
 export const stat: typeof _fs.promises.stat;
 export const lstat: typeof _fs.promises.lstat;
@@ -23,6 +25,8 @@ export const unlink: typeof _fs.promises.unlink;
 export const mkdir: typeof _fs.promises.mkdir;
 export const readFile: typeof _fs.promises.readFile;
 declare namespace _default {
+    export { cp };
+    export { rm };
     export { exists };
     export { stat };
     export { lstat };

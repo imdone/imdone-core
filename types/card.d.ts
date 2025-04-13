@@ -163,4 +163,3 @@ export function newCard(task: any, _project: any, dontParse: any): {
     getType(): any;
     equals(task: any): boolean | undefined;
 };
-export const allEmoji: any;

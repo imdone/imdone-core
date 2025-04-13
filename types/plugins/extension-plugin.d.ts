@@ -10,6 +10,6 @@ export default class ExtensionPlugin {
     getBoardProperties(): Promise<any>;
     getCardActions(task: any): any;
     getBoardActions(): any;
-    getConfigPath(relativePath: any): string;
+    getExtensionPath(relativePath: any): string;
     loadExtensionModule(_default: any, ...path: any[]): Promise<any>;
 }

@@ -144,7 +144,7 @@ export class WorkerProject {
     };
     getFullPath(...path: any[]): string;
     performCardAction(action: any, task: any): any;
-    performBoardAction(action: any, task: any): Promise<any> | undefined;
+    performBoardAction(action: any, task: any): Promise<any>;
     exec(cmd: any): Promise<any>;
     installPlugin({ name, version }: {
         name: any;
