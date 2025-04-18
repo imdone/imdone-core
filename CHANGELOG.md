@@ -1,3 +1,9 @@
+## 2.0.10
+- Use static `get pluginName()` method to get the plugin name
+
+## 2.0.0
+- Refactor to esm
+
 ## 1.28.8
 - Allow Card and Board actions to return a value
 

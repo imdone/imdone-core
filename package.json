@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "imdone-core",
   "repository": {
     "type": "git",
@@ -14,12 +14,13 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "npm run pre-push && npm run coverage",
+    "build": "npm run pre-commit && npm run coverage",
     "build:docs": "doctoc --github --notitle README.md",
     "build:docs:index": "node scripts/index-markdown.js",
     "build:index": "node scripts/generate-index.js",
     "build:types": "tsc --noEmit false",
     "coverage": "vitest --run --coverage",
+    "link": "npm link ../imdone-api",
     "pre-commit": "npm run build:docs && npm run build:docs:index && npm run build:index && npm run build:types",
     "test": "vitest --run",
     "test-ci": "vitest --run",
@@ -57,7 +58,7 @@
     "find-up-simple": "^1.0.1",
     "gray-matter": "^4.0.2",
     "ignore": "^5.2.0",
-    "imdone-api": "^2.0.0",
+    "imdone-api": "^2.0.1",
     "isbinaryfile": "^5.0.4",
     "js-yaml": "^3.14.1",
     "json-fns": "^1.0.0",
