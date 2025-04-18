@@ -1,4 +1,5 @@
 export default class DefaultBoardPropertiesPlugin {
+    static get pluginName(): string;
     constructor(project: any);
     templates: {};
     onBeforeBoardUpdate(): Promise<void>;

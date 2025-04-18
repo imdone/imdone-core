@@ -1,4 +1,5 @@
 export default class EpicPlugin {
+    static get pluginName(): string;
     constructor(project: any);
     epics: {};
     onBeforeBoardUpdate(): Promise<void>;
