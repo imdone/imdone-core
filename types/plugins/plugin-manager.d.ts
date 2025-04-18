@@ -10,7 +10,7 @@ export class PluginManager extends Emitter<[never]> {
     stopDevMode(): void;
     initDevMode(): void;
     reloadPlugins(): Promise<void>;
-    uninstallPlugin(pluginName: any): Promise<any>;
+    uninstallPlugin(pluginName: any): Promise<void>;
     installPlugin({ name, version }: {
         name: any;
         version: any;
