@@ -1,4 +1,5 @@
 export default class DefaultBoardActionsPlugin {
+    static get pluginName(): string;
     constructor(project: any);
     getBoardActions(): {
         title: string;

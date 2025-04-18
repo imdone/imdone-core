@@ -1,4 +1,5 @@
 export default class ArchivePlugin {
+    static get pluginName(): string;
     constructor(project: any);
     get config(): any;
     get fileGateway(): any;

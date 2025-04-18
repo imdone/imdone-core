@@ -150,7 +150,7 @@ export class WorkerProject {
         name: any;
         version: any;
     }): Promise<void>;
-    uninstallPlugin(name: any): Promise<any>;
+    uninstallPlugin(name: any): Promise<void>;
     refresh(): Promise<void>;
     renderMarkdown(content: any, filePath: any): any;
     extractWikilinkTopics(markdown: any): string[];

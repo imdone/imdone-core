@@ -1,0 +1,7 @@
+npm run pre-commit
+
+if ! git diff --quiet; then
+  echo "❌ Commit blocked: Files were modified. Please stage and commit again."
+  exit 1
+fi
+echo "✅ Commit allowed: No files were modified."

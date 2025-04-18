@@ -1,4 +1,5 @@
 export default class ExtensionPlugin {
+    static get pluginName(): string;
     constructor(project: any);
     configDir: string;
     init(): Promise<void>;
