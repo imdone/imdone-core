@@ -22,7 +22,6 @@ export class PluginManager extends Emitter<[never]> {
     getPackageInfo(path: any): Promise<{} | undefined>;
     createPlugin(pluginClass: any, path?: undefined): Promise<any>;
     destroyPlugins(): void;
-    isPlugin(pluginClass: any): boolean;
     eachPlugin(cb: any): void;
     eachPluginAsync(cb: any): Promise<void>;
     getPlugins(): any[];
