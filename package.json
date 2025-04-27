@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "imdone-core",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "coverage": "vitest --run --coverage",
     "link": "npm link ../imdone-api",
     "pre-commit": "npm run build:docs && npm run build:docs:index && npm run build:index && npm run build:types",
-    "test": "vitest --run",
+    "test": "npm run coverage",
     "test-ci": "vitest --run",
     "serve": "npx docsify-cli serve",
     "prepare": "husky"

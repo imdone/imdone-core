@@ -1,3 +1,14 @@
+export function getCallerInfo(): {
+    functionName?: undefined;
+    file?: undefined;
+    line?: undefined;
+    column?: undefined;
+} | {
+    functionName: string;
+    file: string;
+    line: number;
+    column: number;
+};
 export const logger: Logger;
 declare class Logger {
     level: number;

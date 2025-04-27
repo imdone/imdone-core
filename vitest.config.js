@@ -8,6 +8,8 @@ export default defineConfig({
       reporter: ["text"], // Ensure text output is included
       clean: false,
       reportOnFailure: true,
+      include: ['lib'], // Only include files from src/
+      exclude: ['_lib', 'lib/**/index.*']
     },
   },
 });
