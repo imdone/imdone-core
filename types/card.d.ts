@@ -158,6 +158,7 @@ export function newCard(task: any, _project: any, dontParse: any): {
         expand: boolean;
     };
     getTagPrefix(): any;
+    getCommentTagsOnly(): any;
     addToLastCommentInContent(content: any, toAdd: any, newLine: any): string;
     getCheckedData(): {
         pad: number;

@@ -11,3 +11,4 @@ imdone-export.json
 .imdone/templates
 .imdone
 notes/archive
+_lib

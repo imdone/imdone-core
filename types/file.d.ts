@@ -256,6 +256,7 @@ export class File extends Emitter<[never]> {
             expand: boolean;
         };
         getTagPrefix(): any;
+        getCommentTagsOnly(): any;
         addToLastCommentInContent(content: any, toAdd: any, newLine: any): string;
         getCheckedData(): {
             pad: number;

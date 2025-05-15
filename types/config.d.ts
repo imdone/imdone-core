@@ -32,6 +32,7 @@ export class Config {
     getNewCardSyntax(): any;
     isMetaNewLine(): any;
     getTagPrefix(): any;
+    getCommentTagsOnly(): any;
     getTaskPrefix(): any;
     isAddCheckBoxTasks(): any;
     isAddCompletedMeta(): any;

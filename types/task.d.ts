@@ -18,12 +18,17 @@ export class Task {
     static AnyLanguageGroup: string;
     static EmojiGroup: string;
     static getTagRegexp(prefix?: string): RegExp;
-    static getTags(text: any, prefix?: string): string[];
+    static getTags(text: any, prefix?: string, commentTagsOnly?: boolean): string[];
     static getMarkdownLinkLabelPositions(text: any): {
         start: number;
         end: number;
     }[];
     static isResultInMarkdownLinkLabel(linkLabelPositions: any, index: any): any;
+    static getCommentPositions(text: any): {
+        start: number;
+        end: number;
+    }[];
+    static isResultInComment(commentPositions: any, index: any): any;
     static ContextRegExp: RegExp;
     static getContext(text: any): string[];
     static MetaRegExp: RegExp;
@@ -124,6 +129,7 @@ export class Task {
         expand: boolean;
     };
     getTagPrefix(): any;
+    getCommentTagsOnly(): any;
     addToLastCommentInContent(content: any, toAdd: any, newLine: any): string;
     getCheckedData(): {
         pad: number;
