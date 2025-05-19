@@ -154,6 +154,12 @@ describe('WatchedFsStore', function () {
         config.settings.cards.metaSep = ':test:'
         config.keepEmptyPriority = true
         promises.writeFile(configPath, dump(config))
+        .then(() => {
+          console.log('Config file written')
+        })
+        .catch((err) => {
+          console.error('Error writing config file', err)
+        })
       })
     })
   })
