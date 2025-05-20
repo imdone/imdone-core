@@ -1,0 +1,6 @@
+*
+
+!imdone-tasks/
+!imdone-tasks/*.md
+!imdone-tasks/**/*.md
+!*.md
