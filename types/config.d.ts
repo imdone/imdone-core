@@ -33,6 +33,7 @@ export class Config {
     isMetaNewLine(): any;
     getTagPrefix(): any;
     getCommentTagsOnly(): any;
+    getCommentMetaOnly(): any;
     getTaskPrefix(): any;
     isAddCheckBoxTasks(): any;
     isAddCompletedMeta(): any;
