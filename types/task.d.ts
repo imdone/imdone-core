@@ -70,8 +70,8 @@ export class Task {
     beforeText: any;
     text: any;
     list: any;
-    set order(val: any);
-    get order(): any;
+    set order(val: number | undefined);
+    get order(): number | undefined;
     hasColon: any;
     line: any;
     id: any;

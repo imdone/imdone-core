@@ -2,13 +2,13 @@ export function exists(path: any): Promise<false | _fs.Stats>;
 export function statSync(path: any): _fs.Stats | undefined;
 export function init(fileSystem?: typeof _fs): void;
 export function existsSync(...args: any[]): boolean;
-export function readFileSync(...args: any[]): string | Buffer<ArrayBufferLike>;
+export function readFileSync(...args: any[]): string | NonSharedBuffer;
 export function appendFileSync(...args: any[]): void;
 export function writeFileSync(...args: any[]): void;
-export function readdir(...args: any[]): Promise<_fs.Dirent[]>;
+export function readdir(...args: any[]): Promise<_fs.Dirent<Buffer<ArrayBufferLike>>[]>;
 export function unlinkSync(...args: any[]): void;
 export function readdirSyncRecursive(path: any): any[];
-export function readdirSync(path: any): _fs.Dirent[];
+export function readdirSync(path: any): _fs.Dirent<string>[];
 export function sanitizeFileName(fileName: any, replaceSpacesWith: any): any;
 export function preparePathForWriting(path: any, directory?: boolean): Promise<{
     isFile: any;
