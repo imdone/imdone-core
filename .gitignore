@@ -34,4 +34,3 @@ backlog_test
 !.imdone/templates
 !.imdone/package.json
 !.imdone/package-lock.json
-backlog
