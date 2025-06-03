@@ -100,7 +100,7 @@ export function newCard(task: any, _project: any, dontParse: any): {
     beforeText: any;
     text: any;
     list: any;
-    order: any;
+    order: number | undefined;
     hasColon: any;
     line: any;
     id: any;

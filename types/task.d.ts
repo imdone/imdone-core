@@ -19,6 +19,13 @@ export class Task {
     static EmojiGroup: string;
     static getTagRegexp(prefix?: string): RegExp;
     static getTags(text: any, prefix?: string, commentTagsOnly?: boolean): string[];
+    static MetaRegExp: RegExp;
+    static getMetaRegExp(config: any): RegExp;
+    static getMetaRegExpQuotes(config: any): RegExp;
+    static parseMetaData(config: any, content: any): {};
+    static getMetaData(config: any, task: any): {};
+    static execMetaRegex(re: any, content: any, codePositions: any, cb: any): void;
+    static eachMetaInContent(config: any, content: any, cb: any): void;
     static getMarkdownLinkLabelPositions(text: any): {
         start: number;
         end: number;
@@ -30,14 +37,7 @@ export class Task {
     }[];
     static isResultInComment(commentPositions: any, index: any): any;
     static ContextRegExp: RegExp;
-    static getContext(text: any): string[];
-    static MetaRegExp: RegExp;
-    static getMetaRegExp(config: any): RegExp;
-    static getMetaRegExpQuotes(config: any): RegExp;
-    static parseMetaData(config: any, content: any): {};
-    static getMetaData(config: any, task: any): {};
-    static execMetaRegex(re: any, content: any, codePositions: any, cb: any): void;
-    static eachMetaInContent(config: any, content: any, cb: any): void;
+    static getContext(text: any, commentTagsOnly?: boolean): string[];
     static hasWindowsEOL(content: any): boolean;
     static getLinePos(content: any, lineNo: any): any;
     static getLineNumber(content: any, pos: any): number;
@@ -70,8 +70,8 @@ export class Task {
     beforeText: any;
     text: any;
     list: any;
-    set order(val: any);
-    get order(): any;
+    set order(val: number | undefined);
+    get order(): number | undefined;
     hasColon: any;
     line: any;
     id: any;

@@ -198,7 +198,7 @@ export class File extends Emitter<[never]> {
         beforeText: any;
         text: any;
         list: any;
-        order: any;
+        order: number | undefined;
         hasColon: any;
         line: any;
         id: any;
