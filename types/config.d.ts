@@ -18,6 +18,8 @@ export class Config {
     constructor(opts: any);
     settings: {};
     get cards(): any;
+    set fields(fields: any);
+    get fields(): any;
     set defaultFilter(filter: any);
     get defaultFilter(): any;
     set name(name: any);

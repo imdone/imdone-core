@@ -1,5 +1,6 @@
 export function newCard(task: any, _project: any, dontParse: any): {
     readonly settings: any;
+    readonly fields: any;
     readonly maxLines: any;
     interpretedContent: any;
     innerInterpretedContent: any;
@@ -61,7 +62,8 @@ export function newCard(task: any, _project: any, dontParse: any): {
         htmlTruncLength: any;
         isOverMaxLines: any;
     } | undefined;
-    getEncodedContent(content: any): {
+    getEncodedText(content: any): string;
+    getContentData(content: any): {
         encodedMD: string;
         encodedText: string;
         content: any;
