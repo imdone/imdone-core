@@ -98,6 +98,7 @@ export class File extends Emitter<[never]> {
         pos: any;
     }): {
         readonly settings: any;
+        readonly fields: any;
         readonly maxLines: any;
         interpretedContent: any;
         innerInterpretedContent: any;
@@ -159,7 +160,8 @@ export class File extends Emitter<[never]> {
             htmlTruncLength: any;
             isOverMaxLines: any;
         } | undefined;
-        getEncodedContent(content: any): {
+        getEncodedText(content: any): string;
+        getContentData(content: any): {
             encodedMD: string;
             encodedText: string;
             content: any;
