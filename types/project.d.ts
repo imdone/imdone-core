@@ -151,7 +151,25 @@ export class WorkerProject {
         version: any;
     }): Promise<void>;
     uninstallPlugin(name: any): Promise<void>;
-    refresh(): Promise<void>;
+    refresh(): Promise<{
+        path: any;
+        config: any;
+        lists: any;
+        files: any;
+        totals: {};
+        totalCards: any;
+        tags: any[];
+        allMeta: any;
+        allContexts: any[];
+        allTags: any[];
+        filter: string;
+        defaultFilter: any;
+        actions: any[];
+        plugins: any[];
+        data: {};
+        dataKeys: string[];
+        queryProps: any[];
+    }>;
     renderMarkdown(content: any, filePath: any): any;
     extractWikilinkTopics(markdown: any): string[];
 }
