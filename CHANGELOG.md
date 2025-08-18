@@ -1,3 +1,6 @@
+## 2.0.21
+- Make sure all project properties are available after init
+
 ## 2.0.10
 - Use static `get pluginName()` method to get the plugin name
 

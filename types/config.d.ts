@@ -58,8 +58,11 @@ export class Config {
     get orderMeta(): any;
     get maxLines(): any;
     get archiveFolder(): any;
+    set archiveCompleted(archive: any);
     get archiveCompleted(): any;
     get tokenPrefix(): any;
     get doneList(): any;
+    set metaSep(value: any);
+    get metaSep(): any;
     getMetaSep(): any;
 }
