@@ -52,7 +52,7 @@ lists:
     id: jea6nx7llx85j9p
   - name: DONE
     hidden: false
-    ignore: true
+    ignore: false
     id: jea6nx7llx85j9q
   - name: ABANDONED
     hidden: true
@@ -131,3 +131,4 @@ settings:
     defaultList: FIXME
     archiveCompleted: true
     archiveFolder: notes/archive
+dirty: true

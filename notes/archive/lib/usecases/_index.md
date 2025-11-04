@@ -3,3 +3,4 @@
 - [:arrow_heading_up: **Parent Directory**](/notes/archive/lib/_index.md)
 
 - [Use-task-line-parsers-for-vs-code-extension-and-obsidian-plugin](Use-task-line-parsers-for-vs-code-extension-and-obsidian-plugin.md)
+- [load-project-from-projectPath-with-only-filePath](load-project-from-projectPath-with-only-filePath.md)
