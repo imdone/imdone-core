@@ -1,0 +1,8 @@
+- [ ] <task title>  
+    - files: 
+        - <path:line>
+        - <path:line>  
+    - goal: <what the change achieves>  
+    - constraints: 
+        - <rules to avoid unwanted changes>  
+    - action: apply patch and show diffs

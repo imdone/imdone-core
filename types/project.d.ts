@@ -71,6 +71,7 @@ export class WorkerProject {
     getDefaultFilteredCards(): any[];
     getAllCards(filter: any): any[];
     getCards(filter: any, cards?: any[]): any[];
+    getFiles(): any;
     filterCards(cards: any, filter: any): any[];
     hideLists: any[] | undefined;
     addMetadata(task: any, key: any, value: any): Promise<any>;
