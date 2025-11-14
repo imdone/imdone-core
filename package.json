@@ -60,7 +60,7 @@
     "ignore": "^5.2.0",
     "imdone-api": "^2.0.1",
     "isbinaryfile": "^5.0.4",
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^4.1.1",
     "json-fns": "^1.0.0",
     "lodash.assign": "^4.2.0",
     "lodash.debounce": "^4.0.8",
