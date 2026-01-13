@@ -157,4 +157,68 @@ describe('WatchedFsStore', function () {
       })
     })
   })
+
+  describe('resume', function() {
+    this.timeout(20000)
+
+    it('should refresh the repository when resumed', function(done) {
+      const fs = require('fs')
+      const testFilePath = path.join(repo.path, 'test-resume.md')
+
+      proj.init(() => {
+        // Create a test file
+        fs.writeFileSync(testFilePath, '#TODO Test task before pause\nSome content')
+
+        setTimeout(() => {
+          const tasksBeforePause = repo.getTasks().length
+
+          // Pause the repository
+          repo.pause().then(() => {
+            // Modify the file while paused
+            fs.writeFileSync(testFilePath, '#TODO Test task after pause\nModified content\n\n#TODO Another task')
+
+            setTimeout(() => {
+              // The tasks should not have updated yet since we're paused
+              const tasksDuringPause = repo.getTasks().length
+              expect(tasksDuringPause).to.equal(tasksBeforePause)
+
+              // Resume the repository - this should trigger a refresh
+              repo.resume().then(() => {
+                setTimeout(() => {
+                  // Now the tasks should be updated
+                  const tasksAfterResume = repo.getTasks()
+                  expect(tasksAfterResume.length).to.be.greaterThan(tasksDuringPause)
+
+                  // Verify we have the new tasks
+                  const taskTexts = tasksAfterResume.map(t => t.text)
+                  expect(taskTexts).to.contain('Test task after pause')
+                  expect(taskTexts).to.contain('Another task')
+
+                  // Clean up
+                  fs.unlinkSync(testFilePath)
+                  done()
+                }, 1000)
+              }).catch(done)
+            }, 500)
+          }).catch(done)
+        }, 1000)
+      })
+    })
+
+    it('should call refresh() when resumed', function(done) {
+      const sinon = require('sinon')
+
+      proj.init(() => {
+        // Spy on the refresh method
+        const refreshSpy = sinon.spy(repo, 'refresh')
+
+        // Resume should call refresh
+        repo.resume().then(() => {
+          expect(refreshSpy.calledOnce).to.be(true)
+          refreshSpy.restore()
+          done()
+        }).catch(done)
+      })
+    })
+  })
 })

@@ -236,7 +236,7 @@ Created: {{(new Date(created)).toLocaleString()}}
       }
       const description =
         `- [5 Reasons Why Business Exceptions Are a Bad Idea](https://reflectoring.io/business-exceptions/)
-<!-- created::2020-03-06T19:24:33.121Z 
+<!-- created::2020-03-06T19:24:33.121Z
 TODO::2021-04-19T13:54:35.370Z
 BACKLOG::2022-08-14T16:52:08.298Z
 order::-19.9853515625
@@ -250,6 +250,75 @@ Created: {{(new Date(created)).toLocaleString()}}
       })
       task.updateOrderMeta(config)
       expect(task.description[4]).to.be(description[5])
+    })
+  })
+
+  describe('updateFromContent', function () {
+    it('should collapse 3+ blank lines to 1 with default config', function () {
+      const config = new Config(DEFAULT_CONFIG)
+      const task = new Task(config, {
+        text: 'A task',
+        description: [],
+      })
+      const content = 'New task text\nline 1\n\n\n\nline 2'
+      task.updateFromContent(content)
+      expect(task.text).to.be('New task text')
+      expect(task.description.length).to.be(3)
+      expect(task.description[0]).to.be('line 1')
+      expect(task.description[1]).to.be('')
+      expect(task.description[2]).to.be('line 2')
+    })
+
+    it('should preserve 2 blank lines when customCardTerminator is 3', function () {
+      const config = new Config(DEFAULT_CONFIG)
+      config.customCardTerminator = 3
+      const task = new Task(config, {
+        text: 'A task',
+        description: [],
+      })
+      const content = 'New task text\nline 1\n\n\n\nline 2'
+      task.updateFromContent(content)
+      expect(task.text).to.be('New task text')
+      expect(task.description.length).to.be(4)
+      expect(task.description[0]).to.be('line 1')
+      expect(task.description[1]).to.be('')
+      expect(task.description[2]).to.be('')
+      expect(task.description[3]).to.be('line 2')
+    })
+
+    it('should collapse 4+ blank lines to 2 when customCardTerminator is 3', function () {
+      const config = new Config(DEFAULT_CONFIG)
+      config.customCardTerminator = 3
+      const task = new Task(config, {
+        text: 'A task',
+        description: [],
+      })
+      const content = 'New task text\nline 1\n\n\n\n\nline 2'
+      task.updateFromContent(content)
+      expect(task.text).to.be('New task text')
+      expect(task.description.length).to.be(4)
+      expect(task.description[0]).to.be('line 1')
+      expect(task.description[1]).to.be('')
+      expect(task.description[2]).to.be('')
+      expect(task.description[3]).to.be('line 2')
+    })
+
+    it('should preserve 3 blank lines when customCardTerminator is 4', function () {
+      const config = new Config(DEFAULT_CONFIG)
+      config.customCardTerminator = 4
+      const task = new Task(config, {
+        text: 'A task',
+        description: [],
+      })
+      const content = 'New task text\nline 1\n\n\n\n\nline 2'
+      task.updateFromContent(content)
+      expect(task.text).to.be('New task text')
+      expect(task.description.length).to.be(5)
+      expect(task.description[0]).to.be('line 1')
+      expect(task.description[1]).to.be('')
+      expect(task.description[2]).to.be('')
+      expect(task.description[3]).to.be('')
+      expect(task.description[4]).to.be('line 2')
     })
   })
 })
