@@ -1,3 +1,12 @@
+## 1.54.13
+
+- **Enhancement**: `customCardTerminator` now accepts numeric values to specify the number of consecutive blank lines needed to terminate a card (e.g., `customCardTerminator: 3` requires 3 blank lines)
+- **Enhancement**: `repo.resume()` now automatically calls `refresh()` to pick up file changes that occurred while the repository was paused
+- **Enhancement**: `File.trimBlankLines()` now respects the `customCardTerminator` config setting, preserving the appropriate number of blank lines in card content
+- **Fix**: `Task.updateFromContent()` now respects the `customCardTerminator` config setting when collapsing consecutive blank lines, ensuring consistency across all content operations
+- **Tests**: Added comprehensive test coverage for numeric `customCardTerminator` values, `trimBlankLines` behavior, `updateFromContent` behavior, and `resume()` refresh functionality
+- **Refactor**: Improved code readability by replacing comments with self-documenting function names and descriptive constants
+
 ## 1.28.8
 - Allow Card and Board actions to return a value
 

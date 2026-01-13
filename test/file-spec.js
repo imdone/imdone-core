@@ -1144,4 +1144,106 @@ describe('parseDate', () => {
     const dueDate = File.parseDeferDate(config, ' defer for 2 days.')
     expect(dueDate.startsWith(' defer:')).to.be(true)
   })
+
+  describe('trimBlankLines', () => {
+    it('should collapse any blank lines to 0 for code files', () => {
+      const content = 'Line 1\n\n\n\nLine 2'
+      const result = File.trimBlankLines(content, true)
+      // Code files remove all blank lines (any sequence of \n\n+ becomes \n)
+      expect(result).to.be('Line 1\nLine 2')
+    })
+
+    it('should collapse 3 blank lines to 1 for markdown with default config', () => {
+      const content = 'Line 1\n\n\n\nLine 2' // 3 blank lines (4 newlines)
+      const config = Config.newDefaultConfig()
+      const result = File.trimBlankLines(content, false, config)
+      expect(result).to.be('Line 1\n\nLine 2') // 1 blank line (2 newlines)
+    })
+
+    it('should preserve 2 blank lines when customCardTerminator is 3', () => {
+      const content = 'Line 1\n\n\nLine 2'
+      const config = Config.newDefaultConfig({
+        settings: {
+          cards: {
+            customCardTerminator: 3
+          }
+        }
+      })
+      const result = File.trimBlankLines(content, false, config)
+      expect(result).to.be('Line 1\n\n\nLine 2')
+    })
+
+    it('should collapse 3 blank lines to 2 when customCardTerminator is 3', () => {
+      const content = 'Line 1\n\n\n\nLine 2'
+      const config = Config.newDefaultConfig({
+        settings: {
+          cards: {
+            customCardTerminator: 3
+          }
+        }
+      })
+      const result = File.trimBlankLines(content, false, config)
+      expect(result).to.be('Line 1\n\n\nLine 2')
+    })
+
+    it('should preserve 3 blank lines when customCardTerminator is 4', () => {
+      const content = 'Line 1\n\n\n\nLine 2'
+      const config = Config.newDefaultConfig({
+        settings: {
+          cards: {
+            customCardTerminator: 4
+          }
+        }
+      })
+      const result = File.trimBlankLines(content, false, config)
+      expect(result).to.be('Line 1\n\n\n\nLine 2')
+    })
+
+    it('should collapse 4+ blank lines when customCardTerminator is 4', () => {
+      const content = 'Line 1\n\n\n\n\nLine 2'
+      const config = Config.newDefaultConfig({
+        settings: {
+          cards: {
+            customCardTerminator: 4
+          }
+        }
+      })
+      const result = File.trimBlankLines(content, false, config)
+      expect(result).to.be('Line 1\n\n\n\nLine 2')
+    })
+
+    it('should handle content with multiple sequences of blank lines', () => {
+      const content = 'Line 1\n\n\n\nLine 2\n\n\n\nLine 3'
+      const config = Config.newDefaultConfig({
+        settings: {
+          cards: {
+            customCardTerminator: 3
+          }
+        }
+      })
+      const result = File.trimBlankLines(content, false, config)
+      expect(result).to.be('Line 1\n\n\nLine 2\n\n\nLine 3')
+    })
+
+    it('should handle whitespace-only lines as blank lines', () => {
+      const content = 'Line 1\n  \n  \n  \nLine 2' // 3 whitespace lines (4 newlines with spaces)
+      const config = Config.newDefaultConfig({
+        settings: {
+          cards: {
+            customCardTerminator: 3
+          }
+        }
+      })
+      const result = File.trimBlankLines(content, false, config)
+      // Should collapse 3 whitespace lines to 2, and remove the whitespace
+      expect(result).to.be('Line 1\n\n\nLine 2')
+    })
+
+    it('should work with no config parameter (backward compatibility)', () => {
+      const content = 'Line 1\n\n\n\nLine 2' // 3 blank lines (4 newlines)
+      const result = File.trimBlankLines(content, false)
+      // Should use default behavior (collapse to 1 blank line = 2 newlines)
+      expect(result).to.be('Line 1\n\nLine 2')
+    })
+  })
 })
