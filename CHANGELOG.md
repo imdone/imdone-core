@@ -1,3 +1,9 @@
+## 2.1.3
+
+- Update imdone-api dependency
+- Fix Plugin unimplemented logging to only log in devMode
+- Fix plugins not loading in imdone-cli
+
 ## 2.0.21
 - Make sure all project properties are available after init
 
