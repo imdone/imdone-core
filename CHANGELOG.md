@@ -1,3 +1,7 @@
+## 2.1.4
+
+- Remove the deprecated `node-fetch` dependency from plugin downloads so installs no longer pull in `node-domexception`.
+
 ## 2.1.3
 
 - Update imdone-api dependency
