@@ -1,3 +1,11 @@
+## 2.1.5
+
+- Create GitHub releases automatically from the npm package version when changes merge to `master`.
+- Improve test coverage for environment detection, board actions, views, and view retrieval.
+- Add enforced coverage thresholds to prevent coverage regressions.
+- Update `monquery` to `0.2.2`.
+- Update the imdone CLI project config to use the GitHub provider format.
+
 ## 2.1.4
 
 - Remove the deprecated `node-fetch` dependency from plugin downloads so installs no longer pull in `node-domexception`.
