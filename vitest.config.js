@@ -2,14 +2,25 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: ['lib/**/*.spec.js'], // Only look for test files inside src/
+    include: ['lib/**/*.spec.js'],
     coverage: {
-      provider: "v8", // or "istanbul" if using @vitest/coverage-istanbul
-      reporter: ["text"], // Ensure text output is included
+      provider: "v8",
+      reporter: ["text"],
       clean: false,
       reportOnFailure: true,
-      include: ['lib'], // Only include files from src/
-      exclude: ['_lib', 'lib/**/index.*']
+      include: ['lib/**/*.js'],
+      exclude: [
+        '_lib',
+        'lib/**/index.*',
+        'lib/**/__tests__/**',
+        'lib/**/*.spec.js',
+      ],
+      thresholds: {
+        statements: 87,
+        branches: 83,
+        functions: 80,
+        lines: 87,
+      },
     },
   },
 });
