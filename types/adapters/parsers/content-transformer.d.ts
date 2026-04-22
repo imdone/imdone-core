@@ -1,5 +1,5 @@
 /**
- * Interpolates the content with the provided data.
+ * Interpolates the content with the provided data using state machine parsing.
  * @param {string} content - The content to interpolate.
  * @param {object} data - The data to use for interpolation.
  * @param {object} opts - The options for interpolation.
