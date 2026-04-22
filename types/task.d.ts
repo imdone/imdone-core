@@ -31,7 +31,11 @@ export class Task {
         end: number;
     }[];
     static isResultInMarkdownLinkLabel(linkLabelPositions: any, index: any): any;
-    static getCommentPositions(text: any): {
+    static getCommentPositions(text: any, useRegex?: boolean): {
+        start: number;
+        end: number;
+    }[];
+    static _getCommentPositionsRegex(text: any): {
         start: number;
         end: number;
     }[];
@@ -49,7 +53,11 @@ export class Task {
      * @return BinaryExpression
      */
     static isTask(task: any): task is Task;
-    static getMarkdownCodePositions(text: any): {
+    static getMarkdownCodePositions(text: any, useRegex?: boolean): {
+        start: number;
+        end: number;
+    }[];
+    static _getMarkdownCodePositionsRegex(text: any): {
         start: number;
         end: number;
     }[];

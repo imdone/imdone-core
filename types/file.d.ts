@@ -363,7 +363,11 @@ export class File extends Emitter<[never]> {
         createdTime: any;
     };
     isWithinCodeSpanOrBlock(pos: any, content: any): boolean;
-    getMarkdownCodePositions(text: any): {
+    getMarkdownCodePositions(text: any, useRegex?: boolean): {
+        start: number;
+        end: number;
+    }[];
+    _getMarkdownCodePositionsRegex(text: any): {
         start: number;
         end: number;
     }[];
