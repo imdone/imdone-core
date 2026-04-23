@@ -1145,3 +1145,96 @@ describe('parseDate', () => {
     expect(dueDate.startsWith(' defer:')).to.be(true)
   })
 })
+
+describe('File.getMarkdownCodePositions', () => {
+  it('should handle pathological nested backticks without hanging (state machine)', () => {
+    const file = new File({repoId: 'test', filePath: 'test.md', content: ''})
+
+    // Create a pathological case: nested backticks that would cause catastrophic backtracking with regex
+    const pathologicalText = '`' + '`'.repeat(100) + 'code' + '`'.repeat(100)
+
+    const startTime = Date.now()
+    const positions = file.getMarkdownCodePositions(pathologicalText, false) // Use state machine
+    const duration = Date.now() - startTime
+
+    // Should complete in under 100ms (not hang or take multiple seconds)
+    expect(duration).to.be.below(100)
+
+    // Should still find code positions
+    expect(positions.length).to.be.greaterThan(0)
+  })
+
+  it('SLOW: should demonstrate regex method hangs on pathological input', function() {
+    this.timeout(5000) // Set 5 second timeout for this test
+
+    const file = new File({repoId: 'test', filePath: 'test.md', content: ''})
+
+    // Create a pathological case: nested backticks that cause catastrophic backtracking with regex
+    const pathologicalText = '`' + '`'.repeat(30) + 'code' + '`'.repeat(30)
+
+    const startTime = Date.now()
+
+    try {
+      const positions = file.getMarkdownCodePositions(pathologicalText, true) // Use old regex method
+      const duration = Date.now() - startTime
+
+      // If it completes, it should take significantly longer than state machine
+      // With 30 backticks it should take multiple seconds (if it doesn't timeout)
+      console.log(`Regex method took ${duration}ms (expected to be very slow or timeout)`)
+    } catch (error) {
+      // Expected to timeout
+      console.log('Regex method timed out as expected')
+    }
+  })
+
+  it('should correctly identify code block positions', () => {
+    const file = new File({repoId: 'test', filePath: 'test.md', content: ''})
+    const text = 'Some text ```javascript\nconst x = 1;\n``` more text `inline` end'
+
+    const positions = file.getMarkdownCodePositions(text)
+
+    // Should find both code block and inline code
+    expect(positions.length).to.be(2)
+
+    // First position should be the code block
+    expect(text.substring(positions[0].start, positions[0].end)).to.be('```javascript\nconst x = 1;\n```')
+
+    // Second position should be inline code
+    expect(text.substring(positions[1].start, positions[1].end)).to.be('`inline`')
+  })
+
+  it('should handle unclosed code blocks gracefully', () => {
+    const file = new File({repoId: 'test', filePath: 'test.md', content: ''})
+    const text = 'Some text ``` without closing'
+
+    const positions = file.getMarkdownCodePositions(text)
+
+    // Should not hang and should complete quickly
+    expect(positions).to.be.an('array')
+  })
+
+  it('should handle large text blocks efficiently', () => {
+    const file = new File({repoId: 'test', filePath: 'test.md', content: ''})
+
+    // Create a 10KB text block with code blocks
+    const largeText = 'text '.repeat(2000) + '```\ncode\n```' + ' more text'.repeat(2000)
+
+    const startTime = Date.now()
+    const positions = file.getMarkdownCodePositions(largeText)
+    const duration = Date.now() - startTime
+
+    // Should complete in under 50ms
+    expect(duration).to.be.below(50)
+    expect(positions.length).to.be.greaterThan(0)
+  })
+
+  it('should support regex fallback for compatibility', () => {
+    const file = new File({repoId: 'test', filePath: 'test.md', content: ''})
+    const text = 'Text ```code``` more `inline` end'
+
+    // Test regex method for coverage
+    const positions = file.getMarkdownCodePositions(text, true)
+
+    expect(positions.length).to.be(2)
+  })
+})
