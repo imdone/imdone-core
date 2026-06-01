@@ -23,3 +23,4 @@ export * as domain from "./domain/index.js";
 export * as mixins from "./mixins/index.js";
 export * as plugins from "./plugins/index.js";
 export * as usecases from "./usecases/index.js";
+export * as utils from "./utils/index.js";

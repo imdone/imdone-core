@@ -2,6 +2,16 @@ import fs from 'fs';
 import path from 'path';
 
 const LIB_DIR = './lib';
+const VALID_NAMESPACE_EXPORT = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+
+function isIndexableDirectory(entry) {
+  return (
+    entry.isDirectory() &&
+    !['__tests__', '__fixtures__'].includes(entry.name) &&
+    !entry.name.startsWith('.') &&
+    VALID_NAMESPACE_EXPORT.test(entry.name)
+  );
+}
 
 // Recursively generates index.js files
 function generateIndexes(dir) {
@@ -12,7 +22,7 @@ function generateIndexes(dir) {
     .map(entry => `export * from './${entry.name}';`);
 
   const subdirs = entries
-    .filter(entry => entry.isDirectory() && entry.name !== '__tests__')
+    .filter(isIndexableDirectory)
     .map(entry => entry.name);
 
   // Generate index.js in each subdirectory
