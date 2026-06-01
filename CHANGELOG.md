@@ -1,3 +1,8 @@
+## 2.1.11
+
+- Load extension and installed plugin modules through file URL import specifiers, so Windows users no longer see `ERR_UNSUPPORTED_ESM_URL_SCHEME` when project paths start with drive letters like `C:\`
+- Keep generated library indexes from exporting tests, fixtures, hidden folders, or invalid namespace names, so build and type generation stay green when test fixtures include realistic `.imdone` directories
+
 ## 2.1.5
 
 - Create GitHub releases automatically from the npm package version when changes merge to `master`.
