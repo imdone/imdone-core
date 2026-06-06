@@ -10,7 +10,7 @@
   "types": "types/index.d.ts",
   "type": "module",
   "bin": {
-    "imdone-cli": "lib/cli.js"
+    "imdone-core": "lib/cli.js"
   },
   "scripts": {
     "prepublishOnly": "node scripts/prepublish-only.js",

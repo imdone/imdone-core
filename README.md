@@ -2,9 +2,9 @@
 [![Downloads](https://img.shields.io/npm/dm/imdone-core.svg)](https://npmjs.org/package/imdone-core)
 ![Build Status](https://github.com/imdone/imdone-core/actions/workflows/ci.yml/badge.svg)
 
-Imdone is text based kanban processor with a simple syntax that uses [comment tags like TODO and FIXME](https://en.wikipedia.org/wiki/Comment_%28computer_programming%29#Tags) and [todo.txt format](https://github.com/todotxt/todo.txt#todotxt-format). This model allows the user to create and modify tasks using the keyboard and automatically establishes a link between their tasks and work.  Get [imdone](https://imdone.io) or use the cli to see your projects board and this library in action.
+Imdone is text based kanban processor with a simple syntax that uses [comment tags like TODO and FIXME](https://en.wikipedia.org/wiki/Comment_%28computer_programming%29#Tags) and [todo.txt format](https://github.com/todotxt/todo.txt#todotxt-format). This model allows the user to create and modify tasks using the keyboard and automatically establishes a link between their tasks and work.  Get [imdone kanban](https://imdone.io/docs/imdone-kanban/) or use the [cli](https://imdone.io/docs/imdone-cli/) to see your projects board and this library in action.
 
-![imdone-screenshot.png (5120×2838)](https://imdone.io/docs/images/card-anatomy.png)
+![imdone-screenshot.png (5120×2838)](https://imdone.io/docs/imdone-kanban/images/card-anatomy.png)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
