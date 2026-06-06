@@ -7,10 +7,14 @@ export class ReadStreamTaskParser {
     lineNo: number;
     blankLines: number;
     readInterface: ReadLine.Interface;
+    lineIterator: NodeJS.AsyncIterator<string, any, any>;
     readTask(): Promise<any>;
-    readLine(): Promise<IteratorResult<string, any>>;
-    isEndOfTask(line: any): boolean;
     nextTask: any;
+    readLine(): Promise<IteratorResult<string, any>>;
+    onLineRead(): void;
+    shouldParseTaskLine(): boolean;
+    getLineForTaskParsing(line: any): any;
+    isEndOfTask(line: any): boolean;
     getTaskFromLine(line: any): undefined;
     addLineToTask(line: any): void;
     trimLinesToEndTask(): void;

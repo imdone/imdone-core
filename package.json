@@ -10,10 +10,10 @@
   "types": "types/index.d.ts",
   "type": "module",
   "bin": {
-    "imdone-cli": "lib/cli.js"
+    "imdone-core": "lib/cli.js"
   },
   "scripts": {
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "node scripts/prepublish-only.js",
     "build": "npm run pre-commit && npm run coverage",
     "build:docs": "doctoc --github --notitle README.md",
     "build:docs:index": "node scripts/index-markdown.js",
