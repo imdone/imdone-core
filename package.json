@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "imdone-core",
   "repository": {
     "type": "git",
@@ -84,7 +84,7 @@
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-mark": "^3.0.1",
     "moment": "^2.29.1",
-    "monquery": "github:imdone/node-monquery#0.2.2",
+    "monquery": "https://github.com/imdone/node-monquery/archive/refs/tags/0.2.2.tar.gz",
     "multilang-extract-comments": "^0.4.0",
     "open": "^9.1.0",
     "ora": "^8.2.0",
@@ -100,8 +100,8 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.13",
-    "@vitest/coverage-istanbul": "^3.1.1",
-    "@vitest/coverage-v8": "^3.1.1",
+    "@vitest/coverage-istanbul": "^3.2.6",
+    "@vitest/coverage-v8": "^3.2.6",
     "chai": "^5.2.0",
     "colors": "^1.4.0",
     "dependency-cruiser": "^16.10.0",
@@ -113,6 +113,6 @@
     "json-stringify-safe": "~5.0.0",
     "prettier": "^2.5.1",
     "typescript": "^5.8.2",
-    "vitest": "^3.1.1"
+    "vitest": "^3.2.6"
   }
 }
