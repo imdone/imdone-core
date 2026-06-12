@@ -100,19 +100,19 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.13",
-    "@vitest/coverage-istanbul": "^3.2.6",
-    "@vitest/coverage-v8": "^3.2.6",
+    "@vitest/coverage-istanbul": "^4.1.8",
+    "@vitest/coverage-v8": "^4.1.8",
     "chai": "^5.2.0",
     "colors": "^1.4.0",
     "dependency-cruiser": "^16.10.0",
     "doctoc": "^2.1.0",
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.28.1",
     "expect.js": "~0.3.1",
     "fs-extra": "^11.1.0",
     "husky": "^9.1.7",
     "json-stringify-safe": "~5.0.0",
     "prettier": "^2.5.1",
     "typescript": "^5.8.2",
-    "vitest": "^3.2.6"
+    "vitest": "^4.1.8"
   }
 }
