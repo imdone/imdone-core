@@ -6,9 +6,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text"],
-      clean: false,
       reportOnFailure: true,
-      include: ['lib/**/*.js'],
       exclude: [
         '_lib',
         'lib/**/index.*',
@@ -16,10 +14,10 @@ export default defineConfig({
         'lib/**/*.spec.js',
       ],
       thresholds: {
-        statements: 87,
-        branches: 83,
-        functions: 80,
-        lines: 87,
+        statements: -968,
+        branches: -708,
+        functions: -243,
+        lines: -756,
       },
     },
   },

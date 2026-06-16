@@ -129,11 +129,7 @@ export class WorkerProject {
     deleteTasks(tasks: any): Promise<void>;
     setFilter(filter: any): void;
     getNewCardTemplate(file: any, isFile: any): Promise<any>;
-    getNewCardFileFrontMatter(file: any, isFile: any): Promise<{
-        props: any;
-        computed: any;
-        template: any;
-    }>;
+    getNewCardFileFrontMatter(file: any, isFile: any): Promise<any>;
     getNewCardsFile(opts?: {
         relPath: boolean;
     }): string;
