@@ -348,9 +348,7 @@ export class File extends Emitter<[never]> {
     isInBlockComment(content: any): any;
     startsWithCommentOrSpace(pos: any): boolean;
     isSingleLineBlockComment(content: any): boolean;
-    parseFrontMatter(config: any): {
-        [key: string]: any;
-    };
+    parseFrontMatter(config: any): any;
     getSource(): {
         path: any;
         id: any;
