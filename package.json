@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/imdone/imdone-core",
   "dependencies": {
-    "adm-zip": "^0.5.16",
+    "adm-zip": "^0.6.0",
     "async": "^3.2.6",
     "async-es": "^3.2.6",
     "chalk": "^5.4.1",
