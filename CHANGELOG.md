@@ -1,3 +1,7 @@
+## 2.3.3
+
+- Update `adm-zip` to `0.6.0` to address a high-severity ZIP parsing memory allocation vulnerability.
+
 ## 2.1.11
 
 - Load extension and installed plugin modules through file URL import specifiers, so Windows users no longer see `ERR_UNSUPPORTED_ESM_URL_SCHEME` when project paths start with drive letters like `C:\`
