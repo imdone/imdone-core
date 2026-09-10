@@ -79,6 +79,7 @@ export class WorkerProject {
     addTag(task: any, tag: any): Promise<any>;
     removeTag(task: any, tag: any): Promise<any>;
     moveTask(task: any, newList: any, newPos: any): Promise<any>;
+    moveTaskInDefaultFilteredCards(task: any, newList: any, newPos: any): Promise<any>;
     getFile(filePath: any): any;
     getFileForTask(task: any): any;
     rollBackFileForTask(task: any): any;

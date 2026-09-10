@@ -5,6 +5,7 @@ export * from "./checksum.js";
 export * from "./clone.js";
 export * from "./config.js";
 export * from "./constants.js";
+export * from "./default-filtered-move-position.js";
 export * from "./default-settings.js";
 export * from "./file.js";
 export * from "./get-tasks-to-modify.js";
