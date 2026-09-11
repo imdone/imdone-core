@@ -1,3 +1,7 @@
+## 2.3.5
+
+- Incorporate newly added watched files into repository state before emitting `file.update`, so live board consumers can render the new task without a reload or restart.
+
 ## 2.3.3
 
 - Update `adm-zip` to `0.6.0` to address a high-severity ZIP parsing memory allocation vulnerability.
