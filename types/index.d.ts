@@ -12,6 +12,7 @@ export * from "./get-tasks-to-modify.js";
 export * from "./languages.js";
 export * from "./list.js";
 export * from "./migrate-config.js";
+export * from "./monquery.js";
 export * from "./omit.js";
 export * from "./project-factory.js";
 export * from "./project.js";
