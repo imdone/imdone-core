@@ -1,6 +1,6 @@
 {
   "name": "imdone-core",
-  "version": "2.3.5",
+  "version": "2.4.0",
   "description": "imdone-core",
   "repository": {
     "type": "git",
@@ -84,7 +84,6 @@
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-mark": "^3.0.1",
     "moment": "^2.29.1",
-    "monquery": "https://github.com/imdone/node-monquery/archive/refs/tags/0.2.2.tar.gz",
     "multilang-extract-comments": "^0.4.0",
     "open": "^9.1.0",
     "ora": "^8.2.0",
