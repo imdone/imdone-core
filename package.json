@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/imdone/imdone-core",
   "dependencies": {
-    "adm-zip": "^0.6.0",
+    "adm-zip": "^0.6.1",
     "async": "^3.2.6",
     "async-es": "^3.2.6",
     "chalk": "^5.4.1",
@@ -60,7 +60,7 @@
     "ignore": "^5.2.0",
     "imdone-api": "^2.0.4",
     "isbinaryfile": "^5.0.4",
-    "js-yaml": "^4.2.0",
+    "js-yaml": "^4.3.2",
     "json-fns": "^1.0.0",
     "lodash.assign": "^4.2.0",
     "lodash.debounce": "^4.0.8",
@@ -113,5 +113,10 @@
     "prettier": "^2.5.1",
     "typescript": "^5.8.2",
     "vitest": "^4.1.9"
+  },
+  "allowScripts": {
+    "core-js-pure@3.42.0": true,
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true
   }
 }
