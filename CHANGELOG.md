@@ -1,3 +1,7 @@
+## 2.5.3
+
+- Reorder configured lists atomically with `repository.moveList`, preserving every list field and unrelated configuration, rolling back failed saves, and emitting `list.modified` only after persistence succeeds.
+
 ## 2.3.5
 
 - Incorporate newly added watched files into repository state before emitting `file.update`, so live board consumers can render the new task without a reload or restart.

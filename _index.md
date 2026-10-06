@@ -1,5 +1,6 @@
 # imdone-core
 
+- [:file_folder: **backlog**](backlog/README)
 - [:file_folder: **docs**](docs/README)
 - [:file_folder: **notes**](notes/_index.md)
 - [CHANGELOG](CHANGELOG.md)
