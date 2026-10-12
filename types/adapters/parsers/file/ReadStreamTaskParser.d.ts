@@ -1,6 +1,7 @@
 export class ReadStreamTaskParser {
-    constructor(readStream: any);
+    constructor(readStream: any, config: any);
     readStream: any;
+    config: any;
     task: any;
     line: IteratorResult<string, any> | null;
     taskParsers: any[];
