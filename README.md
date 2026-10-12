@@ -93,6 +93,8 @@ settings:
 
 This ignores blank-line termination regardless of blank-line counts. A following task, custom text terminator, list boundary or explicit `</card>` still ends the task. Code-file parsing is unchanged. The setting defaults to `false`, preserving the existing two-blank-line behavior.
 
+In 2.6.1 and newer, EOF mode also preserves repeated and whitespace-only blank lines during task write-back and file-watcher transformations.
+
 Imdone uses todo.txt +project/tag @context and meta:data
 
 #### Create date

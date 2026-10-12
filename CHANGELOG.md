@@ -1,3 +1,7 @@
+## 2.6.1
+
+- Preserve repeated and whitespace-only blank lines during Markdown/text task write-back when EOF task ending is enabled, including file-watcher transformations after an editor save. Default cleanup and code-file behavior are unchanged.
+
 ## 2.6.0
 
 - Add opt-in `settings.cards.endTaskAtEndOfFile` for Markdown/text tasks to retain blank lines through EOF, while preserving next-task and explicit termination boundaries. Existing blank-line behavior remains the default; code-file parsing is unchanged.
