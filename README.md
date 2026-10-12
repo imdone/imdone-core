@@ -83,6 +83,16 @@ Task descriptions are captured from the lines that follow a task.  In code files
 -->
 
 ### todo.txt syntax examples
+For Markdown and text tasks that should retain all blank lines through the end of their file, opt into EOF task ending in `.imdone/config.yml`:
+
+```yaml
+settings:
+  cards:
+    endTaskAtEndOfFile: true
+```
+
+This ignores blank-line termination regardless of blank-line counts. A following task, custom text terminator, list boundary or explicit `</card>` still ends the task. Code-file parsing is unchanged. The setting defaults to `false`, preserving the existing two-blank-line behavior.
+
 Imdone uses todo.txt +project/tag @context and meta:data
 
 #### Create date

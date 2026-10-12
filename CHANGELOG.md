@@ -1,3 +1,7 @@
+## 2.6.0
+
+- Add opt-in `settings.cards.endTaskAtEndOfFile` for Markdown/text tasks to retain blank lines through EOF, while preserving next-task and explicit termination boundaries. Existing blank-line behavior remains the default; code-file parsing is unchanged.
+
 ## 2.5.3
 
 - Reorder configured lists atomically with `repository.moveList`, preserving every list field and unrelated configuration, rolling back failed saves, and emitting `list.modified` only after persistence succeeds.

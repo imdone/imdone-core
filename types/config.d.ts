@@ -41,6 +41,7 @@ export class Config {
     isAddCompletedMeta(): any;
     set customCardTerminator(terminator: any);
     get customCardTerminator(): any;
+    get endTaskAtEndOfFile(): boolean;
     get markdownOnly(): any;
     get views(): any;
     get appendNewCardsTo(): any;

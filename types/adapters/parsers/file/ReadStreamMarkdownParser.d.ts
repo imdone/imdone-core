@@ -1,5 +1,4 @@
 export class ReadStreamMarkdownParser extends ReadStreamTaskParser {
-    constructor(readStream: any, config: any);
     frontmatterLines: any[];
     collectingFrontmatter: boolean;
     frontmatterClosed: boolean;
