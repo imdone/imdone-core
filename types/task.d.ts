@@ -128,7 +128,9 @@ export class Task {
     };
     getContent(): any;
     updateContent(): void;
-    updateFromContent(content: any): void;
+    updateFromContent(content: any, { preserveBlankLines }?: {
+        preserveBlankLines?: boolean | undefined;
+    }): void;
     toJSON(): this & {
         allTags: any;
         allContext: any;

@@ -151,7 +151,9 @@ export function newCard(task: any, _project: any, dontParse: any): {
     };
     getContent(): any;
     updateContent(): void;
-    updateFromContent(content: any): void;
+    updateFromContent(content: any, { preserveBlankLines }?: {
+        preserveBlankLines?: boolean | undefined;
+    }): void;
     toJSON(): /*elided*/ any & {
         allTags: any;
         allContext: any;
