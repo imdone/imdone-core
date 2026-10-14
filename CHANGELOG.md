@@ -1,3 +1,8 @@
+## 2.7.0
+
+- Keep hashtag-style Markdown cards recognizable when their titles are cleared, including bare list markers and whitespace-only titles; preserve body metadata and card boundaries through parsing, moves, and write-back.
+- Return each streamed card once, including a final card without a trailing blank line.
+
 ## 2.6.1
 
 - Preserve repeated and whitespace-only blank lines during Markdown/text task write-back when EOF task ending is enabled, including file-watcher transformations after an editor save. Default cleanup and code-file behavior are unchanged.
