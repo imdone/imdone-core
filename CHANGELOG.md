@@ -1,3 +1,7 @@
+## 2.8.0
+
+- Preserve requested card placement when numeric order values become too close or too large to insert another value; rebalance destination order without changing other cards' relative order.
+
 ## 2.7.0
 
 - Keep hashtag-style Markdown cards recognizable when their titles are cleared, including bare list markers and whitespace-only titles; preserve body metadata and card boundaries through parsing, moves, and write-back.
