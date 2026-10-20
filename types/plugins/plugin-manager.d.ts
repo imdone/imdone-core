@@ -14,7 +14,7 @@ export class PluginManager extends Emitter<[never]> {
     installPlugin({ name, version }: {
         name: any;
         version: any;
-    }): Promise<void>;
+    }, { deadlineAt }?: {}): Promise<void>;
     loadPlugins(): Promise<void>;
     loadInstalledPlugins(): Promise<void>;
     loadPluginsNotInstalled(): Promise<void>;
