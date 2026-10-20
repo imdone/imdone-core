@@ -1,3 +1,7 @@
+## 2.8.1
+
+- Bound plugin registry, README, and archive network requests to 10 seconds each within a shared 30-second automatic discovery/download budget, and report actionable network, proxy, HTTP, or invalid-response errors while preserving successful automatic installation.
+
 ## 2.8.0
 
 - Preserve requested card placement when numeric order values become too close or too large to insert another value; rebalance destination order without changing other cards' relative order.
