@@ -1,3 +1,7 @@
+## 2.8.3
+
+- Skip plugin registry discovery when no configured plugins are missing, preserving installed plugin loading and automatic installation of genuinely missing plugins within the existing shared network budget.
+
 ## 2.8.1
 
 - Bound plugin registry, README, and archive network requests to 10 seconds each within a shared 30-second automatic discovery/download budget, and report actionable network, proxy, HTTP, or invalid-response errors while preserving successful automatic installation.
