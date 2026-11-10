@@ -159,6 +159,8 @@ Imdone uses todo.txt +project/tag @context and meta:data
 -->
 Events
 ----
+Project startup loads default and installed plugins before checking for missing configured plugins. The plugin registry is contacted only when a configured plugin is still missing; projects with no missing plugins skip discovery. Automatic installation of genuinely missing plugins retains the existing shared discovery/download timeout budget.
+
 - task.found
 - task.deleted
 - file.modified
