@@ -98,8 +98,8 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.13",
-    "@vitest/coverage-istanbul": "^4.1.11",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-istanbul": "^4.1.12",
+    "@vitest/coverage-v8": "^4.1.12",
     "chai": "^5.2.0",
     "colors": "^1.4.0",
     "dependency-cruiser": "^16.10.0",
@@ -111,7 +111,7 @@
     "json-stringify-safe": "~5.0.0",
     "prettier": "^2.5.1",
     "typescript": "^5.8.2",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "allowScripts": {
     "core-js-pure@3.42.0": true,
