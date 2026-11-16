@@ -4,6 +4,8 @@
 
 Imdone is text based kanban processor with a simple syntax that uses [comment tags like TODO and FIXME](https://en.wikipedia.org/wiki/Comment_%28computer_programming%29#Tags) and [todo.txt format](https://github.com/todotxt/todo.txt#todotxt-format). This model allows the user to create and modify tasks using the keyboard and automatically establishes a link between their tasks and work.  Get [imdone kanban](https://imdone.io/docs/imdone-kanban/) or use the [cli](https://imdone.io/docs/imdone-cli/) to see your projects board and this library in action.
 
+Automatic reads and watcher refreshes preserve files containing unresolved Git conflict marker lines. Cards remain available for inspection, but ordering metadata and other automatic transformations do not rewrite the conflicted file. Normalization resumes after the markers are removed in an editor. This protection also recognizes incomplete conflict blocks and extended or diff3 markers; an ordinary Markdown `=======` heading remains eligible for normal processing. Git index resolution remains the caller's responsibility.
+
 ![imdone-screenshot.png (5120×2838)](https://imdone.io/docs/imdone-kanban/images/card-anatomy.png)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

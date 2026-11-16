@@ -1,3 +1,7 @@
+## 2.8.5
+
+- Preserve unresolved Git conflict files during automatic reads and watcher refreshes, keeping both ordering choices and conflict markers intact while cards remain inspectable. Recheck the source before automatic writeback so newly introduced conflicts are preserved, and resume ordinary normalization after resolution.
+
 ## 2.8.3
 
 - Skip plugin registry discovery when no configured plugins are missing, preserving installed plugin loading and automatic installation of genuinely missing plugins within the existing shared network budget.
